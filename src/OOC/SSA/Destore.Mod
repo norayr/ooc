@@ -1,4 +1,4 @@
-(* 	$Id: Destore.Mod,v 1.15 2002/02/06 22:00:08 mva Exp $	 *)
+(* 	$Id: Destore.Mod,v 1.16 2002/02/24 15:40:09 mva Exp $	 *)
 MODULE OOC:SSA:Destore;
 (*  Converts reads from/writes to memory into local values.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -452,18 +452,21 @@ PROCEDURE Transform* (pb: SSA.ProcBlock; tr: TypeRules.Rules);
             origin := select. info(OriginMap);
             IF (origin. selectOut[var] = NIL) THEN
               IF (select. opcode = Opcode.loopStart) THEN
-                (* place marker that enables us to detect loops when trying
-                   to retrieve the variable's variable for an input path *)
-                origin. selectOut[var] := select;
                 IF (origin. def[var, 1] = NIL) THEN
                   (* the back-edge of the loop does not provide a valid
                      value for the variable: take value from memory *)
                   RETURN NIL;
                 ELSE
+                  (* place marker that enables us to detect loops when trying
+                     to retrieve the variable's variable for an input path *)
+                  origin. selectOut[var] := select;
                   value := GetValue (origin. def[var, 1]);
                   IF (value = select) THEN
-                    origin. def[var, 1] := origin. def[var, 0]
+                    origin. def[var, 1] := origin. def[var, 0];
                   END;
+                  (* NOTE: the subsequent statements _must_ overwrite
+                     `origin. selectOut[var]', or the loop-start instruction
+                     may be replaced into an argument of an instruction *)
                 END;
               END;
               
