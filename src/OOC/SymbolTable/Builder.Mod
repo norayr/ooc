@@ -1,4 +1,4 @@
-(* 	$Id: Builder.Mod,v 1.3 2001/10/17 21:54:50 mva Exp $	 *)
+(* 	$Id: Builder.Mod,v 1.4 2001/11/01 14:29:28 mva Exp $	 *)
 MODULE OOC:SymbolTable:Builder [OOC_EXTENSIONS];
 (*  Defines a builder class with factory methods for symbol table entries.
     Copyright (C) 2000, 2001  Michael van Acken
@@ -75,10 +75,11 @@ PROCEDURE (b: Builder) NewImport* (parent: Item.Item; name: Item.Name;
   END NewImport;
 
 PROCEDURE (b: Builder) NewConstDecl* (parent: Item.Item; name: Item.Name;
-                                  visibleFrom: Item.ModulePos;
-                                  exportMark: Item.ExportMark;
-                                  docString: Doc.Document;
-                                  value: Language.Value): Item.ConstDecl;
+                                      visibleFrom: Item.ModulePos;
+                                      exportMark: Item.ExportMark;
+                                      docString: Doc.Document;
+                                      value: Language.Value;
+                                      type: Item.PredefType): Item.ConstDecl;
 (**Note: If the value and type of the constant are not known yet, 
    then @oparam{value} is @code{NIL}.  *)
   VAR
@@ -86,7 +87,7 @@ PROCEDURE (b: Builder) NewConstDecl* (parent: Item.Item; name: Item.Name;
   BEGIN
     NEW (const);
     Item.InitConstDecl (const, parent, name, visibleFrom, exportMark,
-                        docString, value);
+                        docString, value, type);
     RETURN const
   END NewConstDecl;
 

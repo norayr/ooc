@@ -1,4 +1,4 @@
-(* 	$Id: CreateSymTab.Mod,v 1.4 2001/10/17 22:08:27 mva Exp $	 *)
+(* 	$Id: CreateSymTab.Mod,v 1.5 2001/11/01 14:33:04 mva Exp $	 *)
 MODULE OOC:AST:ExtTree:CreateSymTab;
 (*  Creates symbol table from abstract syntax tree of module `ExtTree'.
     Copyright (C) 2000, 2001  Michael van Acken
@@ -289,20 +289,21 @@ PROCEDURE (v: Visitor) VisitConstDecl* (constDecl: ExtTree.ConstDecl);
   VAR
     const: Item.ConstDecl;
   BEGIN
-    const := v. stb. NewConstDecl (v. parent, 
-      GetName (constDecl. identDef. ident),
-      constDecl. semicolon(ExtTree.Terminal). sym. pos,
-      ExportMark (constDecl. identDef), constDecl. identDef. docString, NIL)
+    const := v. stb. NewConstDecl (
+        v. parent, GetName (constDecl. identDef. ident),
+        constDecl. semicolon(ExtTree.Terminal). sym. pos,
+        ExportMark (constDecl. identDef), constDecl. identDef. docString,
+        NIL, NIL)
   END VisitConstDecl;
 
 PROCEDURE (v: Visitor) VisitTypeDecl* (typeDecl: ExtTree.TypeDecl);
   VAR
     type: Item.TypeDecl;
   BEGIN
-    type := v. stb. NewTypeDecl (v. parent,
-      GetName (typeDecl. identDef. ident),
-      EndOfType (typeDecl. type), ExportMark (typeDecl. identDef), 
-      typeDecl. identDef. docString, GetType (v, typeDecl. type))
+    type := v. stb. NewTypeDecl (
+        v. parent, GetName (typeDecl. identDef. ident),
+        EndOfType (typeDecl. type), ExportMark (typeDecl. identDef), 
+        typeDecl. identDef. docString, GetType (v, typeDecl. type))
   END VisitTypeDecl;
 
 PROCEDURE (v: Visitor) VisitVarDecl* (varDecl: ExtTree.VarDecl);
