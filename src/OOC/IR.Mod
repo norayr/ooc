@@ -1,4 +1,4 @@
-(* 	$Id: IR.Mod,v 1.139 2002/07/15 14:35:08 sgreenhill Exp $	 *)
+(* 	$Id: IR.Mod,v 1.140 2002/07/15 14:41:28 sgreenhill Exp $	 *)
 MODULE OOC:IR [OOC_EXTENSIONS];
 (*  High-level intermediate code representation.
     Copyright (C) 2001, 2002  Michael van Acken, Stewart Greenhill
@@ -2587,6 +2587,7 @@ BEGIN
       InitTypeGuard(guard, design.sym, guardType, test(TypeTest));
 
       (* FIXME! Keep compiler happy until back-end handles type guard *)
+      design.type := guardType;
       RETURN design;    (* No-Op for now *)
 
       RETURN guard;
