@@ -1,4 +1,4 @@
-(* 	$Id: Make.Mod,v 1.31 2002/12/17 19:33:37 mva Exp $	 *)
+(* 	$Id: Make.Mod,v 1.32 2002/12/20 03:18:00 mva Exp $	 *)
 MODULE OOC:Make;
 (*  Builds object files, libraries, binaries, and the like.
     Copyright (C) 2002  Michael van Acken
@@ -605,7 +605,10 @@ PROCEDURE (r: Rules) UpdateSymbolFile(module: Rep.Module): BOOLEAN;
         errList := CreateErrList(module);
         CreateNamespace.CreateNamespace(module.ifData, errList);
         r.WriteErrList(errList);
-        ASSERT(errList.NoErrors());
+        IF ~errList.NoErrors() THEN
+          r.WriteErrList(errList);
+          isUpToDate := FALSE;
+        END;
       END;
       
       RETURN isUpToDate;
