@@ -1,4 +1,4 @@
-(* 	$Id: TypeRules.Mod,v 1.20 2002/06/16 10:57:03 mva Exp $	 *)
+(* 	$Id: TypeRules.Mod,v 1.21 2002/06/19 13:47:38 sgreenhill Exp $	 *)
 MODULE OOC:SymbolTable:TypeRules;
 (*  Defines the type rules of the language.
     Copyright (C) 2000-2002  Michael van Acken
@@ -124,6 +124,17 @@ BEGIN
     END;
   END;
 END StringBase;
+
+PROCEDURE (tr : Rules) MatchingStringConst* (type: Sym.Type): Sym.Type;
+VAR
+  id: Sym.PredefId;
+BEGIN
+  CASE type(Sym.PredefType). id OF
+  | Predef.char: id := Predef.charString
+  | Predef.longchar:  id := Predef.longcharString
+  END;
+  RETURN Predef.GetType (id);
+END MatchingStringConst;
 
 PROCEDURE (tr: Rules) IsIntegerType* (type: Sym.Type): BOOLEAN;
 (**Result is @code{TRUE} iff @oparam{type} is an integer type.  *)
