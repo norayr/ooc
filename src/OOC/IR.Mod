@@ -1,4 +1,4 @@
-(* 	$Id: IR.Mod,v 1.147 2002/07/18 16:01:32 mva Exp $	 *)
+(* 	$Id: IR.Mod,v 1.148 2002/07/20 23:12:10 mva Exp $	 *)
 MODULE OOC:IR [OOC_EXTENSIONS];
 (*  High-level intermediate code representation.
     Copyright (C) 2001, 2002  Michael van Acken, Stewart Greenhill
@@ -1491,7 +1491,7 @@ PROCEDURE (b: Builder) NewRealConst* (sym: Symbol; type: Sym.PredefId): Expressi
   VAR
     v: Language.Value;
   BEGIN
-    v := Real.type. ValueOf (sym. str^);
+    v := Real.type. ValueOfLiteral (sym. str^);
     IF (v = NIL) THEN
       b. ErrSym (numberOutOfRange, sym);
       RETURN b. errorExpr
