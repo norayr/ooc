@@ -1,4 +1,4 @@
-(* 	$Id: Error.Mod,v 1.11 2003/04/15 22:59:26 mva Exp $	 *)
+(* 	$Id: Error.Mod,v 1.12 2003/05/01 17:16:45 mva Exp $	 *)
 MODULE OOC:Error;
 (*  Creates lists of error messages and converts them to text.
     Copyright (C) 1999, 2000-2003  Michael van Acken
@@ -119,10 +119,12 @@ PROCEDURE IsWarning (msg: Msg): BOOLEAN;
 
 PROCEDURE (l: List) AppendWarning*(msg: Msg);
   VAR
-    msgPos: M.Attribute;
+    oldNoError: BOOLEAN;
   BEGIN
-    msgPos := msg.GetAttribute(posAttr);
-    l.Append^(msg);
+    oldNoError := l.noError;
+    l.Append(msg);
+    l.noError := oldNoError;
+    (* NOTE: l.Append^(msg) should only be called in Append() below *)
   END AppendWarning;
 
 PROCEDURE (l: List) Append* (msg: Msg);
