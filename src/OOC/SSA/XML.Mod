@@ -1,4 +1,4 @@
-(* 	$Id: XML.Mod,v 1.2 2001/12/03 21:00:52 mva Exp $	 *)
+(* 	$Id: XML.Mod,v 1.3 2001/12/10 18:22:19 mva Exp $	 *)
 MODULE OOC:SSA:XML;
 (*  Produces a canonical representation of SSA code in XML.
     Copyright (C) 2001  Michael van Acken
@@ -134,7 +134,7 @@ PROCEDURE Write* (cw: Channel.Writer; pb: SSA.ProcBlock;
         | arg: SSA.Address DO
           w. AttrStringLatin1 ("address-of", arg. decl. name. str^);
         ELSE
-          AttrId ("arg", opnd. arg);
+          AttrId ("arg-id", opnd. arg);
         END;
         w. EndTag;  (* opnd *)
       END WriteOpnd;
