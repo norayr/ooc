@@ -1,4 +1,4 @@
-(* 	$Id: SymbolTable.Mod,v 1.24 2002/07/05 22:10:37 uid24743 Exp $	 *)
+(* 	$Id: SymbolTable.Mod,v 1.25 2002/07/13 09:43:46 mva Exp $	 *)
 MODULE OOC:SymbolTable [OOC_EXTENSIONS];
 (*  Defines structure and entries of the symbol table.
     Copyright (C) 2000-2002  Michael van Acken
@@ -1043,7 +1043,7 @@ PROCEDURE InitModule* (mod: Module; name: Name; docString: Doc.Document;
                        class: ModuleClass; callConv: CallConv;
                        moduleAST: AST.Node; bodyDecl: ProcDecl);
   BEGIN
-    InitDeclaration (mod, NIL, name, 0, nameNotExported, docString);
+    InitDeclaration (mod, NIL, name, 0, nameExported, docString);
     mod. ns := NIL;
     mod. class := class;
     mod. callConv := callConv;
