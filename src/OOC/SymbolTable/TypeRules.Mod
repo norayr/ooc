@@ -1,4 +1,4 @@
-(* 	$Id: TypeRules.Mod,v 1.9 2002/02/04 22:51:00 mva Exp $	 *)
+(* 	$Id: TypeRules.Mod,v 1.10 2002/02/12 22:55:16 mva Exp $	 *)
 MODULE OOC:SymbolTable:TypeRules;
 (*  Defines the type rules of the language.
     Copyright (C) 2000-2002  Michael van Acken
@@ -321,7 +321,7 @@ PROCEDURE (tr: Rules) IsArrayCompatible* (argType, fparType: Sym.Type): BOOLEAN;
   BEGIN
     ASSERT (~(argType IS Sym.PredefType) OR
             (argType(Sym.PredefType). id # Predef.charString));
-    WHILE tr. IsOpenArrayType (argType) & (fparType IS Sym.Array) DO
+    WHILE tr. IsOpenArrayType (fparType) & (argType IS Sym.Array) DO
       argType := argType(Sym.Array). elementType;
       fparType := fparType(Sym.Array). elementType
     END;
