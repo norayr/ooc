@@ -1,4 +1,4 @@
-(* 	$Id: InterfaceDescr.Mod,v 1.8 2002/12/17 19:33:31 mva Exp $	 *)
+(* 	$Id: InterfaceDescr.Mod,v 1.9 2002/12/20 09:13:37 mva Exp $	 *)
 MODULE OOC:SymbolTable:InterfaceDescr;
 (*  Writes a description of a module's interface as XML.
     Copyright (C) 2000, 2001, 2002  Michael van Acken
@@ -173,7 +173,7 @@ PROCEDURE Write* (cw: Channel.Writer; baseURI: URI.HierarchicalURI;
       i: Sym.Item;
       element: ARRAY 32 OF CHAR;
       moduleRepository: Repository.Module;
-      str: Object.String8;
+      str: STRING;
     
     PROCEDURE StartDecl (tag: ARRAY OF CHAR; decl: Sym.Declaration);
       BEGIN

@@ -1,4 +1,4 @@
-(* 	$Id: TranslateToIA32.Mod,v 1.4 2002/12/17 19:33:32 mva Exp $	 *)
+(* 	$Id: TranslateToIA32.Mod,v 1.5 2002/12/20 09:13:37 mva Exp $	 *)
 MODULE OOC:Make:TranslateToIA32 [OOC_EXTENSIONS];
 (*  Translates a module file into a bunch of C code files.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -135,7 +135,7 @@ PROCEDURE WriteCodeFile (w: Writer.Writer; m: Rep.Module; symTab: Sym.Module;
   END WriteCodeFile;
 
 
-PROCEDURE Run*(m: Rep.Module; libraryName: Object.String8;
+PROCEDURE Run*(m: Rep.Module; libraryName: STRING;
                writeAST, writeIR: BOOLEAN;
                translator: Translator): Error.List;
 (**Compiles a module, creating the symbol file and the assembler file.  *)

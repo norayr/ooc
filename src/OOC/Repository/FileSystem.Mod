@@ -1,4 +1,4 @@
-(* 	$Id: FileSystem.Mod,v 1.18 2002/12/17 19:33:32 mva Exp $	 *)
+(* 	$Id: FileSystem.Mod,v 1.19 2002/12/20 09:13:37 mva Exp $	 *)
 MODULE OOC:Repository:FileSystem;
 (*  Implementation of a repository in the local file system.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -216,7 +216,7 @@ PROCEDURE (rep: Repository) GetLocalPath*(m: Rep.Module; fileId: Rep.FileId;
     IF (fileId = Rep.modLibrary) THEN
       ASSERT(m.ifQuality = Rep.completeInterface);
       Strings.Append("lib", path);
-      chars := m.ifData.libraryName.CharsLatin1();
+      chars := m.ifData.libraryName(Object.String8).CharsLatin1();
       COPY(chars^, str);
     ELSE
       ModuleToFileName (str);
