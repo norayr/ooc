@@ -1,4 +1,4 @@
-(* 	$Id: SSA.Mod,v 1.50 2002/07/31 20:02:20 mva Exp $	 *)
+(* 	$Id: SSA.Mod,v 1.51 2002/08/03 06:35:47 mva Exp $	 *)
 MODULE OOC:SSA;
 (*  Data structures for SSA code representation.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -343,7 +343,10 @@ PROCEDURE (opnd: Opnd) GetIntConst*(): LONGINT;
 
 PROCEDURE (opnd: Opnd) IsScheduleOpnd*(): BOOLEAN;
   BEGIN
-    RETURN (opnd. class = OpndClass.loopExternalDef);
+    RETURN
+        (opnd. class = OpndClass.loopExternalDef) OR
+        (opnd. class = OpndClass.antiDependency) OR
+        (opnd. class = OpndClass.regionDependency);
   END IsScheduleOpnd;
 
   (* ---------------------------------------------------------------------- *)
@@ -639,6 +642,21 @@ PROCEDURE (instr: Instr) NthArg* (nth: LONGINT): Result;
     END;
     RETURN opnd. arg
   END NthArg;
+
+PROCEDURE (instr: Instr) LastOpnd*(): Opnd;
+(**Returns the last element in @oparam{instr}'s operand list.  Result is
+   @code{NIL} if the operand list is empty.  *)
+  VAR
+    opnd: Opnd;
+  BEGIN
+    opnd := instr. opndList;
+    IF (opnd # NIL) THEN
+      WHILE (opnd. nextOpnd # NIL) DO
+        opnd := opnd. nextOpnd;
+      END;
+    END;
+    RETURN opnd
+  END LastOpnd;
 
 PROCEDURE (instr: Instr) GetOpndClass* (class: OpndClass.Class): Opnd;
 (**Returns the first operand of @oparam{instr} whose @ofield{Opnd.class} matches
