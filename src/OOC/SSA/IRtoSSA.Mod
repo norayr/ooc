@@ -1,4 +1,4 @@
-(* 	$Id: IRtoSSA.Mod,v 1.79 2002/06/27 19:45:40 mva Exp $	 *)
+(* 	$Id: IRtoSSA.Mod,v 1.80 2002/06/30 15:17:10 mva Exp $	 *)
 MODULE OOC:SSA:IRtoSSA;
 (*  Converts the IR of a procedure into its SSA representation.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -893,11 +893,13 @@ PROCEDURE StatmSeq* (pb: SSA.ProcBlock; s: SSA.Result;
       storeAfterSelect := s;
 
       FOR i := 0 TO LEN (caseStatm. caseList^)-1 DO
-        select. AddOpnd (Labels (caseStatm. caseList[i]. labels),
-                         Opnd.labels);
-        select. AddOpnd (StatmSeq (pb, storeAfterSelect,
-                                   caseStatm. caseList[i]. statmSeq),
-                         Opnd.arg);
+        IF (LEN (caseStatm. caseList[i]. labels^) > 0) THEN
+          select. AddOpnd (Labels (caseStatm. caseList[i]. labels),
+                           Opnd.labels);
+          select. AddOpnd (StatmSeq (pb, storeAfterSelect,
+                                     caseStatm. caseList[i]. statmSeq),
+                           Opnd.arg);
+        END;
       END;
       
       select. AddOpnd (pb. GetConstBool (FALSE), Opnd.arg);

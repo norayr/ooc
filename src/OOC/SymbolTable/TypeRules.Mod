@@ -1,4 +1,4 @@
-(* 	$Id: TypeRules.Mod,v 1.21 2002/06/19 13:47:38 sgreenhill Exp $	 *)
+(* 	$Id: TypeRules.Mod,v 1.22 2002/06/30 15:17:10 mva Exp $	 *)
 MODULE OOC:SymbolTable:TypeRules;
 (*  Defines the type rules of the language.
     Copyright (C) 2000-2002  Michael van Acken
@@ -268,6 +268,13 @@ PROCEDURE (tr: Rules) IsValidArrayElementType* (type: Sym.Type; isOpenArray: BOO
       RETURN ~(type IS Sym.Array) OR ~type(Sym.Array). isOpenArray
     END
   END IsValidArrayElementType;
+
+PROCEDURE (tr: Rules) IsValidCaseSelector* (type: Sym.Type): BOOLEAN;
+(**Returns @code{TRUE}, iff the type @oparam{type} can be used as the
+   select expression of a @code{CASE} statement.  *)
+  BEGIN
+    RETURN tr. IsIntegerType (type) OR tr. IsCharType (type);
+  END IsValidCaseSelector;
 
 PROCEDURE ^ (tr: Rules) FormalParamsMatch* (baseFPars, procFPars: Sym.FormalPars; allowExtendedResult: BOOLEAN): BOOLEAN;
 
