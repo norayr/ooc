@@ -1,4 +1,4 @@
-(* 	$Id: Builder.Mod,v 1.17 2002/09/29 11:38:10 mva Exp $	 *)
+(* 	$Id: Builder.Mod,v 1.18 2002/09/29 22:43:48 mva Exp $	 *)
 MODULE OOC:SymbolTable:Builder [OOC_EXTENSIONS];
 (*  Defines a builder class with factory methods for symbol table entries.
     Copyright (C) 2000-2002  Michael van Acken
@@ -60,8 +60,8 @@ VAR
   doAutoImport*: BOOLEAN;
   (**If @code{FALSE} (the default), don't do any automatical import in the
      symbol table or the the repository's
-     @oproc{OOC:Repository:GetImports.GetImports}.  Right now, only the program
-     @code{oo2c} sets this to @code{TRUE}.  *)
+     @oproc{*OOC:Repository:GetImports.GetImports}.  Right now, only the
+     program @code{oo2c} sets this to @code{TRUE}.  *)
   
   
 PROCEDURE Init* (b: Builder);
