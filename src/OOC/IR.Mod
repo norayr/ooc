@@ -1,4 +1,4 @@
-(* 	$Id: IR.Mod,v 1.94 2002/06/02 11:52:01 mva Exp $	 *)
+(* 	$Id: IR.Mod,v 1.95 2002/06/02 21:09:44 mva Exp $	 *)
 MODULE OOC:IR [OOC_EXTENSIONS];
 (*  High-level intermediate code representation.
     Copyright (C) 2001, 2002  Michael van Acken, Stewart Greenhill
@@ -303,6 +303,13 @@ TYPE
     (OperatorDesc)
     variant- : Variant;
     left-, right- : Expression;
+  END;
+
+TYPE
+  Abs* = POINTER TO AbsDesc;
+  AbsDesc = RECORD
+    (OperatorDesc)
+    operand-: Expression;
   END;
 
 TYPE
@@ -1365,6 +1372,32 @@ PROCEDURE (v: Visitor) [ABSTRACT] VisitCap* (cap: Cap);
 PROCEDURE (cap: Cap) Accept* (v: Visitor);
   BEGIN
     v. VisitCap (cap)
+  END Accept;
+
+(* Operator Class: Abs
+   ------------------------------------------------------------------------ *)
+
+PROCEDURE InitAbs (abs: Abs; sym: Symbol; operand: Expression);
+  BEGIN
+    InitOperator (abs, sym, operand. type);
+    abs. operand := operand;
+  END InitAbs;
+
+PROCEDURE (b: Builder) NewAbs (sym: Symbol; operand: Expression): Expression;
+  VAR
+    abs: Abs;
+  BEGIN
+    NEW (abs);
+    InitAbs (abs, sym, operand);
+    RETURN abs;
+  END NewAbs;
+
+PROCEDURE (v: Visitor) [ABSTRACT] VisitAbs* (abs: Abs);
+  END VisitAbs;
+
+PROCEDURE (abs: Abs) Accept* (v: Visitor);
+  BEGIN
+    v. VisitAbs (abs)
   END Accept;
 
 (* Operator Class: Ash
@@ -3344,6 +3377,9 @@ PROCEDURE (b: Builder) NewCall* (design: Expression; arguments: ExpressionList):
       | Predef.size:
         RETURN b. NewSize (design. sym, arguments[0])
 
+      | Predef.abs:
+        RETURN b. NewAbs (design. sym, arguments[0]);
+        
       | Predef.ash:
         RETURN b. NewAsh (design. sym, arguments[0], arguments[1]);
         

@@ -1,4 +1,4 @@
-(* 	$Id: ConstFold.Mod,v 1.46 2002/06/02 11:56:19 mva Exp $	 *)
+(* 	$Id: ConstFold.Mod,v 1.47 2002/06/02 21:09:44 mva Exp $	 *)
 MODULE OOC:IR:ConstFold;
 (*  Constant folding on IR expressions.
     Copyright (C) 2002  Stewart Greenhill, Michael van Acken
@@ -20,7 +20,7 @@ MODULE OOC:IR:ConstFold;
     Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 *)
 
-IMPORT 
+IMPORT
   Sym := OOC:SymbolTable, OOC:IR, OOC:SymbolTable:Predef,
   Language, 
   Language:Integer, Language:Boolean, LString := Language:String,
@@ -261,6 +261,11 @@ BEGIN
     c.result := NIL;
   END;
 END VisitNot;
+
+PROCEDURE (c: ConstFold) VisitAbs* (op: IR.Abs);
+  BEGIN
+    (* FIXME... *)
+  END VisitAbs;
 
 PROCEDURE (c: ConstFold) VisitAsh* (op: IR.Ash);
   VAR
