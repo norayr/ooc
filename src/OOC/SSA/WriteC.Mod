@@ -1,4 +1,4 @@
-(* 	$Id: WriteC.Mod,v 1.122 2002/08/24 10:49:24 mva Exp $	 *)
+(* 	$Id: WriteC.Mod,v 1.123 2002/08/31 17:27:44 mva Exp $	 *)
 MODULE OOC:SSA:WriteC [OOC_EXTENSIONS];
 (*  Translates a set of scheduled SSA instructions to plain C.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -1667,6 +1667,10 @@ PROCEDURE (t: Translator) WriteProcBody* (proc: IR.Procedure);
     FixCrossJumps (domRoot);
     w. WriteLn;
     w. WriteBlocks (domRoot, haveCopyParameter);
+    w. Newline;
+    (* add empty statement to avoid gcc's warning `deprecated use of
+       label at end of compound statement'  *)
+    w. WriteString (";");
     t. w. Indent (-1);
   END WriteProcBody;
 
