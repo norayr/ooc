@@ -1,4 +1,4 @@
-(* 	$Id: Make.Mod,v 1.25 2002/12/07 22:49:46 mva Exp $	 *)
+(* 	$Id: Make.Mod,v 1.26 2002/12/08 23:10:09 mva Exp $	 *)
 MODULE OOC:Make;
 (*  Builds object files, libraries, binaries, and the like.
     Copyright (C) 2002  Michael van Acken
@@ -892,7 +892,8 @@ PROCEDURE (r: Rules) UpdateObjectFile(module: Rep.Module): BOOLEAN;
       
     ELSE
       success := r.Update(module, Rep.modCodeFileC);
-      IF DerivedIsOlder(module, Rep.modObjectFile, Rep.modCodeFileC) THEN
+      IF success &
+         DerivedIsOlder(module, Rep.modObjectFile, Rep.modCodeFileC) THEN
         module.CreateOutputDir (Rep.modObjectFile, res);
         IF (res = NIL) THEN
           CCompiler.CompileFileCmd(module.GetURI(Rep.modCodeFileC, TRUE),
