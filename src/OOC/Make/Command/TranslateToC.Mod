@@ -1,4 +1,4 @@
-(* 	$Id: TranslateToC.Mod,v 1.5 2001/10/17 22:00:59 mva Exp $	 *)
+(* 	$Id: TranslateToC.Mod,v 1.6 2001/10/18 19:56:09 mva Exp $	 *)
 MODULE OOC:Make:Command:TranslateToC;
 (*  Translates a module file into a bunch of C code files.
     Copyright (C) 2001  Michael van Acken
@@ -227,7 +227,10 @@ PROCEDURE WriteFile (m: Repository.Module; fileId: Repository.FileId;
         WriteModuleName (w, "#define _MODULE_", m, "_");
         w. WriteLn;
         
-        (*w. WriteString ('#include "_oo2c.h"'); w. WriteLn;*)
+        (* __typemap definitions are required parse definitions of the
+           module header file *)
+        w. WriteString ('#include "__typemap.h"');
+        w. WriteLn;
 (*        import := m. importList;
         WHILE (import # NIL) DO
           WriteInclude (w, import. imported.
@@ -242,11 +245,17 @@ PROCEDURE WriteFile (m: Repository.Module; fileId: Repository.FileId;
         
         
       | Repository.modDeclFileC:
-        WriteInclude (w, m. GetURI (Repository.modHeaderFileC));
-        WriteDeclarations (w, converter, FALSE);
+         WriteInclude (w, m. GetURI (Repository.modHeaderFileC));
+         WriteDeclarations (w, converter, FALSE);
           
       | Repository.modCodeFileC:
          WriteInclude (w, m. GetURI (Repository.modDeclFileC));
+
+        (* include full __oo2c.h only in generated C code files; this way,
+           the .h and .d files can be used without pulling in all the 
+           declarations of the run-time header file *)
+         w. WriteString ('#include "__oo2c.h"');
+         w. WriteLn;
          WriteProcedures (w, converter, procList);
          w. WriteLn;
          WriteModuleName (w, "void ", m, "_init(void) {");
