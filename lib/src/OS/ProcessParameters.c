@@ -1,8 +1,9 @@
-/* 	$Id: ProcessParameters.c,v 1.3 2002/12/01 09:55:10 mva Exp $	 */
+/* 	$Id: ProcessParameters.c,v 1.4 2002/12/03 09:55:42 mva Exp $	 */
 #include <unistd.h>
 #include <errno.h>
 #include <stddef.h>
 #include <stdlib.h>
+#include <string.h>
 
 #include "__oo2c.h"
 #include "__config.h"
