@@ -1,4 +1,4 @@
-(* 	$Id: DeclWriter.Mod,v 1.63 2003/04/14 19:14:24 mva Exp $	 *)
+(* 	$Id: DeclWriter.Mod,v 1.64 2003/05/31 16:51:54 mva Exp $	 *)
 MODULE OOC:C:DeclWriter [OOC_EXTENSIONS];
 (*  Defines classes to handle C declarations, types, and include statements.
     Copyright (C) 2001-2003  Michael van Acken
@@ -496,8 +496,7 @@ PROCEDURE (w: Writer) WriteConst* (value: Boxed.Object; type: Sym.Type);
               IF (i # 0) THEN
                 w. WriteChar (",");
               END;
-              w. textWriter. WriteLInt (ORD(s.CharAt(i)), 0);
-              INC (i)
+              w. textWriter. WriteLInt (ORD(s.NextChar(i)), 0);
             END;
             IF (i # 0) THEN
               w. WriteChar (",");
@@ -701,8 +700,7 @@ PROCEDURE (w: Writer) WriteStringConst* (value: Boxed.Object; type: Sym.Type);
         IF (i # 0) THEN
           w. WriteChar (",");
         END;
-        w. textWriter. WriteLInt (ORD(s.CharAt(i)), 0);
-        INC (i)
+        w. textWriter. WriteLInt (ORD(s.NextChar(i)), 0);
       END;
       IF (i # 0) THEN
         w. WriteChar (",");

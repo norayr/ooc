@@ -1,4 +1,4 @@
-(* 	$Id: ConstFold.Mod,v 1.75 2003/05/04 19:15:20 mva Exp $	 *)
+(* 	$Id: ConstFold.Mod,v 1.76 2003/05/31 16:51:53 mva Exp $	 *)
 MODULE OOC:IR:ConstFold;
 (*  Constant folding on IR expressions.
     Copyright (C) 2002, 2003  Stewart Greenhill, Michael van Acken
@@ -597,7 +597,7 @@ PROCEDURE (c: ConstFold) VisitTypeConv* (op : IR.TypeConv);
         | Predef.char:
           value := Boxed.NewString(Object.NewLatin1Char(CHR (value(BigInt.BigInt). ToLongInt())));
         | Predef.longchar:
-          value := Boxed.NewString(Object.NewUCS2Char(LONGCHR (value(BigInt.BigInt). ToLongInt())));
+          value := Boxed.NewString(Object.NewUTF16Char(LONGCHR (value(BigInt.BigInt). ToLongInt())));
         | Predef.ucs4char:
           value := Boxed.NewString(Object.NewUCS4Char(UCS4CHR (value(BigInt.BigInt). ToLongInt())));
         END;
