@@ -1,4 +1,4 @@
-(* 	$Id: Processor.Mod,v 1.20 2002/12/30 09:29:20 mva Exp $	 *)
+(* 	$Id: Processor.Mod,v 1.21 2003/03/14 08:47:24 sgreenhill Exp $	 *)
 MODULE OOC:TestFramework:Processor;
 (*  Processes test cases using an OOC compiler.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -303,9 +303,9 @@ PROCEDURE (proc: Processor) Process* (test: Testcases.Test;
       
       Out.Flush;
       exit := ProcessManagement.system (path);
-      status := ASH (exit, -8) MOD 256;
-      signal := exit MOD 256;
-      
+      signal := ProcessManagement.TermSignal(exit);
+      status := ProcessManagement.ExitStatus(exit);
+     
       IF (proc. filterCmd # NIL) THEN
         (* pass stdout output through filter *)
         chars := proc.filterCmd(Object.String8).CharsLatin1();
@@ -506,8 +506,8 @@ PROCEDURE (proc: Processor) Process* (test: Testcases.Test;
           Out.String (path); Out.Ln;
           Out.Flush;
           exit := ProcessManagement.system (path);
-          status := ASH (exit, -8) MOD 256;
-          signal := exit MOD 256;
+          status := ProcessManagement.ExitStatus(exit);
+          signal := ProcessManagement.TermSignal(exit);
           IF (status = 0) & (signal = 0) THEN
             result := processSuccess;
             IF (test. type = Testcases.testOutput) THEN
