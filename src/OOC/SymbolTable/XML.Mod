@@ -1,4 +1,4 @@
-(* 	$Id: XML.Mod,v 1.9 2003/02/02 17:58:38 mva Exp $	 *)
+(* 	$Id: XML.Mod,v 1.10 2003/04/18 21:29:22 mva Exp $	 *)
 MODULE OOC:SymbolTable:XML;
 (*  Converts symbol table to XML document.
     Copyright (C) 2000, 2001, 2002, 2003  Michael van Acken
@@ -260,6 +260,9 @@ RAISES IO.Error;
             END
           | item: Sym.ConstDecl DO
           | item: Sym.TypeDecl DO
+            IF item.isTypeParameter THEN
+              AttribBool("", "is_type_parameter", item.isTypeParameter);
+            END;
             AttribTypeId ("", "type_id", item. type)
           | item: Sym.VarDecl DO
             AttribBool ("", "is_parameter", item. isParameter);
@@ -291,6 +294,10 @@ RAISES IO.Error;
             element := "procedure_type"
           | item: Sym.PredefType DO
             element := "predef_type"
+          | item: Sym.ParametricType DO
+            element := "parametric_type"
+          | item: Sym.TypeVar DO
+            element := "type_var"
           END;
           StartTag (element, Id (item));
 
@@ -329,6 +336,10 @@ RAISES IO.Error;
             END
           | item: Sym.PredefType DO
             (* FIXME... what to write here? *)
+          | item: Sym.ParametricType DO
+            AttribTypeId ("", "base_type_id", item. baseType)
+          | item: Sym.TypeVar DO
+            AttribTypeId ("", "bound_id", item. bound)
           END;
           
           WriteNested (item);

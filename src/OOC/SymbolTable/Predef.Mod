@@ -1,4 +1,4 @@
-(* 	$Id: Predef.Mod,v 1.52 2002/12/29 14:36:26 mva Exp $	 *)
+(* 	$Id: Predef.Mod,v 1.53 2003/04/18 21:29:22 mva Exp $	 *)
 MODULE OOC:SymbolTable:Predef;
 (*  Defines symbol table of pseudo module with predefined entities.
     Copyright (C) 2000, 2001, 2002  Michael van Acken
@@ -167,7 +167,7 @@ PROCEDURE PredefType (stb: Builder.Builder;
     maxConst[id] := maxValue;
     IF (name # "") THEN
       tdecl := stb. NewTypeDecl (module, GetName (name), 0,
-                                 Sym.nameExported, NIL, ptype)
+                                 Sym.nameExported, NIL, ptype, FALSE)
     END;
     RETURN ptype
   END PredefType;
@@ -179,7 +179,7 @@ PROCEDURE TypeAlias (stb: Builder.Builder;
     tdecl: Sym.TypeDecl;
   BEGIN
     tdecl := stb. NewTypeDecl (module, GetName (name), 0,
-                               Sym.nameExported, NIL, baseType);
+                               Sym.nameExported, NIL, baseType, FALSE);
   END TypeAlias;
 
 PROCEDURE PredefProc (stb: Builder.Builder; module: Sym.Module;
