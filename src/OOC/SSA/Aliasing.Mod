@@ -1,4 +1,4 @@
-(* 	$Id: Aliasing.Mod,v 1.5 2002/05/30 23:10:52 mva Exp $	 *)
+(* 	$Id: Aliasing.Mod,v 1.6 2002/06/02 21:11:47 mva Exp $	 *)
 MODULE OOC:SSA:Aliasing;
 (*  Calculates aliasing between instructions.
     Copyright (C) 2002  Michael van Acken
@@ -177,9 +177,6 @@ PROCEDURE DesignatorAlias* (tr: TypeRules.Rules;
               (prefixClass = mayAlias));
       IF (selInstr = NIL) THEN
         (* no further selectors for our designator *)
-        ASSERT (selReference = NIL);
-        ASSERT (selInstr = NIL);
-        
         IF (selReference = NIL) THEN
           (* reference designator also ends here *)
           RETURN prefixClass
