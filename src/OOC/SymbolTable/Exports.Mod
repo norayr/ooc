@@ -1,4 +1,4 @@
-(* 	$Id: Exports.Mod,v 1.2 2000/09/05 08:51:51 mva Exp $	 *)
+(* 	$Id: Exports.Mod,v 1.3 2000/09/10 16:33:40 mva Exp $	 *)
 MODULE OOC:SymbolTable:Exports;
 (*  Marks declarations that are part of the module's symbol file.
     Copyright (C) 2000  Michael van Acken
@@ -21,7 +21,7 @@ MODULE OOC:SymbolTable:Exports;
 *)
 
 IMPORT
-  ADT:Object:Dictionary, OOC:SymbolTable:Item, OOC:Doc;
+  ADT:Dictionary, OOC:SymbolTable:Item, OOC:Doc;
 
 
 PROCEDURE GetExports* (module: Item.Module): Dictionary.Dictionary;
@@ -40,7 +40,7 @@ PROCEDURE GetExports* (module: Item.Module): Dictionary.Dictionary;
       IF (doc # NIL) & (doc. usedImportsList # NIL) THEN
         (* mark all import statements that appear in the documentation
            string *)
-        FOR i := 0 TO doc. usedImportsList. len-1 DO
+        FOR i := 0 TO doc. usedImportsList. size-1 DO
           dict. Set (doc. usedImportsList. array[i](Item.Import), NIL)
         END
       END

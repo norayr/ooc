@@ -1,4 +1,4 @@
-(* 	$Id: Item.Mod,v 1.1 2000/08/20 13:54:41 mva Exp $	 *)
+(* 	$Id: Item.Mod,v 1.2 2000/09/10 16:33:40 mva Exp $	 *)
 MODULE OOC:SymbolTable:Item [OOC_EXTENSIONS];
 (*  Defines structure and entries of the symbol table.
     Copyright (C) 2000  Michael van Acken
@@ -21,7 +21,7 @@ MODULE OOC:SymbolTable:Item [OOC_EXTENSIONS];
 *)
 
 IMPORT
-  Strings, ADT:Object, ADT:Object:Dictionary, 
+  Strings, ADT:Object, ADT:Dictionary, 
   OOC:Scanner:InputBuffer, SB := OOC:Scanner:Builder, OOC:Doc;
 
 TYPE
