@@ -1,4 +1,4 @@
-(* 	$Id: WriteC.Mod,v 1.132 2002/11/28 19:31:17 mva Exp $	 *)
+(* 	$Id: WriteC.Mod,v 1.133 2002/12/03 13:42:51 mva Exp $	 *)
 MODULE OOC:SSA:WriteC [OOC_EXTENSIONS];
 (*  Translates a set of scheduled SSA instructions to plain C.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -114,7 +114,11 @@ PROCEDURE SubclassToBasicType (res: SSA.Result): DeclWriter.BasicTypeId;
   BEGIN
     CASE res. subclass OF
     | Opcode.scNone: RETURN DeclWriter.void
-    | Opcode.scAddress: RETURN DeclWriter.int32(*DeclWriter.ptr*)
+    | Opcode.scAddress:
+      CASE Predef.address OF
+      | Predef.hugeint: RETURN DeclWriter.int64;
+      | Predef.longint: RETURN DeclWriter.int32;
+      END;
     | Opcode.scUnsigned8: RETURN DeclWriter.uint8
     | Opcode.scUnsigned16: RETURN DeclWriter.uint16
     | Opcode.scUnsigned32: RETURN DeclWriter.uint32
