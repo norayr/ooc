@@ -1,4 +1,4 @@
-(* 	$Id: IRtoSSA.Mod,v 1.49 2002/05/03 18:08:28 mva Exp $	 *)
+(* 	$Id: IRtoSSA.Mod,v 1.50 2002/05/03 20:09:46 mva Exp $	 *)
 MODULE OOC:SSA:IRtoSSA;
 (*  Converts the IR of a procedure into its SSA representation.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -289,15 +289,18 @@ PROCEDURE StatmSeq* (pb: SSA.ProcBlock; s: SSA.Result;
         instr: SSA.Instr;
       BEGIN
         var := Expression (design);
+        instr := pb. AddInstr (Opcode.typeTag, Opcode.scAddress);
         IF (design. type IS Sym.Pointer) THEN
-          instr := pb. AddInstr (Opcode.typeTag, Opcode.scAddress);
           instr. AddOpnd (var, Opnd.arg);
-          RETURN instr;
-        ELSE
-          (* FIXME... handle variable parameters *)
-          ASSERT (FALSE);
-          RETURN NIL;
+        ELSIF (design IS IR.Var) &
+              design(IR.Var). decl(Sym.VarDecl). isVarParam &
+              (design(IR.Var). decl(Sym.VarDecl). type IS Sym.Record) THEN
+          (* type tag of a VAR parameter *)
+          instr. AddOpnd (var. instr. GetArgClass (Opnd.readDesign), Opnd.arg);
+        ELSE                             (* static type tag *)
+          instr. AddOpnd (pb. GetTypeRef (design. type), Opnd.arg);
         END;
+        RETURN instr;
       END TypeTag;
     
     PROCEDURE TypeTest (test: IR.TypeTest): SSA.Instr;
@@ -352,6 +355,8 @@ PROCEDURE StatmSeq* (pb: SSA.ProcBlock; s: SSA.Result;
            values *)
         RETURN Expression (expr. expr);
 
+      | expr: IR.TypeTag DO
+        RETURN TypeTag (expr. design);
       | expr: IR.TypeTest DO
         RETURN TypeTest (expr);
         

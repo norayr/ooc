@@ -1,4 +1,4 @@
-(* 	$Id: Opcode.Mod,v 1.33 2002/05/03 18:08:27 mva Exp $	 *)
+(* 	$Id: Opcode.Mod,v 1.34 2002/05/03 20:09:46 mva Exp $	 *)
 MODULE OOC:SSA:Opcode;
 (*  This modules defines opcodes for SSA instructions.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -353,7 +353,8 @@ CONST
 
      @table @oconst
      @item *OOC:SSA.Opnd.arg
-     This is either a pointer value, or a @oconst{declRef}.
+     This is either a @oconst{declRef} refering to a @code{VAR} record
+     parameter, a @oconst{typeRef} denoting a record type, or a pointer value.
      @end table
 
      The result of the instruction is the address of the type descriptor.  *)
