@@ -1,4 +1,4 @@
-(* 	$Id: ConstFold.Mod,v 1.59 2002/07/13 12:47:31 mva Exp $	 *)
+(* 	$Id: ConstFold.Mod,v 1.60 2002/07/15 14:35:08 sgreenhill Exp $	 *)
 MODULE OOC:IR:ConstFold;
 (*  Constant folding on IR expressions.
     Copyright (C) 2002  Stewart Greenhill, Michael van Acken
@@ -632,6 +632,10 @@ PROCEDURE (c: ConstFold) VisitTypeConv* (op : IR.TypeConv);
       c.result := NIL;
     END;
   END VisitTypeConv;
+
+PROCEDURE (c: ConstFold) VisitTypeGuard* (op : IR.TypeGuard);
+  BEGIN
+  END VisitTypeGuard;
 
 PROCEDURE (c: ConstFold) VisitTypeTag* (op : IR.TypeTag);
   BEGIN
