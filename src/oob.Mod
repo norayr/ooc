@@ -1,4 +1,4 @@
-(* 	$Id: oob.Mod,v 1.18 2003/05/18 14:08:58 mva Exp $	 *)
+(* 	$Id: oob.Mod,v 1.19 2003/06/20 19:54:26 mva Exp $	 *)
 MODULE oob;
 (*  Symbol file browser.
     Copyright (C) 2002, 2003  Michael van Acken
@@ -27,7 +27,7 @@ IMPORT
   OOC:Logger, OOC:Doc, OOC:Doc:Output:Text, OOC:SymbolTable:ImportModules,
   OOC:SymbolTable:Namespace, OOC:SymbolTable:CreateNamespace,
   OOC:SymbolTable:Builder,
-  <*PUSH; Warnings:=FALSE*>Object:Boxed, Object:BigInt;<*POP*>
+  <*WITH Warnings:=FALSE DO*>Object:Boxed, Object:BigInt;<*END*>
 
 
 VAR
@@ -507,6 +507,7 @@ BEGIN
   ELSIF help.value(CfgData.BooleanVar).boolean THEN
     WriteHelp
   ELSE
+    Rep.readDocStrings := TRUE;
     arg := Config.arguments.Get(0);
     symTab := GetSymTab(GetModule(arg));
     errList := E.NewList("");

@@ -1,4 +1,4 @@
-(* 	$Id: Make.Mod,v 1.60 2003/05/20 20:10:31 mva Exp $	 *)
+(* 	$Id: Make.Mod,v 1.61 2003/06/20 19:54:26 mva Exp $	 *)
 MODULE OOC:Make;
 (*  Builds object files, libraries, binaries, and the like.
     Copyright (C) 2002, 2003  Michael van Acken
@@ -581,7 +581,7 @@ RAISES IO.Error;
       
       IF (r.libraryName # NIL) & (module.origin = r.localRepository) THEN
         IF (module.ifData.libraryName = NIL) THEN
-          (* the symbol file does not exist, or it does not associated the
+          (* the symbol file does not exist, or it does not associate the
              module with any library: force compilation of module *)
           Logger.ExplainMake("module is not part of a library");
           isUpToDate := FALSE;
@@ -619,6 +619,10 @@ RAISES IO.Error;
         END;
         INC(i);
       END;
+
+      (* with the doc strings split off into a separate file, this file must
+         exist as well or we may fail to read the symbol file back again *)
+      isUpToDate := isUpToDate & Exists(module, Rep.modSymbolFileDoc);
       
       IF isUpToDate THEN
         (* if the file is current, then GetImports() has already read it
