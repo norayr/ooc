@@ -1,4 +1,4 @@
-/*      $Id: __oo2c.h,v 1.34 2002/07/19 14:09:25 sgreenhill Exp $        */
+/*      $Id: __oo2c.h,v 1.35 2002/08/25 00:57:20 mva Exp $        */
 /*  Run-time system for C back-ends of OOC2
     Copyright (C) 2001, 2002  Michael van Acken
 
@@ -88,12 +88,8 @@
 }
 
 /* copy record or array value */
-#define _copy_block(_src,_dest,_len) {          \
-  char* _d=(char*)_dest;                        \
-  const char* _s=(const char*)_src;             \
-  char* _max=_d+_len;                           \
-  while (_d != _max) { *(_d++) = *(_s++); }     \
-}
+#define _copy_block(_src,_dest,_len) \
+  memcpy((void*)_dest,(void*)_src,_len)
 
 /* copy memory block (SYSTEM.MOVE) */
 #define _move_block(_source,_dest,_size) \
