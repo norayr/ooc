@@ -1,4 +1,4 @@
-(* 	$Id: RT0.Mod,v 1.27 2002/08/05 12:44:20 sgreenhill Exp $	 *)
+(* 	$Id: RT0.Mod,v 1.28 2002/10/20 18:00:19 mva Exp $	 *)
 MODULE RT0 [FOREIGN "C"; LINK FILE "RT0.c"; LIB "m" END];
 (*  Proxy module for the run-time system of C back-ends of OOC2
     Copyright (C) 2001, 2002  Michael van Acken
@@ -215,6 +215,9 @@ PROCEDURE InitVParStack* (bytes: LONGINT);
    open array type.  It is used as a fallback if no mechanism is available
    to store the data on the normal C stack.  This procedure is called once,
    from the program's setup code.  *)
+
+PROCEDURE CollectGarbage*;
+(**Explicitly trigger a full, world-stop garbage collection.  *)
 
 
 PROCEDURE ErrorIndexOutOfRange* (mid: Module; pos: LONGINT;
