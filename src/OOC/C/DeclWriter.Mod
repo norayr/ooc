@@ -1,4 +1,4 @@
-(* 	$Id: DeclWriter.Mod,v 1.21 2002/05/01 15:32:03 mva Exp $	 *)
+(* 	$Id: DeclWriter.Mod,v 1.22 2002/05/01 17:58:36 mva Exp $	 *)
 MODULE OOC:C:DeclWriter [OOC_EXTENSIONS];
 (*  Defines classes to handle C declarations, types, and include statements.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -126,7 +126,7 @@ TYPE
     (**Represents pointer types.  See @oproc{Writer.NewPointer}.  *)
     (TypeDesc)
     typeQualifier: TypeQualifier;
-    base: Type;
+    base-: Type;
   END;
 
 TYPE

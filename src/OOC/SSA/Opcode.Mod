@@ -1,4 +1,4 @@
-(* 	$Id: Opcode.Mod,v 1.30 2002/05/01 15:32:03 mva Exp $	 *)
+(* 	$Id: Opcode.Mod,v 1.31 2002/05/01 17:58:36 mva Exp $	 *)
 MODULE OOC:SSA:Opcode;
 (*  This modules defines opcodes for SSA instructions.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -509,7 +509,9 @@ PROCEDURE TypeToSubclass* (type: Sym.Type): Subclass;
 
     | type: Sym.Pointer DO
       RETURN scAddress;
-      
+
+    | type: Sym.FormalPars DO
+      RETURN scAddress;
     ELSE
       Log.Type ("++ Unknown type in TypeToSubclass", type);
       ASSERT (FALSE);
