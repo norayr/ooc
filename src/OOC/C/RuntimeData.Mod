@@ -1,4 +1,4 @@
-(* 	$Id: RuntimeData.Mod,v 1.23 2004/01/12 05:44:56 sgreenhill Exp $	 *)
+(* 	$Id: RuntimeData.Mod,v 1.24 2004/01/14 23:49:42 mva Exp $	 *)
 MODULE OOC:C:RuntimeData;
 (*  Writes C code for run-time data like type descriptors.
     Copyright (C) 2002, 2003  Michael van Acken
@@ -77,7 +77,6 @@ PROCEDURE Write* (declWriter: DeclWriter.Writer; symTab: Sym.Module;
     VAR 
       decl : Sym.Declaration;   (* method declaration *)
       root : Sym.Type;          (* root class for @oparam{t} *)
-      base : Sym.Type;
       impl : Sym.Type;          (* implementing class for Finalize method *)
     BEGIN
       decl := t.ns.Identify(t, GetName(name), TRUE);
