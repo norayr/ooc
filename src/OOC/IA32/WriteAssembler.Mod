@@ -1,4 +1,4 @@
-(* 	$Id: WriteAssembler.Mod,v 1.1 2002/07/07 08:58:35 mva Exp $	 *)
+(* 	$Id: WriteAssembler.Mod,v 1.2 2002/07/08 20:13:21 mva Exp $	 *)
 MODULE OOC:IA32:WriteAssembler [OOC_EXTENSIONS];
 (*  Translates a set of scheduled SSA instructions to IA32 assembler.
     Copyright (C) 2002  Michael van Acken
@@ -264,7 +264,7 @@ PROCEDURE (t: Translator) WriteProcBody* (proc: IR.Procedure);
     Write ("initial", "dce-pre");
     DeadCodeElimination.Transform (pb);
     Write ("dce-post", "destore-pre");
-    Destore.Transform (pb, t. config. typeRules);
+    Destore.Transform (pb);
     Write ("destore-post", "dce-pre");
     DeadCodeElimination.Transform (pb);
     Write ("dce-post", "final");

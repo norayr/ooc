@@ -1,4 +1,4 @@
-(* 	$Id: Namespace.Mod,v 1.5 2002/07/05 22:10:38 uid24743 Exp $	 *)
+(* 	$Id: Namespace.Mod,v 1.6 2002/07/08 20:13:20 mva Exp $	 *)
 MODULE OOC:SymbolTable:Namespace;
 (*  Implements namespaces and semantic checks on them.
     Copyright (C) 2000-2002  Michael van Acken
@@ -22,7 +22,7 @@ MODULE OOC:SymbolTable:Namespace;
 
 
 IMPORT
-  OOC:Error, Sym := OOC:SymbolTable, OOC:SymbolTable:TypeRules;
+  OOC:Error, Sym := OOC:SymbolTable, TR := OOC:SymbolTable:TypeRules;
 
 
 TYPE
@@ -382,7 +382,6 @@ PROCEDURE (ns: Extended) GetSuperProcByIndex* (index: LONGINT): Sym.ProcDecl;
   END GetSuperProcByIndex;
 
 PROCEDURE (ns: Extended) CheckRestrictions* (record: Sym.Record;
-                                             tr: TypeRules.Rules;
                                              errList: Error.List);
 (**Checks the restrictions placed by the language on the names of record
    fields and type-bound procedures.  For redefinitions of type-bound 
@@ -419,8 +418,7 @@ PROCEDURE (ns: Extended) CheckRestrictions* (record: Sym.Record;
             IF (decl. exportMark # base. exportMark) THEN
               ErrDecl (invalidTBProcExport, decl, errList)
             END;
-            IF tr. IsValidRedefinition (base. formalPars, 
-                                        decl. formalPars) THEN
+            IF TR.IsValidRedefinition (base. formalPars, decl. formalPars) THEN
               base. CopyTBProcIndex (decl);
               IF (decl. name. pos < base. visibleFrom) THEN
                 ErrDecl (redefinitionBeforeBase, decl, errList)

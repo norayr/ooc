@@ -1,4 +1,4 @@
-(* 	$Id: TranslateToIA32.Mod,v 1.1 2002/07/07 08:58:35 mva Exp $	 *)
+(* 	$Id: TranslateToIA32.Mod,v 1.2 2002/07/08 20:13:20 mva Exp $	 *)
 MODULE OOC:Make:Command:TranslateToIA32 [OOC_EXTENSIONS];
 (*  Translates a module file into a bunch of C code files.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -253,7 +253,7 @@ PROCEDURE (cmd: Command) Run*(): BOOLEAN;
       END;
       module := CreateIR.CreateIR (ast(ExtTree.Module), symTab, 
                                    IR.NewBuilder (symTab, pragmaHistory,
-                                                  errList, config. typeRules,
+                                                  errList,
                                                   ConstFold.NewConstFold()));
       IF cmd. writeIR THEN
         IRtoXML.Write (StdChannels.stdout. NewWriter(), module);
