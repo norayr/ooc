@@ -1,4 +1,4 @@
-(* 	$Id: Blocker.Mod,v 1.43 2003/02/14 19:53:29 mva Exp $	 *)
+(* 	$Id: Blocker.Mod,v 1.44 2003/02/23 19:20:09 mva Exp $	 *)
 MODULE OOC:SSA:Blocker;
 (*  Imposes a block structure on a flat list of SSA instructions.
     Copyright (C) 2002, 2003  Michael van Acken
@@ -26,7 +26,7 @@ IMPORT
   <*IF DEBUG_BLOCKER THEN*>Log,OOC:SSA:Check,StdChannels,<*END*>
   SYSTEM, Object, Object:BigInt, ADT:Dictionary,
   IntDictionary := ADT:Dictionary:IntValue,
-  Channel, TextRider,
+  IO, IO:TextRider,
   OOC:SSA, OOC:SSA:Opcode, OOC:SSA:Opnd, OOC:SSA:DeadCodeElimination,
   OOC:SSA:Destore;
   
@@ -415,7 +415,7 @@ PROCEDURE Dominates (dom, child: Region): BOOLEAN;
     RETURN (child # NIL);
   END Dominates;
 
-PROCEDURE WriteBlocks (c: Channel.Channel; pb: SSA.ProcBlock; root: Region;
+PROCEDURE WriteBlocks (c: IO.ByteChannel; pb: SSA.ProcBlock; root: Region;
                        marker: Dictionary.Dictionary);
   VAR
     w: TextRider.Writer;
@@ -1857,7 +1857,7 @@ PROCEDURE (dd: DependenceData) AvailableTo* (x, y: SSA.Instr): BOOLEAN;
   END AvailableTo;
 
 
-PROCEDURE Write* (c: Channel.Channel; pb: SSA.ProcBlock);
+PROCEDURE Write* (c: IO.ByteChannel; pb: SSA.ProcBlock);
   VAR
     root: Region;
   BEGIN
@@ -1866,7 +1866,7 @@ PROCEDURE Write* (c: Channel.Channel; pb: SSA.ProcBlock);
     RemoveAntiDeps (pb);
   END Write;
 
-PROCEDURE WriteMarker* (c: Channel.Channel; pb: SSA.ProcBlock;
+PROCEDURE WriteMarker* (c: IO.ByteChannel; pb: SSA.ProcBlock;
                         marker: Dictionary.Dictionary);
   VAR
     root: Region;
