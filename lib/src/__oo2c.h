@@ -1,6 +1,6 @@
-/*      $Id: __oo2c.h,v 1.2 2001/10/18 19:48:17 mva Exp $        */
+/*      $Id: __oo2c.h,v 1.3 2001/10/18 20:10:03 mva Exp $        */
 /*  Run-time system for C back-ends of OOC2
-    Copyright (C) 1997-2001  Michael van Acken
+    Copyright (C) 2001  Michael van Acken
 
     This module is free software; you can redistribute it and/or
     modify it under the terms of the GNU Lesser General Public License
