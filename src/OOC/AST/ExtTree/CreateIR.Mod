@@ -1,4 +1,4 @@
-(* 	$Id: CreateIR.Mod,v 1.47 2002/06/02 11:54:36 mva Exp $	 *)
+(* 	$Id: CreateIR.Mod,v 1.48 2002/06/05 22:01:39 mva Exp $	 *)
 MODULE OOC:AST:ExtTree:CreateIR;
 (*  Creates an IR representation from the abstract syntax tree.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -600,6 +600,13 @@ PROCEDURE CreateIR* (module: ExtTree.Module;
       END TraverseNested;
     
     BEGIN
+      WITH item: Sym.Record DO
+        (* make sure that all issues with the record's fields are resolved
+           first; in particular, all array length of fields must be computed *)
+        TraverseNested (item);
+      ELSE  (* ignore *)  
+      END;
+      
       WITH item: Sym.Array DO
         IF ~item. isOpenArray THEN
           expr := Expr (item. lengthExpr(ExtTree.Node));
@@ -634,7 +641,9 @@ PROCEDURE CreateIR* (module: ExtTree.Module;
         currentNamespace := oldNamespace;
         currentSourceContext := oldSourceContext;
       ELSE
-        TraverseNested (item);
+        IF ~(item IS Sym.Record) THEN
+          TraverseNested (item);
+        END;
       END;
     END TranslateEmbeddedExpr;
   
