@@ -1,4 +1,4 @@
-(* 	$Id: TranslateToC.Mod,v 1.22 2002/01/10 03:43:44 sgreenhill Exp $	 *)
+(* 	$Id: TranslateToC.Mod,v 1.23 2002/01/25 21:13:34 mva Exp $	 *)
 MODULE OOC:Make:Command:TranslateToC;
 (*  Translates a module file into a bunch of C code files.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -184,7 +184,12 @@ PROCEDURE WriteCodeFile (w: DeclWriter.Writer; m: Repository.Module;
         
       | expr: IR.Var DO
         name := Naming.NameOfDeclaration (expr. decl);
-        w. WriteString (name. array^)
+        w. WriteString (name. array^);
+        
+      | expr: Operator.Adr DO
+        (* FIXME... this is a workaround to get addresses of string constants
+           translated properly; breaks horribly for all other cases *)
+        WriteExpr (w, expr. design);
         
       | expr: Operator.Len DO
         (* FIXME... there are a lot more variants to LEN than the length

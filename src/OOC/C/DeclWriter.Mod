@@ -1,4 +1,4 @@
-(* 	$Id: DeclWriter.Mod,v 1.10 2002/01/22 20:23:15 mva Exp $	 *)
+(* 	$Id: DeclWriter.Mod,v 1.11 2002/01/25 21:13:34 mva Exp $	 *)
 MODULE OOC:C:DeclWriter [OOC_EXTENSIONS];
 (*  Defines classes to handle C declarations, types, and include statements.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -151,6 +151,22 @@ TYPE
     (TypeDesc)
     isUnion: BOOLEAN;
     members: ArrayList.ArrayList;        (* of Declaration *)
+  END;
+
+TYPE
+  TypeRefClass* = SHORTINT;
+
+CONST
+  refTypedef* = 0;
+  refStruct* = 1;
+  refUnion* = 2;
+  
+TYPE
+  TypeRef* = POINTER TO TypeRefDesc;
+  TypeRefDesc = RECORD
+    (TypeDesc)
+    class: TypeRefClass;
+    name: String.String;
   END;
   
 TYPE
@@ -752,6 +768,43 @@ PROCEDURE (struct: Struct) WriteLeft (w: Writer);
   END WriteLeft;
 
 PROCEDURE (struct: Struct) WriteRight (w: Writer);
+  BEGIN
+  END WriteRight;
+
+(* -------- *)
+
+PROCEDURE InitTypeRef (typeRef: TypeRef; class: TypeRefClass; name: String.String);
+  BEGIN
+    typeRef. class := class;
+    typeRef. name := name;
+  END InitTypeRef;
+
+PROCEDURE (w: Writer) NewTypeRef* (class: TypeRefClass; name: String.String): TypeRef;
+  VAR
+    typeRef: TypeRef;
+  BEGIN
+    NEW (typeRef);
+    InitTypeRef (typeRef, class, name);
+    RETURN typeRef
+  END NewTypeRef;
+
+PROCEDURE (typeRef: TypeRef) Priority (): SHORTINT;
+  BEGIN
+    RETURN priName
+  END Priority;
+
+PROCEDURE (typeRef: TypeRef) WriteLeft (w: Writer);
+  BEGIN
+    CASE typeRef. class OF
+    | refTypedef:
+    | refStruct : w. WriteString ("struct ");
+    | refUnion  : w. WriteString ("union ");
+    END;
+    w. WriteString (typeRef. name. array^);
+    w. WriteChar (" ");
+  END WriteLeft;
+
+PROCEDURE (typeRef: TypeRef) WriteRight (w: Writer);
   BEGIN
   END WriteRight;
 
