@@ -1,4 +1,4 @@
-(* 	$Id: CmdLine.Mod,v 1.3 2003/05/17 12:29:10 mva Exp $	 *)
+(* 	$Id: CmdLine.Mod,v 1.4 2003/05/17 16:50:57 mva Exp $	 *)
 MODULE Config:Source:CmdLine;
 (*  Command line parser for OOC's configuration system.
     Copyright (C) 2000, 2003  Michael van Acken
@@ -204,7 +204,7 @@ PROCEDURE New* (): CmdLine;
   END New;
 
 PROCEDURE (cmdLine: CmdLine) AddOptionTemplate* (names: ARRAY OF CHAR;
-                                 transformation: Value.String): OptionTemplate;
+                                transformation: ARRAY OF CHAR): OptionTemplate;
 (**Registers a command line option for the section under the names listed in
    @oparam{names}.  This arguments is a list of names separated by commas
    @samp{,}.  The names can contain any character but @code{0X} and @samp{,}.
