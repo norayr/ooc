@@ -1,4 +1,4 @@
-(* 	$Id: Allocator.Mod,v 1.8 2002/05/10 15:23:57 mva Exp $	 *)
+(* 	$Id: Allocator.Mod,v 1.9 2002/05/11 08:36:14 mva Exp $	 *)
 MODULE OOC:SSA:Allocator;
 (*  A register allocator for the C back-end.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -134,7 +134,7 @@ PROCEDURE GetBlockList (enterBlock, exitBlock: Schedule.Block): BlockList;
     RETURN bl
   END GetBlockList;
 
-PROCEDURE SubclassToBasicType (subclass: Opcode.Subclass): DeclWriter.BasicTypeId;
+PROCEDURE SubclassToBasicType* (subclass: Opcode.Subclass): DeclWriter.BasicTypeId;
   (**Maps a subclass id to a basic type of the C back-end.  *)
   
   BEGIN
@@ -149,10 +149,12 @@ PROCEDURE SubclassToBasicType (subclass: Opcode.Subclass): DeclWriter.BasicTypeI
     | Opcode.scSigned16: RETURN DeclWriter.int16
     | Opcode.scSigned32: RETURN DeclWriter.int32
     | Opcode.scSigned64: RETURN DeclWriter.int64
+    | Opcode.scReal32: RETURN DeclWriter.real32
+    | Opcode.scReal64: RETURN DeclWriter.real64
     END;
   END SubclassToBasicType;
 
-PROCEDURE RegisterType (ctype: DeclWriter.BasicTypeId): DeclWriter.BasicTypeId;
+PROCEDURE RegisterType* (ctype: DeclWriter.BasicTypeId): DeclWriter.BasicTypeId;
 (* Maps a basic type of the C back-end to the type of the register in which
    is value should be stored.
 
