@@ -1,4 +1,4 @@
-(* 	$Id: DeclWriter.Mod,v 1.52 2002/12/23 04:59:58 mva Exp $	 *)
+(* 	$Id: DeclWriter.Mod,v 1.53 2002/12/29 14:47:55 mva Exp $	 *)
 MODULE OOC:C:DeclWriter [OOC_EXTENSIONS];
 (*  Defines classes to handle C declarations, types, and include statements.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -756,6 +756,19 @@ PROCEDURE (fct: Function) AddParameter* (param: Declaration);
     fct. parameters. Append (param)
   END AddParameter;
 
+PROCEDURE (fct: Function) MakeParametersVolatile*();
+  VAR
+    i: LONGINT;
+    param: Declaration;
+  BEGIN
+    FOR i := 0 TO fct.parameters.size-1 DO
+      param := fct.parameters.array[i](Declaration);
+      IF (param.typeQualifier = tqNone) THEN
+        param.typeQualifier := tqVolatile;
+      END;
+    END;
+  END MakeParametersVolatile;
+
 
 PROCEDURE (fct: Function) Priority (): SHORTINT;
   BEGIN
@@ -926,6 +939,11 @@ PROCEDURE (w: Writer) NewDeclaration* (name: STRING; typeQualifier: TypeQualifie
     InitDeclaration (d, name, typeQualifier, storageClass, type);
     RETURN d
   END NewDeclaration;
+
+PROCEDURE (d: Declaration) SetTypeQualifier*(typeQualifier: TypeQualifier);
+  BEGIN
+    d.typeQualifier := typeQualifier;
+  END SetTypeQualifier;
 
 PROCEDURE (d: Declaration) Write (w: Writer);
   PROCEDURE WriteTypeQualifier (w: Writer; typeQualifier: TypeQualifier);
