@@ -1,4 +1,4 @@
-(* 	$Id: TranslateToC.Mod,v 1.7 2002/12/08 22:29:59 mva Exp $	 *)
+(* 	$Id: TranslateToC.Mod,v 1.8 2002/12/08 23:11:30 mva Exp $	 *)
 MODULE OOC:Make:TranslateToC [OOC_EXTENSIONS];
 (*  Translates a module file into a bunch of C code files.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -227,10 +227,11 @@ PROCEDURE Run*(m: Repository.Module; libraryName: String.String;
     VAR
       res: Error.Msg;
       w: DeclWriter.Writer;
+      ch: Channel.Channel;
     BEGIN
-      w := DeclWriter.NewWriter (m. GetOutputChannel (fileId, TRUE, res),
-                                 m. GetURI (fileId, FALSE));
+      ch := m. GetOutputChannel (fileId, TRUE, res);
       IF (res = Channel.done) THEN
+        w := DeclWriter.NewWriter (ch, m. GetURI (fileId, FALSE));
         CASE fileId OF
         | Repository.modHeaderFileC:
           WriteHeaderFile (w, m, symTab, exports);
@@ -286,15 +287,21 @@ PROCEDURE Run*(m: Repository.Module; libraryName: String.String;
         (* only attempt to produce output if program compiled without errors *)
 
         wh := WriteFile (Repository.modHeaderFileC);
-        wd := WriteFile (Repository.modDeclFileC);
-        IF (symTab. class = Sym.mcStandard) THEN
+        IF errList.NoErrors() THEN
+          wd := WriteFile (Repository.modDeclFileC);
+        ELSE
+          wd := NIL;
+        END;
+        IF (symTab. class = Sym.mcStandard) & errList.NoErrors() THEN
           wc := WriteFile (Repository.modCodeFileC);
         ELSE
           wc := NIL;
         END;
 
-        WriteSymbolFile.WriteSymbolFile (m, symTab, errList);
-
+        IF errList.NoErrors() THEN
+          WriteSymbolFile.WriteSymbolFile (m, symTab, errList);
+        END;
+        
         (* close all C output files after adding a tidbit of text to them;
            this way, these files are as old or more recent than the symbol
            file, and the generated C files may depened on the symbol file
