@@ -1,4 +1,4 @@
-(* 	$Id: IRtoSSA.Mod,v 1.34 2002/03/20 22:16:54 mva Exp $	 *)
+(* 	$Id: IRtoSSA.Mod,v 1.35 2002/03/28 17:36:22 mva Exp $	 *)
 MODULE OOC:SSA:IRtoSSA;
 (*  Converts the IR of a procedure into its SSA representation.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -501,13 +501,45 @@ PROCEDURE StatmSeq* (pb: SSA.ProcBlock; s: SSA.Result;
     END ForStatm;
   
   PROCEDURE LoopStatm (loopStatm: IR.LoopStatm);
+    VAR
+      start, end, select, oldSelect: SSA.Instr;
     BEGIN
-      (* ... *)
+      start := pb. AddInstr (Opcode.loopStart, Opcode.scNone);
+      start. AddOpnd (s, Opnd.store);
+      s := start. AddResult (Result.store);
+
+      select := pb. AddInstr (Opcode.selectExit, Opcode.scNone);
+      select. AddOpnd (start, Opnd.storeEnter);
+      oldSelect := pb. SetSelectExit (select);
+      
+      (* evaluate loop body *)
+      s := StatmSeq (pb, s, loopStatm. body);
+      
+      (* create "loop-end" instruction *)
+      end := pb. AddInstr (Opcode. loopEnd, Opcode.scNone);
+      end. AddOpnd (start, Opnd.arg);
+      end. AddOpnd (select. AddResult (Result.store), Opnd.store);
+      end. AddOpnd (select, Opnd.arg);
+      end. AddOpnd (pb. GetConstBool (TRUE), Opnd.arg);
+      
+      (* add forward reference from "loop-start" to `store' at end of loop *)
+      AddStoreForwardRef (pb, start, s);
+
+      s := end. AddResult (Result.store);
+      select := pb. SetSelectExit (oldSelect);
     END LoopStatm;
 
   PROCEDURE Exit (exit: IR.Exit);
+    VAR
+      instr: SSA.Instr;
+      store: SSA.Result;
     BEGIN
-      (* ... *)
+      instr := pb. AddInstr (Opcode.exit, Opcode.scNone);
+      instr. AddOpnd (s, Opnd.store);
+      
+      store := instr. AddResult (Result.store);
+      pb. selectExit. AddOpnd (store, Opnd.store);
+      s := store
     END Exit;
   
   PROCEDURE CopyParameter (cp: IR.CopyParameter);
