@@ -1,4 +1,4 @@
-(* 	$Id: WriteMainFileC.Mod,v 1.2 2002/11/16 10:23:03 mva Exp $	 *)
+(* 	$Id: WriteMainFileC.Mod,v 1.3 2002/11/29 23:17:18 mva Exp $	 *)
 MODULE OOC:Make:WriteMainFileC;
 (*  Generates the main file of a program.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -61,7 +61,9 @@ PROCEDURE WriteFile*(module: Repository.Module;
       i: LONGINT;
     BEGIN
       FOR i := 0 TO LEN(imports)-1 DO
-        WriteModuleName (w, prefix, imports[i], suffix)
+        IF ~imports[i].ifData.NoObjectFile() THEN
+          WriteModuleName (w, prefix, imports[i], suffix);
+        END;
       END;
     END WriteModules;
   

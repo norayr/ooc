@@ -1,5 +1,5 @@
-(* 	$Id: libc.Mod,v 1.2 2002/07/08 12:05:14 mva Exp $	 *)
-MODULE libc [INTERFACE "C"; LINK FILE "libc.c" END];
+(* 	$Id: libc.Mod,v 1.3 2002/11/29 23:17:19 mva Exp $	 *)
+MODULE libc [INTERFACE "C"];
 (*  Basic data types for interfacing to C code.
     Copyright (C) 1997-1998  Michael van Acken
 

@@ -1,5 +1,5 @@
-(* 	$Id: RealMath.Mod,v 1.2 2002/07/12 13:54:23 mva Exp $	 *)
-MODULE RealMath [INTERFACE "C"; LINK FILE "RealMath.c"; LIB "m" END];
+(* 	$Id: RealMath.Mod,v 1.3 2002/11/29 23:17:19 mva Exp $	 *)
+MODULE RealMath [INTERFACE "C"; LINK LIB "m" END];
 (*  Math functions for REAL.
     Copyright (C) 2002  Michael van Acken
 

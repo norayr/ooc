@@ -1,4 +1,4 @@
-(* 	$Id: WriteMainFileAssembler.Mod,v 1.1 2002/11/10 00:06:48 mva Exp $	 *)
+(* 	$Id: WriteMainFileAssembler.Mod,v 1.2 2002/11/29 23:17:18 mva Exp $	 *)
 MODULE OOC:Make:WriteMainFileAssembler;
 (*  Generates the main file of a program as i386 assembler code.
     Copyright (C) 2002  Michael van Acken
@@ -55,7 +55,9 @@ PROCEDURE WriteFile*(module: Repository.Module;
       i: LONGINT;
     BEGIN
       FOR i := 0 TO LEN(imports)-1 DO
-        WriteModuleName (w, prefix, imports[i], suffix)
+        IF ~imports[i].ifData.NoObjectFile() THEN
+          WriteModuleName (w, prefix, imports[i], suffix);
+        END;
       END;
     END WriteModules;
 

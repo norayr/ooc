@@ -1,4 +1,4 @@
-(* 	$Id: LinkProgramC.Mod,v 1.8 2002/11/26 22:06:39 mva Exp $	 *)
+(* 	$Id: LinkProgramC.Mod,v 1.9 2002/11/29 23:17:18 mva Exp $	 *)
 MODULE OOC:Make:LinkProgramC;
 (*  Links object files and libraries to create an executable file.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -205,7 +205,7 @@ PROCEDURE Run*(module: Repository.Module;
             importedLibs.Set(imports[i].ifData.libraryName, NIL);
             importedLibsList.Append(imports[i]);
           END;
-        ELSE
+        ELSIF ~imports[i].ifData.NoObjectFile() THEN
           uri := imports[i]. GetURI (objectFile, TRUE);
           uri(File.URI). GetPath (path);
           Strings.Append (" ", str);

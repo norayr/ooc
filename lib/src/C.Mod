@@ -1,5 +1,5 @@
-(* 	$Id: C.Mod,v 1.6 2002/06/01 12:10:23 mva Exp $	 *)
-MODULE C [INTERFACE "C"; LINK FILE "C.c" END];
+(* 	$Id: C.Mod,v 1.7 2002/11/29 23:17:19 mva Exp $	 *)
+MODULE C [INTERFACE "C"];
 (*  Basic data types for interfacing to C code.
     Copyright (C) 1997-1998  Michael van Acken
 
