@@ -1,4 +1,4 @@
-(* 	$Id: SSA.Mod,v 1.30 2002/04/14 08:57:27 mva Exp $	 *)
+(* 	$Id: SSA.Mod,v 1.31 2002/04/15 22:39:16 mva Exp $	 *)
 MODULE OOC:SSA;
 (*  Data structures for SSA code representation.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -643,7 +643,7 @@ PROCEDURE (instr: Instr) GetBackwardFeed*(): Result;
 
 PROCEDURE (instr: Instr) GetLoopStart* (): Instr;
 (**Given a @oconst{Opcode.loopEnd} or @oconst{Opcode.selectExit} instruction,
-   returns the corresponding @oconst{Opcode.loopdStart}.  *)
+   returns the corresponding @oconst{Opcode.loopStart}.  *)
   BEGIN
     IF (instr. opcode = Opcode.selectExit) THEN
       RETURN instr. opndList. arg(Instr). GetLoopStart();
