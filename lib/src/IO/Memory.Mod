@@ -1,4 +1,4 @@
-(*	$Id: Memory.Mod,v 1.5 2003/06/02 20:43:06 mva Exp $	*)
+(*	$Id: Memory.Mod,v 1.6 2003/06/23 20:54:40 mva Exp $	*)
 MODULE IO:Memory;
 (*  Memory backed byte channel.
     Copyright (C) 2003  Michael van Acken
@@ -114,6 +114,14 @@ PROCEDURE (ch: Channel) Write*(buffer[NO_COPY]: ARRAY OF SYSTEM.BYTE;
     END;
     RETURN length;
   END Write;
+
+PROCEDURE (ch: Channel) Truncate*(newLength: LONGINT);
+(**@precond
+   @samp{0 <= newLength <= ch.length}
+   @end precond *)
+  BEGIN
+    ch.length := newLength;
+  END Truncate;
 
 PROCEDURE (ch: Channel) Fingerprint* (VAR key: ARRAY OF SYSTEM.BYTE;
                                       start, end: LONGINT);
