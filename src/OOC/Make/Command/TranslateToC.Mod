@@ -1,4 +1,4 @@
-(* 	$Id: TranslateToC.Mod,v 1.8 2001/10/21 15:52:36 mva Exp $	 *)
+(* 	$Id: TranslateToC.Mod,v 1.9 2001/10/21 17:26:23 mva Exp $	 *)
 MODULE OOC:Make:Command:TranslateToC;
 (*  Translates a module file into a bunch of C code files.
     Copyright (C) 2001  Michael van Acken
@@ -342,7 +342,7 @@ PROCEDURE (cmd: Command) Run*(): BOOLEAN;
   BEGIN
     m := cmd. module;
     config := cmd. context. config(Config.Config);
-    ParseModule.ParseModule (m, config, TRUE, TRUE,
+    ParseModule.ParseModule (m, config, TRUE, TRUE, TRUE,
                              ast, symTab, pragmaHistory, errList);
     (* symbol file is written by the `ParseModule' function *)
     

@@ -1,4 +1,4 @@
-(* 	$Id: InterfaceXML.Mod,v 1.4 2001/10/17 23:11:28 mva Exp $	 *)
+(* 	$Id: InterfaceXML.Mod,v 1.5 2001/10/21 17:26:23 mva Exp $	 *)
 MODULE OOC:Make:Command:InterfaceXML;
 (*  Writes a module's exported interface as XML document.
     Copyright (C) 2001  Michael van Acken
@@ -74,7 +74,7 @@ PROCEDURE (cmd: Command) Run*(): BOOLEAN;
   BEGIN
     m := cmd. module;
     config := cmd. context. config(Config.Config);
-    ParseModule.ParseModule (m, config, TRUE, FALSE,
+    ParseModule.ParseModule (m, config, FALSE, TRUE, FALSE,
                              ast, symTab, pragmaHistory, errList);
     IF (errList. msgCount = 0) THEN
       outputURI := m. GetURI (Repository.modInterfaceXML);

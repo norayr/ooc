@@ -1,4 +1,4 @@
-(* 	$Id: CompileModule.Mod,v 1.3 2001/10/17 23:11:28 mva Exp $	 *)
+(* 	$Id: CompileModule.Mod,v 1.4 2001/10/21 17:26:23 mva Exp $	 *)
 MODULE OOC:Make:Command:CompileModule;
 (*  Compiles a module file.
     Copyright (C) 2001  Michael van Acken
@@ -85,7 +85,7 @@ PROCEDURE (cmd: Command) Discover* (): Make.CommandState;
   END Discover;
 
 PROCEDURE (cmd: Command) Run*(): BOOLEAN;
-(**Compiles a module, creating the symbol file and the object file.  *)
+(**Compiles a module, creating the symbol file and, er, nothing more.  *)
   VAR
     ast: AST.Node;
     symTab: Item.Module;
@@ -96,7 +96,7 @@ PROCEDURE (cmd: Command) Run*(): BOOLEAN;
   BEGIN
     m := cmd. module;
     config := cmd. context. config(Config.Config);
-    ParseModule.ParseModule (m, config, TRUE, TRUE,
+    ParseModule.ParseModule (m, config, FALSE, TRUE, TRUE,
                              ast, symTab, pragmaHistory, errList);
     (* symbol file is written by the `ParseModule' function *)
     (* ... no more to do right now *)
