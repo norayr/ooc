@@ -1,4 +1,4 @@
-(* 	$Id: ConstFold.Mod,v 1.22 2002/04/26 21:27:00 mva Exp $	 *)
+(* 	$Id: ConstFold.Mod,v 1.23 2002/04/28 21:55:41 mva Exp $	 *)
 MODULE OOC:IR:ConstFold;
 (*  Constant folding on IR expressions.
     Copyright (C) 2002  Stewart Greenhill, Michael van Acken
@@ -165,6 +165,13 @@ PROCEDURE (c: ConstFold) VisitLen* (len: IR.Len);
       Integer.NewLInt(length));
   END VisitLen;
 
+PROCEDURE (c: ConstFold) VisitDeref* (deref: IR.Deref);
+  BEGIN
+    (* FIXME! *)
+    (* index. array. Accept (c);
+    index. index. Accept (c); *)
+  END VisitDeref;
+
 PROCEDURE (c: ConstFold) VisitIndex* (index: IR.Index);
   BEGIN
     (* FIXME! *)
@@ -253,6 +260,10 @@ BEGIN
     c.result := NIL;
   END;
 END VisitNegate;
+
+PROCEDURE (c: ConstFold) VisitNewArray* (new: IR.NewArray);
+  BEGIN
+  END VisitNewArray;
 
 PROCEDURE (c: ConstFold) VisitCap* (op: IR.Cap);
 VAR 

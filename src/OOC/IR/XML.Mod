@@ -1,4 +1,4 @@
-(* 	$Id: XML.Mod,v 1.37 2002/04/27 13:15:32 mva Exp $	 *)
+(* 	$Id: XML.Mod,v 1.38 2002/04/28 21:55:41 mva Exp $	 *)
 MODULE OOC:IR:XML;
 (*  Write an IR data structure as an XML document.
     Copyright (C) 2001, 2002  Michael van Acken, Stewart Greenhill
@@ -166,6 +166,13 @@ PROCEDURE (v: Visitor) VisitLen* (len: IR.Len);
     v. w. EndTag;  (* len *)
   END VisitLen;
 
+PROCEDURE (v: Visitor) VisitDeref* (deref: IR.Deref);
+  BEGIN
+    v. w. StartTag ("deref", FALSE);
+    deref. pointer. Accept (v);
+    v. w. EndTag;  (* deref *)
+  END VisitDeref;
+
 PROCEDURE (v: Visitor) VisitIndex* (index: IR.Index);
   BEGIN
     v. w. StartTag ("index", FALSE);
@@ -188,6 +195,17 @@ PROCEDURE (v: Visitor) VisitNegate* (neg: IR.Negate);
     neg. operand. Accept (v);
     v. w. EndTag;  (* negate *)
   END VisitNegate;
+
+PROCEDURE (v: Visitor) VisitNewArray* (new: IR.NewArray);
+  VAR
+    i: LONGINT;
+  BEGIN
+    v. w. StartTag ("new-array", FALSE);
+    FOR i := 0 TO LEN (new. length^)-1 DO
+      new. length[i]. Accept (v);
+    END;
+    v. w. EndTag;  (* new-array *)
+  END VisitNewArray;
 
 PROCEDURE (v: Visitor) VisitCap* (neg: IR.Cap);
   BEGIN
