@@ -1,4 +1,4 @@
-(* 	$Id: CreateSymTab.Mod,v 1.15 2002/07/21 11:46:12 mva Exp $	 *)
+(* 	$Id: CreateSymTab.Mod,v 1.16 2002/10/13 21:49:14 mva Exp $	 *)
 MODULE OOC:AST:ExtTree:CreateSymTab;
 (*  Creates symbol table from abstract syntax tree of module `ExtTree'.
     Copyright (C) 2000, 2001, 2002  Michael van Acken
@@ -169,6 +169,23 @@ PROCEDURE GetType (v: Visitor; node: AST.Node): Sym.Type;
     t := v. type;
     RETURN t
   END GetType;
+
+PROCEDURE AddFlags (item: Sym.Item; flags: ExtTree.Flags);
+  VAR
+    i: LONGINT;
+    n: ExtTree.Node;
+    l: ExtTree.NodeList;
+  BEGIN
+    IF (flags # NIL) THEN
+      l := flags.flagList(ExtTree.NodeList);
+      FOR i := 0 TO l. len-1 BY 2 DO
+        n := l. n[i](ExtTree.Node);
+        WITH n: ExtTree.Terminal DO
+          item.AddFlag(GetName(n));
+        END;
+      END;
+    END;
+  END AddFlags;
 
 
 
@@ -398,11 +415,12 @@ PROCEDURE (v: Visitor) VisitProcDecl* (procDecl: ExtTree.ProcDecl);
       FOR i := 0 TO flags. len-1 BY 2 DO
         n := flags. n[i](ExtTree.Node);
         WITH n: ExtTree.Terminal DO
-          IF (n. sym. id = Symbol.stringSingle) OR
-             (n. sym. id = Symbol.stringDouble) THEN
+          CASE n.sym.id OF
+          | Symbol.stringSingle, Symbol.stringDouble:
             proc. SetLinkName (n. GetString (TRUE));
+          ELSE
+            proc.AddFlag(GetName(n));
           END;
-        ELSE                             (* ignore for now *)
         END;
       END;
     END ParseFlags;
@@ -445,7 +463,7 @@ PROCEDURE (v: Visitor) VisitProcDecl* (procDecl: ExtTree.ProcDecl);
       END
     END;
     IF (procDecl. flags # NIL) THEN
-      ParseFlags (proc, procDecl. flags(ExtTree.Flags). flagList(ExtTree.NodeList));
+      ParseFlags (proc, procDecl. flags. flagList(ExtTree.NodeList));
     END;
     
     IF (procDecl. body # NIL) THEN
@@ -496,6 +514,7 @@ PROCEDURE (v: Visitor) VisitRecordType* (recordType: ExtTree.RecordType);
     END;
     record := v. stb. NewRecord (v. parent, GetPosition (recordType. record),
                                  baseType);
+    AddFlags(record, recordType.flags);
     FOR i := 0 TO recordType. fieldLists. len-1 BY 2 DO
       IF (recordType. fieldLists. n[i] # NIL) THEN
         AcceptParent (v, recordType. fieldLists. n[i], record)
@@ -508,7 +527,8 @@ PROCEDURE (v: Visitor) VisitPointerType* (pointerType: ExtTree.PointerType);
   BEGIN
     v. type := v. stb. NewPointer (v. parent,
                                    GetPosition (pointerType. pointer),
-                                   GetType (v, pointerType. type))
+                                   GetType (v, pointerType. type));
+    AddFlags(v.type, pointerType.flags);
   END VisitPointerType;
 
 PROCEDURE (v: Visitor) VisitArrayType* (arrayType: ExtTree.ArrayType);
@@ -531,7 +551,8 @@ PROCEDURE (v: Visitor) VisitArrayType* (arrayType: ExtTree.ArrayType);
              pos,
              FALSE,
              arrayType. exprList. n[i],
-             baseType)
+             baseType);
+        AddFlags(baseType, arrayType.flags);
       END;
       array := baseType(Sym.Array)
     ELSE
@@ -556,6 +577,9 @@ PROCEDURE (v: Visitor) VisitProcType* (procType: ExtTree.ProcType);
     formalPars := v. stb. NewFormalPars (v. parent, 
                                       GetPosition (procType. procedure),
                                       baseType);
+    IF (procType.formalPars # NIL) THEN
+      AddFlags(formalPars, procType.formalPars(ExtTree.FormalPars).flags);
+    END;
     IF (procType. formalPars # NIL) &
        (procType. formalPars(ExtTree.FormalPars). fpSections # NIL) THEN
       FOR i := 0 TO procType. formalPars(ExtTree.FormalPars). fpSections. len-1 BY 2 DO
