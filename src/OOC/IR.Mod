@@ -1,4 +1,4 @@
-(* 	$Id: IR.Mod,v 1.241 2003/05/10 21:25:29 mva Exp $	 *)
+(* 	$Id: IR.Mod,v 1.242 2003/05/11 15:13:45 mva Exp $	 *)
 MODULE OOC:IR [OOC_EXTENSIONS];
 (*  High-level intermediate code representation.
     Copyright (C) 2001-2003  Michael van Acken, Stewart Greenhill
@@ -4911,6 +4911,7 @@ PROCEDURE (b: Builder) NewModule* (sym: Symbol; name: Name; decl: Sym.Module;
         IF (item.usageCount = 0) &
            (item.exportMark = Sym.nameNotExported) &
            (~(item IS Sym.VarDecl) OR ~item(Sym.VarDecl).isParameter) &
+           (~(item IS Sym.TypeDecl) OR ~(item.parent IS Sym.FormalPars)) &
            (~(item IS Sym.ProcDecl) OR
             ~(item(Sym.ProcDecl).isForwardDecl OR
               item(Sym.ProcDecl).IsTypeBound())) THEN
