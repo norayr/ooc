@@ -1,4 +1,4 @@
-(* 	$Id: Opcode.Mod,v 1.51 2002/06/02 21:14:01 mva Exp $	 *)
+(* 	$Id: Opcode.Mod,v 1.52 2002/06/09 10:58:27 mva Exp $	 *)
 MODULE OOC:SSA:Opcode;
 (*  This modules defines opcodes for SSA instructions.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -697,6 +697,7 @@ PROCEDURE TypeToSubclass* (type: Sym.Type): Subclass;
       | Predef.real: RETURN scReal32
       | Predef.longreal: RETURN scReal64
       | Predef.set: RETURN scUnsigned32
+      | Predef.byte: RETURN scUnsigned8
       | Predef.charString: RETURN scAddress
       | Predef.longcharString: RETURN scAddress
       | Predef.nil: RETURN scAddress
