@@ -1,4 +1,4 @@
-(* 	$Id: SSA.Mod,v 1.44 2002/06/26 19:37:59 mva Exp $	 *)
+(* 	$Id: SSA.Mod,v 1.45 2002/06/27 19:02:38 mva Exp $	 *)
 MODULE OOC:SSA;
 (*  Data structures for SSA code representation.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -1017,7 +1017,7 @@ PROCEDURE (pb: ProcBlock) GetConst* (value: Language.Value;
 
 PROCEDURE (pb: ProcBlock) GetConstInt* (int: LONGINT): Const;
   BEGIN
-    RETURN pb. GetConst (Integer.New(int),  (* ...should be Longint *)
+    RETURN pb. GetConst (Integer.New(int),
                          Predef.GetType (Predef.integer))
   END GetConstInt;
 
@@ -1026,6 +1026,11 @@ PROCEDURE (pb: ProcBlock) GetConstBool* (b: BOOLEAN): Const;
     RETURN pb. GetConst (Boolean.New (b),
                          Predef.GetType (Predef.boolean))
   END GetConstBool;
+
+PROCEDURE (pb: ProcBlock) GetConstNil*(): Const;
+  BEGIN
+    RETURN pb. GetConst (NIL, Predef.GetType (Predef.nil))
+  END GetConstNil;
 
 
 PROCEDURE (pb: ProcBlock) GetDeclRef* (decl: Sym.Declaration): DeclRef;
