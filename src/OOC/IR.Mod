@@ -1,4 +1,4 @@
-(* 	$Id: IR.Mod,v 1.120 2002/06/30 15:17:10 mva Exp $	 *)
+(* 	$Id: IR.Mod,v 1.121 2002/06/30 16:26:31 mva Exp $	 *)
 MODULE OOC:IR [OOC_EXTENSIONS];
 (*  High-level intermediate code representation.
     Copyright (C) 2001, 2002  Michael van Acken, Stewart Greenhill
@@ -3011,12 +3011,13 @@ PROCEDURE (case: Case) CheckLabels (b: Builder; type: Sym.Type;
       range := case. labels[i](SetRange);
       IF ~b. typeRules. IncludesType (type, range. from. type) THEN
         b. ErrSym (labelNotInSelect, range. from. sym);
+        case. labels[i] := NIL; INC (deleted); (* get rid of the problem *)
       ELSIF ~b. typeRules. IncludesType (type, range. to. type) THEN
         b. ErrSym (labelNotInSelect, range. to. sym);
+        case. labels[i] := NIL; INC (deleted); (* get rid of the problem *)
       ELSIF range. IsEmpty() THEN
         (* `from' is larger than `to': eliminate entry *)
-        case. labels[i] := NIL;
-        INC (deleted);
+        case. labels[i] := NIL; INC (deleted);
       ELSE
         inUse := FALSE;
         j := 0;
