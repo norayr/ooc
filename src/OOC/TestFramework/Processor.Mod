@@ -1,7 +1,7 @@
-(* 	$Id: Processor.Mod,v 1.12 2001/11/12 23:46:36 mva Exp $	 *)
+(* 	$Id: Processor.Mod,v 1.13 2002/04/28 12:37:10 mva Exp $	 *)
 MODULE OOC:TestFramework:Processor;
 (*  Processes test cases using an OOC compiler.
-    Copyright (C) 2001  Michael van Acken
+    Copyright (C) 2001, 2002  Michael van Acken
 
     This file is part of OOC.
 
@@ -344,8 +344,12 @@ PROCEDURE (proc: Processor) Process* (test: Testcases.Test;
         w. WriteString (name. array^);
         w. WriteString (";");
         w. WriteLn;
-        w. WriteString ("IMPORT Out, ");
-        w. WriteString (name. array^);
+        IF (name. array^ = "Out") THEN
+          w. WriteString ("IMPORT Out");
+        ELSE
+          w. WriteString ("IMPORT Out, ");
+          w. WriteString (name. array^);
+        END;
         w. WriteString (";");
         w. WriteLn;
         w. WriteString ("BEGIN Out.Open; ");
