@@ -1,4 +1,4 @@
-(* 	$Id: WriteMainFileC.Mod,v 1.3 2002/05/26 17:29:23 mva Exp $	 *)
+(* 	$Id: WriteMainFileC.Mod,v 1.4 2002/05/31 15:35:59 mva Exp $	 *)
 MODULE OOC:Make:Command:WriteMainFileC;
 (*  Generates the main file of a program.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -109,7 +109,9 @@ PROCEDURE WriteFile (cmd: Command; VAR res: Error.Msg);
     END WriteModules;
   
   BEGIN
-    sizeVParStack := 64*1024;  (* should come from config data *)
+    (* this should come from config data; until we switch to alloca() or
+       something similar, use a value that is >>128k *)
+    sizeVParStack := 256*1024;
     
     ch := cmd. module. GetOutputChannel (Repository.modMainFileC, TRUE, res);
     IF (res = Channel.done) THEN
