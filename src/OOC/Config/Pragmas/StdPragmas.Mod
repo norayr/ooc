@@ -1,4 +1,4 @@
-(* 	$Id: StdPragmas.Mod,v 1.8 2002/06/26 19:37:59 mva Exp $	 *)
+(* 	$Id: StdPragmas.Mod,v 1.9 2002/07/18 16:02:24 mva Exp $	 *)
 MODULE OOC:Config:Pragmas:StdPragmas;
 (*  Creates standard pragma variables with default values.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -34,6 +34,9 @@ CONST
   defaultFunctionResultCheck = TRUE;
   defaultTypeGuard = TRUE;
   defaultConformantMode = FALSE;
+
+  defaultCompilerMajor = 2;
+  
   defaultTargetInteger = 32;
   defaultTargetAddress = 32;
   
@@ -47,6 +50,9 @@ VAR
   functionResultCheck-: Pragmas.Pragma;
   typeGuard-: Pragmas.Pragma;
   conformantMode-: Pragmas.Pragma;
+
+  compilerMajor-: Pragmas.Pragma;
+  
   targetInteger-: Pragmas.Pragma;
   targetAddress-: Pragmas.Pragma;
 
@@ -65,6 +71,8 @@ PROCEDURE CreateVariables* (s: Pragmas.Section);
     typeGuard := s. Set ("TypeGuard", Boolean.New (defaultTypeGuard));
     conformantMode := s. Set ("ConformantMode", Boolean.New (defaultConformantMode));
 
+    compilerMajor := s. Set ("COMPILER_MAJOR", Integer.New (defaultCompilerMajor));
+    
     targetInteger := s. Set ("TARGET_INTEGER", Integer.New (defaultTargetInteger));
     targetAddress := s. Set ("TARGET_ADDRESS", Integer.New (defaultTargetAddress));
     
