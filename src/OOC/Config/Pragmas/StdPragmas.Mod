@@ -1,4 +1,4 @@
-(* 	$Id: StdPragmas.Mod,v 1.12 2002/11/24 09:47:59 mva Exp $	 *)
+(* 	$Id: StdPragmas.Mod,v 1.13 2002/11/28 23:14:24 mva Exp $	 *)
 MODULE OOC:Config:Pragmas:StdPragmas;
 (*  Creates standard pragma variables with default values.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -84,17 +84,6 @@ PROCEDURE CreateVariables* (s: Pragmas.Section);
     
     targetInteger := s. Set ("TARGET_INTEGER", Integer.New (defaultTargetInteger));
     targetAddress := s. Set ("TARGET_ADDRESS", Integer.New (defaultTargetAddress));
-    
-
-    (* FIXME badly... these have to go eventually *)
-    dummy := s. Set ("LIB_HAVE_LIBIMLIB", Boolean.New (TRUE));
-    dummy := s. Set ("LIB_HAVE_LIBM", Boolean.New (TRUE));
-    dummy := s. Set ("LIB_HAVE_LIBZ", Boolean.New (TRUE));
-    dummy := s. Set ("LIB_HAVE_LIBJPEG", Boolean.New (TRUE));
-    dummy := s. Set ("LIB_HAVE_LIBTIFF", Boolean.New (TRUE));
-    dummy := s. Set ("LIB_HAVE_LIBPNG", Boolean.New (TRUE));
-    dummy := s. Set ("LIB_HAVE_LIBGIF", Boolean.New (TRUE));
-    dummy := s. Set ("LIB_HAVE_LIBXNET", Boolean.New (FALSE));
   END CreateVariables;
 
 END OOC:Config:Pragmas:StdPragmas.
