@@ -1,4 +1,4 @@
-(* 	$Id: WriteC.Mod,v 1.77 2002/05/31 10:20:23 mva Exp $	 *)
+(* 	$Id: WriteC.Mod,v 1.78 2002/05/31 20:27:52 mva Exp $	 *)
 MODULE OOC:SSA:WriteC [OOC_EXTENSIONS];
 (*  Translates a set of scheduled SSA instructions to plain C.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -987,7 +987,11 @@ PROCEDURE (w: Writer) WriteInstrList (b: Schedule.Block;
       | Opcode.selectReturn:
         IF ~AllPathsClosed (instr) THEN
           PrefixReturn;
-          w. WriteString ("return;")
+          IF (w. procBlock. procDecl. formalPars. resultType # NIL) THEN
+            w. WriteString ("return 0;");
+          ELSE
+            w. WriteString ("return;")
+          END;
         END;
       END;
       
