@@ -1,4 +1,4 @@
-(*	$Id: PosixFileDescr.Mod,v 1.1 2002/06/01 13:09:49 mva Exp $	*)
+(*	$Id: PosixFileDescr.Mod,v 1.2 2002/07/06 09:58:53 mva Exp $	*)
 MODULE PosixFileDescr [FOREIGN "C"; LINK FILE "PosixFileDescr.c" END];
 (*  Generalized access to POSIX-style file descriptors.
     Copyright (C) 1997-1999  Michael van Acken
@@ -129,14 +129,6 @@ TYPE
 
 TYPE
   FileDescriptor = C.int;
-
-VAR
-  (* these variables have nothing to do with file descriptors; since nobody
-     should use this module anyway I stuck them here; they are used by the
-     module ProgramArgs *)
-  argc- ["_program_argc"]: C.int;
-  argv- ["_program_argv"]: C.charPtr2d;
-
 
 TYPE
   ErrorContext = POINTER TO ErrorContextDesc;

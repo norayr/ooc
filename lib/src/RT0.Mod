@@ -1,4 +1,4 @@
-(* 	$Id: RT0.Mod,v 1.19 2002/06/27 19:45:41 mva Exp $	 *)
+(* 	$Id: RT0.Mod,v 1.20 2002/07/06 09:58:53 mva Exp $	 *)
 MODULE RT0 [FOREIGN "C"; LINK FILE "RT0.c"; LIB "m" END];
 (*  Proxy module for the run-time system of C back-ends of OOC2
     Copyright (C) 2001, 2002  Michael van Acken
@@ -171,6 +171,12 @@ VAR
   longint-: StructDesc;
   byte-: StructDesc;
   ptr-: StructDesc;
+
+VAR
+  argc-: LONGINT;
+  argv-: POINTER TO ARRAY [NO_LENGTH_INFO, NO_DESCRIPTOR] OF
+                      POINTER TO ARRAY [NO_LENGTH_INFO, NO_DESCRIPTOR] OF CHAR;
+
 
 PROCEDURE NewObject* (td: Struct; ...): SYSTEM.PTR;
 (**Allocates a new array or record variable on the heap, using the type

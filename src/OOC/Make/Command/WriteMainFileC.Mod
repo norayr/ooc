@@ -1,4 +1,4 @@
-(* 	$Id: WriteMainFileC.Mod,v 1.5 2002/07/06 09:00:24 mva Exp $	 *)
+(* 	$Id: WriteMainFileC.Mod,v 1.6 2002/07/06 09:58:53 mva Exp $	 *)
 MODULE OOC:Make:Command:WriteMainFileC;
 (*  Generates the main file of a program.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -123,6 +123,8 @@ PROCEDURE WriteFile (cmd: Command; VAR res: Error.Msg);
       w. WriteLn;
       
       w. WriteString ("int main (int argc, char *argv[]) {");
+      w. WriteLn; w. WriteString ("  RT0__argc = (OOC_INT32)argc;");
+      w. WriteLn; w. WriteString ("  RT0__argv = (OOC_CHAR8**)argv;");
       IF (sizeVParStack >= 0) THEN
         w. WriteLn;
         w. WriteString ("  RT0__InitVParStack(");
