@@ -1,4 +1,4 @@
-(* 	$Id: C.Mod,v 1.2 2002/05/21 00:36:34 mva Exp $	 *)
+(* 	$Id: C.Mod,v 1.3 2002/05/21 20:24:54 mva Exp $	 *)
 MODULE C [INTERFACE "C"; LINK FILE "C.c" END];
 (*  Basic data types for interfacing to C code.
     Copyright (C) 1997-1998  Michael van Acken
@@ -68,6 +68,11 @@ TYPE  (* C string type, assignment compatible with character arrays and
 TYPE
   Proc* = PROCEDURE;
 
-PROCEDURE strtod* (string: address; VAR tailptr: address): double;
+(* Note: All C function declared here are provided for the convenience
+   of modules of the standard library.  They may be changed, moved, or
+   removed without prior notice.  *)
+   
+PROCEDURE strtod* (string: address;
+                   VAR tailptr: charPtr1d): double;
 
 END C.
