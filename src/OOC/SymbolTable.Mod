@@ -1,4 +1,4 @@
-(* 	$Id: SymbolTable.Mod,v 1.37 2002/11/14 20:51:31 mva Exp $	 *)
+(* 	$Id: SymbolTable.Mod,v 1.38 2002/11/16 01:53:49 mva Exp $	 *)
 MODULE OOC:SymbolTable [OOC_EXTENSIONS];
 (*  Defines structure and entries of the symbol table.
     Copyright (C) 2000-2002  Michael van Acken
@@ -186,6 +186,10 @@ TYPE
     cachedId: NameString;
     (* used by @oproc{Declaration.GetId} to cache the result of an id
        computation; initialized to NIL, not stored in a symbol file *)
+    usageCount-: LONGINT;
+    (**Number of lookups of this name during compilation of the module.
+       A value of zero means that the name is not referenced in the local
+       module.  This field is not stored in the symbol file.  *)
   END;
   DeclarationArray* = POINTER TO ARRAY OF Declaration;
 
@@ -963,6 +967,7 @@ PROCEDURE InitDeclaration* (decl: Declaration; parent: Item; name: Name;
     decl. exportMark := exportMark;
     decl. docString := docString;
     decl. cachedId := NIL;
+    decl. usageCount := 0;
   END InitDeclaration;
 
 PROCEDURE (decl: Declaration) Store* (w: Object.Writer);
@@ -1000,8 +1005,14 @@ PROCEDURE (decl: Declaration) Load* (r: Object.Reader);
     ELSE
       decl. docString := obj(Doc.Document)
     END;
-    decl. cachedId := NIL
+    decl. cachedId := NIL;
+    decl. usageCount := 0;
   END Load;
+
+PROCEDURE (decl: Declaration) IncrUsageCount*;
+  BEGIN
+    INC(decl.usageCount);
+  END IncrUsageCount;
 
 
 PROCEDURE ExportTypePosition (type: Type): BOOLEAN;

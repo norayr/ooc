@@ -1,4 +1,4 @@
-(* 	$Id: TranslateToIA32.Mod,v 1.2 2002/11/11 21:44:15 mva Exp $	 *)
+(* 	$Id: TranslateToIA32.Mod,v 1.3 2002/11/16 01:53:49 mva Exp $	 *)
 MODULE OOC:Make:TranslateToIA32 [OOC_EXTENSIONS];
 (*  Translates a module file into a bunch of C code files.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -169,7 +169,7 @@ PROCEDURE Run*(m: Rep.Module; libraryName: String.String;
        data in `symTab' to the view of client modules: declarations private to
        the module are stripped when writing the symbol file  *)
     
-    IF (errList. msgCount = 0) THEN
+    IF errList.NoErrors() THEN
       IF writeAST THEN
         ASTtoXML.Write (StdChannels.stdout.NewWriter(), ast(ExtTree.Module));
       END;
@@ -183,7 +183,7 @@ PROCEDURE Run*(m: Rep.Module; libraryName: String.String;
       
       exports := Exports.GetExports (symTab, TRUE);
       
-      IF (errList. msgCount = 0) THEN
+      IF errList.NoErrors() THEN
         (* only attempt to produce output if program compiled without errors *)
 
         w := Writer.NewWriter
