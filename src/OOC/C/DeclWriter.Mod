@@ -1,4 +1,4 @@
-(* 	$Id: DeclWriter.Mod,v 1.27 2002/05/17 22:00:34 sgreenhill Exp $	 *)
+(* 	$Id: DeclWriter.Mod,v 1.28 2002/05/27 20:08:48 mva Exp $	 *)
 MODULE OOC:C:DeclWriter [OOC_EXTENSIONS];
 (*  Defines classes to handle C declarations, types, and include statements.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -443,8 +443,11 @@ PROCEDURE (w: Writer) WriteConst* (value: Language.Value; type: Sym.Type);
             
       | value: String8.Value DO
         IF (type(Sym.PredefType). id = Predef.char) THEN
+           (* note: the character value is casted to OOC_CHAR8 to avoid
+              any problems if characters are interpreted as signed values
+              by default; that is, '\377' is _not_ -1 *)
           charValue := ORD (value. value. array[0]);
-          w. WriteChar ("'");
+          w. WriteString ("(OOC_CHAR8)'");
           IF (charValue < ORD (" ")) OR (charValue >= 127) OR
              (charValue = ORD ("'")) OR (charValue = ORD ("\")(*"*)) THEN
             w. WriteChar ("\")(*"*); 
