@@ -1,4 +1,4 @@
-(* 	$Id: CCompiler.Mod,v 1.6 2002/07/08 21:59:11 mva Exp $	 *)
+(* 	$Id: CCompiler.Mod,v 1.7 2002/07/24 11:51:47 mva Exp $	 *)
 MODULE OOC:Config:CCompiler;
 (*  Generates command lines for the C compiler and linker.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -78,7 +78,8 @@ PROCEDURE LinkProgramCmd* (execFile: URI.URI; VAR cmd: ARRAY OF CHAR);
   BEGIN
     COPY ("gcc -g -pipe -o ", cmd);
     execFile(File.URI). GetPath (str);
-    Strings.Append (str, cmd)
+    Strings.Append (str, cmd);
+    Strings.Append (" -lgc", cmd);
   END LinkProgramCmd;
 
 END OOC:Config:CCompiler.
