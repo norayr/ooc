@@ -1,4 +1,4 @@
-(* 	$Id: Destore.Mod,v 1.21 2002/04/09 20:10:40 mva Exp $	 *)
+(* 	$Id: Destore.Mod,v 1.22 2002/04/10 21:45:43 mva Exp $	 *)
 MODULE OOC:SSA:Destore;
 (*  Converts reads from/writes to memory into local values.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -424,8 +424,15 @@ PROCEDURE Transform* (pb: SSA.ProcBlock; tr: TypeRules.Rules);
               originMap := TraceLoopStart (instr. GetLoopStart(), 1);
               RETURN originMap. visible[origin. marker];
             ELSE
-              RETURN TraceF (lastDefinition,
-                             instr. GetResultClass (Result.store));
+              IF (instr. GetSelectExit() # NIL) THEN
+                (* if the loop has a select-exit instruction, then control
+                   immediately goes back from the loop-end to the loop-start,
+                   and no values are passed beyond the loop-end *)
+                RETURN FALSE;
+              ELSE
+                RETURN TraceF (lastDefinition,
+                               instr. GetResultClass (Result.store));
+              END;
             END;
             
           | Opcode.collect:
