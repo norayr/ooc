@@ -1,4 +1,4 @@
-(* 	$Id: oo2c.Mod,v 1.48 2003/04/14 19:16:44 mva Exp $	 *)
+(* 	$Id: oo2c.Mod,v 1.49 2003/04/15 12:46:36 mva Exp $	 *)
 MODULE oo2c;
 (*  Main module for the Oberon-2 to C translator.
     Copyright (C) 2002,2003  Michael van Acken
@@ -582,7 +582,9 @@ BEGIN  <*Warnings:=FALSE*>
     cfgErrList. Write (StdChannels.stderr);
     HALT(1);
   ELSIF showVersion.value(Boolean.Value).boolean THEN
-    Out.String("oo2c/gcc ");
+    Out.String("oo2c/");
+    Out.String(StdPragmas.defaultTargetArch);
+    Out.String(" ");
     Out.String(StdPragmas.defaultCompilerVersion);
     Out.Ln;
     HALT(0);
