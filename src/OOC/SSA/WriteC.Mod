@@ -1,4 +1,4 @@
-(* 	$Id: WriteC.Mod,v 1.129 2002/11/10 00:06:48 mva Exp $	 *)
+(* 	$Id: WriteC.Mod,v 1.130 2002/11/10 11:15:36 mva Exp $	 *)
 MODULE OOC:SSA:WriteC [OOC_EXTENSIONS];
 (*  Translates a set of scheduled SSA instructions to plain C.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -27,7 +27,7 @@ IMPORT
   LString := Language:String, Language:String8, Sym := OOC:SymbolTable,
   TR := OOC:SymbolTable:TypeRules, OOC:SymbolTable:Predef,
   OOC:IR, OOC:IR:VisitAll, OOC:SSA:Opcode, OOC:SSA:Opnd,
-  OOC:SSA, OOC:SSA:IRtoSSA, OOC:SSA:Schedule, OOC:SSA:XML, OOC:SSA:Inspector,
+  OOC:SSA, OOC:SSA:IRtoSSA, OOC:SSA:Schedule, OOC:SSA:XML,
   OOC:SSA:DeadCodeElimination, OOC:SSA:Destore, OOC:SSA:CSE, OOC:SSA:Algebraic,
   OOC:SSA:ConstProp,
   OOC:SSA:Allocator, OOC:C:ConvertDecl, OOC:C:Naming, OOC:C:DeclWriter, 
@@ -1719,10 +1719,6 @@ PROCEDURE (t: Translator) WriteProcBody* (proc: IR.Procedure);
         (* write schedule SSA code to stdout *)
         XML.WriteSchedule (StdChannels.stdout. NewWriter(), domRoot);
         Out.Flush
-      END;
-      IF (t. inspectStage. MatchChars ("schedule-html", 0, -1) # NIL) THEN
-        (* create a temporary web server displaying the SSA code *)
-        Inspector.Show (proc, domRoot);
       END;
     END;
     
