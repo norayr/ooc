@@ -1,4 +1,4 @@
-(* 	$Id: Destore.Mod,v 1.55 2002/08/03 06:41:20 mva Exp $	 *)
+(* 	$Id: Destore.Mod,v 1.56 2002/08/25 01:10:26 mva Exp $	 *)
 MODULE OOC:SSA:Destore;
 (*  Converts reads from/writes to memory into local values.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -731,7 +731,7 @@ PROCEDURE (s: State) Transform*;
               RETURN VisibleEffect (instr. GetResultStore(), set);
             END;
             
-          | Opcode.copyString:
+          | Opcode.copyString, Opcode.copy:
             alias := Aliasing.DesignatorAlias (set. GetOpndClass (Opnd.writeDesign),
                                                instr. GetOpndClass (Opnd.writeDesign));
             IF (alias >= Aliasing.partiallyCovered) THEN
