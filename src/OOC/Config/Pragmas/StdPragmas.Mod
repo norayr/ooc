@@ -1,4 +1,4 @@
-(* 	$Id: StdPragmas.Mod,v 1.14 2002/12/02 15:50:38 mva Exp $	 *)
+(* 	$Id: StdPragmas.Mod,v 1.15 2002/12/08 15:10:53 mva Exp $	 *)
 MODULE OOC:Config:Pragmas:StdPragmas;
 (*  Creates standard pragma variables with default values.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -68,8 +68,6 @@ VAR
 
 
 PROCEDURE CreateVariables* (s: Pragmas.Section);
-  VAR
-    dummy: Pragmas.Pragma;
   BEGIN
     warnings := s. Set ("Warnings", Boolean.New (defaultWarnings));
     assertions := s. Set ("Assertions", Boolean.New (defaultAssertions));
