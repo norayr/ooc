@@ -1,4 +1,4 @@
-(* 	$Id: CreateSymTab.Mod,v 1.38 2003/05/04 12:03:04 mva Exp $	 *)
+(* 	$Id: CreateSymTab.Mod,v 1.39 2003/05/08 19:14:57 mva Exp $	 *)
 MODULE OOC:AST:ExtTree:CreateSymTab;
 (*  Creates symbol table from abstract syntax tree of module `ExtTree'.
     Copyright (C) 2000-2003  Michael van Acken
@@ -77,6 +77,9 @@ PROCEDURE GetPosition (node: AST.Node): Sym.Position;
       sym := node. sym
     | node: ExtTree.IdentDef DO
       sym := node. ident. sym
+    | node: ExtTree.Operator DO
+      ASSERT(node.op.sym.id = Symbol.period);
+      sym := node.right(ExtTree.Terminal).sym;
     END;
     NEW (position);
     Sym.InitPosition (position, sym. pos, sym. line, sym. column);
