@@ -1,4 +1,4 @@
-(* 	$Id: XML.Mod,v 1.7 2001/12/18 20:36:45 mva Exp $	 *)
+(* 	$Id: XML.Mod,v 1.8 2001/12/19 16:58:03 mva Exp $	 *)
 MODULE OOC:SSA:XML;
 (*  Produces a canonical representation of SSA code in XML.
     Copyright (C) 2001  Michael van Acken
@@ -199,6 +199,14 @@ PROCEDURE Write* (cw: Channel.Writer; pb: SSA.ProcBlock;
         
         idMap. Set (instr, -instrCount);
         INC (instrCount);
+
+        opnd := instr. opndList;
+        WHILE (opnd # NIL) DO
+          IF (opnd. class = Opnd.forwardRef) THEN
+            AssignId (opnd. arg. instr);
+          END;
+          opnd := opnd. nextOpnd
+        END;
       END;
     END AssignId;
     
