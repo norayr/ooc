@@ -1,4 +1,4 @@
-(* 	$Id: CreateIR.Mod,v 1.12 2001/12/13 16:58:48 mva Exp $	 *)
+(* 	$Id: CreateIR.Mod,v 1.13 2001/12/14 21:28:27 mva Exp $	 *)
 MODULE OOC:AST:ExtTree:CreateIR;
 (*  Creates an IR representation from the abstract syntax tree.
     Copyright (C) 2001  Michael van Acken
@@ -22,24 +22,44 @@ MODULE OOC:AST:ExtTree:CreateIR;
 
 IMPORT
 Log,
-  OOC:Scanner:Symbol, OOC:AST:ExtTree, OOC:SymbolTable:Item, OOC:IR;
+  OOC:Scanner:Symbol, OOC:Scanner:Builder:BasicList,
+  OOC:AST:ExtTree, OOC:SymbolTable:Item, OOC:IR, OOC:IR:Operator;
 
 
 
 PROCEDURE CreateIR* (module: ExtTree.Module;
                      symTab: Item.Module;
-                     b: IR.Builder): IR.Module;
+                     b: Operator.Builder): IR.Module;
   VAR
     currentNamespace: Item.Namespace;
     currentSourceContext: Item.Item;
     
+  PROCEDURE ^ Expr (expr: ExtTree.Node): IR.Expression;
+    
   PROCEDURE Designator (design: ExtTree.Node): IR.Expression;
     VAR
       left: IR.Expression;
+      sym: BasicList.Symbol;
+      i: LONGINT;
     BEGIN
       WITH design: ExtTree.Terminal DO
         RETURN b. NewIdentRef (currentNamespace, currentSourceContext,
                                design. sym)
+            
+      | design: ExtTree.ArrayIndex DO
+        left := Designator (design. design);
+        sym := design. lBrak. sym;
+        i := 0;
+        WHILE (i < design. indices. len) DO
+          left := b. NewIndex (sym, left,
+                               Expr (design. indices. n[i](ExtTree.Node)));
+          INC (i);
+          IF (i < design. indices. len) THEN
+            sym := design. indices. n[i](ExtTree.Terminal). sym;
+          END;
+          INC (i)
+        END;
+        RETURN left
             
       | design: ExtTree.Operator DO
         (* we only do qualified identifiers for now: "module.ident" *)
@@ -79,6 +99,9 @@ PROCEDURE CreateIR* (module: ExtTree.Module;
         | Symbol.number10:
           RETURN b. NewIntConst10 (expr. sym)
         END
+
+      | expr: ExtTree.ArrayIndex DO      (* part of designator *)
+        RETURN Designator (expr)
         
       | expr: ExtTree.Operator DO
         IF (expr. left # NIL) THEN

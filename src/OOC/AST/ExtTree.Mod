@@ -1,4 +1,4 @@
-(* 	$Id: ExtTree.Mod,v 1.10 2001/12/13 16:58:48 mva Exp $	 *)
+(* 	$Id: ExtTree.Mod,v 1.11 2001/12/14 21:28:27 mva Exp $	 *)
 MODULE OOC:AST:ExtTree [OOC_EXTENSIONS];
 (*  Creates extended abstract syntax tree from the parser output.
     Copyright (C) 2000, 2001  Michael van Acken
@@ -309,10 +309,10 @@ TYPE
   ArrayIndex* = POINTER TO ArrayIndexDesc;
   ArrayIndexDesc = RECORD
     (NodeDesc)
-    design-: AST.Node;
-    lBrak-: AST.Node;
-    indices-: AST.NodeList;
-    rBrak-: AST.Node;
+    design-: Node;
+    lBrak-: Terminal;
+    indices-: NodeList;
+    rBrak-: Terminal;
   END;
 
 TYPE
@@ -1200,10 +1200,10 @@ PROCEDURE (b: Builder) ArrayIndex* (design, lBrak: AST.Node; indices: AST.NodeLi
     ai: ArrayIndex;
   BEGIN
     NEW (ai);
-    ai. design := design;
-    ai. lBrak := lBrak;
-    ai. indices := indices;
-    ai. rBrak := rBrak;
+    ai. design := design(Node);
+    ai. lBrak := lBrak(Terminal);
+    ai. indices := indices(NodeList);
+    ai. rBrak := rBrak(Terminal);
     RETURN ai
   END ArrayIndex;
 
