@@ -1,4 +1,4 @@
-(* 	$Id: CreateIR.Mod,v 1.3 2001/10/20 21:13:35 mva Exp $	 *)
+(* 	$Id: CreateIR.Mod,v 1.4 2001/10/21 11:07:05 mva Exp $	 *)
 MODULE OOC:AST:ExtTree:CreateIR;
 (*  Creates an IR representation from the abstract syntax tree.
     Copyright (C) 2001  Michael van Acken
@@ -43,10 +43,16 @@ PROCEDURE CreateIR* (module: ExtTree.Module;
   PROCEDURE Designator (design: ExtTree.Node): IR.Expression;
     VAR
       left: IR.Expression;
+      name: Item.Name;
     BEGIN
       WITH design: ExtTree.Terminal DO
-        RETURN b. NewIdentRef (currentNamespace, currentSourceContext,
-                               CreateSymTab.GetName (design))
+        name := CreateSymTab.GetName (design);
+        IF (design. sym. id = Symbol.ident) THEN
+          RETURN b. NewIdentRef (currentNamespace, currentSourceContext, name)
+        ELSE
+          b. ErrName (IR.expectedIdent, name);
+          RETURN IR.errorExpr
+        END
       | design: ExtTree.Operator DO
         (* we only do qualified identifiers for now: "module.ident" *)
         ASSERT (design. op. sym. id = Symbol.period);
@@ -61,7 +67,12 @@ PROCEDURE CreateIR* (module: ExtTree.Module;
   PROCEDURE Expr (expr: ExtTree.Node): IR.Expression;
     BEGIN
       WITH expr: ExtTree.Terminal DO
-        RETURN Designator (expr)
+        CASE expr. sym. id OF
+        | Symbol.ident:
+          RETURN Designator (expr)
+        | Symbol.stringSingle, Symbol.stringDouble:
+          RETURN b. NewStringConst (expr. sym. str^)
+        END
       END
     END Expr;
   
