@@ -1,4 +1,4 @@
-(* 	$Id: Make.Mod,v 1.35 2003/01/30 23:38:29 mva Exp $	 *)
+(* 	$Id: Make.Mod,v 1.36 2003/02/01 17:29:34 mva Exp $	 *)
 MODULE OOC:Make;
 (*  Builds object files, libraries, binaries, and the like.
     Copyright (C) 2002, 2003  Michael van Acken
@@ -21,7 +21,6 @@ MODULE OOC:Make;
 *)
 
 IMPORT
-  Log,
   Channel, Msg, Out, StdChannels, Strings, Time, IO, IO:FileChannel,
 
   Object, ADT:ArrayList, ADT:Dictionary, StringSearch,
@@ -1109,7 +1108,6 @@ RAISES IO.Error;
            exists *)
         RETURN FALSE;
       END;
-      Log.Bool("isUpToDate", isUpToDate);
       isUpToDate := isUpToDate &
           ~DerivedIsOlder(module, Rep.modExecutable, Rep.modMainObjectFile);
       

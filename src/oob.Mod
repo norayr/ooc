@@ -1,4 +1,4 @@
-(* 	$Id: oob.Mod,v 1.11 2003/01/30 23:38:31 mva Exp $	 *)
+(* 	$Id: oob.Mod,v 1.12 2003/02/01 17:29:34 mva Exp $	 *)
 MODULE oob;
 (*  Symbol file browser.
     Copyright (C) 2002, 2003  Michael van Acken
@@ -21,7 +21,7 @@ MODULE oob;
 *)
 
 IMPORT
-  Ascii, Err, Msg, Out, StdChannels, Strings, 
+  Ascii, Err, Out, StdChannels, Strings, IO,
   Config:Section:Options, Config:Section:Arguments, Config:Value:Boolean,
   OOC:Config, E := OOC:Error, Rep := OOC:Repository, Sym := OOC:SymbolTable,
   OOC:Logger, OOC:Doc, OOC:Doc:Output:Text, OOC:SymbolTable:ImportModules,
@@ -55,21 +55,10 @@ PROCEDURE GetModule (moduleName: ARRAY OF CHAR): Rep.Module;
     RETURN m;
   END GetModule;
 
-PROCEDURE GetSymTab(module: Rep.Module): Sym.Module;
-  VAR
-    msg: ARRAY 1024 OF CHAR;
-    symTab: Sym.Module;
-    res: Msg.Msg;
+PROCEDURE GetSymTab(module: Rep.Module): Sym.Module
+RAISES IO.Error;
   BEGIN
-    symTab := module.ReadSymbolFile(res);
-    IF (res # NIL) THEN
-      res.GetText(msg);
-      Err.String("Error: ");
-      Err.String(msg);
-      Err.Ln;
-      HALT(1);
-    END;
-    RETURN symTab;
+    RETURN module.ReadSymbolFile();
   END GetSymTab;
 
 PROCEDURE WriteSymTab(symTab: Sym.Module);

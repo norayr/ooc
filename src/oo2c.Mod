@@ -1,4 +1,4 @@
-(* 	$Id: oo2c.Mod,v 1.43 2003/01/30 23:38:31 mva Exp $	 *)
+(* 	$Id: oo2c.Mod,v 1.44 2003/02/01 17:29:34 mva Exp $	 *)
 MODULE oo2c;
 (*  Main module for the Oberon-2 to C translator.
     Copyright (C) 2002,2003  Michael van Acken
@@ -620,7 +620,7 @@ BEGIN  <*Warnings:=FALSE*>
           ELSE
             IF doInstall THEN
               pkgInfo := Package.GetPkgInfo(CCompiler.oocdir.value(StringValue.Value).string^, arg^, errList);
-              IF (errList.msgCount = 0) THEN
+              IF (pkgInfo # NIL) & (errList.msgCount = 0) THEN
                 UninstallPackage(pkgInfo);
               END;
             END;

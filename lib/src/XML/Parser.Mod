@@ -1,4 +1,4 @@
-(*      $Id: Parser.Mod,v 1.5 2003/01/31 13:34:59 mva Exp $   *)
+(*      $Id: Parser.Mod,v 1.6 2003/02/01 17:29:34 mva Exp $   *)
 MODULE XML:Parser;
 (*  Implements the XML parser.
     Copyright (C) 2000, 2001, 2003  Michael van Acken
@@ -730,10 +730,8 @@ PROCEDURE (p: Parser) ParseDocument*() RAISES IO.Error;
   PROCEDURE GetBuffer (entity: DTD.ExternalEntity): Buffer.Input
   RAISES IO.Error;
     VAR
-      res: Msg.Msg;
       ch: IO.ByteChannel;
       in: Buffer.Input;
-      str: ARRAY 2*1024 OF CHAR;
     BEGIN
       IF (entity. baseURI = NIL) THEN
         RETURN NIL
