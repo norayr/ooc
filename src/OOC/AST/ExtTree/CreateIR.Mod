@@ -1,4 +1,4 @@
-(* 	$Id: CreateIR.Mod,v 1.15 2001/12/16 01:26:12 mva Exp $	 *)
+(* 	$Id: CreateIR.Mod,v 1.16 2001/12/16 13:10:41 mva Exp $	 *)
 MODULE OOC:AST:ExtTree:CreateIR;
 (*  Creates an IR representation from the abstract syntax tree.
     Copyright (C) 2001  Michael van Acken
@@ -218,6 +218,13 @@ PROCEDURE CreateIR* (module: ExtTree.Module;
                                   Expr (repeatStatm. expr));
       END RepeatStatm;
   
+    PROCEDURE WhileStatm (whileStatm: ExtTree.WhileStatm): IR.Statement;
+      BEGIN
+        RETURN b. NewWhileStatm (whileStatm. while. sym,
+                                 Expr (whileStatm. guard),
+                                 StatementSeq (whileStatm. statmSeq));
+      END WhileStatm;
+  
     BEGIN
       (* count number of statements, allocate array to hold IR of sequence *)
       count := 0;
@@ -247,6 +254,9 @@ PROCEDURE CreateIR* (module: ExtTree.Module;
 
           | n: ExtTree.RepeatStatm DO
             statm := RepeatStatm (n)
+              
+          | n: ExtTree.WhileStatm DO
+            statm := WhileStatm (n)
               
           ELSE
             Log.Type("++ Unknown type in StatementSeq", n);
