@@ -1,4 +1,4 @@
-(* 	$Id: Parser.Mod,v 1.16 2003/05/03 21:20:19 mva Exp $	 *)
+(* 	$Id: Parser.Mod,v 1.17 2003/05/04 15:26:00 mva Exp $	 *)
 MODULE OOC:Parser;
 (*  Parses an Oberon-2 module and creates an abstract syntax tree.
     Copyright (C) 1999-2003  Michael van Acken
@@ -732,7 +732,9 @@ PROCEDURE Module* (sym: BasicList.Symbol; ast: AST.Builder;
         type could be easily resolved if the parser had access to the symbol
         table.  This partser does not have this access.  Therefore it uses a
         kind of parsing lookahead to identify a qualified identifier followed
-        by a `<...>' sequence.  *)
+        by a `<...>' sequence.  OOPS, this is a bad bad idea.  We still have
+        lots of ambiguity: x(a<b,c>(x+y)).  Maybe switch from `<...>' to the
+        standard `(...)'?  In any case -- FIXME... *)
       IF (LookingAtQualType(sym, TRUE) # NIL) THEN
         RETURN QualType();
       ELSE
