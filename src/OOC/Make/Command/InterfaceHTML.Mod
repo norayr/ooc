@@ -1,4 +1,4 @@
-(* 	$Id: InterfaceHTML.Mod,v 1.4 2002/07/08 21:59:11 mva Exp $	 *)
+(* 	$Id: InterfaceHTML.Mod,v 1.5 2002/07/16 12:05:48 mva Exp $	 *)
 MODULE OOC:Make:Command:InterfaceHTML;
 (*  Produces an HTML rendition of a module's interface.
     Copyright (C) 2001  Michael van Acken
@@ -23,7 +23,7 @@ MODULE OOC:Make:Command:InterfaceHTML;
 
 IMPORT
   Channel, Err, Out, Strings, Make, Msg, ADT:String, 
-  URI, URI:Scheme:File, OS:Path, OS:Files, OS:ProcessManagment,
+  URI, URI:Scheme:File, OS:Path, OS:Files, OS:ProcessManagement,
   OOC:Error, OOC:Make:Entity:ModuleFile, OOC:Repository,
   OOC:Config:Repositories, OOC:Config;
 
@@ -117,7 +117,7 @@ PROCEDURE (cmd: Command) Run*(): BOOLEAN;
       Out.String ("make: ");
       Out.String (str);
       Out.Ln;
-      exit := ProcessManagment.system (str)
+      exit := ProcessManagement.system (str)
     END;
     
     errList := NIL;

@@ -1,4 +1,4 @@
-(* 	$Id: LinkProgramC.Mod,v 1.5 2002/07/08 21:59:11 mva Exp $	 *)
+(* 	$Id: LinkProgramC.Mod,v 1.6 2002/07/16 12:05:48 mva Exp $	 *)
 MODULE OOC:Make:Command:LinkProgramC;
 (*  Links object files and libraries to create an executable file.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -23,7 +23,7 @@ MODULE OOC:Make:Command:LinkProgramC;
 IMPORT
   Channel, Make, Out, Strings, URI, URI:Scheme:File,
   ADT:Object, ADT:String, ADT:Dictionary,
-  OS:ProcessManagment, OOC:Make:Entity:ModuleFile,
+  OS:ProcessManagement, OOC:Make:Entity:ModuleFile,
   OOC:Error, OOC:Repository, OOC:Config:CCompiler,
   Sym := OOC:SymbolTable;
 
@@ -121,7 +121,7 @@ PROCEDURE (cmd: Command) Run*(): BOOLEAN;
     IF (res = NIL) THEN
       Out.String (str);
       Out.Ln;
-      exit := ProcessManagment.system (str)
+      exit := ProcessManagement.system (str)
     END;
     
     RETURN (res = NIL) & (exit = 0)

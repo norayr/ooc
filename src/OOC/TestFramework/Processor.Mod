@@ -1,4 +1,4 @@
-(* 	$Id: Processor.Mod,v 1.14 2002/06/04 22:03:52 mva Exp $	 *)
+(* 	$Id: Processor.Mod,v 1.15 2002/07/16 12:05:47 mva Exp $	 *)
 MODULE OOC:TestFramework:Processor;
 (*  Processes test cases using an OOC compiler.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -24,7 +24,7 @@ MODULE OOC:TestFramework:Processor;
 IMPORT
   C, Files, LongStrings, Msg, Out, Strings, TextRider,
   ADT:String, ADT:StringBuffer, OSFiles := OS:Files,
-  OS:ProcessManagment, URI:Scheme:File, XMLWriter := XML:Writer,
+  OS:ProcessManagement, URI:Scheme:File, XMLWriter := XML:Writer,
   XML:Basic:Element,
   OOC:TestFramework:TestSetup, OOC:TestFramework:Testcases;
 
@@ -291,7 +291,7 @@ PROCEDURE (proc: Processor) Process* (test: Testcases.Test;
       Out.String (path); Out.Ln;
       
       Out.Flush;
-      exit := ProcessManagment.system (path);
+      exit := ProcessManagement.system (path);
       status := ASH (exit, -8) MOD 256;
       signal := exit MOD 256;
       
@@ -304,7 +304,7 @@ PROCEDURE (proc: Processor) Process* (test: Testcases.Test;
         Strings.Append ("' >'", path);
         Strings.Append (filterFile, path);
         Strings.Append ("'", path);
-        exit := ProcessManagment.system (path)
+        exit := ProcessManagement.system (path)
       ELSE
         COPY ("", filterFile)
       END;
@@ -419,7 +419,7 @@ PROCEDURE (proc: Processor) Process* (test: Testcases.Test;
       Out.String (cmd);
       Out.Ln;
       Out.Flush;
-      RETURN (ProcessManagment.system (cmd) = 0)
+      RETURN (ProcessManagement.system (cmd) = 0)
     END CheckReject;
   
   BEGIN
@@ -485,7 +485,7 @@ PROCEDURE (proc: Processor) Process* (test: Testcases.Test;
           Out.String ("### executing:"); Out.Ln;
           Out.String (path); Out.Ln;
           Out.Flush;
-          exit := ProcessManagment.system (path);
+          exit := ProcessManagement.system (path);
           status := ASH (exit, -8) MOD 256;
           signal := exit MOD 256;
           IF (status = 0) & (signal = 0) THEN
@@ -503,7 +503,7 @@ PROCEDURE (proc: Processor) Process* (test: Testcases.Test;
                 Strings.Append ("' >'", path);
                 Strings.Append (runDiffFile, path);
                 Strings.Append ("'", path);
-                exit := ProcessManagment.system (path);
+                exit := ProcessManagement.system (path);
               END
             END
           ELSE
