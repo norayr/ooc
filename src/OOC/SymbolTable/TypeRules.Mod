@@ -1,4 +1,4 @@
-(* 	$Id: TypeRules.Mod,v 1.11 2002/05/12 21:54:44 mva Exp $	 *)
+(* 	$Id: TypeRules.Mod,v 1.12 2002/05/26 17:31:55 mva Exp $	 *)
 MODULE OOC:SymbolTable:TypeRules;
 (*  Defines the type rules of the language.
     Copyright (C) 2000-2002  Michael van Acken
@@ -364,6 +364,7 @@ PROCEDURE (tr: Rules) IsComponentOf* (subType, superType: Sym.Type;
             IF tr. IsComponentOf (subType, field. type, arrayCompat) THEN
               RETURN TRUE
             END
+          ELSE  (* ignore entries for type-bound procedures *)
           END;
           field := field. nextNested
         END;
