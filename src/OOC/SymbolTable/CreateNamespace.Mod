@@ -1,4 +1,4 @@
-(* 	$Id: CreateNamespace.Mod,v 1.8 2002/09/29 11:38:10 mva Exp $	 *)
+(* 	$Id: CreateNamespace.Mod,v 1.9 2002/10/05 17:37:30 mva Exp $	 *)
 MODULE OOC:SymbolTable:CreateNamespace [OOC_EXTENSIONS];
 (*  Creates namespaces for module, and resolves type names in declarations.
     Copyright (C) 2000-2002  Michael van Acken
@@ -103,6 +103,20 @@ PROCEDURE (context: ErrorContext) GetTemplate* (msg: Error.Msg; VAR templ: Error
     context. BaseTemplate (msg, t, templ)
   END GetTemplate;
 
+
+PROCEDURE ResolveQualident* (ns: Sym.Namespace; contextOfUse: Sym.Item;
+                             module, ident: Sym.Name): Sym.Item;
+  VAR
+    m: Sym.Item;
+  BEGIN
+    m := ns.Identify(contextOfUse, module, FALSE);
+    IF (m = NIL) OR ~(m IS Sym.Import) THEN
+      RETURN NIL;
+    ELSE
+      ns := m(Sym.Import).externalSymTab.ns;
+    END;
+    RETURN ns.Identify(contextOfUse, ident, FALSE);
+  END ResolveQualident;
 
 PROCEDURE CreateNamespace* (root: Sym.Module;
                             errList: Error.List);
@@ -389,7 +403,7 @@ PROCEDURE CreateNamespace* (root: Sym.Module;
        declarations.  This is used to resolve names used as pointer base
        types.  *)
       VAR
-        item, itemRedir, redirModule: Sym.Item;
+        item, itemRedir: Sym.Item;
         ns: Sym.Namespace;
       BEGIN
         WITH typeName: Sym.TypeName DO
@@ -421,19 +435,13 @@ PROCEDURE CreateNamespace* (root: Sym.Module;
                redirection and continue with the resulting symbol table entry  *)
             itemRedir := item;
             WITH itemRedir: Sym.Redirect DO
-              ns := contextOfUse.Namespace();
-              redirModule := ns.Identify(contextOfUse, itemRedir.module, FALSE);
-              IF (redirModule = NIL) THEN
-                Err(undeclaredModule, typeName);
-                RETURN typeName
-              ELSIF ~(redirModule IS Sym.Import) THEN
-                Err(notModule, typeName);
-                RETURN typeName
-              ELSE
-                ns := redirModule(Sym.Import).externalSymTab.ns;
+              item := ResolveQualident(contextOfUse.Namespace(), contextOfUse,
+                                       itemRedir.module, itemRedir.ident);
+              IF (item = NIL) THEN
+                Err (undeclaredIdent, typeName);
+                RETURN typeName;
               END;
-              item := ns.Identify(contextOfUse, itemRedir.ident, FALSE);
-            ELSE;
+            ELSE
             END;
             
             IF ~(item IS Sym.TypeDecl) THEN

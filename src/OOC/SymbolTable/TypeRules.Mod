@@ -1,4 +1,4 @@
-(* 	$Id: TypeRules.Mod,v 1.25 2002/07/12 18:56:17 mva Exp $	 *)
+(* 	$Id: TypeRules.Mod,v 1.26 2002/10/05 17:37:30 mva Exp $	 *)
 MODULE OOC:SymbolTable:TypeRules;
 (*  Defines the type rules of the language.
     Copyright (C) 2000-2002  Michael van Acken
@@ -74,6 +74,15 @@ PROCEDURE IsStringConst* (type: Sym.Type): BOOLEAN;
       RETURN FALSE
     END;
   END IsStringConst;
+
+PROCEDURE IsSTRING* (type: Sym.Type): BOOLEAN;
+  BEGIN
+    RETURN (type IS Sym.Pointer) &
+        (type.namingDecl # NIL) & 
+        (type.namingDecl.name.str^ = "String") & 
+        (type.namingDecl.parent IS Sym.Module) & 
+        (type.namingDecl.parent(Sym.Module).name.str^ = "Language:String0");
+  END IsSTRING;
 
 PROCEDURE BaseCharType* (type: Sym.Type): Sym.PredefType;
 (**For any of the types that are characters, or are derived from characters,

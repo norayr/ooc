@@ -1,4 +1,4 @@
-(* 	$Id: Predef.Mod,v 1.41 2002/09/29 11:38:10 mva Exp $	 *)
+(* 	$Id: Predef.Mod,v 1.42 2002/10/05 17:37:30 mva Exp $	 *)
 MODULE OOC:SymbolTable:Predef;
 (*  Defines symbol table of pseudo module with predefined entities.
     Copyright (C) 2000, 2001, 2002  Michael van Acken
@@ -121,6 +121,9 @@ CONST
   rot* = 25;                             (* SYSTEM.ROT *)
   val* = 26;                             (* SYSTEM.VAL *)
   
+VAR
+  nameStringModule-, nameStringType-: Sym.Name;
+  
   
 PROCEDURE GetName (name: ARRAY OF CHAR): Sym.Name;
   VAR
@@ -241,7 +244,7 @@ PROCEDURE CreatePredef* (stb: Builder.Builder): Sym.Module;
                          NIL, NIL);
 
     redir := stb. NewRedirect(module, GetName("STRING"),
-                              GetName("-Language:String0"), GetName("String"));
+                              nameStringModule, nameStringType);
     
     PredefProc (stb, module, assert, "ASSERT", 1, 2);
     PredefProc (stb, module, halt, "HALT", 1, 1);
@@ -339,6 +342,9 @@ PROCEDURE Init;
     FOR i := 0 TO lastId DO
       minConst[i] := NIL; maxConst[i] := NIL;
     END;
+    
+    nameStringModule := GetName("-Language:String0");
+    nameStringType := GetName("String");
   END Init;
 
 BEGIN
