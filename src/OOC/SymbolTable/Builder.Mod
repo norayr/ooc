@@ -1,4 +1,4 @@
-(* 	$Id: Builder.Mod,v 1.10 2002/01/18 20:44:11 mva Exp $	 *)
+(* 	$Id: Builder.Mod,v 1.11 2002/01/25 19:06:38 mva Exp $	 *)
 MODULE OOC:SymbolTable:Builder [OOC_EXTENSIONS];
 (*  Defines a builder class with factory methods for symbol table entries.
     Copyright (C) 2000-2002  Michael van Acken
@@ -106,8 +106,8 @@ PROCEDURE (b: Builder) NewTypeDecl* (parent: Sym.Item; name: Sym.Name;
   BEGIN
     NEW (t);
     Sym.InitTypeDecl (t, parent, name, visibleFrom, exportMark, docString, type);
-    IF (type. typeName = NIL) THEN
-      type. SetTypeName (name);
+    IF (type. namingDecl = NIL) THEN
+      type. SetNamingDecl (t);
     END;
     RETURN t
   END NewTypeDecl;

@@ -1,4 +1,4 @@
-(* 	$Id: TypeRules.Mod,v 1.6 2002/01/20 15:01:40 mva Exp $	 *)
+(* 	$Id: TypeRules.Mod,v 1.7 2002/01/25 19:06:38 mva Exp $	 *)
 MODULE OOC:SymbolTable:TypeRules;
 (*  Defines the type rules of the language.
     Copyright (C) 2000-2002  Michael van Acken
@@ -44,7 +44,7 @@ PROCEDURE (tr: Rules) IsNamedType* (type: Sym.Type): BOOLEAN;
    a type name.  *)
   BEGIN
     ASSERT (~(type IS Sym.TypeName));
-    RETURN (type. typeName # NIL)
+    RETURN (type. namingDecl # NIL)
   END IsNamedType;
 
 PROCEDURE (tr: Rules) IsScalarType* (type: Sym.Type): BOOLEAN;
