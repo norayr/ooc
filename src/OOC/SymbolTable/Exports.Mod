@@ -1,4 +1,4 @@
-(* 	$Id: Exports.Mod,v 1.6 2002/01/25 19:06:38 mva Exp $	 *)
+(* 	$Id: Exports.Mod,v 1.7 2002/02/11 22:34:38 mva Exp $	 *)
 MODULE OOC:SymbolTable:Exports;
 (*  Marks declarations that are part of the module's symbol file.
     Copyright (C) 2000, 2001, 2002  Michael van Acken
@@ -129,7 +129,8 @@ PROCEDURE GetExports* (module: Sym.Module): Dictionary.Dictionary;
       WHILE (ptr # NIL) DO
         WITH ptr: Sym.Declaration DO
           IF (ptr. exportMark # Sym.nameNotExported) OR 
-             (ptr IS Sym.VarDecl) & ptr(Sym.VarDecl). isParameter THEN
+             (ptr IS Sym.VarDecl) & ptr(Sym.VarDecl). isParameter OR
+             (ptr IS Sym.Import) THEN
             MarkDecl (ptr)
           END
         ELSE                               (* ignore non-declarations *)
@@ -140,7 +141,8 @@ PROCEDURE GetExports* (module: Sym.Module): Dictionary.Dictionary;
   
   BEGIN
     dict := Dictionary.New();
-    MarkReferencedImports (module. docString);
+    (*MarkReferencedImports (module. docString);
+         --> obsolete, all imports must appear in the symbol file *)
     MarkList (module);
     RETURN dict
   END GetExports;
