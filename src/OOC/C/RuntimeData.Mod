@@ -1,4 +1,4 @@
-(* 	$Id: RuntimeData.Mod,v 1.8 2002/07/08 21:59:11 mva Exp $	 *)
+(* 	$Id: RuntimeData.Mod,v 1.9 2002/07/11 20:55:04 mva Exp $	 *)
 MODULE OOC:C:RuntimeData;
 (*  Writes C code for run-time data like type descriptors.
     Copyright (C) 2002  Michael van Acken
@@ -157,10 +157,14 @@ PROCEDURE Write* (declWriter: DeclWriter.Writer;
           IF (i # 0) THEN
             w. WriteChar (",");
           END;
-          w. WriteString ("(void*)");
           proc := record. ns(Namespace.Extended). GetTBProcByIndex (i);
-          name := Naming.NameOfDeclaration (proc);
-          w. WriteString (name. array^);
+          IF (proc = NIL) THEN (* procedure is private to base type *)
+            w. WriteString ("NULL");
+          ELSE
+            w. WriteString ("(void*)");
+            name := Naming.NameOfDeclaration (proc);
+            w. WriteString (name. array^);
+          END;
         END;
       END TBProcs;
     
