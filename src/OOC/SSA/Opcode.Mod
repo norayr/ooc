@@ -1,4 +1,4 @@
-(* 	$Id: Opcode.Mod,v 1.65 2002/07/16 13:08:14 mva Exp $	 *)
+(* 	$Id: Opcode.Mod,v 1.66 2002/07/18 16:01:31 mva Exp $	 *)
 MODULE OOC:SSA:Opcode;
 (*  This modules defines opcodes for SSA instructions.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -380,6 +380,7 @@ CONST
      
      @item *OOC:SSA:Opnd.arg
      Number of bytes.
+     @end table
      
      The result is undefined if source and destination overlap, or if
      the size is negative.  *)

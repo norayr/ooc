@@ -1,4 +1,4 @@
-(* 	$Id: IR.Mod,v 1.146 2002/07/18 14:26:03 mva Exp $	 *)
+(* 	$Id: IR.Mod,v 1.147 2002/07/18 16:01:32 mva Exp $	 *)
 MODULE OOC:IR [OOC_EXTENSIONS];
 (*  High-level intermediate code representation.
     Copyright (C) 2001, 2002  Michael van Acken, Stewart Greenhill
@@ -356,7 +356,7 @@ TYPE
   ChangeElement* = POINTER TO ChangeElementDesc;
   ChangeElementDesc = RECORD
     (**Include or exclude a single set element.  Used for @code{INCL}
-       and code{EXCL}.  *)
+       and @code{EXCL}.  *)
     (OperatorDesc)
     variant-: Variant;
     (**One of @oconst{inclElement} or @oconst{exclElement}.  *)
