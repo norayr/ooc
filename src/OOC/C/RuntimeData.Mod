@@ -1,4 +1,4 @@
-(* 	$Id: RuntimeData.Mod,v 1.12 2002/11/29 21:49:16 mva Exp $	 *)
+(* 	$Id: RuntimeData.Mod,v 1.13 2002/12/09 00:34:16 mva Exp $	 *)
 MODULE OOC:C:RuntimeData;
 (*  Writes C code for run-time data like type descriptors.
     Copyright (C) 2002  Michael van Acken
@@ -120,7 +120,8 @@ PROCEDURE Write* (declWriter: DeclWriter.Writer;
           CNli; w. WriteString ("NULL"); (* tbProcs *)
           CNli; w. WriteString ("&_mid"); (* module *)
           WriteName (array);             (* name *)
-          CNli; w. WriteLInt (-1, 0);    (* size *)
+          ASSERT(base.size >= 0);
+          CNli; w. WriteLInt (base. size, 0); (* size *)
           CNli; w. WriteLInt (array. GetOpenDimensions(), 0); (* len *)
           CNli; WriteForm ("strOpenArray"); (* form *)
         ELSE

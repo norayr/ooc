@@ -1,4 +1,4 @@
-(* 	$Id: RT0.Mod,v 1.30 2002/12/06 01:49:28 mva Exp $	 *)
+(* 	$Id: RT0.Mod,v 1.31 2002/12/09 00:34:17 mva Exp $	 *)
 MODULE RT0 [FOREIGN "C"; LINK FILE "RT0.c"; LIB "m" END];
 (*  Proxy module for the run-time system of C back-ends of OOC2
     Copyright (C) 2001, 2002  Michael van Acken
@@ -143,8 +143,9 @@ TYPE
     (**Type name.  @code{NIL} for anonymous types.  *)
 
     size-: LONGINT;
-    (**Size of the data type in bytes.  For an open array type, this field is
-       @samp{-1}.  *)
+    (**Size of the data type in bytes.  For an open array type, which has
+       no static size of its own, this field is size of the first element
+       type that is not an open array.  *)
     
     len-: LONGINT;
     (**Holds the length of an array, the number of open dimensions
