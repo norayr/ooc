@@ -1,4 +1,4 @@
-(* 	$Id: Destore.Mod,v 1.37 2002/06/09 10:55:49 mva Exp $	 *)
+(* 	$Id: Destore.Mod,v 1.38 2002/06/11 09:46:16 mva Exp $	 *)
 MODULE OOC:SSA:Destore;
 (*  Converts reads from/writes to memory into local values.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -413,7 +413,7 @@ PROCEDURE Transform* (pb: SSA.ProcBlock; tr: TypeRules.Rules);
           RETURN GetValue (instr. GetArgClass (Opnd.store), get, loopTrace)
         END;
         
-      | Opcode.copyString:
+      | Opcode.copy, Opcode.copyString:
         alias := Aliasing.DesignatorAlias (tr,
                                            get. GetOpndClass (Opnd.readDesign),
                                            instr. GetOpndClass (Opnd.writeDesign));
@@ -423,9 +423,9 @@ PROCEDURE Transform* (pb: SSA.ProcBlock; tr: TypeRules.Rules);
              would not pay off *)
           RETURN unknownValue;
         ELSE
-          (* this "copy-string" and "get" work on different variables, and
-             cannot interfere with each other: continue trace through
-             `instr' *)
+          (* this "copy" (or "copy-string") and the "get" work on different
+             variables, and cannot interfere with each other: continue trace
+             through `instr' *)
           RETURN GetValue (instr. GetArgClass (Opnd.store), get, loopTrace)
         END;
         
