@@ -1,4 +1,4 @@
-(* 	$Id: Processor.Mod,v 1.7 2001/06/22 07:11:04 mva Exp $	 *)
+(* 	$Id: Processor.Mod,v 1.8 2001/08/26 21:37:31 mva Exp $	 *)
 MODULE OOC:TestFramework:Processor;
 (*  Processes test cases using an OOC compiler.
     Copyright (C) 2001  Michael van Acken
@@ -78,10 +78,11 @@ PROCEDURE Init (proc: Processor; setup: TestSetup.TestSetup);
     
     (* put together command string for compile/make *)
     sb := StringBuffer.New (setup. processor. command);
-    sb. AppendString (" --config '");
+    (*sb. AppendString (" --config '");
     setup. processor. configFile(File.URI). GetPath (path);
     sb. AppendString (path);
-    sb. AppendString ("' ");
+    sb. AppendString ("' ");*)
+    sb. AppendString (" ");
     sb. AppendString (setup. processor. flags);
     sb. AppendString (" ");
     proc. processCmd := sb. ToString();
