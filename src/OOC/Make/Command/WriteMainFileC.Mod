@@ -1,4 +1,4 @@
-(* 	$Id: WriteMainFileC.Mod,v 1.6 2002/07/06 09:58:53 mva Exp $	 *)
+(* 	$Id: WriteMainFileC.Mod,v 1.7 2002/07/15 11:20:41 mva Exp $	 *)
 MODULE OOC:Make:Command:WriteMainFileC;
 (*  Generates the main file of a program.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -119,7 +119,7 @@ PROCEDURE WriteFile (cmd: Command; VAR res: Error.Msg);
       w. WriteString ('#include "RT0.h"');
       w. WriteLn;
       WriteModules (w, Dictionary.New(), cmd. module,
-                    "extern void ", "_init(void);");
+                    "extern void ", "_init0(void);");
       w. WriteLn;
       
       w. WriteString ("int main (int argc, char *argv[]) {");
@@ -132,7 +132,7 @@ PROCEDURE WriteFile (cmd: Command; VAR res: Error.Msg);
         w. WriteString (");");
       END;
       w. WriteLn;
-      WriteModules (w, Dictionary.New(), cmd. module, "  ", "_init();");
+      WriteModules (w, Dictionary.New(), cmd. module, "  ", "_init0();");
       w. WriteString ("  return 0;  /* _program_exit_code */");
       w. WriteLn;
       w. WriteString ("}");

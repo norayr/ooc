@@ -1,4 +1,4 @@
-(* 	$Id: WriteAssembler.Mod,v 1.4 2002/07/09 18:47:35 mva Exp $	 *)
+(* 	$Id: WriteAssembler.Mod,v 1.5 2002/07/15 11:20:41 mva Exp $	 *)
 MODULE OOC:IA32:WriteAssembler [OOC_EXTENSIONS];
 (*  Translates a set of scheduled SSA instructions to IA32 assembler.
     Copyright (C) 2002  Michael van Acken
@@ -31,8 +31,7 @@ MODULE OOC:IA32:WriteAssembler [OOC_EXTENSIONS];
 IMPORT
   Ascii, IntStr, Log, Out, StdChannels, Strings, StringSearch, 
   ADT:String,
-  OOC:Config, Rep := OOC:Repository, OOC:IR, Sym := OOC:SymbolTable,
-  OOC:SymbolTable:Predef,
+  Rep := OOC:Repository, OOC:IR, Sym := OOC:SymbolTable,OOC:SymbolTable:Predef,
   OOC:SSA, OOC:SSA:Opcode, OOC:SSA:Opnd, OOC:SSA:Schedule, 
   OOC:C:Naming, OOC:IA32:Writer, OOC:Make:Command:TranslateToIA32,
   OOC:SSA:IRtoSSA, OOC:SSA:XML, OOC:SSA:Inspector,
@@ -284,7 +283,7 @@ PROCEDURE (t: Translator) WriteProcBody* (proc: IR.Procedure);
 
     w := t. w;
     IF (proc. decl. parent = NIL) THEN
-      name := Naming.NameOfModuleInit (t. module);
+      name := Naming.NameOfModuleInit (t. symTab, TRUE);
     ELSE      
       name := Naming.NameOfDeclaration (proc. decl);
     END;

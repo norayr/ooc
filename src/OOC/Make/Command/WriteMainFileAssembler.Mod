@@ -1,4 +1,4 @@
-(* 	$Id: WriteMainFileAssembler.Mod,v 1.2 2002/07/06 09:58:53 mva Exp $	 *)
+(* 	$Id: WriteMainFileAssembler.Mod,v 1.3 2002/07/15 11:20:41 mva Exp $	 *)
 MODULE OOC:Make:Command:WriteMainFileAssembler;
 (*  Generates the main file of a program as i386 assembler code.
     Copyright (C) 2002  Michael van Acken
@@ -144,7 +144,7 @@ PROCEDURE WriteFile (cmd: Command; VAR res: Error.Msg);
       Instr("call RT0__InitVParStack");
       Instr("addl $16,%esp");
       
-      WriteModules (w, Dictionary.New(), cmd. module, Ascii.ht+"call ", "_init");
+      WriteModules (w, Dictionary.New(), cmd. module, Ascii.ht+"call ", "_init0");
       Instr("xorl %eax,%eax");
       Instr("leave");
       Instr("ret");
