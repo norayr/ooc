@@ -1,4 +1,4 @@
-(* 	$Id: CreateIR.Mod,v 1.65 2003/05/04 19:15:21 mva Exp $	 *)
+(* 	$Id: CreateIR.Mod,v 1.66 2003/05/11 14:52:54 mva Exp $	 *)
 MODULE OOC:AST:ExtTree:CreateIR;
 (*  Creates an IR representation from the abstract syntax tree.
     Copyright (C) 2001-2003  Michael van Acken
@@ -57,10 +57,6 @@ PROCEDURE CreateIR* (module: ExtTree.Module;
           RETURN b. NewQualident (currentNamespace, left, currentSourceContext,
                                   design. right(ExtTree.Terminal). sym);
 
-        | left: IR.TypeRef DO  (* type variable T.V *)
-          RETURN b. NewTypeVar(currentNamespace, left, currentSourceContext,
-                               design. right(ExtTree.Terminal). sym);
-          
         ELSE                             (* field or tb procedure selector *)
           IF (left = b.errorExpr) THEN
             RETURN b. errorExpr;           (* left side has errors *)

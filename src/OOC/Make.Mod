@@ -1,4 +1,4 @@
-(* 	$Id: Make.Mod,v 1.45 2003/05/11 13:56:33 mva Exp $	 *)
+(* 	$Id: Make.Mod,v 1.46 2003/05/11 14:52:54 mva Exp $	 *)
 MODULE OOC:Make;
 (*  Builds object files, libraries, binaries, and the like.
     Copyright (C) 2002, 2003  Michael van Acken
@@ -21,7 +21,6 @@ MODULE OOC:Make;
 *)
 
 IMPORT
-  OOC:SymbolTable:XML, StdIO:=IO:StdChannels,
   Channel, Msg, Out, StdChannels, Strings, Time, IO,
 
   Object, ADT:ArrayList, ADT:Dictionary, StringSearch,
