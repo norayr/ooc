@@ -1,4 +1,4 @@
-(* 	$Id: TypeRules.Mod,v 1.47 2003/04/27 18:54:36 mva Exp $	 *)
+(* 	$Id: TypeRules.Mod,v 1.48 2003/04/27 22:23:03 mva Exp $	 *)
 MODULE OOC:SymbolTable:TypeRules;
 (*  Defines the type rules of the language.
     Copyright (C) 2000-2003  Michael van Acken
@@ -61,6 +61,11 @@ PROCEDURE NewTypeClosure(position: Sym.Position; baseType: Sym.Type;
     InitTypeClosure(tc, position, baseType, params, arguments);
     RETURN tc;
   END NewTypeClosure;
+
+PROCEDURE (typeClosure: TypeClosure) Deparam*(): Sym.Type;
+  BEGIN
+    RETURN typeClosure.baseType;
+  END Deparam;
 
 
 PROCEDURE Lookup(context: TypeClosure; tv: Sym.TypeVar): Sym.Type;
@@ -421,7 +426,7 @@ PROCEDURE IsValidResultType* (type: Sym.Type): BOOLEAN;
    result type of a formal parameter definition.  This function also 
    return @code{TRUE}, if @oparam{type} is @code{NIL}.  *)
   BEGIN
-    RETURN (type = NIL) OR IsScalarType(type);
+    RETURN (type = NIL) OR IsScalarType(type.Deparam());
   END IsValidResultType;
 
 PROCEDURE IsValidPointerBaseType* (type: Sym.Type): BOOLEAN;
@@ -755,6 +760,7 @@ PROCEDURE IsNilCompatible* (type: Sym.Type): BOOLEAN;
    variables of type @oparam{type}, or if @code{NIL} can be compared to
    such variables.  *)
   BEGIN
+    type := type.Deparam();
     WITH type: Sym.PredefType DO
       RETURN (type. id = Predef.ptr) OR (type. id = Predef.nil)
     | type: Sym.Pointer DO
