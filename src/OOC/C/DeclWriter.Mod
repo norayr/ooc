@@ -1,4 +1,4 @@
-(* 	$Id: DeclWriter.Mod,v 1.29 2002/05/27 21:58:43 mva Exp $	 *)
+(* 	$Id: DeclWriter.Mod,v 1.30 2002/05/31 01:00:49 mva Exp $	 *)
 MODULE OOC:C:DeclWriter [OOC_EXTENSIONS];
 (*  Defines classes to handle C declarations, types, and include statements.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -432,7 +432,7 @@ PROCEDURE (w: Writer) WriteConst* (value: Language.Value; type: Sym.Type);
   
   BEGIN
     IF (value = NIL) THEN
-      w. WriteString ("NULL");
+      w. WriteString ("0");
     ELSE
       WITH value: Boolean.Value DO
         IF value. value THEN
