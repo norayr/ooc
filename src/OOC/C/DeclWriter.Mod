@@ -1,4 +1,4 @@
-(* 	$Id: DeclWriter.Mod,v 1.50 2002/12/20 10:19:34 mva Exp $	 *)
+(* 	$Id: DeclWriter.Mod,v 1.51 2002/12/22 16:11:06 mva Exp $	 *)
 MODULE OOC:C:DeclWriter [OOC_EXTENSIONS];
 (*  Defines classes to handle C declarations, types, and include statements.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -377,12 +377,12 @@ PROCEDURE (w: Writer) Newline*;
   END Newline;
 
 PROCEDURE (w: Writer) WriteInclude* (includePath: ARRAY OF CHAR);
-(**Write an include statement @code{#include "@dots{}"} for the indicated
+(**Write an include statement @code{#include <@dots{}>} for the indicated
    file.  *)
   BEGIN
-    w. WriteString ('#include "');
+    w. WriteString ('#include <');
     w. WriteString (includePath);
-    w. WriteString ('"');
+    w. WriteString ('>');
     w. WriteLn
   END WriteInclude;
   
