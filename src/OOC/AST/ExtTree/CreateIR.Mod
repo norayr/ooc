@@ -1,4 +1,4 @@
-(* 	$Id: CreateIR.Mod,v 1.46 2002/05/28 19:04:19 mva Exp $	 *)
+(* 	$Id: CreateIR.Mod,v 1.47 2002/06/02 11:54:36 mva Exp $	 *)
 MODULE OOC:AST:ExtTree:CreateIR;
 (*  Creates an IR representation from the abstract syntax tree.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -119,12 +119,16 @@ PROCEDURE CreateIR* (module: ExtTree.Module;
     i, len : LONGINT;
     result : IR.Expression;
   BEGIN
-    len := (sc.elementList.len+1) DIV 2; 
-    result := Range(sc.elementList.n[0](ExtTree.Node));
-    FOR i := 1 TO len-1 DO
-      result := b.NewSetOp(NIL, IR.setUnion, result, Range(sc.elementList.n[i*2](ExtTree.Node)));
+    IF (sc. elementList. len = 0) THEN
+      RETURN b. NewSetRange (sc. lBrace. sym, NIL, NIL);
+    ELSE
+      len := (sc.elementList.len+1) DIV 2; 
+      result := Range(sc.elementList.n[0](ExtTree.Node));
+      FOR i := 1 TO len-1 DO
+        result := b.NewSetOp(NIL, IR.setUnion, result, Range(sc.elementList.n[i*2](ExtTree.Node)));
+      END;
+      RETURN result;
     END;
-    RETURN result;
   END SetConstruct;
 
   PROCEDURE Expr (expr: ExtTree.Node): IR.Expression;
@@ -140,6 +144,8 @@ PROCEDURE CreateIR* (module: ExtTree.Module;
           res := b. NewStringConst (expr. sym)
         | Symbol.number10:
           res := b. NewIntConst10 (expr. sym)
+        | Symbol.number16:
+          res := b. NewIntConst16 (expr. sym)
         | Symbol.number16X:
           res := b. NewCharConst16 (expr. sym)
         | Symbol.numberExpE:
