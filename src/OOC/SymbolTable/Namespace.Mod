@@ -1,4 +1,4 @@
-(* 	$Id: Namespace.Mod,v 1.17 2003/05/05 21:53:25 mva Exp $	 *)
+(* 	$Id: Namespace.Mod,v 1.18 2003/05/07 22:24:03 mva Exp $	 *)
 MODULE OOC:SymbolTable:Namespace;
 (*  Implements namespaces and semantic checks on them.
     Copyright (C) 2000-2003  Michael van Acken
@@ -468,7 +468,7 @@ PROCEDURE (ns: Extended) CheckRestrictions* (record: Sym.Record;
               
               NEW(qualType);
               Sym.InitQualType(qualType, NIL, rec.position, rec, args);
-              rec := TR.Expand(qualType);
+              rec := Sym.Expand(qualType);
 
               WHILE (rec.Deparam() # base.Class()) DO
                 ptr := rec.Deparam();

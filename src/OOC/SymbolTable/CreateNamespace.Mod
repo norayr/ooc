@@ -1,4 +1,4 @@
-(* 	$Id: CreateNamespace.Mod,v 1.47 2003/05/04 12:03:01 mva Exp $	 *)
+(* 	$Id: CreateNamespace.Mod,v 1.48 2003/05/07 22:24:03 mva Exp $	 *)
 MODULE OOC:SymbolTable:CreateNamespace [OOC_EXTENSIONS];
 (*  Creates namespaces for module, and resolves type names in declarations.
     Copyright (C) 2000-2003  Michael van Acken
@@ -1504,7 +1504,7 @@ RAISES IO.Error;
          function cannot operate properly; only run it if we are clean *)
       CheckExtendedRecords (root, errList);
     END;
-
+    
     ResolveRef.Resolve (root, errList);
     
     IF (uses # NIL) & errList.NoErrors() THEN
