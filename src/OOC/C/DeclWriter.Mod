@@ -1,4 +1,4 @@
-(* 	$Id: DeclWriter.Mod,v 1.19 2002/04/28 17:16:45 mva Exp $	 *)
+(* 	$Id: DeclWriter.Mod,v 1.20 2002/04/30 19:08:11 mva Exp $	 *)
 MODULE OOC:C:DeclWriter [OOC_EXTENSIONS];
 (*  Defines classes to handle C declarations, types, and include statements.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -783,6 +783,12 @@ PROCEDURE (struct: Struct) WriteLeft (w: Writer);
       w. Newline;
       w. WriteDeclaration (struct. members. array[i](Declaration));
       w. WriteString (";")
+    END;
+    IF (struct. members. Size() = 0) THEN
+      (* avoid an empty struct (and a possible warning)
+         by writing out a dummy member *)
+      w. Newline;
+      w. WriteString ("char __dummy;");
     END;
     w. Indent (-1);
     w. Newline;
