@@ -1,4 +1,4 @@
-(* 	$Id: oob.Mod,v 1.14 2003/04/15 12:45:09 mva Exp $	 *)
+(* 	$Id: oob.Mod,v 1.15 2003/04/16 01:09:43 mva Exp $	 *)
 MODULE oob;
 (*  Symbol file browser.
     Copyright (C) 2002, 2003  Michael van Acken
@@ -468,7 +468,7 @@ BEGIN
     errList := E.NewList("");
     ImportModules.ImportModules(CreateNamespace.systemModule, symTab, errList);
     IF errList.NoErrors() THEN
-      CreateNamespace.CreateNamespace(symTab, errList);
+      CreateNamespace.CreateNamespace(symTab, NIL, errList);
       IF errList.NoErrors() THEN
         WriteSymTab(symTab);
       END;
