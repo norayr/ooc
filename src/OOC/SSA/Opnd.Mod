@@ -1,4 +1,4 @@
-(* 	$Id: Opnd.Mod,v 1.2 2001/12/03 20:57:49 mva Exp $	 *)
+(* 	$Id: Opnd.Mod,v 1.3 2001/12/03 22:52:25 mva Exp $	 *)
 MODULE OOC:SSA:Opnd;
 (*  Symbolic names for operand classes.
     Copyright (C) 2001  Michael van Acken
@@ -52,6 +52,15 @@ CONST
   (**The procedure address argument of a @oconst{*Opcode.call} instruction.
      *)
 
+  readAdr* = 4;
+  (**The address from which a @oconst{*OOC:SSA:Opcode.get} or
+     @oconst{*OOC:SSA:Opcode.copy} instruction reads its data.  *)
+
+  readDesign* = 5;
+  (**A part of the symbolic representation of the designator from which a
+     @oconst{*OOC:SSA:Opcode.get} or @oconst{*OOC:SSA:Opcode.copy} instruction
+     reads its data.  *)
+
 PROCEDURE GetName* (class: Class; VAR name: ARRAY OF CHAR);
 (**Retrieves the symbolic name of an operand class.  *)
   BEGIN
@@ -59,6 +68,8 @@ PROCEDURE GetName* (class: Class; VAR name: ARRAY OF CHAR);
     | arg: COPY ("arg", name)
     | store: COPY ("store", name)
     | procAdr: COPY ("proc-adr", name)
+    | readAdr: COPY ("read-adr", name)
+    | readDesign: COPY ("read-design", name)
     END;
   END GetName;
   
