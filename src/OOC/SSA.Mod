@@ -1,4 +1,4 @@
-(* 	$Id: SSA.Mod,v 1.52 2002/08/04 20:22:44 mva Exp $	 *)
+(* 	$Id: SSA.Mod,v 1.53 2002/08/10 17:43:09 mva Exp $	 *)
 MODULE OOC:SSA;
 (*  Data structures for SSA code representation.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -22,7 +22,7 @@ MODULE OOC:SSA;
 
 
 IMPORT
-  Log, Out,
+  SYSTEM, Log, Out,
   Language, Language:Integer, Language:Boolean, ADT:Object, ADT:Dictionary,
   Sym := OOC:SymbolTable, OOC:SymbolTable:Predef, OOC:IR,
   OOC:SSA:Opcode, ResultClass := OOC:SSA:Result, OpndClass := OOC:SSA:Opnd;
@@ -385,8 +385,10 @@ PROCEDURE InitResult (res: Result; instr: Instr; class: ResultClass.Class;
     res. useList := NIL;
   END InitResult;
 
-PROCEDURE NewResult (instr: Instr; class: ResultClass.Class; subclass: Opcode.Subclass): Result;
-(* Creates a new result instance.  *)
+PROCEDURE NewResult* (instr: Instr; class: ResultClass.Class; subclass: Opcode.Subclass): Result;
+(**Creates a new result instance.  The result is not registered with
+   @oparam{instr}, instead use @oproc{Instr.AddResult} and
+   @oproc{Instr.AddResultSubclass} for that.  *)
   VAR
     res: Result;
   BEGIN
@@ -458,6 +460,21 @@ PROCEDURE (result: Result) IsBooleanConst* (value: BOOLEAN): BOOLEAN;
     ASSERT (result(Const). value IS Boolean.Value);
     RETURN (result(Const). value(Boolean.Value). value = value)
   END IsBooleanConst;
+
+PROCEDURE (result: Result) LogId* (msg: ARRAY OF CHAR);
+  VAR
+    i: LONGINT;
+  BEGIN
+    Log.writer. WriteString (msg);
+    Log.writer. WriteString (": ");
+    Log.writer. WriteHex (SYSTEM.VAL (LONGINT, result. instr), 8);
+    i := result. ResultIndex();
+    IF (i # 0) THEN
+      Log.writer. WriteChar (".");
+      Log.writer. WriteLInt (i, 0);
+    END;
+    Log.writer. WriteLn;
+  END LogId;
 
   (* ---------------------------------------------------------------------- *)
 
