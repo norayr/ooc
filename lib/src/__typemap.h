@@ -1,4 +1,4 @@
-/*      $Id: __typemap.h,v 1.4 2002/01/04 16:04:12 mva Exp $    */
+/*      $Id: __typemap.h,v 1.5 2002/02/10 13:42:30 sgreenhill Exp $    */
 /*  Mapping of basic types to C types.
     Copyright (C) 1997-2002  Michael van Acken
 
@@ -38,6 +38,9 @@ typedef unsigned int OOC_UINT32;
 typedef unsigned OOC_INT64_T OOC_UINT64;
 typedef unsigned char OOC_BYTE;
 typedef void *OOC_PTR;
+typedef unsigned int OOC_SET32;
+typedef unsigned short int OOC_SET16;
+typedef unsigned char OOC_SET8;
 
 /* type used to store length of array types: */
 typedef OOC_INT32 OOC_LEN;
