@@ -1,4 +1,4 @@
-(* 	$Id: IR.Mod,v 1.148 2002/07/20 23:12:10 mva Exp $	 *)
+(* 	$Id: IR.Mod,v 1.149 2002/07/21 12:41:44 mva Exp $	 *)
 MODULE OOC:IR [OOC_EXTENSIONS];
 (*  High-level intermediate code representation.
     Copyright (C) 2001, 2002  Michael van Acken, Stewart Greenhill
@@ -3323,7 +3323,7 @@ PROCEDURE (b: Builder) NewCaseStatm* (sym: Symbol; select: Expression;
       END;
     END;
     InitCaseStatm (caseStatm, sym, select, caseList, default,
-                   GetPragmaValue (b, StdPragmas.indexCheck, sym. pos));
+                   GetPragmaValue (b, StdPragmas.caseSelectCheck, sym. pos));
     RETURN caseStatm
   END NewCaseStatm;
 
