@@ -1,4 +1,4 @@
-(* 	$Id: Uses.Mod,v 1.7 2003/05/17 16:36:34 mva Exp $	 *)
+(* 	$Id: Uses.Mod,v 1.8 2003/05/19 23:27:03 mva Exp $	 *)
 MODULE OOC:SymbolTable:Uses;
 (*  List uses of a given declaration.
     Copyright (C) 2003  Michael van Acken
@@ -91,6 +91,7 @@ PROCEDURE New*(extIdent: STRING; VAR syntaxError: BOOLEAN): Uses;
   VAR
     u: Uses;
     selector: Selector;
+    str8: Object.String8;
     chars: Object.CharsLatin1;
 
   PROCEDURE GetName(str: ARRAY OF CHAR): Sym.Name;
@@ -154,7 +155,8 @@ PROCEDURE New*(extIdent: STRING; VAR syntaxError: BOOLEAN): Uses;
       selector := NIL;
       syntaxError := FALSE;
     ELSE
-      chars := extIdent(Object.String8).CharsLatin1();
+      str8 := extIdent.ToString8("?");
+      chars := str8.CharsLatin1();
       selector := ParseIdent(chars^);
       syntaxError := (selector = NIL);
     END;
