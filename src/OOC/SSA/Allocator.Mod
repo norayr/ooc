@@ -1,4 +1,4 @@
-(* 	$Id: Allocator.Mod,v 1.14 2002/07/20 16:48:24 mva Exp $	 *)
+(* 	$Id: Allocator.Mod,v 1.15 2002/08/03 07:38:39 mva Exp $	 *)
 MODULE OOC:SSA:Allocator;
 (*  A register allocator for the C back-end.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -319,6 +319,13 @@ PROCEDURE SweepLiveSet (rf: RegisterFile; b: Schedule.Block;
       END;
     END GetLoop;
 
+  PROCEDURE IsDataOpnd (opnd: SSA.Opnd): BOOLEAN;
+    BEGIN
+      RETURN
+          (opnd. class # Opnd.antiDependency) &
+          (opnd. class # Opnd.regionDependency);
+    END IsDataOpnd;
+  
   <*IF DEBUG_ALLOCATOR THEN*>
   PROCEDURE WriteLive (b: Schedule.Block; msg: ARRAY OF CHAR;
                        g: IGraph.Graph; live: IGraph.Vector);
@@ -386,7 +393,7 @@ PROCEDURE SweepLiveSet (rf: RegisterFile; b: Schedule.Block;
       (* every argument of the instruction is checked whether it starts a
          live range and is placed into the live vector if it does *)
       opnd := proxy. instr. opndList;
-      WHILE (opnd # NIL) DO
+      WHILE (opnd # NIL) & IsDataOpnd (opnd) DO
         IF (opnd. arg. info = rf) THEN
           IF ~iGraph. In (opnd. arg. marker, live) THEN
             (* the live range of the value passed to `opnd' interferes with all
