@@ -1,4 +1,4 @@
-(* 	$Id: File.Mod,v 1.2 2003/01/30 23:27:00 mva Exp $	 *)
+(* 	$Id: File.Mod,v 1.3 2003/02/02 01:27:40 mva Exp $	 *)
 MODULE URI:Scheme:File;
 (*  Implementation of the "file" URI scheme.
     Copyright (C) 2000, 2003  Michael van Acken
@@ -151,7 +151,9 @@ PROCEDURE ToURI* (filePath: ARRAY OF CHAR): URI;
       String.AppendEscaped (filePath, CharClass.unreservedPChar+"/", uriString);
       uri := Parser.NewURI (uriString, NIL, res)
     ELSE
-      uri := Parser.NewURI (filePath, GetCwd(), res)
+      uriString := "";
+      String.AppendEscaped (filePath, CharClass.unreservedChar+"/", uriString);
+      uri := Parser.NewURI (uriString, GetCwd(), res)
     END;
     IF (uri = NIL) THEN
       RETURN NIL
