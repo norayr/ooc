@@ -1,4 +1,4 @@
-(*	$Id: Dictionary.Mod,v 1.10 2003/05/30 16:06:39 mva Exp $	*)
+(*	$Id: Dictionary.Mod,v 1.11 2003/06/12 20:07:30 mva Exp $	*)
 MODULE ADT:Dictionary;
 (*  A dictionary implementation using objects' HashCode() as keys.
     Copyright (C) 2000, 2001, 2003  Michael van Acken
@@ -120,7 +120,6 @@ VAR
 PROCEDURE (dict: Dictionary(K, V)) INIT*;
 (**Initializes @oparam{dict} to an empty dictionary.  *)
   BEGIN
-    Storable.Init (dict);
     dict. size := 0;
     dict. poly := 0;
     dict. table := NIL;

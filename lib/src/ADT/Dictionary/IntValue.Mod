@@ -1,4 +1,4 @@
-(*	$Id: IntValue.Mod,v 1.6 2003/02/04 20:55:34 mva Exp $	*)
+(*	$Id: IntValue.Mod,v 1.7 2003/06/12 20:07:28 mva Exp $	*)
 MODULE ADT:Dictionary:IntValue;
 (*  A dictionary implementation using objects' addresses as keys.
     Copyright (C) 2000, 2001, 2003  Michael van Acken
@@ -114,7 +114,6 @@ VAR
 PROCEDURE Init* (dict: Dictionary);
 (**Initializes @oparam{dict} to an empty dictionary.  *)
   BEGIN
-    Storable.Init (dict);
     dict. size := 0;
     dict. poly := 0;
     dict. table := NIL;

@@ -1,4 +1,4 @@
-(* 	$Id: Doc.Mod,v 1.13 2003/02/04 20:55:28 mva Exp $	 *)
+(* 	$Id: Doc.Mod,v 1.14 2003/06/12 20:07:27 mva Exp $	 *)
 MODULE OOC:Doc [OOC_EXTENSIONS];
 (*  Defines the data structure used to store documentation strings.
     Copyright (C) 2002, 2003  Michael van Acken
@@ -287,7 +287,6 @@ PROCEDURE SetPosition* (VAR pos: Position; char: InputBuffer.CharPos;
 
 PROCEDURE InitElement (e: Element);
   BEGIN
-    Storable.Init (e);
     e. pos. char := -1;
     e. pos. line := -1;
     e. pos. column := -1;
@@ -1527,7 +1526,6 @@ PROCEDURE NewDocument* (blockList: BlockElement;
     d: Document;
   BEGIN
     NEW (d);
-    Storable.Init (d);
     d. blockList := blockList;
     d. summary := NIL;
     d. decoration := decoration;

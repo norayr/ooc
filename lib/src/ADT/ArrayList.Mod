@@ -1,4 +1,4 @@
-(*	$Id: ArrayList.Mod,v 1.10 2003/05/30 16:06:39 mva Exp $	*)
+(*	$Id: ArrayList.Mod,v 1.11 2003/06/12 20:07:30 mva Exp $	*)
 MODULE ADT:ArrayList;
 (*  Implements a resizable list of objects.
     Copyright (C) 2000, 2003  Michael van Acken
@@ -62,7 +62,6 @@ PROCEDURE (l: ArrayList(E)) CreateArray (size: LONGINT; old: ArrayList(E));
 PROCEDURE (l: ArrayList(E)) INIT*(initialSize: LONGINT);
 (**Initializes a list with the stated initial size.  *)
   BEGIN
-    Storable.Init (l);
     l. CreateArray (initialSize, NIL);
     l. size := 0
   END INIT;
