@@ -1,4 +1,4 @@
-(* 	$Id: WriteMainFileC.Mod,v 1.9 2003/02/02 17:58:38 mva Exp $	 *)
+(* 	$Id: WriteMainFileC.Mod,v 1.10 2003/02/02 19:10:06 mva Exp $	 *)
 MODULE OOC:Make:WriteMainFileC;
 (*  Generates the main file of a program.
     Copyright (C) 2001, 2002, 2003  Michael van Acken
@@ -21,7 +21,7 @@ MODULE OOC:Make:WriteMainFileC;
 *)
 
 IMPORT
-  IO, IO:TextRider, IO:FileChannel, IO:Buffer, OOC:Config, OOC:Repository;
+  IO, IO:TextRider, OOC:Config, OOC:Repository;
 
   
 PROCEDURE WriteFile*(module: Repository.Module;
@@ -84,8 +84,7 @@ RAISES IO.Error;
     IF (w.error # NIL) THEN
       RAISE(w.error);
     END;
-    ch.Flush();
-    ch(Buffer.Channel).base(FileChannel.Channel).CloseAndRegister;
+    ch.CloseAndRegister();
   END WriteFile;
 
 END OOC:Make:WriteMainFileC.

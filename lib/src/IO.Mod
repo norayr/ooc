@@ -1,4 +1,4 @@
-(*	$Id: IO.Mod,v 1.2 2003/02/02 17:58:40 mva Exp $	*)
+(*	$Id: IO.Mod,v 1.3 2003/02/02 19:10:18 mva Exp $	*)
 MODULE IO;
 (*  Defines common behaviour of I/O channel and selector.
     Copyright (C) 2003  Michael van Acken
@@ -382,6 +382,14 @@ PROCEDURE (ch: Channel) Close*() RAISES Error;
     END;
   END Close;
 
+PROCEDURE (ch: Channel) CloseAndRegister*() RAISES Error;
+(**Like @oproc{Channel.Close}, but register the channel's target with its
+   naming service once done.  Right now, only @omodule{*IO:FileChannel}
+   supports this feature; see @oconst{*IO:FileChannel.tmpFile} for details.
+   By default, this method simply calls @oproc{Channel.Close}.  *)
+  BEGIN
+    ch.Close();
+  END CloseAndRegister;
 
 PROCEDURE InitByteChannel*(ch: ByteChannel);
   BEGIN

@@ -1,4 +1,4 @@
-(*	$Id: Buffer.Mod,v 1.1 2003/02/02 17:58:40 mva Exp $	*)
+(*	$Id: Buffer.Mod,v 1.2 2003/02/02 19:10:17 mva Exp $	*)
 MODULE IO:Buffer;
 (*  Generic buffering channel.
     Copyright (C) 2003  Michael van Acken
@@ -182,5 +182,11 @@ PROCEDURE (ch: Channel) Close*() RAISES IO.Error;
     ch.Flush();
     ch.base.Close();
   END Close;
+
+PROCEDURE (ch: Channel) CloseAndRegister*() RAISES IO.Error;
+  BEGIN
+    ch.Flush();
+    ch.base.CloseAndRegister();
+  END CloseAndRegister;
 
 END IO:Buffer.

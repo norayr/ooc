@@ -1,4 +1,4 @@
-(* 	$Id: Writer.Mod,v 1.10 2003/02/02 17:58:38 mva Exp $	 *)
+(* 	$Id: Writer.Mod,v 1.11 2003/02/02 19:10:09 mva Exp $	 *)
 MODULE OOC:IA32:Writer [OOC_EXTENSIONS];
 (*  Write assembler file.
     Copyright (C) 2002, 2003  Michael van Acken
@@ -21,7 +21,7 @@ MODULE OOC:IA32:Writer [OOC_EXTENSIONS];
 *)
 
 IMPORT
-  Ascii, IntStr, Strings, IO, IO:TextRider, IO:FileChannel, IO:Buffer,
+  Ascii, IntStr, Strings, IO, IO:TextRider,
   Object, Object:Boxed, ADT:Dictionary;
 
 TYPE
@@ -175,16 +175,7 @@ PROCEDURE (w: Writer) Close* () RAISES IO.Error;
     END;
 
     ch := w.textWriter.channel;
-    ch.Flush();
-    IF (ch IS Buffer.Channel) THEN
-      ch := ch(Buffer.Channel).base;
-    END;
-    
-    IF (ch IS FileChannel.Channel) THEN
-      ch(FileChannel.Channel). CloseAndRegister;
-    ELSE
-      ch. Close();
-    END;
+    ch.CloseAndRegister();
   END Close;
 
 END OOC:IA32:Writer.
