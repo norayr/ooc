@@ -1,4 +1,4 @@
-(* 	$Id: Destore.Mod,v 1.28 2002/05/10 14:38:39 mva Exp $	 *)
+(* 	$Id: Destore.Mod,v 1.29 2002/05/10 15:24:18 mva Exp $	 *)
 MODULE OOC:SSA:Destore;
 (*  Converts reads from/writes to memory into local values.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -411,7 +411,7 @@ PROCEDURE Transform* (pb: SSA.ProcBlock; tr: TypeRules.Rules);
               END;
             END;
             
-          | Opcode.collect:
+          | Opcode.collect, Opcode.newObject:
               RETURN TraceF (lastDefinition, instr. GetResultStore())
 
           | Opcode.call:
@@ -428,11 +428,7 @@ PROCEDURE Transform* (pb: SSA.ProcBlock; tr: TypeRules.Rules);
                to pass forward *)
             RETURN TraceF (lastDefinition, instr. GetResultStore())
 
-          | Opcode.return:
-            (* we've reached the end of the procedure: we are done *)
-            RETURN ExternalVisibility (GetVar (origin));
-            
-          | Opcode.selectReturn:
+          | Opcode.return, Opcode.selectReturn:
             (* we've reached the end of the procedure: we are done *)
             RETURN ExternalVisibility (GetVar (origin));
           END;
@@ -739,7 +735,7 @@ PROCEDURE Transform* (pb: SSA.ProcBlock; tr: TypeRules.Rules);
         | Opcode.select:
           RETURN TraceSelect (instr, get. marker, get. subclass);
 
-        | Opcode.collect:
+        | Opcode.collect, Opcode.newObject:
           RETURN TraceB (instr. GetArgClass (Opnd.store));
               
         | Opcode.copyParameter:
