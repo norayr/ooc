@@ -1,4 +1,4 @@
-(* 	$Id: Destore.Mod,v 1.26 2002/04/14 08:57:27 mva Exp $	 *)
+(* 	$Id: Destore.Mod,v 1.27 2002/04/28 12:28:28 mva Exp $	 *)
 MODULE OOC:SSA:Destore;
 (*  Converts reads from/writes to memory into local values.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -879,12 +879,12 @@ PROCEDURE Transform* (pb: SSA.ProcBlock; tr: TypeRules.Rules);
        instructions *)
     varArray := ArrayList.New(4);
     varMap := IdentifyVars (varArray);
-    w := NewWriter (StdChannels.stdout. NewWriter(), varArray);
                     
     (* second: for every "set" instruction, establish the visibility of the
        written value in memory *)
     TraceSetForward (varMap. Size());
-    w. WriteProcBody (pb, FALSE);
+(*    w := NewWriter (StdChannels.stdout. NewWriter(), varArray);
+    w. WriteProcBody (pb, FALSE);*)
     
     (* third: for every "get" instruction, try to trace the store value back
        to the definition from which the "get" reads its result *)
