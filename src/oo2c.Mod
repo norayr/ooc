@@ -1,4 +1,4 @@
-(* 	$Id: oo2c.Mod,v 1.53 2003/04/16 10:32:47 mva Exp $	 *)
+(* 	$Id: oo2c.Mod,v 1.54 2003/05/03 10:51:07 mva Exp $	 *)
 MODULE oo2c;
 (*  Main module for the Oberon-2 to C translator.
     Copyright (C) 2002,2003  Michael van Acken
@@ -564,12 +564,11 @@ BEGIN  <*Warnings:=FALSE*>
     makeRules.SetErrOut(StdChannels.stderr);
   END;
   makeRules.SetForceUpdate(forceUpdate.value(Boolean.Value).boolean);
-  IF (listUses.value(StringValue.Value).string^ # "") THEN
-    IF ~makeRules.ListUsesOf(listUses.value(StringValue.Value).string^) THEN
-      Err.String ("Error: Invalid selector string for `--uses'");
-      Err.Ln;
-      HALT (1)
-    END;
+  ok := makeRules.UsageTracking(listUses.value(StringValue.Value).string^);
+  IF ~ok THEN
+    Err.String ("Error: Invalid selector string for `--uses'");
+    Err.Ln;
+    HALT (1)
   END;
   Make.writeStats := writeStats.value(Boolean.Value).boolean;
       

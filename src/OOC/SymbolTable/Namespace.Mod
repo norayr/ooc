@@ -1,4 +1,4 @@
-(* 	$Id: Namespace.Mod,v 1.13 2003/05/02 00:38:42 mva Exp $	 *)
+(* 	$Id: Namespace.Mod,v 1.14 2003/05/03 10:51:07 mva Exp $	 *)
 MODULE OOC:SymbolTable:Namespace;
 (*  Implements namespaces and semantic checks on them.
     Copyright (C) 2000-2003  Michael van Acken
@@ -482,6 +482,8 @@ PROCEDURE (ns: Extended) CheckRestrictions* (record: Sym.Record;
                 ErrDecl (redefinitionBeforeBase, decl, errList)
               END;
 
+              decl.deprecated := decl.deprecated OR base.deprecated;
+              
               Uses.Mark(base, uses, decl.name);
             ELSE
               ErrDecl (invalidRedefintion, decl, errList)
