@@ -1,4 +1,4 @@
-(* 	$Id: IR.Mod,v 1.231 2003/05/04 12:03:04 mva Exp $	 *)
+(* 	$Id: IR.Mod,v 1.232 2003/05/04 15:22:55 mva Exp $	 *)
 MODULE OOC:IR [OOC_EXTENSIONS];
 (*  High-level intermediate code representation.
     Copyright (C) 2001-2003  Michael van Acken, Stewart Greenhill
@@ -5522,10 +5522,10 @@ PROCEDURE (b: Builder) NewOperator* (sym: Symbol; left, right: Expression): Expr
     END;
   END NewOperator;
 
- PROCEDURE (b: Builder) NewCall* (design: Expression;
-                                  arguments: ExpressionList;
-                                  isFunctionCall: BOOLEAN;
-                                  endOfArgsSym: Symbol): Expression;
+PROCEDURE (b: Builder) NewCall* (design: Expression;
+                                 arguments: ExpressionList;
+                                 isFunctionCall: BOOLEAN;
+                                 endOfArgsSym: Symbol): Expression;
   VAR
     call: Call;
     targetType: Sym.PredefId;
