@@ -1,4 +1,4 @@
-(*	$Id: Storage.Mod,v 1.15 2003/07/06 09:09:05 mva Exp $	*)
+(*	$Id: Storage.Mod,v 1.16 2003/07/06 11:32:33 mva Exp $	*)
 MODULE ADT:Object:Storage;
 (*  Implements a framework for persistent objects.
     Copyright (C) 2000, 2001, 2003  Michael van Acken
@@ -390,5 +390,7 @@ PROCEDURE (w: Writer) Disconnect*;
 BEGIN
   object := RT0.ThisModule("Object");
   string8 := RT0.ThisType(object, "String8");
+  string8 := string8.baseTypes[0];
   string16 := RT0.ThisType(object, "String16");
+  string16 := string16.baseTypes[0];
 END ADT:Object:Storage.
