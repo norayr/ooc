@@ -1,4 +1,4 @@
-(* 	$Id: XML.Mod,v 1.24 2003/02/13 08:40:21 mva Exp $	 *)
+(* 	$Id: XML.Mod,v 1.25 2003/03/09 18:04:03 mva Exp $	 *)
 MODULE OOC:SSA:XML;
 (*  Produces a canonical representation of SSA code in XML.
     Copyright (C) 2001, 2002, 2003  Michael van Acken
@@ -22,7 +22,7 @@ MODULE OOC:SSA:XML;
 
 
 IMPORT
-  Object, IO, Dictionary := ADT:Dictionary:IntValue, 
+  Object, IO, IO:StdChannels, Dictionary := ADT:Dictionary:IntValue, 
   ADT:StringBuffer, WriterXML := XML:Writer, XML:UnicodeCodec:Latin1,
   OOC:SSA:Opcode, OOC:SSA:Result, OOC:SSA:Opnd, OOC:SSA, OOC:SSA:Schedule;
 
@@ -328,6 +328,14 @@ RAISES IO.Error;
     w := NewWriter (cw);
     w. WriteProcBody (pb, includeDeadCode);
   END Write;
+
+PROCEDURE ToStderr*(pb: SSA.ProcBlock);
+  BEGIN
+    TRY
+      Write(StdChannels.stderr, pb, TRUE);
+    CATCH IO.Error:
+    END;
+  END ToStderr;
 
 PROCEDURE (w: Writer) WriteSchedule* (domRoot: Schedule.Block)
 RAISES IO.Error;
