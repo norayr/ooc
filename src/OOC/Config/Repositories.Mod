@@ -1,4 +1,4 @@
-(* 	$Id: Repositories.Mod,v 1.15 2002/12/07 17:13:10 mva Exp $	 *)
+(* 	$Id: Repositories.Mod,v 1.16 2002/12/10 12:40:51 mva Exp $	 *)
 MODULE OOC:Config:Repositories [OOC_EXTENSIONS];
 (*  Management of a hierarchy of configured repositories.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -21,8 +21,8 @@ MODULE OOC:Config:Repositories [OOC_EXTENSIONS];
 *)
 
 IMPORT
-  Msg, Channel, TextRider, LongStrings,
-  ADT:String, URI, URIParser := URI:Parser, URI:Scheme:File, 
+  Msg, Channel, Strings, TextRider, LongStrings,
+  ADT:String, URI, URI:Scheme:File, 
   XML:DTD, XML:Locator, Config:Parser, CS := Config:Section,
   OOC:Repository, OOC:Repository:FileSystem;
 
@@ -312,8 +312,6 @@ PROCEDURE (s: Section) GetIncludePaths*(): String.StringArrayPtr;
     c: LONGINT;
     result: String.StringArrayPtr;
     str, subdir: Repository.URIBuffer;
-    uri, relative: URI.URI;
-    res: Msg.Msg;
     
   PROCEDURE Select (rep: Repository.Repository): BOOLEAN;
     BEGIN
@@ -333,10 +331,10 @@ PROCEDURE (s: Section) GetIncludePaths*(): String.StringArrayPtr;
     rep := s. topLevelRep;
     WHILE (rep # NIL) DO
       IF Select (rep) THEN
-        rep. GetDefaultSubdir (Repository.modHeaderFileC, subdir);
-        uri := URIParser.NewURI (subdir, rep. baseURI, res);
-        relative := uri. MakeRelative (File.GetCwd());
-        relative(File.URI). GetPath (str);
+        rep(FileSystem.Repository).relativeBaseURI(File.URI).GetPath(str);
+        Strings.Append("/", str);
+        rep. GetDefaultSubdir(Repository.modHeaderFileC, subdir);
+        Strings.Append(subdir, str);
         
         result[c] := String.New (str);
         INC (c);
