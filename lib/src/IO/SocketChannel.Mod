@@ -1,4 +1,4 @@
-(*	$Id: SocketChannel.Mod,v 1.4 2003/06/28 20:26:08 mva Exp $	*)
+(*	$Id: SocketChannel.Mod,v 1.5 2003/07/01 22:22:37 mva Exp $	*)
 MODULE IO:SocketChannel;
 (*  Access to TCP connections through channel objects.
     Copyright (C) 2003  Michael van Acken
@@ -92,6 +92,8 @@ RAISES IO.Error;
 PROCEDURE (ch: Channel) Close*() RAISES IO.Error;
   BEGIN
     ch.Close^();
+    ch.connected := FALSE;
+    ch.connectionPending := FALSE;
     ch.socket.Close();
   END Close;
 
