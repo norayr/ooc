@@ -1,4 +1,4 @@
-(* 	$Id: XML.Mod,v 1.3 2001/01/15 11:16:18 mva Exp $	 *)
+(* 	$Id: XML.Mod,v 1.4 2001/08/30 08:43:46 mva Exp $	 *)
 MODULE OOC:SymbolTable:Item:XML;
 (*  Converts symbol table to XML document.
     Copyright (C) 2000, 2001  Michael van Acken
@@ -21,7 +21,7 @@ MODULE OOC:SymbolTable:Item:XML;
 *)
 
 IMPORT
-  Channel, Strings, XML:Writer, XML:UnicodeCodec:Latin1,
+  Channel, Strings, ADT:String, XML:Writer, XML:UnicodeCodec:Latin1,
   OOC:SymbolTable:Item, OOC:SymbolTable:Item:GetClass,
   DocXML := OOC:Doc:Output:XML;
 
@@ -105,6 +105,7 @@ PROCEDURE Write* (cw: Channel.Writer; module: Item.Module);
   PROCEDURE WriteItem (item: Item.Item);
     VAR
       element: ARRAY 32 OF CHAR;
+      str: String.String;
       
     PROCEDURE StartTag (str: ARRAY OF CHAR; id: LONGINT);
       BEGIN
@@ -230,6 +231,15 @@ PROCEDURE Write* (cw: Channel.Writer; module: Item.Module);
           END;
           
           WITH item: Item.Module DO
+            str := item. ClassToString();
+            IF (str. array^ # "standard") THEN
+              AttribString ("", "class", str. array^)
+            END;
+            str := item. CallConvToString();
+            IF (str. array^ # "default") THEN
+              AttribString ("", "call_conv", str. array^)
+            END
+            
           | item: Item.Import DO
             NameAttributes (item. moduleName, "imported_module_")
           | item: Item.ProcDecl DO
