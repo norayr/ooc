@@ -1,4 +1,4 @@
-(* 	$Id: String0.Mod,v 1.3 2002/09/19 19:32:02 mva Exp $	 *)
+(* 	$Id: String0.Mod,v 1.4 2002/09/22 09:41:32 mva Exp $	 *)
 MODULE Language:String0 [OOC_EXTENSIONS];
 (*  Character strings based on Unicode 3.1.
     Copyright (C) 2002  Michael van Acken
@@ -253,6 +253,17 @@ PROCEDURE (b: Buffer) AppendLatin1Region* (data[NO_COPY]: ARRAY OF CHAR;
     END;
     INC (b. length, len);
   END AppendLatin1Region;
+
+PROCEDURE (b: Buffer) AppendLatin1Char* (ch: CHAR);
+  BEGIN
+    b. EnsureCapacity(b. length+1);
+    IF (b. data8 # NIL) THEN
+      b.data8[b.length] := ch;
+    ELSE
+      b.data32[b.length] := ORD(ch);
+    END;
+    INC (b. length);
+  END AppendLatin1Char;
 
 PROCEDURE (b: Buffer) AppendUTF32Region* (data[NO_COPY]: ARRAY OF Char;
                                           start, end: LONGINT);
