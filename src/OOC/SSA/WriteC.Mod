@@ -1,4 +1,4 @@
-(* 	$Id: WriteC.Mod,v 1.142 2002/12/17 19:33:32 mva Exp $	 *)
+(* 	$Id: WriteC.Mod,v 1.143 2002/12/18 11:13:58 mva Exp $	 *)
 MODULE OOC:SSA:WriteC [OOC_EXTENSIONS];
 (*  Translates a set of scheduled SSA instructions to plain C.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -924,8 +924,9 @@ PROCEDURE WriteExpr (w: Writer; instr: SSA.Instr);
       ELSE (* (source = Predef.char) & (dest = Predef.longchar) *)
         w. WriteString ("_copy_8to16(");
       END;
+      w. WriteString ("(void*)");
       w. Ref (instr. GetOpndClass (Opnd.readAdr));
-      w. WriteChar (",");
+      w. WriteString (",(void*)");
       w. Ref (instr. GetOpndClass (Opnd.writeAdr));
       w. WriteChar (",");
       w. Ref (instr. GetOpndClass (Opnd.arg));
