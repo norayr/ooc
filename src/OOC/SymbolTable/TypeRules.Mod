@@ -1,4 +1,4 @@
-(* 	$Id: TypeRules.Mod,v 1.61 2003/05/10 20:46:29 mva Exp $	 *)
+(* 	$Id: TypeRules.Mod,v 1.62 2003/05/13 20:11:20 mva Exp $	 *)
 MODULE OOC:SymbolTable:TypeRules;
 (*  Defines the type rules of the language.
     Copyright (C) 2000-2003  Michael van Acken
@@ -786,6 +786,13 @@ PROCEDURE IsByteCompatible* (type: Sym.Type): BOOLEAN;
       RETURN FALSE;
     END;
   END IsByteCompatible;
+
+PROCEDURE IsPtrCompatible* (type: Sym.Type): BOOLEAN;
+(**Returns @code{TRUE}, iff the type @oparam{type} can be assigned to
+   a @samp{PTR} variable.  *)
+  BEGIN
+    RETURN IsPointer(type);
+  END IsPtrCompatible;
 
 PROCEDURE IsNilCompatible* (type: Sym.Type): BOOLEAN;
 (**Returns @code{TRUE}, iff the value @code{NIL} can be assigned to
