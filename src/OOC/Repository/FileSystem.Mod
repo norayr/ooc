@@ -1,4 +1,4 @@
-(* 	$Id: FileSystem.Mod,v 1.21 2003/05/18 10:19:03 mva Exp $	 *)
+(* 	$Id: FileSystem.Mod,v 1.22 2003/05/18 14:10:19 mva Exp $	 *)
 MODULE OOC:Repository:FileSystem;
 (*  Implementation of a repository in the local file system.
     Copyright (C) 2001, 2002, 2003  Michael van Acken
@@ -295,7 +295,7 @@ RAISES IO.Error;
     ELSE
       modURI.GetString(str);
     END;
-    errList := Error.NewList (str);
+    errList := Error.NewList (Object.NewLatin1(str));
     
     (* open file for reading *)
     file := modURI. GetChannel (URI.channelOld);
