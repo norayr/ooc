@@ -1,4 +1,4 @@
-(* 	$Id: WriteC.Mod,v 1.118 2002/08/07 03:53:24 mva Exp $	 *)
+(* 	$Id: WriteC.Mod,v 1.119 2002/08/11 13:59:20 mva Exp $	 *)
 MODULE OOC:SSA:WriteC [OOC_EXTENSIONS];
 (*  Translates a set of scheduled SSA instructions to plain C.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -28,6 +28,7 @@ IMPORT
   OOC:IR, OOC:IR:VisitAll, OOC:SSA:Opcode, OOC:SSA:Opnd,
   OOC:SSA, OOC:SSA:IRtoSSA, OOC:SSA:Schedule, OOC:SSA:XML, OOC:SSA:Inspector,
   OOC:SSA:DeadCodeElimination, OOC:SSA:Destore, OOC:SSA:CSE, OOC:SSA:Algebraic,
+  OOC:SSA:ConstProp,
   OOC:SSA:Allocator, OOC:C:ConvertDecl, OOC:C:Naming, OOC:C:DeclWriter, 
   OOC:Make:Command:TranslateToC;
 
@@ -561,7 +562,6 @@ PROCEDURE (w: Writer) WriteInstrList (b: Schedule.Block;
             passByReference OR
             TR.IsPredefType (type, Predef.ptr) THEN
         IF (var IS SSA.Const) &
-           (var(SSA.Const). value # NIL) &
            (var(SSA.Const). value IS LString.Value) THEN
           (* omit cast on string constant *)
         ELSIF passByReference OR
@@ -1578,7 +1578,9 @@ PROCEDURE (t: Translator) WriteProcBody* (proc: IR.Procedure);
     Write ("dce-post", "destore-pre");
     destore := Destore.New (pb);
     destore. Transform();
-    Write ("destore-post", "algebraic-pre");
+    Write ("destore-post", "constprop-pre");
+    ConstProp.Transform (pb);
+    Write ("constprop-post", "algebraic-pre");
     Algebraic.Transform (pb);
     Write ("algebraic-post", "dce-pre");
     DeadCodeElimination.Transform (pb);
