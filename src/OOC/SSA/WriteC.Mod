@@ -1,4 +1,4 @@
-(* 	$Id: WriteC.Mod,v 1.115 2002/07/31 20:02:19 mva Exp $	 *)
+(* 	$Id: WriteC.Mod,v 1.116 2002/08/03 06:41:20 mva Exp $	 *)
 MODULE OOC:SSA:WriteC [OOC_EXTENSIONS];
 (*  Translates a set of scheduled SSA instructions to plain C.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -1470,6 +1470,7 @@ PROCEDURE (t: Translator) WriteProcBody* (proc: IR.Procedure);
     registerMap: Dictionary.Dictionary;
     w: Writer;
     haveCopyParameter, writeProc: BOOLEAN;
+    destore: Destore.State;
 
   PROCEDURE Write (pre, post: ARRAY OF CHAR);
     BEGIN
@@ -1574,7 +1575,8 @@ PROCEDURE (t: Translator) WriteProcBody* (proc: IR.Procedure);
     Write ("initial", "dce-pre");
     DeadCodeElimination.Transform (pb);
     Write ("dce-post", "destore-pre");
-    Destore.Transform (pb);
+    destore := Destore.New (pb);
+    destore. Transform();
     Write ("destore-post", "dce-pre");
     DeadCodeElimination.Transform (pb);
     Write ("destore-post", "cse-pre");
