@@ -1,4 +1,4 @@
-(* 	$Id: RT0.Mod,v 1.47 2004/07/19 22:40:04 mva Exp $	 *)
+(* 	$Id: RT0.Mod,v 1.48 2004/10/25 21:30:39 mva Exp $	 *)
 MODULE RT0 [
   FOREIGN "C";
   LINK
@@ -85,6 +85,11 @@ CONST
   (**A qualified type, specifying type arguments for a parametric type's
      parameter list.  *)
 
+  strProcedure* = -6;
+  (**A procedure type.  Currently, all procedure types are mapped onto the
+     single type descriptor @ovar{procedure}, even though they may differ in
+     the number, type or mode of their parameters, or their result type.  *)
+  
 CONST
   flagAtomic* = 0;
   (**Indicates that this record type does not contain any references that
@@ -97,9 +102,9 @@ CONST
 
   flagFinalize* = 2;
   (**Indicates that this record type has a Finalize procedure which should be
-	 called by the run-time system upon collection by the GC. This flag is set
-	 by the compiler for record types that override the method
-	 @oproc{ObjectDesc.Finalize}. *)
+     called by the run-time system upon collection by the GC. This flag is set
+     by the compiler for record types that override the method
+     @oproc{ObjectDesc.Finalize}.  *)
 
 TYPE
   Object* = POINTER TO ObjectDesc;
@@ -265,6 +270,7 @@ VAR
   set32-: StructDesc;
   byte-: StructDesc;
   ptr-: StructDesc;
+  procedure-: StructDesc;
 
 VAR
   argc-: LONGINT;
