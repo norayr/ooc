@@ -1,4 +1,4 @@
-(* 	$Id: TypeRules.Mod,v 1.13 2002/05/29 23:11:41 mva Exp $	 *)
+(* 	$Id: TypeRules.Mod,v 1.14 2002/06/01 10:49:29 mva Exp $	 *)
 MODULE OOC:SymbolTable:TypeRules;
 (*  Defines the type rules of the language.
     Copyright (C) 2000-2002  Michael van Acken
@@ -453,6 +453,7 @@ PROCEDURE (tr: Rules) AllocateType* (type: Sym.Type);
         nested := type. nestedItems;
         WHILE (nested # NIL) DO
           WITH nested: Sym.FieldDecl DO
+            tr. AllocateType (nested. type);
             fieldAlign := nested. type. align;
             IF (fieldAlign > maxAlign) THEN
               fieldAlign := maxAlign
