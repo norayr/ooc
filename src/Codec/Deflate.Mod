@@ -1,4 +1,4 @@
-(* 	$Id: Deflate.Mod,v 1.1 2002/09/18 22:02:10 mva Exp $	 *)
+(* 	$Id: Deflate.Mod,v 1.2 2002/09/19 19:32:03 mva Exp $	 *)
 MODULE Codec:Deflate[OOC_EXTENSIONS];
 (*  Codec for the "deflate" encryption algorithm of the zlib library.
     Copyright (C) 2002  Michael van Acken
@@ -32,14 +32,14 @@ TYPE
 TYPE
   Encoder* = POINTER TO EncoderDesc;
   EncoderDesc = RECORD
-    (String.EncoderDesc)
+    (Codec.EncoderDesc)
     strm: zlib.z_stream_s;
   END;
      
 TYPE
   Decoder* = POINTER TO DecoderDesc;
   DecoderDesc = RECORD
-    (String.DecoderDesc)
+    (Codec.DecoderDesc)
     strm: zlib.z_stream_s;
   END;
 
@@ -63,7 +63,7 @@ PROCEDURE (c: Deflate) NewDecoder*(): Decoder;
     dec: Decoder;
   BEGIN
     NEW (dec);
-    String.InitDecoder (dec);
+    Codec.InitDecoder (dec);
     dec.strm.zalloc := NIL;
     dec.strm.zfree := NIL;
     dec.strm.opaque := NIL;
@@ -79,7 +79,7 @@ PROCEDURE (c: Deflate) NewEncoder*(): Encoder;
     enc: Encoder;
   BEGIN
     NEW (enc);
-    String.InitEncoder (enc);
+    Codec.InitEncoder (enc);
     enc.strm.zalloc := NIL;
     enc.strm.zfree := NIL;
     enc.strm.opaque := NIL;
@@ -161,5 +161,5 @@ PROCEDURE Register*;
 
 BEGIN
   NEW (deflate);
-  String.InitCodec (deflate, Codec.encryption, "deflate");
+  Codec.InitCodec (deflate, Codec.compression, "deflate");
 END Codec:Deflate.

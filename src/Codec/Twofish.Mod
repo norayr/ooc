@@ -1,4 +1,4 @@
-(* 	$Id: Twofish.Mod,v 1.1 2002/09/17 21:04:39 mva Exp $	 *)
+(* 	$Id: Twofish.Mod,v 1.2 2002/09/19 19:32:03 mva Exp $	 *)
 MODULE Codec:Twofish[OOC_EXTENSIONS];
 (*  Codec for the Twofish encryption algorithm.
     Copyright (C) 2002  Michael van Acken
@@ -245,5 +245,5 @@ PROCEDURE Register*;
 BEGIN
   TwofishC.Twofish_initialise;           (* endless loop on error *)
   NEW (twofish);
-  String.InitCodec (twofish, Codec.encryption, "Twofish");
+  Codec.InitCodec (twofish, Codec.encryption, "Twofish");
 END Codec:Twofish.
