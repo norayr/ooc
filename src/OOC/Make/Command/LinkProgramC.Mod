@@ -1,4 +1,4 @@
-(* 	$Id: LinkProgramC.Mod,v 1.6 2002/07/16 12:05:48 mva Exp $	 *)
+(* 	$Id: LinkProgramC.Mod,v 1.7 2002/07/17 17:27:30 mva Exp $	 *)
 MODULE OOC:Make:Command:LinkProgramC;
 (*  Links object files and libraries to create an executable file.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -66,7 +66,7 @@ PROCEDURE (cmd: Command) Discover* (): Make.CommandState;
 
 PROCEDURE (cmd: Command) Run*(): BOOLEAN;
   VAR
-    str: ARRAY 4*1024 OF CHAR;
+    str: ARRAY 16*1024 OF CHAR;        (* link commands can get _very_ long *)
     path: Repository.URIBuffer;
     uri: URI.URI;
     exit, i: LONGINT;
