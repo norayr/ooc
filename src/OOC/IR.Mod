@@ -1,4 +1,4 @@
-(* 	$Id: IR.Mod,v 1.222 2003/05/01 17:20:52 mva Exp $	 *)
+(* 	$Id: IR.Mod,v 1.223 2003/05/01 18:19:38 mva Exp $	 *)
 MODULE OOC:IR [OOC_EXTENSIONS];
 (*  High-level intermediate code representation.
     Copyright (C) 2001-2003  Michael van Acken, Stewart Greenhill
@@ -1145,6 +1145,7 @@ CONST
   unreachableGuard = 65;
   untriggeredCatch = 66;
   notTypeInstance = 67;
+  crossProcSuperCall = 68;
   
 TYPE
   ErrorContext = POINTER TO ErrorContextDesc;
@@ -1345,6 +1346,8 @@ PROCEDURE (context: ErrorContext) GetTemplate* (msg: Error.Msg; VAR templ: Error
       t := Error.warningPrefix+"Type matches none of the raised exceptions"
     | notTypeInstance:
       t := "Type test requires static type instance"
+    | crossProcSuperCall:
+      t := "Cross procedure super call"
     END;
     context. BaseTemplate (msg, t, templ)
   END GetTemplate;
@@ -4456,6 +4459,10 @@ PROCEDURE (b: Builder) CheckExit (procDecl: Sym.ProcDecl;
         | expr: SelectField DO
           CheckExpr(expr.record);
         | expr: SelectProc DO
+          IF expr.isSuperCall &
+             (expr.tbProc.name.str^ # procDecl.name.str^) THEN
+            b.ErrSym(crossProcSuperCall, expr.tbProcSym);
+          END;
           CheckExpr(expr.receiver);
         | expr: SetMember DO
           CheckExpr(expr.element);
