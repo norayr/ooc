@@ -1,4 +1,4 @@
-(* 	$Id: Object.Mod,v 1.26 2003/12/19 23:22:27 mva Exp $	 *)
+(* 	$Id: Object.Mod,v 1.27 2004/01/12 05:49:18 sgreenhill Exp $	 *)
 MODULE Object;
 (*  Low-level object and string implementation.
     Copyright (C) 2002,2003  Michael van Acken
@@ -39,7 +39,7 @@ TYPE
   Object* = POINTER TO ObjectDesc;
   ObjectArray*(E: Object) = ARRAY OF E;
   ObjectArrayPtr*(E: Object) = POINTER TO ObjectArray(E);
-  ObjectDesc* = RECORD [ABSTRACT]
+  ObjectDesc* = RECORD [ABSTRACT] (RT0.ObjectDesc)
   (**This class is the common base type of (almost) all classes defined in this
      module and the ADT library.  It provides the methods @oproc{Object.Equals}
      and @oproc{Object.HashCode}.
