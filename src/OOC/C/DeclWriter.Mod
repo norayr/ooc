@@ -1,4 +1,4 @@
-(* 	$Id: DeclWriter.Mod,v 1.32 2002/05/31 20:26:03 mva Exp $	 *)
+(* 	$Id: DeclWriter.Mod,v 1.33 2002/06/03 23:36:31 mva Exp $	 *)
 MODULE OOC:C:DeclWriter [OOC_EXTENSIONS];
 (*  Defines classes to handle C declarations, types, and include statements.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -198,6 +198,8 @@ CONST
      storage class @code{auto}.  *)
   scRegister* = 5;
   (**Declaration is prefixed with the keyword @code{register}.  *)
+  scForceAuto* = 6;
+  (**Declaration is written with the explicit storage class @code{auto}.  *)
 
 TYPE
   Declaration* = POINTER TO DeclarationDesc;
@@ -941,6 +943,7 @@ PROCEDURE (d: Declaration) Write (w: Writer);
     | scStatic  : w. WriteString ("static ")
     | scAuto    :
     | scRegister: w. WriteString ("register ")
+    | scForceAuto: w. WriteString ("auto ")
     END;
     WriteTypeQualifier (w, d. typeQualifier);
     WriteLeft (w, d. type, priDeclaration);
