@@ -1,4 +1,4 @@
-(* 	$Id: SymbolTable.Mod,v 1.30 2002/09/29 11:38:10 mva Exp $	 *)
+(* 	$Id: SymbolTable.Mod,v 1.31 2002/10/05 17:25:29 mva Exp $	 *)
 MODULE OOC:SymbolTable [OOC_EXTENSIONS];
 (*  Defines structure and entries of the symbol table.
     Copyright (C) 2000-2002  Michael van Acken
@@ -535,7 +535,9 @@ TYPE
        the procedure on the link level.  Otherwise, it is @code{NIL}.  *)
     procAST-: AST.Node;
     (**Refers to the abstract syntax tree of the procedure, for example an
-       instance of @otype{*OOC:AST:ExtTree.ProcDecl}.  *)
+       instance of @otype{*OOC:AST:ExtTree.ProcDecl}.  For the pseudo procedure
+       representing the module body, this field is @code{NIL}.  In this case,
+       the field @ofield{parent} is also @code{NIL}.  *)
   END;
 
 CONST
@@ -1597,6 +1599,12 @@ PROCEDURE (procDecl: ProcDecl) RegisterForwardDecl* (forward: ProcDecl);
     procDecl. visibleFrom := forward. visibleFrom
   END RegisterForwardDecl;
 
+PROCEDURE (procDecl: ProcDecl) IsModuleBody*(): BOOLEAN;
+(**Return @code{TRUE} iff this procedure declaration represents the module
+   body.  *)
+  BEGIN
+    RETURN (procDecl.parent = NIL);
+  END IsModuleBody;
 
 
 PROCEDURE InitPredefType* (ptype: PredefType; parent: Item; id: PredefId);
