@@ -1,4 +1,4 @@
-(* 	$Id: RT0.Mod,v 1.13 2002/06/01 13:05:55 mva Exp $	 *)
+(* 	$Id: RT0.Mod,v 1.14 2002/06/23 11:25:30 mva Exp $	 *)
 MODULE RT0 [FOREIGN "C"; LINK FILE "RT0.c"; LIB "m" END];
 (*  Proxy module for the run-time system of C back-ends of OOC2
     Copyright (C) 2001, 2002  Michael van Acken
@@ -149,6 +149,12 @@ TYPE
     (**A named object defined in a declaration.  *)
   END;
 
+TYPE
+  Module* = POINTER TO ModuleDesc;
+  ModuleDesc = RECORD
+    name-: Name;
+  END;
+  
 VAR
   boolean-: StructDesc;
   char-: StructDesc;
@@ -179,5 +185,10 @@ PROCEDURE InitVParStack* (bytes: LONGINT);
    open array type.  It is used as a fallback if no mechanism is available
    to store the data on the normal C stack.  This procedure is called once,
    from the program's setup code.  *)
-  
+
+
+PROCEDURE ErrorIndexOutOfRange* (mid: Module; pos: LONGINT;
+                                 index, length: LONGINT);
+PROCEDURE ErrorAssertionFailed* (mid: Module; pos: LONGINT; code: LONGINT);
+
 END RT0.
