@@ -1,4 +1,4 @@
-(*      $Id: Writer.Mod,v 1.2 2002/12/17 19:33:39 mva Exp $   *)
+(*      $Id: Writer.Mod,v 1.3 2002/12/19 06:36:46 mva Exp $   *)
 MODULE XML:Writer [OOC_EXTENSIONS];
 (*  Support for generating XML documents.
     Copyright (C) 2000-2002  Michael van Acken
@@ -254,7 +254,7 @@ PROCEDURE (w: Writer) WriteRealFix* (real: REAL; k: LONGINT);
     w. WriteLatin1 (val)
   END WriteRealFix;
 
-PROCEDURE GetString (VAR str: ARRAY OF Char): String;
+PROCEDURE GetString (str[NO_COPY]: ARRAY OF Char): String;
   VAR
     s: String;
   BEGIN
