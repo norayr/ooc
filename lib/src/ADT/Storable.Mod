@@ -1,4 +1,4 @@
-(*      $Id: Storable.Mod,v 1.1 2002/12/13 23:50:50 mva Exp $       *)
+(*      $Id: Storable.Mod,v 1.2 2002/12/14 16:30:33 mva Exp $       *)
 MODULE ADT:Storable [OOC_EXTENSIONS];
 (*  Base definitions for a persistent object implementation.
     Copyright (C) 1999-2002  Michael van Acken
@@ -40,8 +40,6 @@ IMPORT
 
 TYPE
   Object* = POINTER TO ObjectDesc;
-  ObjectArray* = ARRAY OF Object;  (* FIXME... eliminate type *)
-  ObjectArrayPtr* = POINTER TO ObjectArray;  (* FIXME... eliminate type *)
   ObjectDesc* = RECORD [ABSTRACT]
   (**This class defines a protocol for object persistence using with
      @oproc{Object.Store} and @oproc{Object.Load}).  *)
@@ -213,12 +211,16 @@ PROCEDURE InitReader* (r: Reader; ch: Channel.Channel);
     BinaryRider.InitReader (r, ch, BinaryRider.littleEndian)
   END InitReader;
 
-PROCEDURE (w: Writer) [ABSTRACT] WriteObject* (obj: Object);
+PROCEDURE (w: Writer) [ABSTRACT] WriteObject* (obj: Language.Object);
 (**Writes object to the channel underlying the writer @oparam{w}.  The
    externalization framework is provided by the concrete instance of writer
    @oparam{w}.  The object itself is required to provide the necessary
    type-bound procedure @oproc{Object.Store} to pass its own data to
-   @oparam{w}.  *)
+   @oparam{w}.
+
+   @precond
+   @oparam{obj} is @code{NIL}, or it is an instance of @otype{Object}.
+   @end precond  *)
   END WriteObject;
   
 PROCEDURE (w: Writer) WriteVersion* (version: LONGINT);

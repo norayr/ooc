@@ -1,4 +1,4 @@
-(* 	$Id: Writer.Mod,v 1.2 2002/12/13 23:50:46 mva Exp $	 *)
+(* 	$Id: Writer.Mod,v 1.3 2002/12/14 16:30:30 mva Exp $	 *)
 MODULE OOC:IA32:Writer [OOC_EXTENSIONS];
 (*  Write assembler file.
     Copyright (C) 2002  Michael van Acken
@@ -22,7 +22,7 @@ MODULE OOC:IA32:Writer [OOC_EXTENSIONS];
 
 IMPORT
   Ascii, Channel, Files, IntStr, Msg, Strings, TextRider,
-  ADT:Storable, ADT:String, ADT:Dictionary,
+  Language:=LanguageNew, ADT:String, ADT:Dictionary,
   LString := Language:String, Language:String8;
 
 TYPE
@@ -104,7 +104,7 @@ PROCEDURE (w: Writer) StringLiteral* (str: ARRAY OF CHAR);
 
 PROCEDURE (w: Writer) GetStringLabel* (value: LString.Value): String.String;
   VAR
-    obj: Storable.Object;
+    obj: Language.Object;
     s: String.String;
     label: ARRAY 32 OF CHAR;
   BEGIN
@@ -145,8 +145,8 @@ PROCEDURE (w: Writer) PopBytes* (bytes: LONGINT);
 
 PROCEDURE (w: Writer) WriteStringData* ();
   VAR
-    strings: Storable.ObjectArrayPtr;
-    label: Storable.Object;
+    strings: Language.ObjectArrayPtr;
+    label: Language.Object;
     i: LONGINT;
   BEGIN
     w. Section (".data");

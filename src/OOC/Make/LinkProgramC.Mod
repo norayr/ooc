@@ -1,4 +1,4 @@
-(* 	$Id: LinkProgramC.Mod,v 1.10 2002/12/13 23:50:46 mva Exp $	 *)
+(* 	$Id: LinkProgramC.Mod,v 1.11 2002/12/14 16:30:30 mva Exp $	 *)
 MODULE OOC:Make:LinkProgramC;
 (*  Links object files and libraries to create an executable file.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -21,7 +21,7 @@ MODULE OOC:Make:LinkProgramC;
 *)
 
 IMPORT
-  Out, Strings, URI, URI:Scheme:File, ADT:Storable, ADT:String, ADT:Dictionary,
+  Out, Strings, URI, URI:Scheme:File, Language:=LanguageNew, ADT:String, ADT:Dictionary,
   ADT:ArrayList, Config:Value, StringValue := Config:Value:String,
   OS:ProcessManagement, OOC:Error, OOC:Repository, OOC:Config,
   OOC:Config:CCompiler, Sym := OOC:SymbolTable;
@@ -42,7 +42,7 @@ PROCEDURE GetExternalLibs (moduleList: ARRAY OF Repository.Module;
 
   PROCEDURE GetDepArray (libName: String.String): ArrayList.ArrayList;
     VAR
-      obj: Storable.Object;
+      obj: Language.Object;
       list: ArrayList.ArrayList;
     BEGIN
       IF libDeps.HasKey(libName) THEN
@@ -59,7 +59,7 @@ PROCEDURE GetExternalLibs (moduleList: ARRAY OF Repository.Module;
     VAR
       depArray: ArrayList.ArrayList;
       i: LONGINT;
-      obj: Storable.Object;
+      obj: Language.Object;
     BEGIN
       IF ~visited.HasKey(libName) & libDeps.HasKey(libName) THEN
         visited.Set(libName, NIL);
@@ -81,7 +81,7 @@ PROCEDURE GetExternalLibs (moduleList: ARRAY OF Repository.Module;
 
   PROCEDURE Option(libraryName: String.String): String.String;
     VAR
-      obj: Storable.Object;
+      obj: Language.Object;
       str: String.String;
     BEGIN
       IF option.HasKey(libraryName) THEN
