@@ -1,4 +1,4 @@
-(* 	$Id: WriteC.Mod,v 1.68 2002/05/11 08:36:14 mva Exp $	 *)
+(* 	$Id: WriteC.Mod,v 1.69 2002/05/12 21:55:24 mva Exp $	 *)
 MODULE OOC:SSA:WriteC [OOC_EXTENSIONS];
 (*  Translates a set of scheduled SSA instructions to plain C.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -621,6 +621,17 @@ PROCEDURE (w: Writer) WriteInstrList (b: Schedule.Block;
       w. WriteString (name. array^);
       WriteTypeAndSize
     END CopyParameter;
+
+  PROCEDURE CopyString (instr: SSA.Instr);
+    BEGIN
+      w. WriteString ("_copy(");
+      w. Ref (instr. GetOpndClass (Opnd.readAdr));
+      w. WriteChar (",");
+      w. Ref (instr. GetOpndClass (Opnd.writeAdr));
+      w. WriteChar (",");
+      w. Ref (instr. GetOpndClass (Opnd.arg));
+      w. WriteString (");");
+    END CopyString;
   
   PROCEDURE AllPathsClosed (selectReturn: SSA.Instr): BOOLEAN;
   (* Returns TRUE if all paths into the "select-return" end with a
@@ -822,6 +833,9 @@ PROCEDURE (w: Writer) WriteInstrList (b: Schedule.Block;
         w. Ref (instr. GetOpndClass (Opnd.sourceValue));
         w. WriteChar (";");
 
+      | Opcode.copyString:
+        CopyString (instr);
+        
       | Opcode.getLength:
         GetLength (instr);
         

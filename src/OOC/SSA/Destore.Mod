@@ -1,4 +1,4 @@
-(* 	$Id: Destore.Mod,v 1.30 2002/05/10 23:05:41 mva Exp $	 *)
+(* 	$Id: Destore.Mod,v 1.31 2002/05/12 21:55:25 mva Exp $	 *)
 MODULE OOC:SSA:Destore;
 (*  Converts reads from/writes to memory into local values.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -355,6 +355,22 @@ PROCEDURE Transform* (pb: SSA.ProcBlock; tr: TypeRules.Rules);
               RETURN FALSE
             ELSIF (alias # Aliasing.noAliasing) THEN
               (* this set operation does not overwrite completely the original
+                 set, or no static aliasing calculation can be done: we must
+                 keep the write operation alive, but its static visibility ends
+                 here *)
+              RETURN TRUE
+            ELSE
+              (* this "set" and "origin" work on different variables, and
+                 cannot interfere with each other: continue trace through
+                 `instr' *)
+              RETURN TraceF (lastDefinition,
+                            instr. GetResultStore())
+            END;
+
+          | Opcode.copyString:
+            alias := Aliasing.DesignatorAlias (tr, originWriteDesign, instr. GetOpndClass (Opnd.writeDesign));
+            IF (alias # Aliasing.noAliasing) THEN
+              (* this string copy does not overwrite completely the original
                  set, or no static aliasing calculation can be done: we must
                  keep the write operation alive, but its static visibility ends
                  here *)

@@ -1,4 +1,4 @@
-(* 	$Id: Opcode.Mod,v 1.40 2002/05/12 10:53:29 mva Exp $	 *)
+(* 	$Id: Opcode.Mod,v 1.41 2002/05/12 21:55:24 mva Exp $	 *)
 MODULE OOC:SSA:Opcode;
 (*  This modules defines opcodes for SSA instructions.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -272,11 +272,15 @@ CONST
      The current value of the @var{store}.
 
      @item *OOC:SSA:Opnd.readAdr
-     Like the corresponding argument of @oconst{get}.
+     Like the corresponding argument of @oconst{get}.  If the source of
+     the copy operation is a string constant, then this operand refers
+     to the constant.
 
      @item *OOC:SSA:Opnd.readDesign
-     Like the corresponding argument of @oconst{get}.
-
+     Like the corresponding argument of @oconst{get}.  If the source of
+     the copy operation is a string constant, then no argument of this
+     type exists.
+     
      @item *OOC:SSA:Opnd.writeAdr
      Like the corresponding argument of @oconst{set}.
 
