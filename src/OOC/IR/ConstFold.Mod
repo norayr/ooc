@@ -1,4 +1,4 @@
-(* 	$Id: ConstFold.Mod,v 1.42 2002/05/29 23:13:24 mva Exp $	 *)
+(* 	$Id: ConstFold.Mod,v 1.43 2002/05/30 19:54:04 mva Exp $	 *)
 MODULE OOC:IR:ConstFold;
 (*  Constant folding on IR expressions.
     Copyright (C) 2002  Stewart Greenhill, Michael van Acken
@@ -289,6 +289,15 @@ BEGIN
     c.result := NIL;
   END;
 END VisitNot;
+
+PROCEDURE (c: ConstFold) VisitAsh* (op: IR.Ash);
+  VAR
+    v, e: Integer.Value;
+  BEGIN
+    v := op. value(IR.Const). value(Integer.Value);
+    e := op. exp(IR.Const). value(Integer.Value);
+    c. result := c. ValueConst (v. Ash (e), op);
+  END VisitAsh;
 
 PROCEDURE (c: ConstFold) VisitCap* (op: IR.Cap);
 VAR 
