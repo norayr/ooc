@@ -1,4 +1,4 @@
-(* 	$Id: ConstFold.Mod,v 1.63 2002/10/17 19:52:20 mva Exp $	 *)
+(* 	$Id: ConstFold.Mod,v 1.64 2002/10/20 12:00:00 mva Exp $	 *)
 MODULE OOC:IR:ConstFold;
 (*  Constant folding on IR expressions.
     Copyright (C) 2002  Stewart Greenhill, Michael van Acken
@@ -86,7 +86,7 @@ PROCEDURE (c : ConstFold) ValidEval (expr : IR.Expression; VAR result : Language
 BEGIN
   c.result := NIL;
   expr.Accept(c);
-  IF c.result # NIL THEN
+  IF (c.result # NIL) & (c.result # c.builder.errorExpr) THEN
     result := c.result(IR.Const).value;
     RETURN TRUE;
   END;
