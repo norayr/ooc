@@ -1,4 +1,4 @@
-/*      $Id: __oo2c.h,v 1.36 2002/10/19 22:14:48 mva Exp $        */
+/*      $Id: __oo2c.h,v 1.37 2002/11/27 19:04:53 mva Exp $        */
 /*  Run-time system for C back-ends of OOC2
     Copyright (C) 2001, 2002  Michael van Acken
 
@@ -184,6 +184,9 @@ extern OOC_INT32 _cmp16(const OOC_CHAR16* l, const OOC_CHAR16* r);
 #define OOC_ARRAY_LENGTH(_adr,_dim) (((OOC_LEN*)(_adr))[-(_dim)-1])
 
 #define OOC_TYPE_DESCR(_module,_type_name) &_td_##_module##__##_type_name
+
+#define OOC_PTRBASE_DESCR(_module,_type_name) \
+  (_td_##_module##__##_type_name.baseTypes[0])
 
 #define OOC_TYPE_TAG(_adr) (((RT0__Struct*)(_adr))[-1])
 
