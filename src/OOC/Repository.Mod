@@ -1,4 +1,4 @@
-(* 	$Id: Repository.Mod,v 1.29 2002/12/02 19:58:18 mva Exp $	 *)
+(* 	$Id: Repository.Mod,v 1.30 2002/12/05 13:21:28 mva Exp $	 *)
 MODULE OOC:Repository [OOC_EXTENSIONS];
 (*  Abstraction of storage of source, intermediate, and target code.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -423,9 +423,9 @@ PROCEDURE (rep: Repository) GetDefaultSubdir* (id: FileId; VAR subdir: ARRAY OF 
     | modSymbolFile:
       COPY ("sym", subdir)
     | modSymbolTableXML, modInterfaceXML, modInterfaceDescr, modOpTreeXML:
-      COPY ("doc/xml", subdir)
+      COPY ("oocdoc/xml", subdir)
     | modInterfaceHTML:
-      COPY ("doc/html", subdir)
+      COPY ("oocdoc/html", subdir)
     | modObjectFile, modCodeFileC, modDeclFileC, modHeaderFileC,
       modAssemblerFile, modObjectFileDynamicLoad,
       modMainFileC, modMainFileAssembler, modMainObjectFile:
