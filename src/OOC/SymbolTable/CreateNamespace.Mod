@@ -1,7 +1,7 @@
-(* 	$Id: CreateNamespace.Mod,v 1.2 2001/12/20 17:27:51 mva Exp $	 *)
+(* 	$Id: CreateNamespace.Mod,v 1.3 2002/01/25 21:11:53 mva Exp $	 *)
 MODULE OOC:SymbolTable:CreateNamespace [OOC_EXTENSIONS];
 (*  Creates namespaces for module, and resolves type names in declarations.
-    Copyright (C) 2000, 2001  Michael van Acken
+    Copyright (C) 2000-2002  Michael van Acken
 
     This file is part of OOC.
 
@@ -436,7 +436,8 @@ PROCEDURE CreateNamespace* (root: Sym.Module;
           item. type := GetTypeByName (item. type, contextOfUse, FALSE, errList)
           
         | item: Sym.VarDecl DO
-          item. type := GetTypeByName (item. type, contextOfUse, FALSE, errList);
+          item. SetType (GetTypeByName (item. type, contextOfUse, FALSE, errList));
+          
         | item: Sym.FieldDecl DO
           item. type := GetTypeByName (item. type, contextOfUse, FALSE, errList)
           
