@@ -1,4 +1,4 @@
-(* 	$Id: WriteC.Mod,v 1.167 2003/07/09 20:03:10 mva Exp $	 *)
+(* 	$Id: WriteC.Mod,v 1.168 2003/07/14 22:09:59 mva Exp $	 *)
 MODULE OOC:SSA:WriteC [OOC_EXTENSIONS];
 (*  Translates a set of scheduled SSA instructions to plain C.
     Copyright (C) 2001, 2002, 2003  Michael van Acken
@@ -645,10 +645,28 @@ PROCEDURE GetPreloadId(preloadedVars: IntDict.Dictionary;
     RETURN id;
   END GetPreloadId;
 
+PROCEDURE WriteExceptionContext(w: Writer; instr: SSA.Instr): Object.Object;
+  VAR
+    obj: Object.Object;
+  BEGIN
+    CASE instr.opcode OF
+    | Opcode.pushExceptionContext:
+      (* keep instr *)
+    | Opcode.clearException, Opcode.storeCurrentException,
+      Opcode.currentException:
+      instr := instr.opndList.arg.instr;
+    END;
+    obj := w.jmpbufMap.Get(instr.opndList.arg.instr);
+    w.WriteString("_context");
+    w.WriteObject(obj);
+    RETURN obj;
+  END WriteExceptionContext;
+
 PROCEDURE WriteExpr (w: Writer; instr: SSA.Instr);
   VAR
     opnd: SSA.Opnd;
     var: SSA.Result;
+    obj: Object.Object;
 
   PROCEDURE ^ Call (call: SSA.Instr);
     
@@ -1285,9 +1303,15 @@ PROCEDURE WriteExpr (w: Writer; instr: SSA.Instr);
       END;
       Call (instr);
 
+    | Opcode.storeCurrentException:
+      CastFromPtr(instr);
+      w.WriteString("Exception__StoreCurrentException(&");
+      obj := WriteExceptionContext(w, instr);
+      w.WriteString(")");
     | Opcode.currentException:
       CastFromPtr(instr);
-      w.WriteString("Exception__Current()");
+      obj := WriteExceptionContext(w, instr);
+      w.WriteString(".localException");
       
     | Opcode.preloadedVar:
       PreloadedVar(instr);
@@ -1390,7 +1414,7 @@ PROCEDURE (w: Writer) WriteInstrList (b: Schedule.Block);
       END;
       RETURN (opnd. arg. instr. opcode = Opcode.return);
     END AllPathsClosed;
-  
+
   BEGIN
     proxy := b. proxyList;
     WHILE (proxy # NIL) DO
@@ -1503,9 +1527,8 @@ PROCEDURE (w: Writer) WriteInstrList (b: Schedule.Block);
           w.WriteString(");");
         | Opcode.pushExceptionContext:
           w.Newline;
-          w.WriteString("Exception__PushContext(&_context");
-          obj := w.jmpbufMap.Get(instr.opndList.arg.instr);
-          w.WriteObject(obj);
+          w.WriteString("Exception__PushContext(&");
+          obj := WriteExceptionContext(w, instr);
           w.WriteString(", &_target");
           w.WriteObject(obj);
           w.WriteString(");");
@@ -1517,10 +1540,7 @@ PROCEDURE (w: Writer) WriteInstrList (b: Schedule.Block);
           w.WriteString(");");
         | Opcode.clearException:
           w.Newline;
-          w.WriteString("Exception__ClearFixed(&_context");
-          obj := w.jmpbufMap.Get(instr.opndList.arg.instr.opndList.arg.instr);
-          w.WriteObject(obj);
-          w.WriteString(");");
+          w.WriteString("Exception__Clear();");
         | Opcode.activateContext:
           w.Newline;
           w.WriteString("Exception__ActivateContext();");
