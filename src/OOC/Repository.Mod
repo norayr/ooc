@@ -1,4 +1,4 @@
-(* 	$Id: Repository.Mod,v 1.44 2003/11/13 23:02:08 mva Exp $	 *)
+(* 	$Id: Repository.Mod,v 1.45 2004/03/01 22:12:11 mva Exp $	 *)
 MODULE OOC:Repository [OOC_EXTENSIONS];
 (*  Abstraction of storage of source, intermediate, and target code.
     Copyright (C) 2001, 2002, 2003  Michael van Acken
@@ -206,7 +206,11 @@ CONST
   (**Represents the executable one gets when using this module as a program's
      main module.  *)
   modLibrary* = 19;
-  (**An OS library created from a source file with a @samp{LIBRARY} directive.
+  (**An OS library created from a source file that the package descriptor
+     indicates as the main module of a library.  Typically, the module
+     is simply a list of @code{IMPORT}s pulling in all modules that should
+     be part of the library.
+                                 
      The library includes a static part, and, optionally, a shared part.
      Static libraries are included into the binary when building an executable,
      while shared libaries are resolved and linked when the executable is
