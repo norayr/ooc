@@ -1,4 +1,4 @@
-(* 	$Id: Destore.Mod,v 1.24 2002/04/11 21:23:13 mva Exp $	 *)
+(* 	$Id: Destore.Mod,v 1.25 2002/04/14 08:49:29 mva Exp $	 *)
 MODULE OOC:SSA:Destore;
 (*  Converts reads from/writes to memory into local values.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -550,6 +550,11 @@ PROCEDURE Transform* (pb: SSA.ProcBlock; tr: TypeRules.Rules);
             CASE select. opcode OF
             | Opcode.select:
               opnd := select. NthOpnd (pathNum*2+2);
+
+            | Opcode.selectExit:         (* place collect _before_ "exit" *)
+              opnd := select. NthOpnd (pathNum+1);
+              ASSERT (opnd. arg. instr. opcode = Opcode.exit);
+              opnd := opnd. arg. instr. opndList;
               
             | Opcode.loopStart:
               IF (pathNum = 0) THEN
@@ -559,6 +564,7 @@ PROCEDURE Transform* (pb: SSA.ProcBlock; tr: TypeRules.Rules);
                 opnd := loopEnd. GetOpndClass (Opnd.backwardFeed);
               END;
             END;
+            
             IF (opnd. arg. instr. opcode = Opcode.collect) THEN
               RETURN opnd. arg.instr
             ELSE
