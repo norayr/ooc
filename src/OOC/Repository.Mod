@@ -1,4 +1,4 @@
-(* 	$Id: Repository.Mod,v 1.13 2002/07/07 08:58:35 mva Exp $	 *)
+(* 	$Id: Repository.Mod,v 1.14 2002/07/21 11:46:12 mva Exp $	 *)
 MODULE OOC:Repository [OOC_EXTENSIONS];
 (*  Abstraction of storage of source, intermediate, and target code.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -292,7 +292,7 @@ PROCEDURE (m: Module) GetURI* (fileId: FileId): URI.HierarchicalURI;
        the given name, instead of the automatically generated one *)
     IF (fileId = modCodeFileC) & (m. symbolTable # NIL) &
        (m. symbolTable. class # Sym.mcStandard) THEN
-      RETURN m. symbolTable. GetExternalSource();
+      RETURN m. symbolTable. GetExternalSource (m. origin. baseURI);
     ELSE
       RETURN NIL;
     END;

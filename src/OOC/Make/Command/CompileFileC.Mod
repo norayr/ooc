@@ -1,4 +1,4 @@
-(* 	$Id: CompileFileC.Mod,v 1.8 2002/07/16 12:05:48 mva Exp $	 *)
+(* 	$Id: CompileFileC.Mod,v 1.9 2002/07/21 11:46:12 mva Exp $	 *)
 MODULE OOC:Make:Command:CompileFileC;
 (*  Translates a C file into an object file.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -74,7 +74,7 @@ PROCEDURE New* (context: Make.Context; module: Repository.Module;
          ((symTab. class = Sym.mcForeign) OR
           (symTab. class = Sym.mcInterface)) THEN
         cmd. externalSource := TRUE;
-        cmd. sourceURI := symTab. GetExternalSource()
+        cmd. sourceURI := symTab. GetExternalSource (module. origin. baseURI);
       END
     END;
     
