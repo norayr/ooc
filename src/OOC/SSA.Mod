@@ -1,4 +1,4 @@
-(* 	$Id: SSA.Mod,v 1.53 2002/08/10 17:43:09 mva Exp $	 *)
+(* 	$Id: SSA.Mod,v 1.54 2002/08/10 18:36:44 mva Exp $	 *)
 MODULE OOC:SSA;
 (*  Data structures for SSA code representation.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -360,9 +360,9 @@ PROCEDURE (opnd: Opnd) IsValueOpnd*(): BOOLEAN;
   BEGIN
     CASE opnd. class OF
     | OpndClass.antiDependency,
-      OpndClass.regionDependency(*,  FIXME... this breaks bootstrap test with rtc disabled ...
+      OpndClass.regionDependency,
       OpndClass.readDesign,
-      OpndClass.writeDesign*):
+      OpndClass.writeDesign:
       RETURN FALSE;
     ELSE
       RETURN TRUE;
