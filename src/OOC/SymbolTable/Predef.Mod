@@ -1,4 +1,4 @@
-(* 	$Id: Predef.Mod,v 1.11 2002/01/20 15:01:40 mva Exp $	 *)
+(* 	$Id: Predef.Mod,v 1.12 2002/01/27 16:19:31 mva Exp $	 *)
 MODULE OOC:SymbolTable:Predef;
 (*  Defines symbol table of pseudo module with predefined entities.
     Copyright (C) 2000, 2001, 2002  Michael van Acken
@@ -58,8 +58,10 @@ CONST
   assert* = 0;                           (* ASSERT *)
   len* = 1;                              (* LEN *)
   size* = 2;                             (* SIZE *)
-
-
+  inc* = 3;                              (* INC *)
+  dec* = 4;                              (* DEC *)
+  
+  
 PROCEDURE GetName (name: ARRAY OF CHAR): Sym.Name;
   VAR
     n: Sym.Name;
@@ -141,6 +143,8 @@ PROCEDURE CreatePredef* (stb: Builder.Builder): Sym.Module;
     PredefProc (assert, "ASSERT");
     PredefProc (len, "LEN");
     PredefProc (size, "SIZE");
+    PredefProc (inc, "INC");
+    PredefProc (dec, "DEC");
     
     stb. Finalize (module);
     RETURN module
