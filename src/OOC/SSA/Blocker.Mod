@@ -1,4 +1,4 @@
-(* 	$Id: Blocker.Mod,v 1.37 2002/12/16 19:09:09 mva Exp $	 *)
+(* 	$Id: Blocker.Mod,v 1.38 2002/12/17 01:23:13 mva Exp $	 *)
 MODULE OOC:SSA:Blocker;
 (*  Imposes a block structure on a flat list of SSA instructions.
     Copyright (C) 2002  Michael van Acken
@@ -24,9 +24,9 @@ MODULE OOC:SSA:Blocker;
 
 IMPORT
   <*IF DEBUG_BLOCKER THEN*>Log,OOC:SSA:Check,StdChannels,<*END*>
-  SYSTEM, Object,
-  Channel, TextRider, ADT:String, ADT:Dictionary,
-  IntDictionary := ADT:Dictionary:IntValue, Language:Integer,
+  SYSTEM, Object, Object:BigInt, ADT:String, ADT:Dictionary,
+  IntDictionary := ADT:Dictionary:IntValue,
+  Channel, TextRider,
   OOC:SSA, OOC:SSA:Opcode, OOC:SSA:Opnd, OOC:SSA:DeadCodeElimination,
   OOC:SSA:Destore;
   
@@ -533,7 +533,7 @@ PROCEDURE WriteBlocks (c: Channel.Channel; pb: SSA.ProcBlock; root: Region;
             w. WriteString (instr. opndList. nextOpnd. nextOpnd.
                             arg(SSA.DeclRef). decl. name. str^);
             w. WriteString ("/dim");
-            w. WriteLInt (instr. opndList. arg(SSA.Const). value(Integer.Value). ToInt(), 0);
+            w. WriteLInt (instr. opndList. arg(SSA.Const). value(BigInt.BigInt). ToLongInt(), 0);
           ELSE
             instr. LogOpcode ("instr.opcode");
             ASSERT (FALSE);

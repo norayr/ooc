@@ -1,4 +1,4 @@
-(* 	$Id: WriteC.Mod,v 1.140 2002/12/16 19:09:03 mva Exp $	 *)
+(* 	$Id: WriteC.Mod,v 1.141 2002/12/17 01:23:13 mva Exp $	 *)
 MODULE OOC:SSA:WriteC [OOC_EXTENSIONS];
 (*  Translates a set of scheduled SSA instructions to plain C.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -22,8 +22,8 @@ MODULE OOC:SSA:WriteC [OOC_EXTENSIONS];
 
 IMPORT
   IntStr, Out, StdChannels, Strings, StringSearch,
-  Object, ADT:String, ADT:Dictionary, ADT:ArrayList,
-  LString := Language:String, Language:String8, Sym := OOC:SymbolTable,
+  Object, Object:Boxed, ADT:String, ADT:Dictionary, ADT:ArrayList,
+  Sym := OOC:SymbolTable,
   TR := OOC:SymbolTable:TypeRules, OOC:SymbolTable:Predef,
   OOC:SymbolTable:Builder,
   OOC:IR, OOC:IR:VisitAll, OOC:SSA:Opcode, OOC:SSA:Opnd,
@@ -592,7 +592,7 @@ PROCEDURE CastToPtr (w: Writer; var: SSA.Result; type: Sym.Type;
           passByReference OR
           TR.IsPredefType (type, Predef.ptr) THEN
       IF (var IS SSA.Const) &
-         (var(SSA.Const). value IS LString.Value) THEN
+         (var(SSA.Const). value IS Boxed.String) THEN
         (* omit cast on string constant *)
       ELSIF passByReference OR
             (type. namingDecl = NIL) OR
@@ -1675,6 +1675,7 @@ PROCEDURE (t: Translator) WriteProcBody* (proc: IR.Procedure);
     VAR
       i, count: LONGINT;
       opnd: SSA.Opnd;
+      chars: Object.CharsLatin1;
     BEGIN
       FOR i := 0 TO vars.size-1 DO
         w.Newline;
@@ -1683,7 +1684,8 @@ PROCEDURE (t: Translator) WriteProcBody* (proc: IR.Procedure);
         w.WriteString(" = ");
 
         opnd := vars.array[i](SSA.Instr). opndList;
-        w.WriteString(opnd.arg(SSA.Const).value(String8.Value).value.array^);
+        chars := opnd.arg(SSA.Const).value(Boxed.String).value(Object.String8).CharsLatin1();
+        w.WriteString(chars^);
         w.WriteString("(");
         count := 0;
         opnd := opnd. nextOpnd;

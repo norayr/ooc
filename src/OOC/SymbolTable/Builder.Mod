@@ -1,4 +1,4 @@
-(* 	$Id: Builder.Mod,v 1.26 2002/12/16 19:09:01 mva Exp $	 *)
+(* 	$Id: Builder.Mod,v 1.27 2002/12/17 01:23:13 mva Exp $	 *)
 MODULE OOC:SymbolTable:Builder [OOC_EXTENSIONS];
 (*  Defines a builder class with factory methods for symbol table entries.
     Copyright (C) 2000-2002  Michael van Acken
@@ -21,7 +21,7 @@ MODULE OOC:SymbolTable:Builder [OOC_EXTENSIONS];
 *)
 
 IMPORT
-  Out, Strings, Channel, Language, ADT:Storable, ADT:Object:Storage,
+  Out, Strings, Channel, Object:Boxed, ADT:Storable, ADT:Object:Storage,
   OOC:Doc, OOC:AST, Sym := OOC:SymbolTable;
 
 
@@ -116,7 +116,7 @@ PROCEDURE (b: Builder) NewConstDecl* (parent: Sym.Item; name: Sym.Name;
                                       visibleFrom: Sym.ModulePos;
                                       exportMark: Sym.ExportMark;
                                       docString: Doc.Document;
-                                      value: Language.Value;
+                                      value: Boxed.Object;
                                       type: Sym.PredefType;
                                       constExpr: AST.Node): Sym.ConstDecl;
 (**Note: If the value and type of the constant are not known yet, then
