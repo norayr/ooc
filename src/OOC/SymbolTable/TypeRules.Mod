@@ -1,4 +1,4 @@
-(* 	$Id: TypeRules.Mod,v 1.15 2002/06/01 20:36:05 mva Exp $	 *)
+(* 	$Id: TypeRules.Mod,v 1.16 2002/06/02 11:48:19 mva Exp $	 *)
 MODULE OOC:SymbolTable:TypeRules;
 (*  Defines the type rules of the language.
     Copyright (C) 2000-2002  Michael van Acken
@@ -375,6 +375,17 @@ PROCEDURE (tr: Rules) IsComponentOf* (subType, superType: Sym.Type;
       RETURN FALSE
     END
   END IsComponentOf;
+
+PROCEDURE (tr: Rules) IsByteCompatible* (type: Sym.Type): BOOLEAN;
+(**Returns @code{TRUE}, iff the type @oparam{type} can be assigned to
+   a @samp{BYTE} variable.  *)
+  BEGIN
+    WITH type: Sym.PredefType DO
+      RETURN (type. id = Predef.char) OR (type. id = Predef.shortint);
+    ELSE
+      RETURN FALSE;
+    END;
+  END IsByteCompatible;
 
 
 PROCEDURE (tr: Rules) AllocateType* (type: Sym.Type);
