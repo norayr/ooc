@@ -1,4 +1,4 @@
-(* 	$Id: SSA.Mod,v 1.65 2002/12/06 01:49:28 mva Exp $	 *)
+(* 	$Id: SSA.Mod,v 1.66 2002/12/11 06:23:32 mva Exp $	 *)
 MODULE OOC:SSA;
 (*  Data structures for SSA code representation.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -73,7 +73,10 @@ TYPE
     type-: Sym.Type;
     passByReference-: BOOLEAN;
   END;
-  
+
+CONST
+  initMarker* = -1;
+      
 TYPE
   ResultDesc = RECORD 
     (NodeDesc)
@@ -411,7 +414,7 @@ PROCEDURE InitResult (res: Result; instr: Instr; class: ResultClass.Class;
     res. class := class;
     res. subclass := subclass;
     res. info := NIL;
-    res. marker := -1;
+    res. marker := initMarker;
     res. useList := NIL;
   END InitResult;
 
