@@ -1,4 +1,4 @@
-(*	$Id: Storage.Mod,v 1.1 2002/07/14 19:49:40 mva Exp $	*)
+(*	$Id: Storage.Mod,v 1.2 2002/07/15 11:24:30 mva Exp $	*)
 MODULE ADT:Object:Storage;
 (*  Implements a framework for persistent objects.
     Copyright (C) 2000, 2001  Michael van Acken
@@ -207,10 +207,7 @@ PROCEDURE (r: Reader) ReadObject* (VAR obj: Object.Object);
         
         (* retrieve module and type name; create new entry for type table *)
         r. ReadString (r. name);
-        module := RT0.modules;
-        WHILE (module # NIL) & (module. name^ # r. name) DO
-          module := module. next
-        END;
+        module := RT0.ThisModule (r. name);
         IF (module = NIL) THEN
           NEW (r. typeTab[tref]. moduleName, Strings.Length (r. name)+1);
           COPY (r. name, r. typeTab[tref]. moduleName^);
@@ -219,7 +216,7 @@ PROCEDURE (r: Reader) ReadObject* (VAR obj: Object.Object);
         ELSE
           r. typeTab[tref]. moduleName := module. name;
           r. ReadString (r. name);
-          tp := RT0.This (module, r. name);
+          tp := RT0.ThisType (module, r. name);
         END;
         IF (tp = NIL) THEN
           NEW (r. typeTab[tref]. typeName, Strings.Length (r. name)+1);
