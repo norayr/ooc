@@ -1,4 +1,4 @@
-(* 	$Id: IR.Mod,v 1.149 2002/07/21 12:41:44 mva Exp $	 *)
+(* 	$Id: IR.Mod,v 1.150 2002/07/24 22:48:39 sgreenhill Exp $	 *)
 MODULE OOC:IR [OOC_EXTENSIONS];
 (*  High-level intermediate code representation.
     Copyright (C) 2001, 2002  Michael van Acken, Stewart Greenhill
@@ -2653,6 +2653,7 @@ VAR
   test : Expression;
 BEGIN
   guardType := ref. decl(Sym.TypeDecl). type;
+  b.CheckFunctionOp(design, sym);
   test := b.NewTypeTest(sym, design, ref);
   IF test IS TypeTest THEN
     NEW(guard);
