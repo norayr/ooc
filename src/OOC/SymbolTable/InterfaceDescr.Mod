@@ -1,4 +1,4 @@
-(* 	$Id: InterfaceDescr.Mod,v 1.16 2003/05/11 20:25:20 mva Exp $	 *)
+(* 	$Id: InterfaceDescr.Mod,v 1.17 2003/05/11 22:55:38 mva Exp $	 *)
 MODULE OOC:SymbolTable:InterfaceDescr;
 (*  Writes a description of a module's interface as XML.
     Copyright (C) 2000, 2001, 2002, 2003  Michael van Acken
@@ -600,7 +600,7 @@ RAISES IO.Error;
     w. WriteTextDecl ("1.0", "no");
     w. NewLine;
     w. Write8 ("<!DOCTYPE interface-description SYSTEM '");
-    w. WriteURI (GetSystemId (repositories), FALSE);
+    w. WriteURI (GetSystemId (repositories), TRUE);
     w. Write8 ("'>");
 (*    Sym.Prune (module, Exports.GetExports (module)); (* ... *)*)
     (* note: prune doesn't work if not-exported declarations are targets
