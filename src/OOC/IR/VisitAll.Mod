@@ -1,4 +1,4 @@
-(* 	$Id: VisitAll.Mod,v 1.2 2002/06/09 21:26:03 mva Exp $	 *)
+(* 	$Id: VisitAll.Mod,v 1.3 2002/06/11 21:34:36 mva Exp $	 *)
 MODULE OOC:IR:VisitAll;
 (*  A visitor traversing the whole IR data structure.
     Copyright (C) 2002  Michael van Acken
@@ -158,6 +158,12 @@ PROCEDURE (v: Visitor) VisitSetRange* (range: IR.SetRange);
     range. from. Accept (v);
     range. to. Accept (v);
   END VisitSetRange;
+
+PROCEDURE (v: Visitor) VisitShift* (shift: IR.Shift);
+  BEGIN
+    shift. value. Accept (v);
+    shift. by. Accept (v);
+  END VisitShift;
 
 PROCEDURE (v: Visitor) VisitTypeCast* (op: IR.TypeCast);
   BEGIN

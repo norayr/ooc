@@ -1,4 +1,4 @@
-(* 	$Id: WriteC.Mod,v 1.82 2002/06/09 21:26:03 mva Exp $	 *)
+(* 	$Id: WriteC.Mod,v 1.83 2002/06/11 21:34:35 mva Exp $	 *)
 MODULE OOC:SSA:WriteC [OOC_EXTENSIONS];
 (*  Translates a set of scheduled SSA instructions to plain C.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -775,6 +775,17 @@ PROCEDURE (w: Writer) WriteInstrList (b: Schedule.Block;
       w. WriteString (");");
     END CmpString;
   
+  PROCEDURE Shift (instr: SSA.Instr);
+    BEGIN
+      w. WriteString ("_lsh(");
+      w. WriteString (w. basicType[Allocator.SubclassToBasicType (instr. subclass)]. repr);
+      w. WriteString (", ");
+      w. Ref (instr. opndList);
+      w. WriteString (", ");
+      w. Ref (instr. opndList. nextOpnd);
+      w. WriteString (");");
+    END Shift;
+
   PROCEDURE AllPathsClosed (selectReturn: SSA.Instr): BOOLEAN;
   (* Returns TRUE if all paths into the "select-return" end with a
      "return" instruction.  *)
@@ -1047,6 +1058,8 @@ PROCEDURE (w: Writer) WriteInstrList (b: Schedule.Block;
         WriteMonadicOp (instr, "_cap(", ");");
       | Opcode.entier:
         WriteMonadicOp (instr, "_entier(", ");");
+      | Opcode.lsh:
+        Shift (instr);
       | Opcode.odd:
         WriteMonadicOp (instr, "_odd(", ");");
         

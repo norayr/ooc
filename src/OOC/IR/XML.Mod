@@ -1,4 +1,4 @@
-(* 	$Id: XML.Mod,v 1.54 2002/06/09 21:26:03 mva Exp $	 *)
+(* 	$Id: XML.Mod,v 1.55 2002/06/11 21:34:35 mva Exp $	 *)
 MODULE OOC:IR:XML;
 (*  Write an IR data structure as an XML document.
     Copyright (C) 2001, 2002  Michael van Acken, Stewart Greenhill
@@ -261,6 +261,14 @@ PROCEDURE (v: Visitor) VisitOdd* (odd: IR.Odd);
     odd. operand. Accept (v);
     v. w. EndTag;  (* odd *)
   END VisitOdd;
+
+PROCEDURE (v: Visitor) VisitShift* (shift: IR.Shift);
+  BEGIN
+    v. w. StartTag ("logical-shift", FALSE);
+    shift. value. Accept (v);
+    shift. by. Accept (v);
+    v. w. EndTag;  (* logical-shift *)
+  END VisitShift;
 
 PROCEDURE VisitDyadicOp (v: Visitor; op: IR.Operator; variant : SHORTINT; left, right : IR.Expression; name: ARRAY OF CHAR);
   BEGIN
