@@ -1,4 +1,4 @@
-(* 	$Id: ConstFold.Mod,v 1.61 2002/07/17 17:25:12 mva Exp $	 *)
+(* 	$Id: ConstFold.Mod,v 1.62 2002/10/06 18:47:50 mva Exp $	 *)
 MODULE OOC:IR:ConstFold;
 (*  Constant folding on IR expressions.
     Copyright (C) 2002  Stewart Greenhill, Michael van Acken
@@ -409,6 +409,35 @@ PROCEDURE (c: ConstFold) VisitBooleanOp* (op: IR.BooleanOp);
       c.result := NIL;
     END;
   END VisitBooleanOp;
+
+PROCEDURE (c: ConstFold) VisitConcat* (op: IR.Concat);
+  VAR
+    i: LONGINT;
+    s8: String8.Value;
+    s16: String16.Value;
+  BEGIN
+    FOR i := 0 TO LEN(op.strings^)-1 DO
+      IF ~(op.strings[i] IS IR.Const) THEN
+        c.result := NIL;
+        RETURN;
+      END;
+    END;
+
+    CASE op.type(Sym.PredefType).id OF
+    | Predef.charString:
+      s8 := String8.NewString("");
+      FOR i := 0 TO LEN(op.strings^)-1 DO
+        s8 := s8.Concat(op.strings[i](IR.Const).value(String8.Value));
+      END;
+      c.result := c.builder.NewConst(op.sym, op.type, s8);
+    | Predef.longcharString:
+      s16 := String16.NewString("");
+      FOR i := 0 TO LEN(op.strings^)-1 DO
+        s16 := s16.Concat(op.strings[i](IR.Const).value(String16.Value));
+      END;
+      c.result := c.builder.NewConst(op.sym, op.type, s16);
+    END;
+  END VisitConcat;
 
 PROCEDURE (c: ConstFold) VisitCompare* (op : IR.Compare);
   VAR l, r : Language.Value; result : Boolean.Value;

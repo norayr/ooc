@@ -1,4 +1,4 @@
-(* 	$Id: VisitAll.Mod,v 1.8 2002/07/15 14:35:08 sgreenhill Exp $	 *)
+(* 	$Id: VisitAll.Mod,v 1.9 2002/10/06 18:47:50 mva Exp $	 *)
 MODULE OOC:IR:VisitAll;
 (*  A visitor traversing the whole IR data structure.
     Copyright (C) 2002  Michael van Acken
@@ -77,6 +77,15 @@ PROCEDURE (v: Visitor) VisitCap* (cap: IR.Cap);
   BEGIN
     cap. operand. Accept (v);
   END VisitCap;
+
+PROCEDURE (v: Visitor) VisitConcat* (op: IR.Concat);
+  VAR
+    i: LONGINT;
+  BEGIN
+    FOR i := 0 TO LEN(op.strings^)-1 DO
+      op.strings[i].Accept(v);
+    END;
+  END VisitConcat;
 
 PROCEDURE (v: Visitor) VisitCompare* (op: IR.Compare);
   BEGIN

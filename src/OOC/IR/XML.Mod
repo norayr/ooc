@@ -1,4 +1,4 @@
-(* 	$Id: XML.Mod,v 1.64 2002/07/16 13:08:14 mva Exp $	 *)
+(* 	$Id: XML.Mod,v 1.65 2002/10/06 18:47:50 mva Exp $	 *)
 MODULE OOC:IR:XML;
 (*  Write an IR data structure as an XML document.
     Copyright (C) 2001, 2002  Michael van Acken, Stewart Greenhill
@@ -22,7 +22,7 @@ MODULE OOC:IR:XML;
 
 
 IMPORT
-  Channel, ADT:String, ADT:StringBuffer, XML:Writer, XML:UnicodeCodec:Latin1,
+  Channel, ADT:String, XML:Writer, XML:UnicodeCodec:Latin1,
   Sym := OOC:SymbolTable, OOC:IR;
 
 TYPE
@@ -255,6 +255,17 @@ PROCEDURE (v: Visitor) VisitBooleanOp* (op: IR.BooleanOp);
   BEGIN
     VisitDyadicOp (v, op, op.variant, op.left, op.right, "booleanOp");
   END VisitBooleanOp;
+
+PROCEDURE (v: Visitor) VisitConcat* (op: IR.Concat);
+  VAR
+    i: LONGINT;
+  BEGIN
+    v.w.StartTagLatin1("concat", FALSE);
+    FOR i := 0 TO LEN(op.strings^)-1 DO
+      op.strings[i].Accept(v);
+    END;
+    v.w.EndTag;                          (* concat *)
+  END VisitConcat;
 
 PROCEDURE (v : Visitor) VisitCompare* (op : IR.Compare);
   BEGIN
