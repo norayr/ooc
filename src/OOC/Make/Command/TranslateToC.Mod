@@ -1,4 +1,4 @@
-(* 	$Id: TranslateToC.Mod,v 1.40 2002/07/08 21:59:11 mva Exp $	 *)
+(* 	$Id: TranslateToC.Mod,v 1.41 2002/07/13 09:47:00 mva Exp $	 *)
 MODULE OOC:Make:Command:TranslateToC [OOC_EXTENSIONS];
 (*  Translates a module file into a bunch of C code files.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -351,7 +351,7 @@ PROCEDURE (cmd: Command) Run*(): BOOLEAN;
         IRtoXML.Write (StdChannels.stdout. NewWriter(), module);
       END;
       
-      exports := Exports.GetExports (symTab);
+      exports := Exports.GetExports (symTab, TRUE);
       
       IF (errList. msgCount = 0) THEN
         (* only attempt to produce output if program compiled without errors *)

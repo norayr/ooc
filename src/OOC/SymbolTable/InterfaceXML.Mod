@@ -1,4 +1,4 @@
-(* 	$Id: InterfaceXML.Mod,v 1.1 2001/12/20 17:25:27 mva Exp $	 *)
+(* 	$Id: InterfaceXML.Mod,v 1.2 2002/07/13 09:47:00 mva Exp $	 *)
 MODULE OOC:SymbolTable:InterfaceXML;
 (*  Writes the exported interface of a module into an XML document.
     Copyright (C) 2000, 2001  Michael van Acken
@@ -277,7 +277,7 @@ PROCEDURE Write* (cw: Channel.Writer; baseURI: URI.HierarchicalURI;
     w. Write8 ("<!DOCTYPE module-interface SYSTEM '");
     w. WriteURI (GetSystemId (repositories), FALSE);
     w. Write8 ("'>");
-    Sym.Prune (module, Exports.GetExports (module)); (* ... *)
+    Sym.Prune (module, Exports.GetExports (module, FALSE));
     WriteItem (module);
     w. EndOfText
   END Write;
