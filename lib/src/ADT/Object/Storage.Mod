@@ -1,4 +1,4 @@
-(*	$Id: Storage.Mod,v 1.8 2002/12/17 19:33:44 mva Exp $	*)
+(*	$Id: Storage.Mod,v 1.9 2002/12/19 04:40:17 mva Exp $	*)
 MODULE ADT:Object:Storage;
 (*  Implements a framework for persistent objects.
     Copyright (C) 2000, 2001  Michael van Acken
@@ -43,7 +43,7 @@ MODULE ADT:Object:Storage;
    embedded objects, but it does contain @code{NIL} pointers.  *)
 
 IMPORT
-  SYSTEM, RT0, Strings, Channel, BinaryRider, Msg, Object,
+  SYSTEM, RT0, Strings, Channel, BinaryRider, Msg, 
   ADT:Storable, Dictionary := ADT:Dictionary:AddressKey:IntValue;
 
 CONST
@@ -374,7 +374,7 @@ PROCEDURE (w: Writer) WriteObject* (obj: Storable.Object);
           COPY (type. name^, w. charBuffer);
           w. WriteString (w. charBuffer);
         END;
-        obj(Storable.Object). Store (w)
+        obj. Store (w)
       END
     END
   END WriteObject;
