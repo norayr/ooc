@@ -1,4 +1,4 @@
-(* 	$Id: Predef.Mod,v 1.42 2002/10/05 17:37:30 mva Exp $	 *)
+(* 	$Id: Predef.Mod,v 1.43 2002/10/18 17:09:47 mva Exp $	 *)
 MODULE OOC:SymbolTable:Predef;
 (*  Defines symbol table of pseudo module with predefined entities.
     Copyright (C) 2000, 2001, 2002  Michael van Acken
@@ -120,6 +120,11 @@ CONST
   move* = 24;                            (* SYSTEM.MOVE *)
   rot* = 25;                             (* SYSTEM.ROT *)
   val* = 26;                             (* SYSTEM.VAL *)
+
+CONST
+  minExitCode* = 0;
+  maxExitCode* = 127+1;
+  defaultAssertCode* = 127;
   
 VAR
   nameStringModule-, nameStringType-: Sym.Name;
