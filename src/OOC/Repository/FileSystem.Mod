@@ -1,4 +1,4 @@
-(* 	$Id: FileSystem.Mod,v 1.22 2003/05/18 14:10:19 mva Exp $	 *)
+(* 	$Id: FileSystem.Mod,v 1.23 2003/05/18 15:59:20 mva Exp $	 *)
 MODULE OOC:Repository:FileSystem;
 (*  Implementation of a repository in the local file system.
     Copyright (C) 2001, 2002, 2003  Michael van Acken
@@ -308,15 +308,11 @@ RAISES IO.Error;
   VAR
     path, str: Rep.URIBuffer;
     uri: URI.URI;
-    res: Msg.Msg;
   BEGIN
     uri := m. GetURI (fileId, TRUE);
     uri(FileURI.URI). GetPath (path);
     Path.dirname (path, str);
-    OSFiles.makedirs(str, OSFiles.defaultMode, res);
-    IF (res # NIL) THEN
-      RAISE(NEW(IO.Error, "Failed to create directory"));
-    END;
+    OSFiles.makedirs(Object.NewLatin1(str), OSFiles.defaultMode);
   END CreateOutputDir;
 
 PROCEDURE (m: Module) GetOutputChannel* (fileId: Rep.FileId;
