@@ -1,4 +1,4 @@
-(* 	$Id: ExtTree.Mod,v 1.2 2001/08/30 09:12:14 mva Exp $	 *)
+(* 	$Id: ExtTree.Mod,v 1.3 2001/09/23 12:06:56 mva Exp $	 *)
 MODULE OOC:AST:ExtTree [OOC_EXTENSIONS];
 (*  Creates extended abstract syntax tree from the parser output.
     Copyright (C) 2000, 2001  Michael van Acken
@@ -522,6 +522,9 @@ TYPE
 
 PROCEDURE (node: Node) [ABSTRACT] Accept* (v: Visitor);
   END Accept;
+
+PROCEDURE InitVisitor* (v: Visitor);
+  END InitVisitor;
 
 PROCEDURE (v: Visitor) VisitNodeList* (nl: NodeList);
   VAR
