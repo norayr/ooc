@@ -1,4 +1,4 @@
-(* 	$Id: Object.Mod,v 1.13 2002/12/30 07:02:16 mva Exp $	 *)
+(* 	$Id: Object.Mod,v 1.14 2003/05/17 10:01:28 mva Exp $	 *)
 MODULE Object;
 (*  Low-level object and string implementation.
     Copyright (C) 2002  Michael van Acken
@@ -531,6 +531,33 @@ PROCEDURE (s: String) ToString*(): String;
   BEGIN
     RETURN s;
   END ToString;
+
+PROCEDURE (s: String) [ABSTRACT] ToString8*(replace: CHAR): String8;
+(**Identity operation returning @oparam{s} if all characters are in the range
+   of @otype{String8}.  Otherwise, characters outside this range are
+   substituted with @oparam{replace}.  *)
+  END ToString8;
+
+PROCEDURE (s: String8) ToString8*(replace: CHAR): String8;
+  BEGIN
+    RETURN s;
+  END ToString8;
+
+PROCEDURE (s: String32) ToString8*(replace: CHAR): String8;
+  VAR
+    data8: CharsLatin1;
+    i: LONGINT;
+  BEGIN
+    NEW(data8, s.length);
+    FOR i := 0 TO s.length-1 DO
+      IF (s.data[i] > 0FFX) THEN
+        data8[i] := replace;
+      ELSE
+        data8[i] := SHORT(SHORT(s.data[i]));
+      END;
+    END;
+    RETURN NewLatin1Region(data8^, 0, s.length);
+  END ToString8;
 
 PROCEDURE (s: String) [ABSTRACT] Equals*(y: Object): BOOLEAN;
   END Equals;
