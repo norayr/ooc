@@ -1,4 +1,4 @@
-(* 	$Id: IR.Mod,v 1.270 2003/10/06 17:43:06 mva Exp $	 *)
+(* 	$Id: IR.Mod,v 1.271 2003/10/07 17:48:43 mva Exp $	 *)
 MODULE OOC:IR [OOC_EXTENSIONS];
 (*  High-level intermediate code representation.
     Copyright (C) 2001-2003  Michael van Acken, Stewart Greenhill
@@ -1650,7 +1650,7 @@ PROCEDURE (b : Builder) CheckFunctionOp(expr : Expression; op : Symbol);
    @oparam{expr} that is a function result. This restriction is applied to
    Deref, Index, and Select operators. *)
 BEGIN
-  IF (expr IS PredefProc) OR (expr IS Call) THEN
+  IF (expr IS PredefProc) OR (expr IS Call) OR (expr IS Constructor) THEN
     b.ErrSym(illegalFunctionOp, op);
   END;
 END CheckFunctionOp;
