@@ -1,4 +1,4 @@
-(* 	$Id: Predef.Mod,v 1.8 2002/01/18 18:08:35 mva Exp $	 *)
+(* 	$Id: Predef.Mod,v 1.9 2002/01/18 19:13:09 mva Exp $	 *)
 MODULE OOC:SymbolTable:Predef;
 (*  Defines symbol table of pseudo module with predefined entities.
     Copyright (C) 2000, 2001, 2002  Michael van Acken
@@ -119,7 +119,7 @@ PROCEDURE CreatePredef* (stb: Builder.Builder): Sym.Module;
       cdecl: Sym.ConstDecl;
     BEGIN
       cdecl := stb. NewConstDecl (module, GetName (name), 0, Sym.nameExported,
-                                  NIL, value, type)
+                                  NIL, value, type, NIL)
     END PredefConst;
   
   BEGIN

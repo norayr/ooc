@@ -1,4 +1,4 @@
-(* 	$Id: SymbolTable.Mod,v 1.5 2002/01/18 18:00:56 mva Exp $	 *)
+(* 	$Id: SymbolTable.Mod,v 1.6 2002/01/18 19:13:09 mva Exp $	 *)
 MODULE OOC:SymbolTable [OOC_EXTENSIONS];
 (*  Defines structure and entries of the symbol table.
     Copyright (C) 2000-2002  Michael van Acken
@@ -494,6 +494,9 @@ TYPE
     (**This class represents constant declarations.  *)
     value-: Language.Value;
     type-: PredefType;
+    constExpr-: TempNode;
+    (**The part of the abstract syntax tree that defines the value of the
+       constant.  *)
   END;
 
 TYPE
@@ -1048,12 +1051,14 @@ PROCEDURE (import: Import) Load* (r: Object.Reader);
 PROCEDURE InitConstDecl* (constDecl: ConstDecl; parent: Item; name: Name;
                           visibleFrom: ModulePos; exportMark: ExportMark;
                           docString: Doc.Document;
-                          value: Language.Value; type: PredefType);
+                          value: Language.Value; type: PredefType;
+                          constExpr: TempNode);
   BEGIN
     InitDeclaration (constDecl, parent, name, visibleFrom, exportMark,
                      docString);
     constDecl. value := value;
     constDecl. type := type;
+    constDecl. constExpr := constExpr;
   END InitConstDecl;
 
 PROCEDURE (constDecl: ConstDecl) SetValueType* (value : Language.Value; type : PredefType);
