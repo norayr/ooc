@@ -1,4 +1,4 @@
-(* 	$Id: Pragmas.Mod,v 1.3 2001/10/17 22:04:21 mva Exp $	 *)
+(* 	$Id: Pragmas.Mod,v 1.4 2003/05/16 19:38:02 mva Exp $	 *)
 MODULE OOC:Config:Pragmas;
 (*  Implements pragma variables.
     Copyright (C) 2001  Michael van Acken
@@ -63,9 +63,9 @@ TYPE
 
 
 
-PROCEDURE Init (s: Section; id: Parser.String; prototypeList: Value.PrototypeList);
+PROCEDURE Init (s: Section; id: Parser.String; prototypeMap: Value.PrototypeMap);
   BEGIN
-    Options.Init (s, id, prototypeList)
+    Options.Init (s, id, prototypeMap)
   END Init;
 
 PROCEDURE New*(): Section;
@@ -73,14 +73,14 @@ PROCEDURE New*(): Section;
     sectionName = "pragmas";
   VAR
     s: Section;
-    prototypeList: Value.PrototypeList;
+    prototypeMap: Value.PrototypeMap;
   BEGIN
-    NEW (s);
-    prototypeList := Value.NewPrototypeList();
-    prototypeList. RegisterPrototype ("boolean", BooleanValue.New (FALSE));
-    prototypeList. RegisterPrototype ("integer", IntegerValue.New (0));
-    prototypeList. RegisterPrototype ("string", StringValue.New (""));
-    Init (s, sectionName, prototypeList);
+    NEW(s);
+    prototypeMap := NEW(Value.PrototypeMap);
+    Value.SetPrototype(prototypeMap, "boolean", BooleanValue.New(FALSE));
+    Value.SetPrototype(prototypeMap, "integer", IntegerValue.New(0));
+    Value.SetPrototype(prototypeMap, "string", StringValue.New(""));
+    Init(s, sectionName, prototypeMap);
     RETURN s
   END New;
 
