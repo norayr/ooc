@@ -1,4 +1,4 @@
-/*	$Id: PFD.c,v 1.1 2002/07/16 15:57:43 mva Exp $	*/
+/*	$Id: PFD.c,v 1.2 2002/12/01 09:55:10 mva Exp $	*/
 /*  Generalized access to POSIX-style file descriptors.
     Copyright (C) 1997-2000  Michael van Acken
 
@@ -89,7 +89,7 @@ void IO_PFD__ErrorContextDesc_GetTemplate(IO_PFD__ErrorContext context, Msg__Msg
 
   if (msg->attribList) {
     Msg__Attribute attr;
-    OOC_CHAR16 eol[2] = {(OOC_CHAR16)CharClass__eol, (OOC_CHAR16)0};
+    OOC_CHAR16 eol[2] = {(OOC_CHAR16)CharClass__eol[0], (OOC_CHAR16)0};
     OOC_CHAR16 str16[Msg__sizeAttrName+1];
     
     attr = msg->attribList;

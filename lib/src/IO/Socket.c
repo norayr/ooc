@@ -1,4 +1,4 @@
-/*	$Id: Socket.c,v 1.2 2002/09/02 17:29:17 mva Exp $	*/
+/*	$Id: Socket.c,v 1.3 2002/12/01 09:55:10 mva Exp $	*/
 /*  Interface to socket facilities.
     Copyright (C) 2000  Michael van Acken
 
@@ -115,7 +115,7 @@ void IO_Socket__ErrorContextDesc_GetTemplate(IO_Socket__ErrorContext context, Ms
   _copy_8to16(str, templ, templ_0d);
   if (msg->attribList) {
     Msg__Attribute attr;
-    OOC_CHAR16 eol[2] = {(OOC_CHAR16)CharClass__eol, (OOC_CHAR16)0};
+    OOC_CHAR16 eol[2] = {(OOC_CHAR16)CharClass__eol[0], (OOC_CHAR16)0};
     OOC_CHAR16 str16[Msg__sizeAttrName+1];
 
     attr = msg->attribList;

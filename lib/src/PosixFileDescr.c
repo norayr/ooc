@@ -1,4 +1,4 @@
-/*	$Id: PosixFileDescr.c,v 1.1 2002/06/01 13:09:49 mva Exp $	*/
+/*	$Id: PosixFileDescr.c,v 1.2 2002/12/01 09:55:10 mva Exp $	*/
 /*  Generalized access to POSIX-style file descriptors.
     Copyright (C) 1997-2000, 2002  Michael van Acken
 
@@ -84,7 +84,7 @@ void PosixFileDescr__ErrorContextDesc_GetTemplate(PosixFileDescr__ErrorContext c
   
   if (msg->attribList) {
     Msg__Attribute attr;
-    OOC_CHAR16 eol[2] = {(OOC_CHAR16)CharClass__eol, (OOC_CHAR16)0};
+    OOC_CHAR16 eol[2] = {(OOC_CHAR16)CharClass__eol[0], (OOC_CHAR16)0};
     OOC_CHAR16 str16[Msg__sizeAttrName+1];
     
     /*LongStrings__Append(eol, 2, templ, templ_0d);*/
