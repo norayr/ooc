@@ -1,4 +1,4 @@
-(* 	$Id: Make.Mod,v 1.57 2003/05/18 16:17:51 mva Exp $	 *)
+(* 	$Id: Make.Mod,v 1.58 2003/05/18 18:38:46 mva Exp $	 *)
 MODULE OOC:Make;
 (*  Builds object files, libraries, binaries, and the like.
     Copyright (C) 2002, 2003  Michael van Acken
@@ -780,8 +780,8 @@ RAISES IO.Error;
         sb.AppendLatin1(path);
 
         (* create directory for HTML file, if it does not exist *)
-        Path.dirname (path, path);
-        OSFiles.MakeDirs (Object.NewLatin1(path), OSFiles.defaultMode);
+        OSFiles.MakeDirs (Path.DirName(Object.NewLatin1(path)),
+                          OSFiles.defaultMode);
         
         (* append file name of style sheet *)
         uri := GetSystemId (Config.repositories);

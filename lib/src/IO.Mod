@@ -1,4 +1,4 @@
-(*	$Id: IO.Mod,v 1.7 2003/05/18 15:55:10 mva Exp $	*)
+(*	$Id: IO.Mod,v 1.8 2003/05/18 18:38:48 mva Exp $	*)
 MODULE IO;
 (*  Defines common behaviour of I/O channel and selector.
     Copyright (C) 2003  Michael van Acken
@@ -151,6 +151,16 @@ TYPE
   FileBusy* = POINTER TO FileBusyDesc;
   FileBusyDesc = RECORD
   (**This exception is raised if a C function returns a @samp{EBUSY} error. *)
+    (ErrorDesc)
+  END;
+  InvalidArgument* = POINTER TO InvalidArgumentDesc;
+  InvalidArgumentDesc = RECORD
+  (**This exception is raised if a C function returns a @samp{EINVAL} error. *)
+    (ErrorDesc)
+  END;
+  OutOfRange* = POINTER TO OutOfRangeDesc;
+  OutOfRangeDesc = RECORD
+  (**This exception is raised if a C function returns a @samp{ERANGE} error. *)
     (ErrorDesc)
   END;
 

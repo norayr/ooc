@@ -1,4 +1,4 @@
-(* 	$Id: FileSystem.Mod,v 1.24 2003/05/18 16:17:49 mva Exp $	 *)
+(* 	$Id: FileSystem.Mod,v 1.25 2003/05/18 18:38:46 mva Exp $	 *)
 MODULE OOC:Repository:FileSystem;
 (*  Implementation of a repository in the local file system.
     Copyright (C) 2001, 2002, 2003  Michael van Acken
@@ -306,13 +306,13 @@ RAISES IO.Error;
 PROCEDURE (m: Module) CreateOutputDir* (fileId: Rep.FileId)
 RAISES IO.Error;
   VAR
-    path, str: Rep.URIBuffer;
+    path: Rep.URIBuffer;
     uri: URI.URI;
   BEGIN
     uri := m. GetURI (fileId, TRUE);
     uri(FileURI.URI). GetPath (path);
-    Path.dirname (path, str);
-    OSFiles.MakeDirs(Object.NewLatin1(str), OSFiles.defaultMode);
+    OSFiles.MakeDirs(Path.DirName(Object.NewLatin1(path)),
+                     OSFiles.defaultMode);
   END CreateOutputDir;
 
 PROCEDURE (m: Module) GetOutputChannel* (fileId: Rep.FileId;

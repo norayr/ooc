@@ -1,4 +1,4 @@
-(* 	$Id: Files.Mod,v 1.7 2003/05/18 16:17:51 mva Exp $	 *)
+(* 	$Id: Files.Mod,v 1.8 2003/05/18 18:38:48 mva Exp $	 *)
 MODULE OS:Files [FOREIGN "C"; LINK FILE "Files.c";
   <*IF HAVE_LIB_MINGWEX THEN*> LIB "mingwex"; <*END*>
   END];
@@ -23,8 +23,7 @@ MODULE OS:Files [FOREIGN "C"; LINK FILE "Files.c";
 
 (**This is a subset of the @samp{Files & Directories} section of Python's
    @samp{os} package.  If you want to add to this module, use the Python
-   function signature and add a parameter @samp{res} instead of raising
-   an exception.  *)
+   function signature where appropriate.  *)
 
 IMPORT
   Object, OS:Path, IO, IO:StdChannels;
