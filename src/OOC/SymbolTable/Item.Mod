@@ -1,4 +1,4 @@
-(* 	$Id: Item.Mod,v 1.7 2001/11/12 23:40:22 mva Exp $	 *)
+(* 	$Id: Item.Mod,v 1.8 2001/12/18 02:41:20 mva Exp $	 *)
 MODULE OOC:SymbolTable:Item [OOC_EXTENSIONS];
 (*  Defines structure and entries of the symbol table.
     Copyright (C) 2000, 2001  Michael van Acken
@@ -689,7 +689,7 @@ PROCEDURE (item: Item) Load* (r: Object.Reader);
   END Load;
 
 PROCEDURE (item: Item) Module*(): Module;
-(**Returns the item, that is the root of the item hierarchy that includes
+(**Returns the item, that is the root of the hierarchy that includes
    @oparam{item}.  The returned item is never @code{NIL}, because even
    predefined items are nested in pseudo modules.  *)
   BEGIN
@@ -698,6 +698,20 @@ PROCEDURE (item: Item) Module*(): Module;
     END;
     RETURN item(Module)
   END Module;
+
+PROCEDURE (item: Item) Procedure*(): ProcDecl;
+(**Returns the procedure item in which @oparam{item} is nested.  The result is
+   @code{NIL}, if @oparam{item} is not part of a procedure.  *)
+  BEGIN
+    WHILE (item # NIL) & ~(item IS ProcDecl) DO
+      item := item. parent
+    END;
+    IF (item = NIL) THEN
+      RETURN NIL
+    ELSE
+      RETURN item(ProcDecl)
+    END;
+  END Procedure;
 
 
 PROCEDURE InitDeclaration* (decl: Declaration; parent: Item; name: Name;
