@@ -1,4 +1,4 @@
-(* 	$Id: Opcode.Mod,v 1.49 2002/05/31 01:02:30 mva Exp $	 *)
+(* 	$Id: Opcode.Mod,v 1.50 2002/05/31 10:20:23 mva Exp $	 *)
 MODULE OOC:SSA:Opcode;
 (*  This modules defines opcodes for SSA instructions.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -272,8 +272,19 @@ CONST
      The instruction has one result of class @oconst{*OOC:SSA:Result.store},
      representing the new value of store with the updated variable.  *)
   copy* = 15;
-  (**Copy a record or array value.  Used for assignment statements where
-     the source and target are not scalar values.  Not implemented yet... *)  
+  (**Copy a record or array value.  Used for assignment statements where the
+     source and target are not scalar values.  The instruction is very similar
+     to the @oconst{copyString} opcode below, with two differences:
+
+     @itemize @bullet
+     @item
+     The is only one type operand, because the left and right side of the copy
+     instruction are of the same type.
+
+     @item
+     There is no length operand, because the size of the memory block to be
+     copied is size of the first operand's type.
+     @end itemize  *)  
   copyString* = 16;
   (**Copy a sequence of characters into a string variable.  This corresponds to
      the @samp{COPY} statement.

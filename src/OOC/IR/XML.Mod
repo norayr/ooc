@@ -1,4 +1,4 @@
-(* 	$Id: XML.Mod,v 1.51 2002/05/30 19:54:04 mva Exp $	 *)
+(* 	$Id: XML.Mod,v 1.52 2002/05/31 10:20:23 mva Exp $	 *)
 MODULE OOC:IR:XML;
 (*  Write an IR data structure as an XML document.
     Copyright (C) 2001, 2002  Michael van Acken, Stewart Greenhill
@@ -501,6 +501,18 @@ PROCEDURE (v: Visitor) VisitWhileStatm* (whileStatm: IR.WhileStatm);
     v. w. EndTag;  (* body *)
     v. w. EndTag;  (* while-statm *)
   END VisitWhileStatm;
+
+PROCEDURE (v: Visitor) VisitCopy* (cp: IR.Copy);
+  BEGIN
+    v. w. StartTag ("copy", FALSE);
+    v. w. StartTag ("source", FALSE);
+    cp. source. Accept (v);
+    v. w. EndTag;  (* source *)
+    v. w. StartTag ("dest", FALSE);
+    cp. dest. Accept (v);
+    v. w. EndTag;  (* dest *)
+    v. w. EndTag;  (* copy *)
+  END VisitCopy;
 
 PROCEDURE (v: Visitor) VisitCopyParameter* (cp: IR.CopyParameter);
   BEGIN

@@ -1,4 +1,4 @@
-/*      $Id: __oo2c.h,v 1.14 2002/05/31 01:02:31 mva Exp $        */
+/*      $Id: __oo2c.h,v 1.15 2002/05/31 10:20:24 mva Exp $        */
 /*  Run-time system for C back-ends of OOC2
     Copyright (C) 2001, 2002  Michael van Acken
 
@@ -63,6 +63,14 @@ extern void NORETURN _assertion_failed(OOC_INT32 code, OOC_CHARPOS pos) NORETURN
   OOC_CHAR16* _max=_d+_max_len-1;               \
   while ((_d != _max) && (*(_d++) = *(_s++)));  \
   if (_d == _max) *_d = '\000';                 \
+}
+
+/* copy record or array value */
+#define _copy_block(_src,_dest,_len) {          \
+  char* _d=(char*)_dest;                        \
+  const char* _s=(const char*)_src;             \
+  char* _max=_d+_len;                           \
+  while (_d != _max) { *(_d++) = *(_s++); }     \
 }
 
 /* string compare */
