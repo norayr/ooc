@@ -1,4 +1,4 @@
-(* 	$Id: LoopRewrite.Mod,v 1.14 2003/02/27 02:18:31 mva Exp $	 *)
+(* 	$Id: LoopRewrite.Mod,v 1.15 2003/02/27 04:23:56 mva Exp $	 *)
 MODULE OOC:SSA:LoopRewrite;
 (*  Reassociation and strength reduction within loops.
     Copyright (C) 2003  Michael van Acken
@@ -1001,7 +1001,7 @@ PROCEDURE Rewrite(pb: SSA.ProcBlock; sum: Sum);
       res: SSA.Result;
       instr: SSA.Instr;
     BEGIN
-      res := rc.replacements[0];
+      res := pb.FixSubclass(rc.replacements[0], sum.subclass);
 
       IF (sum.others # zero) THEN
         instr := pb.AddInstr(Opcode.add, sum.subclass);

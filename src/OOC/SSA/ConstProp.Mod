@@ -1,4 +1,4 @@
-(* 	$Id: ConstProp.Mod,v 1.11 2003/02/23 02:35:05 mva Exp $	 *)
+(* 	$Id: ConstProp.Mod,v 1.12 2003/02/27 04:23:56 mva Exp $	 *)
 MODULE OOC:SSA:ConstProp;
 (*  Constant propagation and unreachable code elimination.
     Copyright (C) 2002, 2003  Michael van Acken
@@ -52,7 +52,7 @@ PROCEDURE ComputeConst (pb: SSA.ProcBlock; instr: SSA.Instr): SSA.Const;
       IF (arg1.value IS BigInt.BigInt) &
          (instr.subclass < Opcode.scReal32) THEN
         (* FIXME... check for overflow *)
-        RETURN pb. GetConst(arg1.value, arg1.subclass, NIL);
+        RETURN pb. GetConst(arg1.value, instr.subclass, NIL);
       END;
     ELSIF (instr. SizeOpndList() >= 2) &
        (instr. opcode # Opcode.preloadedVar) &
@@ -100,7 +100,7 @@ PROCEDURE ComputeConst (pb: SSA.ProcBlock; instr: SSA.Instr): SSA.Const;
         IF (v IS Boxed.Boolean) THEN
           RETURN pb. GetConstBool(v(Boxed.Boolean). value);
         ELSE
-          RETURN pb. GetConst(v, arg1.subclass, NIL);
+          RETURN pb. GetConst(v, instr.subclass, NIL);
         END;
       END;
     END;
