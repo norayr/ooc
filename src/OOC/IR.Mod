@@ -1,4 +1,4 @@
-(* 	$Id: IR.Mod,v 1.268 2003/10/04 16:26:53 mva Exp $	 *)
+(* 	$Id: IR.Mod,v 1.269 2003/10/05 13:30:03 mva Exp $	 *)
 MODULE OOC:IR [OOC_EXTENSIONS];
 (*  High-level intermediate code representation.
     Copyright (C) 2001-2003  Michael van Acken, Stewart Greenhill
@@ -1365,7 +1365,7 @@ PROCEDURE (context: ErrorContext) GetTemplate* (msg: Error.Msg; VAR templ: Error
     | noTypeTag:
       t := "This variable has no type tag"
     | cannotCreateInstance:
-      t := "Cannot create an instance an abstract type"
+      t := "Cannot create instance of abstract type"
     | abstractWithBegin:
       t := "Abstract procedure cannot have a BEGIN part"
     | abstractSuperCall:

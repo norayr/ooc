@@ -1,4 +1,4 @@
-(* 	$Id: CreateNamespace.Mod,v 1.66 2003/09/30 17:40:47 mva Exp $	 *)
+(* 	$Id: CreateNamespace.Mod,v 1.67 2003/10/05 13:30:03 mva Exp $	 *)
 MODULE OOC:SymbolTable:CreateNamespace [OOC_EXTENSIONS];
 (*  Creates namespaces for module, and resolves type names in declarations.
     Copyright (C) 2000-2003  Michael van Acken
@@ -123,7 +123,7 @@ PROCEDURE (context: ErrorContext) GetTemplate* (msg: Error.Msg; VAR templ: Error
     | modifierFlagWithoutEffect:
       t := "This modifier flag has no effect here"
     | cannotCreateInstance:
-      t := "Cannot create an instance an abstract type"
+      t := "Cannot create instance of abstract type"
     | abstractProcForConcreteRecord:
       t := "Receiver type is not abstract"
     | abstractProcNotExported:
