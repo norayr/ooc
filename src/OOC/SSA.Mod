@@ -1,4 +1,4 @@
-(* 	$Id: SSA.Mod,v 1.36 2002/05/05 22:28:35 mva Exp $	 *)
+(* 	$Id: SSA.Mod,v 1.37 2002/05/10 14:42:28 mva Exp $	 *)
 MODULE OOC:SSA;
 (*  Data structures for SSA code representation.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -136,6 +136,8 @@ TYPE
   ConstDesc = RECORD
     (InstrDesc)
     value-: Language.Value;
+    (**For a constant representing a @code{NIL} value, this field is
+       @code{NIL}.  *)
     type-: Sym.Type;
   END;
   
@@ -956,16 +958,29 @@ PROCEDURE (pb: ProcBlock) GetConst* (value: Language.Value;
     IF (pb. constMap[bucket] = NIL) THEN
       pb. constMap[bucket] := Dictionary.New();
     END;
-    
-    IF pb. constMap[bucket]. HasKey (value) THEN
-      obj := pb. constMap[bucket]. Get (value);
-      RETURN obj(Const);
+
+    IF (value = NIL) THEN
+      IF pb. constMap[bucket]. HasKey (type) THEN
+        obj := pb. constMap[bucket]. Get (type);
+        RETURN obj(Const);
+      ELSE
+        NEW (const);
+        InitConst (const, Opcode.TypeToSubclass (type), value, type);
+        AppendInstr (pb, const);
+        pb. constMap[bucket]. Set (type, const);
+        RETURN const
+      END;
     ELSE
-      NEW (const);
-      InitConst (const, Opcode.TypeToSubclass (type), value, type);
-      AppendInstr (pb, const);
-      pb. constMap[bucket]. Set (value, const);
-      RETURN const
+      IF pb. constMap[bucket]. HasKey (value) THEN
+        obj := pb. constMap[bucket]. Get (value);
+        RETURN obj(Const);
+      ELSE
+        NEW (const);
+        InitConst (const, Opcode.TypeToSubclass (type), value, type);
+        AppendInstr (pb, const);
+        pb. constMap[bucket]. Set (value, const);
+        RETURN const
+      END;
     END;
   END GetConst;
 
