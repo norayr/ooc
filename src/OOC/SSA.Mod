@@ -1,4 +1,4 @@
-(* 	$Id: SSA.Mod,v 1.47 2002/07/30 06:18:11 mva Exp $	 *)
+(* 	$Id: SSA.Mod,v 1.48 2002/07/31 00:32:28 mva Exp $	 *)
 MODULE OOC:SSA;
 (*  Data structures for SSA code representation.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -800,6 +800,19 @@ PROCEDURE (instr: Instr) IsConst*(): BOOLEAN;
           (instr IS TypeRef) OR (instr IS Address);
     END;
   END IsConst;
+
+PROCEDURE (instr: Instr) UniqueResult*(): BOOLEAN;
+(**Return @code{TRUE} if @oparam{instr} produces a unique result, and cannot
+   be merged with another instruction.  An example for this is a read access
+   of a volatile variable, or a call to the predefined procedure @code{NEW}. *)
+  BEGIN
+    CASE instr. opcode OF
+    | Opcode.newObject, Opcode.exit, Opcode.return:
+      RETURN TRUE;
+    ELSE
+      RETURN FALSE;
+    END;
+  END UniqueResult;
 
 PROCEDURE (instr: Instr) IsSync*(): BOOLEAN;
 (**Returns @code{TRUE} if @oparam{instr} is a synchronization point for the
