@@ -1,4 +1,4 @@
-(* 	$Id: MailTo.Mod,v 1.3 2003/06/01 19:44:56 mva Exp $	 *)
+(* 	$Id: MailTo.Mod,v 1.4 2003/06/03 21:05:18 mva Exp $	 *)
 MODULE URI:Scheme:MailTo;
 (*  Implementation of the "mailto" URI scheme.
     Copyright (C) 2000, 2003  Michael van Acken
@@ -20,7 +20,7 @@ MODULE URI:Scheme:MailTo;
 
 
 IMPORT
-  URI0 := URI, URI:Scheme:Opaque;
+  URI:Scheme:Opaque;
 
 
 TYPE
