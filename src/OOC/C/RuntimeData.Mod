@@ -1,4 +1,4 @@
-(* 	$Id: RuntimeData.Mod,v 1.25 2004/01/16 04:40:19 sgreenhill Exp $	 *)
+(* 	$Id: RuntimeData.Mod,v 1.26 2004/01/20 06:59:57 sgreenhill Exp $	 *)
 MODULE OOC:C:RuntimeData;
 (*  Writes C code for run-time data like type descriptors.
     Copyright (C) 2002, 2003  Michael van Acken
@@ -132,6 +132,10 @@ PROCEDURE Write* (declWriter: DeclWriter.Writer; symTab: Sym.Module;
     
           IF ImplementsFinalize(type) THEN
             OutFlag("RT0__flagFinalize");
+          END;
+        | type : Sym.Array DO
+          IF type.isAtomic THEN
+            OutFlag("RT0__flagAtomic");
           END;
         ELSE
         END;

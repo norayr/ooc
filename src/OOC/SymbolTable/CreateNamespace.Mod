@@ -1,4 +1,4 @@
-(* 	$Id: CreateNamespace.Mod,v 1.73 2004/01/14 23:50:39 mva Exp $	 *)
+(* 	$Id: CreateNamespace.Mod,v 1.74 2004/01/20 06:59:57 sgreenhill Exp $	 *)
 MODULE OOC:SymbolTable:CreateNamespace [OOC_EXTENSIONS];
 (*  Creates namespaces for module, and resolves type names in declarations.
     Copyright (C) 2000-2004  Michael van Acken
@@ -1334,6 +1334,8 @@ RAISES IO.Error;
                 END;
               | Sym.flagReadOnly:
                 SetFlag(item.readOnlyExport, TRUE);
+              | Sym.flagAtomic:
+                SetFlag(item.isAtomic, TRUE);
               ELSE
                 InvalidFlag(flag, invalidModifierFlag);
               END;

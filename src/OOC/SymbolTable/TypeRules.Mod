@@ -1,4 +1,4 @@
-(* 	$Id: TypeRules.Mod,v 1.70 2004/01/12 05:40:17 sgreenhill Exp $	 *)
+(* 	$Id: TypeRules.Mod,v 1.71 2004/01/20 06:59:58 sgreenhill Exp $	 *)
 MODULE OOC:SymbolTable:TypeRules;
 (*  Defines the type rules of the language.
     Copyright (C) 2000-2003  Michael van Acken
@@ -957,6 +957,13 @@ PROCEDURE AllocateType* (type: Sym.Type);
                          type. elementType. align);
         END;
 
+		(* If we read an isAtomic=TRUE from the symbol file, then we do not
+		   want to clobber it -- it might be set because the user marked the
+		   type with NO_TRACED_POINTERS.  *)
+
+        IF IsAtomicType(type) THEN
+          type.isAtomic := TRUE;
+        END;
       | type: Sym.Record DO
         (* initialize size and alignment, take base type into account *)
         IF (type. baseType = NIL) THEN 
