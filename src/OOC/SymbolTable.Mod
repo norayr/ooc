@@ -1,4 +1,4 @@
-(* 	$Id: SymbolTable.Mod,v 1.15 2002/05/02 21:09:00 mva Exp $	 *)
+(* 	$Id: SymbolTable.Mod,v 1.16 2002/05/04 17:53:54 mva Exp $	 *)
 MODULE OOC:SymbolTable [OOC_EXTENSIONS];
 (*  Defines structure and entries of the symbol table.
     Copyright (C) 2000-2002  Michael van Acken
@@ -477,7 +477,7 @@ TYPE
        
     className*: Name;                    (* ... make this read-only? *)
     (**If the record has been classified as being part of a @emph{class}
-       definition, then this field is node @code{NIL}.  In this case, it
+       definition, then this field is not @code{NIL}.  In this case, it
        points to the name of the class, typically the name of the pointer
        type that has this record as its base type.  This field is filled
        in by @oproc{*OOC:SymbolTable:Builder.Finalize}.
