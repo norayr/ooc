@@ -1,4 +1,4 @@
-(*	$Id: Out.Mod,v 1.2 2002/06/16 15:02:23 mva Exp $	*)
+(*	$Id: Out.Mod,v 1.3 2002/06/17 21:45:53 mva Exp $	*)
 MODULE Out [OOC_EXTENSIONS];
 
 (*
@@ -44,7 +44,7 @@ PROCEDURE ClearError*;
 
 
 PROCEDURE SetWriter* (w: TextRider.Writer);
-(* Changes the rider @ovar{writer}.  All following calls to output procedures
+(**Changes the rider @ovar{writer}.  All following calls to output procedures
    will write to @oparam{w}.  The preferred method of connecting to the
    standard output channel is to call @samp{SetWriter(NIL)}.  @emph{Note}: If
    interactive input is desired, ensure that the writer output buffering is
