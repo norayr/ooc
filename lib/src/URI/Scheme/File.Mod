@@ -1,4 +1,4 @@
-(* 	$Id: File.Mod,v 1.5 2003/04/04 08:04:12 sgreenhill Exp $	 *)
+(* 	$Id: File.Mod,v 1.6 2003/04/04 08:27:57 sgreenhill Exp $	 *)
 MODULE URI:Scheme:File;
 (*  Implementation of the "file" URI scheme.
     Copyright (C) 2000, 2003  Michael van Acken
@@ -112,7 +112,7 @@ BEGIN
       (* drive identifier with relative path. Use working directory on that
          drive.  *)
       drive := path[0];
-      IF (drive >= 'A') & (drive < 'Z') THEN
+      IF (drive >= 'A') & (drive <= 'Z') THEN
         id := ORD(drive) - ORD('A') + 1;
       ELSE
         id := ORD(drive) - ORD('a') + 1;
