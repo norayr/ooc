@@ -1,4 +1,4 @@
-(*      $Id: Writer.Mod,v 1.10 2003/05/20 20:10:32 mva Exp $   *)
+(*      $Id: Writer.Mod,v 1.11 2003/06/23 20:56:01 mva Exp $   *)
 MODULE XML:Writer [OOC_EXTENSIONS];
 (*  Support for generating XML documents.
     Copyright (C) 2000-2003  Michael van Acken
@@ -400,7 +400,7 @@ PROCEDURE (w: Writer) AttrObject* (name[NO_COPY]: ARRAY OF Char;
     chars: Object.CharsLatin1;
     s: Object.String;
   BEGIN  (* FIXME... handle wide chars *)
-    s := value.ToString();
+    s := value.ToString8("?");
     chars := s(Object.String8).CharsLatin1();
     w.AttrStringLatin1(name, chars^);
   END AttrObject;
