@@ -1,4 +1,4 @@
-(* 	$Id: IRtoSSA.Mod,v 1.100 2002/11/28 19:31:18 mva Exp $	 *)
+(* 	$Id: IRtoSSA.Mod,v 1.101 2002/12/01 13:30:05 mva Exp $	 *)
 MODULE OOC:SSA:IRtoSSA;
 (*  Converts the IR of a procedure into its SSA representation.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -736,7 +736,12 @@ PROCEDURE StatmSeq* (pb: SSA.ProcBlock; s: SSA.Result;
         RETURN TypeGuard (expr);
         
       | expr: IR.Negate DO
-        instr := pb. AddInstr (Opcode.negate,
+        IF TR.IsPredefType(expr.type, Predef.set) THEN
+          opcode := Opcode.logicalComplement;
+        ELSE
+          opcode := Opcode.negate;
+        END;
+        instr := pb. AddInstr (opcode,
                                Opcode.TypeToSubclass (expr. operand. type));
         instr. AddOpnd (Expression (expr. operand), Opnd.arg);
         RETURN instr;
