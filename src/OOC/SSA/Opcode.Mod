@@ -1,4 +1,4 @@
-(* 	$Id: Opcode.Mod,v 1.93 2003/03/09 18:06:44 mva Exp $	 *)
+(* 	$Id: Opcode.Mod,v 1.94 2003/03/10 22:50:50 mva Exp $	 *)
 MODULE OOC:SSA:Opcode;
 (*  This modules defines opcodes for SSA instructions.
     Copyright (C) 2001-2003  Michael van Acken
@@ -769,9 +769,8 @@ CONST
      only loop rewriting makes use of this instruction, in combination with
      partial redundancy elimination.  *)
   equivPRE* = 85;
-  (**Like @oconst{equiv}, but this instruction has an additional operand
-     referring to a @oconst{collect} instruction.  Use for partial
-     redundancy elimination.  *)
+  (**Like @oconst{equiv}, but used only in the context of the algorithm for
+     partial redundancy elimination.  *)
      
   noop* = 86;
   (**No operation.  Used to anchor other information in the SSA graph.
