@@ -1,4 +1,4 @@
-(* 	$Id: IR.Mod,v 1.78 2002/05/20 18:02:16 mva Exp $	 *)
+(* 	$Id: IR.Mod,v 1.79 2002/05/21 00:09:44 mva Exp $	 *)
 MODULE OOC:IR [OOC_EXTENSIONS];
 (*  High-level intermediate code representation.
     Copyright (C) 2001, 2002  Michael van Acken, Stewart Greenhill
@@ -3115,8 +3115,11 @@ PROCEDURE (b: Builder) NewCall* (design: Expression; arguments: ExpressionList):
         | Predef.char: targetType := Predef.integer;
         END;
         RETURN NewTypeConv (Predef.GetType (targetType), arguments[0]);
+        
+      | Predef.adr:
+        (* FIXME... check that argument has an address *)
+        RETURN b. NewAdr (design. sym, arguments[0]);
       END;
-
     ELSE
       IF (design = b. errorExpr) THEN
         RETURN b. errorExpr;        (* fall through for errors in designator *)
