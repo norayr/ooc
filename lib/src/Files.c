@@ -1,4 +1,4 @@
-/*	$Id: Files.c,v 1.5 2002/12/28 13:21:27 mva Exp $	*/
+/*	$Id: Files.c,v 1.6 2003/03/14 08:44:26 sgreenhill Exp $	*/
 /*  Access to files and file attributes.
     Copyright (C) 1997-2000, 2002  Michael van Acken
 
@@ -482,7 +482,11 @@ static Files__File create_file(const OOC_CHAR8* name, OOC_UINT32 flags,
     } while ((fd == -1) && (errno == EEXIST));
   } else if (mode == MODE_TMP) {
     strcpy(tname, "tmp_XXXXXX");
+#ifdef __MINGW32__
+    fd = call_open(mktemp(tname), flags, mode, &access_mode);
+#else
     fd = mkstemp(tname);
+#endif
   } else {
     fd = call_open(name, flags, mode, &access_mode);
   }
