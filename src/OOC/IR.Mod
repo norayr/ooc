@@ -1,4 +1,4 @@
-(* 	$Id: IR.Mod,v 1.144 2002/07/17 17:17:39 mva Exp $	 *)
+(* 	$Id: IR.Mod,v 1.145 2002/07/17 23:19:57 mva Exp $	 *)
 MODULE OOC:IR [OOC_EXTENSIONS];
 (*  High-level intermediate code representation.
     Copyright (C) 2001, 2002  Michael van Acken, Stewart Greenhill
@@ -1412,8 +1412,8 @@ PROCEDURE (b: Builder) NewIntConst16* (sym: Symbol): Expression;
   
   BEGIN
     (* FIXME... string conversion should probably put into Language.Integer *)
-    result := 0; spos := 0; epos := 0;
-    WHILE (sym. str[epos] # "H") DO
+    result := 0; spos := 0; epos := -1;
+    WHILE (sym. str[epos+1] # "H") DO
       INC (epos);
     END;
     

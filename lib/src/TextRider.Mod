@@ -1,4 +1,4 @@
-(*	$Id: TextRider.Mod,v 1.4 2002/06/18 19:59:28 mva Exp $	*)
+(*	$Id: TextRider.Mod,v 1.5 2002/07/17 23:19:57 mva Exp $	*)
 MODULE TextRider [OOC_EXTENSIONS];
 
 (*
@@ -677,6 +677,7 @@ PROCEDURE HexToInt (str: ARRAY OF CHAR; VAR lint: LONGINT): BOOLEAN;
     WHILE (str[epos] # 0X) DO
       INC (epos);
     END;
+    DEC (epos);
     
     (* skip leading zeros *)
     WHILE (str[spos] = "0") DO 
@@ -699,7 +700,7 @@ PROCEDURE HexToInt (str: ARRAY OF CHAR; VAR lint: LONGINT): BOOLEAN;
       END;
       (* ELSE: number is non-empty sequence of "0", keep lint=0 *)
     END;
-    RETURN TRUE;
+    RETURN (epos >= 0);
   END HexToInt;
 
 PROCEDURE (r: Reader) ReadLInt* (VAR lint: LONGINT);
