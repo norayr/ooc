@@ -1,4 +1,4 @@
-(* 	$Id: Allocator.Mod,v 1.7 2002/05/05 22:28:35 mva Exp $	 *)
+(* 	$Id: Allocator.Mod,v 1.8 2002/05/10 15:23:57 mva Exp $	 *)
 MODULE OOC:SSA:Allocator;
 (*  A register allocator for the C back-end.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -631,6 +631,15 @@ PROCEDURE AssignRegisters* (pb: SSA.ProcBlock; domRoot: Schedule.Block;
         w. WriteChar (";");
       END;
     END WriteNames;
+
+  PROCEDURE ClearBlockInfo (blockList: BlockList);
+    VAR
+      i: LONGINT;
+    BEGIN
+      FOR i := 0 TO LEN (blockList^)-1 DO
+        blockList[i]. info := NIL;
+      END;
+    END ClearBlockInfo;
   
   BEGIN
     exitBlock := pb. selectReturn. info(Schedule.InstrProxy). block;
@@ -662,6 +671,7 @@ PROCEDURE AssignRegisters* (pb: SSA.ProcBlock; domRoot: Schedule.Block;
     registerMap := Dictionary.New();
     FOR i := 0 TO LEN (rfs^)-1 DO
       IF (rfs[i] # NIL) THEN
+        ClearBlockInfo (blockList);
         AssignRegisterFile (rfs[i], enterBlock, exitBlock, deadEnds,
                             registerMap);
         WriteNames (w, rfs[i]. registerType, rfs[i]. names);
