@@ -1,4 +1,4 @@
-(* 	$Id: Schedule.Mod,v 1.14 2002/02/25 21:42:08 mva Exp $	 *)
+(* 	$Id: Schedule.Mod,v 1.15 2002/02/27 09:36:47 mva Exp $	 *)
 MODULE OOC:SSA:Schedule [OOC_EXTENSIONS];
 (*  Generates basic block representation and schedules instructions.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -957,7 +957,7 @@ PROCEDURE Schedule* (pb: SSA.ProcBlock): Block;
       | b: BranchBlock DO
         proxy := b. proxyList;
         WHILE (proxy # NIL) DO
-(*          ASSERT (proxy. instr. opcode # Opcode.collect);*)
+          ASSERT (proxy. instr. opcode # Opcode.collect);
           proxy := proxy. nextProxy
         END;
       | b: DeadEndBlock DO
