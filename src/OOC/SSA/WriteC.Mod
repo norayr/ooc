@@ -1,4 +1,4 @@
-(* 	$Id: WriteC.Mod,v 1.110 2002/07/20 16:48:24 mva Exp $	 *)
+(* 	$Id: WriteC.Mod,v 1.111 2002/07/24 01:06:21 mva Exp $	 *)
 MODULE OOC:SSA:WriteC [OOC_EXTENSIONS];
 (*  Translates a set of scheduled SSA instructions to plain C.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -1465,6 +1465,7 @@ PROCEDURE (t: Translator) WriteProcBody* (proc: IR.Procedure);
     s := IRtoSSA.StatmSeq (pb, enter. nextResult,
                            proc. statmSeq);
     pb. selectReturn. AddOpnd (s, Opnd.store);
+    IRtoSSA.DiscardGets (pb);
 
     (*Blocker.Write (StdChannels.stdout, pb);*)
     
