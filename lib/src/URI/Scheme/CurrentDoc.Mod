@@ -1,7 +1,7 @@
-(* 	$Id: CurrentDoc.Mod,v 1.1 2002/07/16 20:31:28 mva Exp $	 *)
+(* 	$Id: CurrentDoc.Mod,v 1.2 2003/05/19 22:55:37 mva Exp $	 *)
 MODULE URI:Scheme:CurrentDoc;
 (*  Implements degenerate case of "current document" URI.
-    Copyright (C) 2000  Michael van Acken
+    Copyright (C) 2000, 2003  Michael van Acken
 
     This module is free software; you can redistribute it and/or
     modify it under the terms of the GNU Lesser General Public License
@@ -20,7 +20,7 @@ MODULE URI:Scheme:CurrentDoc;
 
 
 IMPORT
-  TextRider, CharClass, URI;
+  TextRider, CharClass, Object, URI;
 
 
 TYPE
@@ -65,9 +65,9 @@ PROCEDURE (uri: CurrentDoc) WriteXML* (w: TextRider.Writer);
     w. WriteString (CharClass.eol+"<current-document/>")
   END WriteXML;
 
-PROCEDURE (uri: CurrentDoc) GetString* (VAR str: ARRAY OF CHAR);
+PROCEDURE (uri: CurrentDoc) GetString*(): Object.String8;
   BEGIN
-    COPY ("", str)
+    RETURN "";
   END GetString;
 
 END URI:Scheme:CurrentDoc.
