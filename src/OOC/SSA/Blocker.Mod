@@ -1,7 +1,7 @@
-(* 	$Id: Blocker.Mod,v 1.42 2003/02/13 23:19:41 mva Exp $	 *)
+(* 	$Id: Blocker.Mod,v 1.43 2003/02/14 19:53:29 mva Exp $	 *)
 MODULE OOC:SSA:Blocker;
 (*  Imposes a block structure on a flat list of SSA instructions.
-    Copyright (C) 2002  Michael van Acken
+    Copyright (C) 2002, 2003  Michael van Acken
 
     This file is part of OOC.
 
@@ -1736,7 +1736,6 @@ PROCEDURE ArrangeInstructions* (pb: SSA.ProcBlock;
         EXIT;
       END;
     END;
-    RemoveRegionDeps (pb);
     
 <*IF DEBUG_BLOCKER THEN*>
     Check.All(pb);
@@ -1747,6 +1746,7 @@ PROCEDURE ArrangeInstructions* (pb: SSA.ProcBlock;
 
 
 PROCEDURE GetDependenceData* (pb: SSA.ProcBlock): DependenceData;
+(**Note: When done, call RemoveAntiDeps(pb) to remove auxiliary operands.  *)
   VAR
     dd: DependenceData;
     proxyMap: Dictionary.Dictionary;
