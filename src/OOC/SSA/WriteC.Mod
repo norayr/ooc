@@ -1,4 +1,4 @@
-(* 	$Id: WriteC.Mod,v 1.103 2002/07/15 11:22:32 mva Exp $	 *)
+(* 	$Id: WriteC.Mod,v 1.104 2002/07/15 21:00:54 mva Exp $	 *)
 MODULE OOC:SSA:WriteC [OOC_EXTENSIONS];
 (*  Translates a set of scheduled SSA instructions to plain C.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -565,6 +565,22 @@ PROCEDURE (w: Writer) WriteInstrList (b: Schedule.Block;
       w. WriteLInt (checkPointer. pos, 0);
       w. WriteString (");")
     END CheckPointer;
+
+  PROCEDURE TypeGuard (typeGuard: SSA.Instr);
+    VAR
+      name: String.String;
+      opnd: SSA.Opnd;
+    BEGIN
+      w. WriteString ("_type_guard(");
+      RefList (typeGuard. opndList. nextOpnd, Opnd.arg);
+      w. WriteString (", &");
+      opnd := typeGuard. GetOpndClass (Opnd.type);
+      name := Naming.NameOfTypeDescriptor (opnd. arg(SSA.TypeRef). type);
+      w. WriteString (name. array^);
+      w. WriteString (", ");
+      w. WriteLInt (typeGuard. pos, 0);
+      w. WriteString (");")
+    END TypeGuard;
 
   PROCEDURE FailedCheck (instr: SSA.Instr; fct: ARRAY OF CHAR; opnd: SSA.Opnd);
     BEGIN
@@ -1169,6 +1185,8 @@ PROCEDURE (w: Writer) WriteInstrList (b: Schedule.Block;
         CheckIndex (instr);
       | Opcode.checkPointer:
         CheckPointer (instr);
+      | Opcode.typeGuard:
+        TypeGuard (instr);
       | Opcode.failedCase:
         FailedCheck (instr, "_failed_case", instr. opndList. nextOpnd);
       | Opcode.failedWith:

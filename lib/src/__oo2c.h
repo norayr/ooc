@@ -1,4 +1,4 @@
-/*      $Id: __oo2c.h,v 1.30 2002/07/13 15:47:05 mva Exp $        */
+/*      $Id: __oo2c.h,v 1.31 2002/07/15 21:00:54 mva Exp $        */
 /*  Run-time system for C back-ends of OOC2
     Copyright (C) 2001, 2002  Michael van Acken
 
@@ -47,6 +47,11 @@
   ({ if ((void*)adr == NULL) {          \
        RT0__ErrorDerefOfNil(&_mid,pos); \
      }                                  \
+     adr; })
+#define _type_guard(adr,tag,guard,pos)                          \
+  ({ if (!OOC_TYPE_TEST(tag,guard)) {                           \
+       RT0__ErrorFailedTypeGuard(&_mid,pos,(RT0__Struct)tag);   \
+     }                                                          \
      adr; })
 #define _failed_case(select,pos) RT0__ErrorFailedCase(&_mid,pos,select)
 #define _failed_with(type_tag,pos) RT0__ErrorFailedWith(&_mid,pos,(RT0__Struct)type_tag)
