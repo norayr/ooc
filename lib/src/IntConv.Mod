@@ -1,9 +1,9 @@
-(*	$Id: IntConv.Mod,v 1.3 2002/05/18 20:37:35 mva Exp $	*)
+(*	$Id: IntConv.Mod,v 1.4 2002/05/20 16:55:51 mva Exp $	*)
 MODULE IntConv;
 (*
     IntConv -  Low-level integer/string conversions.       
-    Copyright (C) 1995 Michael Griebling
     Copyright (C) 2000, 2002 Michael van Acken
+    Copyright (C) 1995 Michael Griebling
  
     This module is free software; you can redistribute it and/or modify
     it under the terms of the GNU Lesser General Public License as 
@@ -38,6 +38,20 @@ CONST
   (**The string is in the wrong format for the conversion.  *)
   strEmpty*=Conv.strEmpty;
   (**The given string is empty.  *)
+
+CONST
+  padding*=Conv.padding;
+  (**A leading or padding character at this point in the scan---ignore it. *)
+  valid*=Conv.valid;
+  (**A valid character at this point in the scan---accept it.  *)
+  invalid*=Conv.invalid;
+  (*An invalid character at this point in the scan---reject it *)
+  terminator*=Conv.terminator;
+  (**A terminating character at this point in the scan (not part of token).  *)
+
+TYPE
+  ScanClass* = Conv.ScanClass;
+  ScanState* = Conv.ScanState;
 
 
 VAR
