@@ -1,4 +1,4 @@
-(* 	$Id: StdPragmas.Mod,v 1.13 2002/11/28 23:14:24 mva Exp $	 *)
+(* 	$Id: StdPragmas.Mod,v 1.14 2002/12/02 15:50:38 mva Exp $	 *)
 MODULE OOC:Config:Pragmas:StdPragmas;
 (*  Creates standard pragma variables with default values.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -21,7 +21,8 @@ MODULE OOC:Config:Pragmas:StdPragmas;
 *)
 
 IMPORT
-  Config:Value:Boolean, Config:Value:Integer, OOC:Config:Pragmas;
+  Config:Value:Boolean, Config:Value:Integer, OOC:Config:Autoconf,
+  OOC:Config:Pragmas;
 
 
 CONST
@@ -46,8 +47,8 @@ CONST
 
   defaultCompilerMajor = 2;
   
-  defaultTargetInteger = 32;
-  defaultTargetAddress = 32;
+  defaultTargetInteger = Autoconf.bitsTargetInteger;
+  defaultTargetAddress = Autoconf.bitsTargetAddress;
   
 VAR
   warnings-: Pragmas.Pragma;
