@@ -1,4 +1,4 @@
-(*	$Id: IO.Mod,v 1.8 2003/05/18 18:38:48 mva Exp $	*)
+(*	$Id: IO.Mod,v 1.9 2003/06/01 19:00:45 mva Exp $	*)
 MODULE IO;
 (*  Defines common behaviour of I/O channel and selector.
     Copyright (C) 2003  Michael van Acken
@@ -161,6 +161,12 @@ TYPE
   OutOfRange* = POINTER TO OutOfRangeDesc;
   OutOfRangeDesc = RECORD
   (**This exception is raised if a C function returns a @samp{ERANGE} error. *)
+    (ErrorDesc)
+  END;
+  NegativeReply* = POINTER TO NegativeReplyDesc;
+  NegativeReplyDesc = RECORD
+  (**Raised if the remote side of a conversation sends a reply with an error
+     status code.  *)
     (ErrorDesc)
   END;
 
