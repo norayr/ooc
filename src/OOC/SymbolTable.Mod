@@ -1,4 +1,4 @@
-(* 	$Id: SymbolTable.Mod,v 1.45 2002/11/29 23:17:19 mva Exp $	 *)
+(* 	$Id: SymbolTable.Mod,v 1.46 2002/12/06 01:49:28 mva Exp $	 *)
 MODULE OOC:SymbolTable [OOC_EXTENSIONS];
 (*  Defines structure and entries of the symbol table.
     Copyright (C) 2000-2002  Michael van Acken
@@ -2082,6 +2082,18 @@ PROCEDURE (array: Array) GetNonOpenElementType* (): Type;
     END;
     RETURN type
   END GetNonOpenElementType;
+
+PROCEDURE (array: Array) GetInnermostElementType* (): Type;
+(**Returns the first element type of @oparam{array} that is not an array.  *)
+  VAR
+    type: Type;
+  BEGIN
+    type := array;
+    WHILE (type IS Array) DO
+      type := type(Array). elementType
+    END;
+    RETURN type
+  END GetInnermostElementType;
 
 PROCEDURE (array: Array) GetNthElementType* (dim: LONGINT): Type;
 (**Returns the element type of @oparam{array} for dimension @oparam{dim}.

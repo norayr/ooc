@@ -1,4 +1,4 @@
-(* 	$Id: Opcode.Mod,v 1.80 2002/12/03 14:34:26 mva Exp $	 *)
+(* 	$Id: Opcode.Mod,v 1.81 2002/12/06 01:49:27 mva Exp $	 *)
 MODULE OOC:SSA:Opcode;
 (*  This modules defines opcodes for SSA instructions.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -495,6 +495,11 @@ CONST
      @item *OOC:SSA:Opnd.store
      The current value of the @var{store}.
 
+     @item *OOC:SSA.Opnd.arg
+     Number of elements in the array.  For multi-dimensional arrays, this
+     is the product of the lengths of all dimensions, of both open and fixed
+     size dimensions.  For non-array variables, this is @samp{1}.
+     
      @item *OOC:SSA.Opnd.arg
      The size of the parameter in bytes.
      @end table
