@@ -1,4 +1,4 @@
-(* 	$Id: Codec.Mod,v 1.5 2002/09/19 20:20:59 mva Exp $	 *)
+(* 	$Id: Codec.Mod,v 1.6 2002/09/22 09:40:29 mva Exp $	 *)
 MODULE Codec [OOC_EXTENSIONS];
 (*  Registry for encoders/decoders of binary and character data.
     Copyright (C) 2002  Michael van Acken
@@ -321,13 +321,15 @@ PROCEDURE (enc: CryptoEncoder) [ABSTRACT] SetKey* (key: String0.String8);
 PROCEDURE Get* (name: ARRAY OF CHAR): Codec;
   VAR
     obj: Object.Object;
+    norm: String.String;
   BEGIN
     Strings.Capitalize (name);
-    obj := reg. Get (String.New (name));
-    IF (obj = NIL) THEN
-      RETURN NIL;
-    ELSE
+    norm := String.New (name);
+    IF reg.HasKey(norm) THEN
+      obj := reg. Get (norm);
       RETURN obj(Codec);
+    ELSE
+      RETURN NIL;
     END;
   END Get;
 
