@@ -1,4 +1,4 @@
-(* 	$Id: TypeRules.Mod,v 1.10 2002/02/12 22:55:16 mva Exp $	 *)
+(* 	$Id: TypeRules.Mod,v 1.11 2002/05/12 21:54:44 mva Exp $	 *)
 MODULE OOC:SymbolTable:TypeRules;
 (*  Defines the type rules of the language.
     Copyright (C) 2000-2002  Michael van Acken
@@ -66,6 +66,16 @@ PROCEDURE (tr: Rules) IsCharType* (type: Sym.Type): BOOLEAN;
       RETURN FALSE
     END;
   END IsCharType;
+
+PROCEDURE (tr: Rules) IsStringConst* (type: Sym.Type): BOOLEAN;
+(**Result is @code{TRUE} iff @oparam{type} is a string constant.  *)
+  BEGIN
+    WITH type: Sym.PredefType DO
+      RETURN (type. id IN {Predef.charString, Predef.longcharString})
+    ELSE
+      RETURN FALSE
+    END;
+  END IsStringConst;
 
 PROCEDURE (tr: Rules) IsIntegerType* (type: Sym.Type): BOOLEAN;
 (**Result is @code{TRUE} iff @oparam{type} is an integer type.  *)
