@@ -1,4 +1,4 @@
-(* 	$Id: TranslateToC.Mod,v 1.3 2001/08/30 09:05:43 mva Exp $	 *)
+(* 	$Id: TranslateToC.Mod,v 1.4 2001/09/23 12:05:24 mva Exp $	 *)
 MODULE OOC:Make:Command:TranslateToC;
 (*  Translates a module file into a bunch of C code files.
     Copyright (C) 2001  Michael van Acken
@@ -21,10 +21,11 @@ MODULE OOC:Make:Command:TranslateToC;
 *)
 
 IMPORT
-  Channel, Files, Make, TextRider, ADT:String, ADT:Dictionary,
+  Channel, Files, Make, StdChannels, TextRider, ADT:String, ADT:Dictionary,
   URI, OOC:Make:Entity:ModuleFile,
   OOC:Auxiliary:Config, OOC:Auxiliary:ParseModule,
-  OOC:Error, OOC:Repository, OOC:AST, 
+  OOC:Error, OOC:Repository, OOC:AST,
+  OOC:AST:ExtTree, OOC:AST:ExtTree:CreateIR, OOC:IR, OOC:IR:XML,
   OOC:SymbolTable:Item, OOC:SymbolTable:Exports,
   OOC:C:WriteDecl, OOC:C:ConvertDecl;
 
@@ -216,18 +217,23 @@ PROCEDURE (cmd: Command) Run*(): BOOLEAN;
     m: Repository.Module;
     config: Config.Config;
     exports: Dictionary.Dictionary;
+    module: IR.Module;
   BEGIN
     m := cmd. module;
     config := cmd. context. config(Config.Config);
     ParseModule.ParseModule (m, config, TRUE, TRUE, ast, symTab, errList);
     (* symbol file is written by the `ParseModule' function *)
     
-    (* ... not much to do right now *)
-    exports := Exports.GetExports (symTab);
-    WriteFile (m, Repository.modHeaderFileC, ast, symTab, exports, errList);
-    WriteFile (m, Repository.modDeclFileC, ast, symTab, exports, errList);
-    IF (symTab. class = Item.mcStandard) THEN
-      WriteFile (m, Repository.modCodeFileC, ast, symTab, exports, errList)
+    IF (errList. msgCount = 0) THEN
+      module := CreateIR.CreateIR (ast(ExtTree.Module), IR.NewBuilder());
+      XML.Write (StdChannels.stdout. NewWriter(), module);
+      
+      exports := Exports.GetExports (symTab);
+      WriteFile (m, Repository.modHeaderFileC, ast, symTab, exports, errList);
+      WriteFile (m, Repository.modDeclFileC, ast, symTab, exports, errList);
+      IF (symTab. class = Item.mcStandard) THEN
+        WriteFile (m, Repository.modCodeFileC, ast, symTab, exports, errList)
+      END
     END;
     
     cmd. errList := errList;
