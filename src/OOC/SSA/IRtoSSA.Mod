@@ -1,4 +1,4 @@
-(* 	$Id: IRtoSSA.Mod,v 1.114 2003/02/23 19:13:07 mva Exp $	 *)
+(* 	$Id: IRtoSSA.Mod,v 1.115 2003/04/28 21:38:36 mva Exp $	 *)
 MODULE OOC:SSA:IRtoSSA;
 (*  Converts the IR of a procedure into its SSA representation.
     Copyright (C) 2001-2003  Michael van Acken
@@ -132,6 +132,7 @@ PROCEDURE StatmSeq* (pb: SSA.ProcBlock; s: SSA.Result;
       (* get type of the value we are interested in *)
       type := value. type;
       FOR i := 0 TO dim DO
+        type := type.Deparam();
         type := type(Sym.Array). elementType;
       END;
       
@@ -386,10 +387,11 @@ PROCEDURE StatmSeq* (pb: SSA.ProcBlock; s: SSA.Result;
         instr, elementAdr, scaledIndex, newSize, check: SSA.Instr;
         baseResult, length, index: SSA.Result;
         adrOpnd: SSA.Opnd;
-        elementType: Sym.Type;
+        elementType, arrayType: Sym.Type;
       BEGIN
+        arrayType := indexOp.array.type.Deparam();
         length := pb. AddGetLengthInstr (baseArray(SSA.Instr), dim,
-                                         indexOp. array. type(Sym.Array));
+                                         arrayType(Sym.Array));
         newSize := pb. AddInstr (Opcode.multiply, Opcode.scAddress);
         newSize. AddOpnd (elementSize, Opnd.arg);
         newSize. AddOpnd (FixAddress(length), Opnd.arg);

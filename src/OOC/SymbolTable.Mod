@@ -1,4 +1,4 @@
-(* 	$Id: SymbolTable.Mod,v 1.78 2003/04/27 22:18:32 mva Exp $	 *)
+(* 	$Id: SymbolTable.Mod,v 1.79 2003/04/28 21:38:37 mva Exp $	 *)
 MODULE OOC:SymbolTable [OOC_EXTENSIONS];
 (*  Defines structure and entries of the symbol table.
     Copyright (C) 2000-2003  Michael van Acken
@@ -1326,6 +1326,15 @@ PROCEDURE (type: Type) Bound*(): Type;
   BEGIN
     RETURN type;
   END Bound;
+
+PROCEDURE (type: Type) Closure*(subType: Type): Type;
+(**If @oparam{type} is a closure and @oparam{subType} a parametric type, then
+   apply the bindings of @oparam{type} to the parameters of @oparam{subType}
+   and return the resulting type.  Otherwise, return @oparam{subType}
+   unchanged.  *)
+  BEGIN
+    RETURN subType;
+  END Closure;
 
 
 PROCEDURE InitLinkDirective (l: LinkDirective);
