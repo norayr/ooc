@@ -1,4 +1,4 @@
-(* 	$Id: WriteC.Mod,v 1.109 2002/07/18 17:02:03 mva Exp $	 *)
+(* 	$Id: WriteC.Mod,v 1.110 2002/07/20 16:48:24 mva Exp $	 *)
 MODULE OOC:SSA:WriteC [OOC_EXTENSIONS];
 (*  Translates a set of scheduled SSA instructions to plain C.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -1005,6 +1005,9 @@ PROCEDURE (w: Writer) WriteInstrList (b: Schedule.Block;
       
       IF w. registerMap. HasKey (instr) THEN
         w. Newline;
+        (*w. WriteString ("/* ");
+        w. textWriter. WriteHex (SYSTEM.VAL(LONGINT,instr),8);
+        w. WriteString ("*/ ");*)
         target := w. registerMap. Get (instr);
         w. WriteString (target(String.String). array^);
         w. WriteString (" = ");
@@ -1474,6 +1477,8 @@ PROCEDURE (t: Translator) WriteProcBody* (proc: IR.Procedure);
     DeadCodeElimination.Transform (pb);
     Write ("dce-post", "final");
 
+    (*Blocker.Write (StdChannels.stdout, pb);*)
+    
     domRoot := Schedule.Schedule (pb);
     IF writeProc THEN
       IF (t. inspectStage. MatchChars ("schedule", 0, -1) # NIL) THEN
