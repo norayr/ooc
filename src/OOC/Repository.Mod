@@ -1,4 +1,4 @@
-(* 	$Id: Repository.Mod,v 1.27 2002/11/27 21:49:47 mva Exp $	 *)
+(* 	$Id: Repository.Mod,v 1.28 2002/11/29 18:13:57 mva Exp $	 *)
 MODULE OOC:Repository [OOC_EXTENSIONS];
 (*  Abstraction of storage of source, intermediate, and target code.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -21,20 +21,26 @@ MODULE OOC:Repository [OOC_EXTENSIONS];
 *)
 
 IMPORT
-  Msg, Channel, TextRider, Strings, Time, ADT:Object, URI, OS:Path, OOC:Logger,
-  OOC:Scanner:InputBuffer, Sym := OOC:SymbolTable, OOC:SymbolTable:Builder,
-  OOC:Package;
+  Msg, Channel, TextRider, Strings, Time, ADT:Object, ADT:ArrayList,
+  URI, OS:Path, OOC:Logger,
+  OOC:Scanner:InputBuffer, Sym := OOC:SymbolTable, OOC:SymbolTable:Builder;
 
 
 TYPE
   URIBuffer* = ARRAY 1024 OF CHAR;
 
 TYPE
+  PkgInfo* = POINTER TO PkgInfoDesc;
+  PkgInfoDesc* = RECORD
+    options-, pragmas-: ArrayList.ArrayList;  (* of Package.KeyValue *)
+  END;
+  
+TYPE
   Repository* = POINTER TO RepositoryDesc;
   RepositoryDesc* = RECORD [ABSTRACT]
     baseRep-: Repository;
     baseURI-: URI.HierarchicalURI;
-    packageInfo-: Package.PkgInfo;
+    packageInfo-: PkgInfo;
   END;
 
 TYPE
@@ -248,7 +254,13 @@ PROCEDURE InitModule* (m: Module; origin: Repository; name: ModuleName;
   END InitModule;
 
 
-PROCEDURE (rep: Repository) SetPackageInfo* (packageInfo: Package.PkgInfo);
+PROCEDURE InitPkgInfo*(pkgInfo: PkgInfo);
+  BEGIN
+    pkgInfo.options := ArrayList.New(4);
+    pkgInfo.pragmas := ArrayList.New(4);
+  END InitPkgInfo;
+
+PROCEDURE (rep: Repository) SetPackageInfo* (packageInfo: PkgInfo);
   BEGIN
     rep.packageInfo := packageInfo;
   END SetPackageInfo;
