@@ -1,4 +1,4 @@
-(* 	$Id: CheckUses.Mod,v 1.2 2003/04/05 18:41:01 mva Exp $	 *)
+(* 	$Id: CheckUses.Mod,v 1.3 2003/04/06 09:30:57 mva Exp $	 *)
 MODULE OOC:IR:CheckUses;
 (*  Warn about uninitialized variables and unreachable code, 
     Copyright (C) 2003  Michael van Acken, Stewart Greenhill
@@ -229,7 +229,9 @@ PROCEDURE (v: Visitor) VisitAdr* (adr: IR.Adr);
 PROCEDURE (v: Visitor) VisitCall* (call: IR.Call);
   VAR
     i: LONGINT;
+    oldMode: SHORTINT;
   BEGIN
+    oldMode := v.mode;
     call.design.Accept(v);
     FOR i := 0 TO LEN(call.arguments^)-1 DO
       IF (call.formalPars[i] # NIL) & call.formalPars[i].isVarParam THEN
@@ -239,6 +241,10 @@ PROCEDURE (v: Visitor) VisitCall* (call: IR.Call);
         v.mode := read;
         call.arguments[i].Accept(v);
       END;
+    END;
+    v.mode := oldMode;
+    IF call.design.type(Sym.FormalPars).noReturn THEN
+      v.def.Unreachable();
     END;
   END VisitCall;
 
