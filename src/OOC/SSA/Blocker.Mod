@@ -1,4 +1,4 @@
-(* 	$Id: Blocker.Mod,v 1.41 2002/12/30 09:29:21 mva Exp $	 *)
+(* 	$Id: Blocker.Mod,v 1.42 2003/02/13 23:19:41 mva Exp $	 *)
 MODULE OOC:SSA:Blocker;
 (*  Imposes a block structure on a flat list of SSA instructions.
     Copyright (C) 2002  Michael van Acken
@@ -1736,6 +1736,7 @@ PROCEDURE ArrangeInstructions* (pb: SSA.ProcBlock;
         EXIT;
       END;
     END;
+    RemoveRegionDeps (pb);
     
 <*IF DEBUG_BLOCKER THEN*>
     Check.All(pb);
