@@ -1,4 +1,4 @@
-/*      $Id: __oo2c.h,v 1.22 2002/06/24 19:09:11 mva Exp $        */
+/*      $Id: __oo2c.h,v 1.23 2002/06/25 18:55:16 mva Exp $        */
 /*  Run-time system for C back-ends of OOC2
     Copyright (C) 2001, 2002  Michael van Acken
 
@@ -43,6 +43,11 @@
        RT0__ErrorIndexOutOfRange(&_mid,pos,index,length); \
      }                                                    \
      index; })
+#define _check_pointer(adr,pos)         \
+  ({ if ((void*)adr == NULL) {          \
+       RT0__ErrorDerefOfNil(&_mid,pos); \
+     }                                  \
+     adr; })
 #define _failed_case(select,pos) RT0__ErrorFailedCase(&_mid,pos,select)
 #define _failed_with(pos) RT0__ErrorFailedWith(&_mid,pos)
 

@@ -1,4 +1,4 @@
-(* 	$Id: Destore.Mod,v 1.40 2002/06/23 07:47:41 mva Exp $	 *)
+(* 	$Id: Destore.Mod,v 1.41 2002/06/25 18:55:15 mva Exp $	 *)
 MODULE OOC:SSA:Destore;
 (*  Converts reads from/writes to memory into local values.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -440,7 +440,7 @@ PROCEDURE Transform* (pb: SSA.ProcBlock; tr: TypeRules.Rules);
         
       | Opcode.collect, Opcode.newObject, Opcode.copyParameter, Opcode.loopEnd,
         Opcode.exit, Opcode.return,
-        Opcode.assert, Opcode.checkIndex:
+        Opcode.assert, Opcode.checkIndex, Opcode.checkPointer:
         RETURN GetValue (instr. GetArgClass (Opnd.store), get, loopTrace);
 
       | Opcode.loopStart:

@@ -1,4 +1,4 @@
-(* 	$Id: IRtoSSA.Mod,v 1.75 2002/06/24 19:09:11 mva Exp $	 *)
+(* 	$Id: IRtoSSA.Mod,v 1.76 2002/06/25 18:55:15 mva Exp $	 *)
 MODULE OOC:SSA:IRtoSSA;
 (*  Converts the IR of a procedure into its SSA representation.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -228,12 +228,19 @@ PROCEDURE StatmSeq* (pb: SSA.ProcBlock; s: SSA.Result;
 
     PROCEDURE Deref (deref: IR.Deref): SSA.Result;
       VAR
-        instr: SSA.Instr;
+        instr, check: SSA.Instr;
         address: SSA.Result;
       BEGIN
         (* take the value of the pointer and use it to start a new "get"
            instruction *)
         address := Expression (deref. pointer);
+        IF deref. checkPointer THEN
+          check := AddException (pb, deref. sym,
+                                 Opcode.checkPointer, address. subclass);
+          check. AddOpnd (address, Opnd.arg);
+          address := check;
+        END;
+        
         instr := pb. AddInstr (Opcode.get, 
                                Opcode.TypeToSubclass (deref. derefType));
         instr. AddOpnd (s, Opnd.store);
