@@ -1,4 +1,4 @@
-(* 	$Id: CreateIR.Mod,v 1.14 2001/12/15 15:27:48 mva Exp $	 *)
+(* 	$Id: CreateIR.Mod,v 1.15 2001/12/16 01:26:12 mva Exp $	 *)
 MODULE OOC:AST:ExtTree:CreateIR;
 (*  Creates an IR representation from the abstract syntax tree.
     Copyright (C) 2001  Michael van Acken
@@ -98,6 +98,8 @@ PROCEDURE CreateIR* (module: ExtTree.Module;
           RETURN b. NewStringConst (expr. sym)
         | Symbol.number10:
           RETURN b. NewIntConst10 (expr. sym)
+        | Symbol.number16X:
+          RETURN b. NewCharConst16 (expr. sym)
         END
 
       | expr: ExtTree.Factor DO
@@ -209,6 +211,13 @@ PROCEDURE CreateIR* (module: ExtTree.Module;
         RETURN else
       END IfStatm;
   
+    PROCEDURE RepeatStatm (repeatStatm: ExtTree.RepeatStatm): IR.Statement;
+      BEGIN
+        RETURN b. NewRepeatStatm (repeatStatm. repeat. sym,
+                                  StatementSeq (repeatStatm. statmSeq),
+                                  Expr (repeatStatm. expr));
+      END RepeatStatm;
+  
     BEGIN
       (* count number of statements, allocate array to hold IR of sequence *)
       count := 0;
@@ -235,7 +244,10 @@ PROCEDURE CreateIR* (module: ExtTree.Module;
 
           | n: ExtTree.IfStatm DO
             statm := IfStatm (n)
-                
+
+          | n: ExtTree.RepeatStatm DO
+            statm := RepeatStatm (n)
+              
           ELSE
             Log.Type("++ Unknown type in StatementSeq", n);
             ASSERT (FALSE)

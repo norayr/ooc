@@ -1,4 +1,4 @@
-(* 	$Id: ExtTree.Mod,v 1.12 2001/12/15 15:27:48 mva Exp $	 *)
+(* 	$Id: ExtTree.Mod,v 1.13 2001/12/16 01:26:12 mva Exp $	 *)
 MODULE OOC:AST:ExtTree [OOC_EXTENSIONS];
 (*  Creates extended abstract syntax tree from the parser output.
     Copyright (C) 2000, 2001  Michael van Acken
@@ -379,10 +379,10 @@ TYPE
   RepeatStatm* = POINTER TO RepeatStatmDesc;
   RepeatStatmDesc = RECORD
     (NodeDesc)
-    repeat-: AST.Node;
-    statmSeq-: AST.NodeList;
-    until-: AST.Node;
-    expr-: AST.Node;
+    repeat-: Terminal;
+    statmSeq-: NodeList;
+    until-: Terminal;
+    expr-: Node;
   END;
 
 TYPE
@@ -1328,10 +1328,10 @@ PROCEDURE (b: Builder) RepeatStatm* (repeat: AST.Node; statmSeq: AST.NodeList; u
     r: RepeatStatm;
   BEGIN
     NEW (r);
-    r. repeat := repeat;
-    r. statmSeq := statmSeq;
-    r. until := until;
-    r. expr := expr;
+    r. repeat := repeat(Terminal);
+    r. statmSeq := statmSeq(NodeList);
+    r. until := until(Terminal);
+    r. expr := expr(Node);
     RETURN r
   END RepeatStatm;
 
