@@ -1,4 +1,4 @@
-(* 	$Id: Opcode.Mod,v 1.104 2003/09/16 03:27:13 sgreenhill Exp $	 *)
+(* 	$Id: Opcode.Mod,v 1.105 2004/03/21 16:05:36 mva Exp $	 *)
 MODULE OOC:SSA:Opcode;
 (*  This modules defines opcodes for SSA instructions.
     Copyright (C) 2001-2003  Michael van Acken
@@ -178,7 +178,7 @@ CONST
      @end table  *)
 
   exit* = 9;
-  (**This instruction marks the place where control flow exists the
+  (**This instruction marks the place where control flow exits the
      @code{LOOP}.  The instruction has one operand:
 
      @table @oconst
