@@ -1,4 +1,4 @@
-(* 	$Id: WriteC.Mod,v 1.80 2002/06/03 22:00:05 mva Exp $	 *)
+(* 	$Id: WriteC.Mod,v 1.81 2002/06/03 23:42:47 mva Exp $	 *)
 MODULE OOC:SSA:WriteC [OOC_EXTENSIONS];
 (*  Translates a set of scheduled SSA instructions to plain C.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -354,6 +354,21 @@ PROCEDURE WriteLocalDecl (t: Translator; w: Writer;
           w. WriteChar (";");
           declMap. Set (item, NIL);
         END;
+      ELSE                             (* ignore *)
+      END;
+      item := item. nextNested;
+    END;
+    
+    (* write prototypes for all nested functions, so that recursive calls
+       between them work *)
+    item := pb. procDecl. nestedItems;
+    WHILE (item # NIL) DO
+      WITH item: Sym.ProcDecl DO
+        cDecl := ConvertDecl.GetProc (w, item, TRUE);
+        w. Newline;
+        w. WriteDeclaration (cDecl);
+        w. WriteChar (";");
+        declMap. Set (item, NIL);
       ELSE                             (* ignore *)
       END;
       item := item. nextNested;
