@@ -1,4 +1,4 @@
-(* 	$Id: Schedule.Mod,v 1.37 2002/12/16 19:09:08 mva Exp $	 *)
+(* 	$Id: Schedule.Mod,v 1.38 2003/04/05 18:55:15 mva Exp $	 *)
 MODULE OOC:SSA:Schedule [OOC_EXTENSIONS];
 (*  Generates basic block representation and schedules instructions.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -824,9 +824,6 @@ PROCEDURE Schedule* (pb: SSA.ProcBlock): Block;
             ClearJump (b. branchTo);
           | b: SwitchBlock DO
             ASSERT (FALSE);
-            FOR i := 0 TO LEN (b. jump^)-1 DO
-              ClearJump (b. jump[i]);
-            END;
           | b: DeadEndBlock DO
             (* nothing *)
           END;
