@@ -1,4 +1,4 @@
-(* 	$Id: CSE.Mod,v 1.8 2003/02/14 19:57:44 mva Exp $	 *)
+(* 	$Id: CSE.Mod,v 1.9 2003/02/22 13:22:35 mva Exp $	 *)
 MODULE OOC:SSA:CSE;
 (*  Common subexpression elimination using value numbering.
     Copyright (C) 2002, 2003  Michael van Acken
@@ -141,7 +141,7 @@ PROCEDURE (p: Partition) Add (instr: SSA.Instr);
 
 PROCEDURE Transform* (pb: SSA.ProcBlock);
   CONST
-    numOpcodes = Opcode.labels+1;
+    numOpcodes = Opcode.lastOpcode+1;
     numSubclasses = Opcode.scReal64+1;
   VAR
     pList, worklist: Partition;

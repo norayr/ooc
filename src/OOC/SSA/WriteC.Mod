@@ -1,4 +1,4 @@
-(* 	$Id: WriteC.Mod,v 1.153 2003/02/08 12:54:34 mva Exp $	 *)
+(* 	$Id: WriteC.Mod,v 1.154 2003/02/22 13:22:35 mva Exp $	 *)
 MODULE OOC:SSA:WriteC [OOC_EXTENSIONS];
 (*  Translates a set of scheduled SSA instructions to plain C.
     Copyright (C) 2001, 2002, 2003  Michael van Acken
@@ -1393,6 +1393,8 @@ PROCEDURE (w: Writer) WriteInstrList (b: Schedule.Block);
           (* nothing *)
         | Opcode.labels:
           (* nothing *)
+        | Opcode.designStandin:
+          (* nothing *)
           
         | Opcode.loopStart:
           (* nothing *)
@@ -1812,6 +1814,7 @@ PROCEDURE (t: Translator) WriteProcBody* (proc: IR.Procedure);
     Write ("initial", "destore-pre", TRUE);
     destore := Destore.New (pb);
     destore. Transform();
+    DeadCodeElimination.RemoveDesignators(pb);
     DeadCodeElimination.Transform (pb);
     Write ("destore-post", "constprop-pre", TRUE);
     ConstProp.Transform (pb);

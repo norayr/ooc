@@ -1,4 +1,4 @@
-(* 	$Id: DeadCodeElimination.Mod,v 1.4 2003/02/16 14:24:43 mva Exp $	 *)
+(* 	$Id: DeadCodeElimination.Mod,v 1.5 2003/02/22 13:22:35 mva Exp $	 *)
 MODULE OOC:SSA:DeadCodeElimination;
 (*  Removes unreachable code from a procedure's SSA representation.
     Copyright (C) 2001-2003  Michael van Acken
@@ -217,5 +217,36 @@ PROCEDURE Transform* (pb: SSA.ProcBlock);
     (* remove all instructions marked as dead *)
     DeleteDeadCode (pb)
   END Transform;
+
+PROCEDURE RemoveDesignators*(pb: SSA.ProcBlock);
+(**Removes all operands from instructions that represent computed Oberon-2
+   designator components.  Only references to symbol table objects (variables,
+   types, and fields), all other operands are replaced by a reference to a
+   single instruction @oconst{Opcode.designStandin}.
+
+   When this procedure is done, alias analysis on memory access instructions is
+   not possible anymore as far as array indexes and pointer values are
+   concerned.  On the other hand, computations that are unused are are not kept
+   artifically alive, and therefore do not clobber the output code.  *)
+  VAR
+    instr, repl: SSA.Instr;
+    opnd, next: SSA.Opnd;
+  BEGIN
+    repl := pb.AddInstr(Opcode.designStandin, Opcode.scNone);
+    
+    instr := pb.instrList;
+    WHILE (instr # NIL) DO
+      opnd := instr.opndList;
+      WHILE (opnd # NIL) DO
+        next := opnd.nextOpnd;
+        IF ((opnd.class=Opnd.readDesign) OR (opnd.class=Opnd.writeDesign)) &
+           ~((opnd.arg IS SSA.DeclRef) OR (opnd.arg IS SSA.TypeRef)) THEN
+          opnd.ReplaceArg(repl);
+        END;
+        opnd := next;
+      END;
+      instr := instr.nextInstr;
+    END;
+  END RemoveDesignators;
 
 END OOC:SSA:DeadCodeElimination.
