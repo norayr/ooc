@@ -1,4 +1,4 @@
-(* 	$Id: IR.Mod,v 1.269 2003/10/05 13:30:03 mva Exp $	 *)
+(* 	$Id: IR.Mod,v 1.270 2003/10/06 17:43:06 mva Exp $	 *)
 MODULE OOC:IR [OOC_EXTENSIONS];
 (*  High-level intermediate code representation.
     Copyright (C) 2001-2003  Michael van Acken, Stewart Greenhill
@@ -5527,11 +5527,13 @@ PROCEDURE (b: Builder) NewQualType*(type: Expression;
         b.ErrSym(tooFewTypeArgs, rParen);
       ELSE
         FOR i := 0 TO LEN(params^)-1 DO
-          t := arguments[i](TypeRef).qualType;
-          IF (t # NIL) & TR.IsExtensionOf(t, params[i].bound) THEN
-            Sym.InitTypeRef(qualType(Sym.QualType).arguments[i], t);
-          ELSE
-            b.ErrSym(notExtensionOfBound, arguments[i].sym);
+          IF (arguments[i] IS TypeRef) THEN
+            t := arguments[i](TypeRef).qualType;
+            IF (t # NIL) & TR.IsExtensionOf(t, params[i].bound) THEN
+              Sym.InitTypeRef(qualType(Sym.QualType).arguments[i], t);
+            ELSE
+              b.ErrSym(notExtensionOfBound, arguments[i].sym);
+            END;
           END;
         END;
       END;
