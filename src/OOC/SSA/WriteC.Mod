@@ -1,4 +1,4 @@
-(* 	$Id: WriteC.Mod,v 1.98 2002/07/09 18:47:35 mva Exp $	 *)
+(* 	$Id: WriteC.Mod,v 1.99 2002/07/12 18:56:40 mva Exp $	 *)
 MODULE OOC:SSA:WriteC [OOC_EXTENSIONS];
 (*  Translates a set of scheduled SSA instructions to plain C.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -23,8 +23,8 @@ MODULE OOC:SSA:WriteC [OOC_EXTENSIONS];
 IMPORT
   IntStr, Out, StdChannels, Strings, StringSearch,
   ADT:Object, ADT:String, ADT:Dictionary, 
-  LString := Language:String,
-  OOC:Config, Sym := OOC:SymbolTable, OOC:SymbolTable:Predef,
+  LString := Language:String, OOC:Config, Sym := OOC:SymbolTable,
+  TR := OOC:SymbolTable:TypeRules, OOC:SymbolTable:Predef,
   OOC:IR, OOC:IR:VisitAll, OOC:SSA:Opcode, OOC:SSA:Opnd,
   OOC:SSA, OOC:SSA:IRtoSSA, OOC:SSA:Schedule, OOC:SSA:XML, OOC:SSA:Inspector,
   OOC:SSA:DeadCodeElimination, OOC:SSA:Destore, OOC:SSA:Allocator,
@@ -490,12 +490,15 @@ PROCEDURE (w: Writer) WriteInstrList (b: Schedule.Block;
         w. WriteString ("(RT0__Struct)");
       ELSIF (type IS Sym.Pointer) OR
             (type IS Sym.FormalPars) OR
-            passByReference THEN
+            passByReference OR
+            TR.IsPredefType (type, Predef.ptr) THEN
         IF (var IS SSA.Const) &
            (var(SSA.Const). value # NIL) &
            (var(SSA.Const). value IS LString.Value) THEN
           (* omit cast on string constant *)
-        ELSIF passByReference OR (type. namingDecl = NIL) THEN
+        ELSIF passByReference OR
+              (type. namingDecl = NIL) OR
+              TR.IsPredefType (type, Predef.ptr) THEN
           w. WriteString ("(void*)");
         ELSE
           name := Naming.NameOfType (type);
