@@ -1,4 +1,4 @@
-(* 	$Id: WriteC.Mod,v 1.152 2003/02/08 12:46:51 mva Exp $	 *)
+(* 	$Id: WriteC.Mod,v 1.153 2003/02/08 12:54:34 mva Exp $	 *)
 MODULE OOC:SSA:WriteC [OOC_EXTENSIONS];
 (*  Translates a set of scheduled SSA instructions to plain C.
     Copyright (C) 2001, 2002, 2003  Michael van Acken
@@ -1808,9 +1808,8 @@ PROCEDURE (t: Translator) WriteProcBody* (proc: IR.Procedure);
     (*Blocker.Write (StdChannels.stdout, pb);*)
     
     (* code transformations *)
-    Write ("initial", "dce-pre", FALSE);
     DeadCodeElimination.Transform (pb);
-    Write ("dce-post", "destore-pre", FALSE);
+    Write ("initial", "destore-pre", TRUE);
     destore := Destore.New (pb);
     destore. Transform();
     DeadCodeElimination.Transform (pb);
