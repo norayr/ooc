@@ -1,4 +1,4 @@
-(* 	$Id: Opnd.Mod,v 1.1 2001/12/02 18:41:48 mva Exp $	 *)
+(* 	$Id: Opnd.Mod,v 1.2 2001/12/03 20:57:49 mva Exp $	 *)
 MODULE OOC:SSA:Opnd;
 (*  Symbolic names for operand classes.
     Copyright (C) 2001  Michael van Acken
@@ -25,15 +25,15 @@ IMPORT
 
   
 TYPE
-  Id* = SHORTINT;
+  Class* = SHORTINT;
   (**Identifies the function of the data passed to an operand.  Operands are
      identified by either of two means: their position in an instruction's
-     operand list, or their identifier @ofield{*OOC:SSA:Instr.Opnd.id}.  The id
-     describes the data that is passed to the instruction, and is primarily
-     used to mark optional operands, and to structure highly variable operand
-     lists.
+     operand list, or their identifier @ofield{*OOC:SSA:Instr.Opnd.class}.  The
+     class describes the data that is passed to the instruction, and is
+     primarily used to mark optional operands, and to structure highly variable
+     operand lists.
 
-     Operands and results of the same kind share the same id.  See
+     Operands and results of the same kind share the same class id.  See
      @omodule{*OOC:SSA:Result}.  *)
 
 CONST
@@ -52,12 +52,13 @@ CONST
   (**The procedure address argument of a @oconst{*Opcode.call} instruction.
      *)
 
-PROCEDURE GetName* (id: Id; VAR name: ARRAY OF CHAR);
-(**Retrieves the symbolic name of an operand id.  *)
+PROCEDURE GetName* (class: Class; VAR name: ARRAY OF CHAR);
+(**Retrieves the symbolic name of an operand class.  *)
   BEGIN
-    CASE id OF
+    CASE class OF
     | arg: COPY ("arg", name)
     | store: COPY ("store", name)
+    | procAdr: COPY ("proc-adr", name)
     END;
   END GetName;
   
