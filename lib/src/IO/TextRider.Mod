@@ -1,4 +1,4 @@
-(*	$Id: TextRider.Mod,v 1.2 2003/02/01 12:45:40 mva Exp $	*)
+(*	$Id: TextRider.Mod,v 1.3 2003/02/05 21:31:58 mva Exp $	*)
 MODULE IO:TextRider [OOC_EXTENSIONS];
 
 (*
@@ -25,8 +25,9 @@ MODULE IO:TextRider [OOC_EXTENSIONS];
 IMPORT
   CharClass, Exception, Strings, LRealStr, RealStr, IntStr, Object, IO;
 
-(**This is a port of the writer part of @omodule{*TextRider} to
-   @omodule{IO}.  Don't use it with non-blocking channels.  *)
+(**This is a port of the writer part of @omodule{*TextRider} to @omodule{IO}.
+   Reader and scanner were dropped.  Don't use the riders with non-blocking
+   channels.  *)
   
 CONST
   maxLengthEol* = 2;
@@ -64,6 +65,9 @@ PROCEDURE InitWriter* (w: Writer; ch: IO.ByteChannel);
   END InitWriter;
 
 PROCEDURE ConnectWriter*(ch: IO.ByteChannel): Writer;
+(**@precond
+   @oparam{ch} is in blocking mode.
+   @end precond *)
   VAR
     w: Writer;
   BEGIN

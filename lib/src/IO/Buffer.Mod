@@ -1,4 +1,4 @@
-(*	$Id: Buffer.Mod,v 1.2 2003/02/02 19:10:17 mva Exp $	*)
+(*	$Id: Buffer.Mod,v 1.3 2003/02/05 21:32:02 mva Exp $	*)
 MODULE IO:Buffer;
 (*  Generic buffering channel.
     Copyright (C) 2003  Michael van Acken
@@ -74,11 +74,11 @@ PROCEDURE (ch: Channel) Flush*() RAISES IO.Error;
     END;
   END Flush;
 
-PROCEDURE (ch: Channel) SetPosition*(pos: LONGINT) RAISES IO.Error;
+PROCEDURE (ch: Channel) SetPos*(pos: LONGINT) RAISES IO.Error;
   BEGIN
     ch.Flush();
-    ch.base.SetPosition(pos);
-  END SetPosition;
+    ch.base.SetPos(pos);
+  END SetPos;
 
 PROCEDURE (ch: Channel) Read*(VAR buffer: ARRAY OF SYSTEM.BYTE;
                               start, length: LONGINT): LONGINT
