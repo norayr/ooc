@@ -1,4 +1,4 @@
-(* 	$Id: WriteC.Mod,v 1.116 2002/08/03 06:41:20 mva Exp $	 *)
+(* 	$Id: WriteC.Mod,v 1.117 2002/08/03 21:13:33 mva Exp $	 *)
 MODULE OOC:SSA:WriteC [OOC_EXTENSIONS];
 (*  Translates a set of scheduled SSA instructions to plain C.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -27,8 +27,8 @@ IMPORT
   TR := OOC:SymbolTable:TypeRules, OOC:SymbolTable:Predef,
   OOC:IR, OOC:IR:VisitAll, OOC:SSA:Opcode, OOC:SSA:Opnd,
   OOC:SSA, OOC:SSA:IRtoSSA, OOC:SSA:Schedule, OOC:SSA:XML, OOC:SSA:Inspector,
-  OOC:SSA:DeadCodeElimination, OOC:SSA:Destore, OOC:SSA:CSE, OOC:SSA:Allocator,
-  OOC:C:ConvertDecl, OOC:C:Naming, OOC:C:DeclWriter, 
+  OOC:SSA:DeadCodeElimination, OOC:SSA:Destore, OOC:SSA:CSE, OOC:SSA:Algebraic,
+  OOC:SSA:Allocator, OOC:C:ConvertDecl, OOC:C:Naming, OOC:C:DeclWriter, 
   OOC:Make:Command:TranslateToC;
 
 
@@ -1577,9 +1577,10 @@ PROCEDURE (t: Translator) WriteProcBody* (proc: IR.Procedure);
     Write ("dce-post", "destore-pre");
     destore := Destore.New (pb);
     destore. Transform();
-    Write ("destore-post", "dce-pre");
+    Write ("destore-post", "algebraic-pre");
+    Algebraic.Transform (pb);
+    Write ("algebraic-post", "dce-pre");
     DeadCodeElimination.Transform (pb);
-    Write ("destore-post", "cse-pre");
     CSE.Transform (pb);
     Write ("cse-post", "final");
 
