@@ -1,4 +1,4 @@
-(* 	$Id: SymbolTable.Mod,v 1.85 2003/05/06 22:01:01 mva Exp $	 *)
+(* 	$Id: SymbolTable.Mod,v 1.86 2003/05/07 20:33:12 mva Exp $	 *)
 MODULE OOC:SymbolTable [OOC_EXTENSIONS];
 (*  Defines structure and entries of the symbol table.
     Copyright (C) 2000-2003  Michael van Acken
@@ -1269,6 +1269,10 @@ PROCEDURE InitType* (type: Type; parent: Item; position: Position);
   END InitType;
 
 PROCEDURE (type: Type) PreciousTypePars*(): BOOLEAN;
+(**If @code{TRUE}, then the @ofield{type.typePars} are taken from the source
+   code, and not derived automatically by the compiler.  Such parameters must
+   be written to the symbol file, all others can be replaced with @code{NIL}.
+   *)
   BEGIN
     RETURN (type.typePars # NIL) & (type.typePars.nestedItems # NIL);
   END PreciousTypePars;
