@@ -1,4 +1,4 @@
-(* 	$Id: WriteAssembler.Mod,v 1.11 2002/12/17 19:33:33 mva Exp $	 *)
+(* 	$Id: WriteAssembler.Mod,v 1.12 2002/12/19 05:09:02 mva Exp $	 *)
 MODULE OOC:IA32:WriteAssembler [OOC_EXTENSIONS];
 (*  Translates a set of scheduled SSA instructions to IA32 assembler.
     Copyright (C) 2002  Michael van Acken
@@ -78,7 +78,7 @@ PROCEDURE WriteInstrList (w: Writer.Writer; b: Schedule.Block);
             END
           | value: Boxed.String DO
             IF (type(Sym.PredefType). id = Predef.char) THEN
-              IntStr.IntToStr (value. value. CharAt(0), str);
+              IntStr.IntToStr(ORD(value.value.CharAt(0)), str);
             ELSE
               s := w. GetStringLabel (value);
               chars := s.CharsLatin1();

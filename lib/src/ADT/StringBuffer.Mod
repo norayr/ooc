@@ -1,4 +1,4 @@
-(*	$Id: StringBuffer.Mod,v 1.7 2002/12/17 19:33:47 mva Exp $	*)
+(*	$Id: StringBuffer.Mod,v 1.8 2002/12/19 05:09:03 mva Exp $	*)
 MODULE ADT:StringBuffer [OOC_EXTENSIONS];
 (*  String data type of dynamic length.
     Copyright (C) 1998-2001  Michael van Acken
@@ -475,7 +475,7 @@ BEGIN
   ELSE
     res := object.ToString();
     IF (res # NIL) THEN
-      str.Append(res(Object.String));
+      str.Append(res);
     ELSE
       type := RT0.TypeOf(object);
       str.AppendChar("[");

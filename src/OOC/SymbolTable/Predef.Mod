@@ -1,4 +1,4 @@
-(* 	$Id: Predef.Mod,v 1.50 2002/12/19 03:18:22 mva Exp $	 *)
+(* 	$Id: Predef.Mod,v 1.51 2002/12/19 05:09:02 mva Exp $	 *)
 MODULE OOC:SymbolTable:Predef;
 (*  Defines symbol table of pseudo module with predefined entities.
     Copyright (C) 2000, 2001, 2002  Michael van Acken
@@ -87,7 +87,7 @@ CONST
 CONST
   minChar* = MIN(CHAR);         maxChar* = MAX(CHAR);
   minLongChar* = MIN(LONGCHAR); maxLongChar* = MAX(LONGCHAR);
-  minUCS4Char* = 0;             maxUCS4Char* = 7FFFFFFFH;
+  minUCS4Char* = MIN(UCS4CHAR); maxUCS4Char* = MAX(UCS4CHAR);
   
 VAR
   minConst, maxConst: ARRAY lastId+1 OF Boxed.Object;
