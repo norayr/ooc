@@ -1,4 +1,4 @@
-(* 	$Id: TypeRules.Mod,v 1.35 2002/12/19 00:05:15 mva Exp $	 *)
+(* 	$Id: TypeRules.Mod,v 1.36 2002/12/19 03:18:22 mva Exp $	 *)
 MODULE OOC:SymbolTable:TypeRules;
 (*  Defines the type rules of the language.
     Copyright (C) 2000-2002  Michael van Acken
@@ -59,7 +59,7 @@ PROCEDURE IsCharType* (type: Sym.Type): BOOLEAN;
 (**Result is @code{TRUE} iff @oparam{type} is a character type.  *)
   BEGIN
     WITH type: Sym.PredefType DO
-      RETURN (type. id IN {Predef.char, Predef.longchar})
+      RETURN (type. id IN {Predef.char, Predef.longchar, Predef.ucs4char})
     ELSE
       RETURN FALSE
     END;
