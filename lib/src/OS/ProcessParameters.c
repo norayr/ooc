@@ -1,4 +1,4 @@
-/* 	$Id: ProcessParameters.c,v 1.1 2002/07/16 11:29:05 mva Exp $	 */
+/* 	$Id: ProcessParameters.c,v 1.2 2002/08/12 18:11:30 mva Exp $	 */
 #include <unistd.h>
 #include <errno.h>
 #include <stddef.h>
@@ -19,6 +19,8 @@ void OS_ProcessParameters__ErrorContextDesc_GetTemplate(OS_ProcessParameters__Er
     str = "Current working directory does not fit into buffer";
   } else if (res == OS_ProcessParameters__accessDenied) {
     str = "Access denied to component of current working directory";
+  } else {
+    str = "Unknown error code";
   }
 
   _copy_8to16(str, templ, templ_0d);
@@ -52,6 +54,7 @@ static Msg__Msg get_error() {
   case EINVAL: code = OS_ProcessParameters__invalidBuffer; break;
   case ERANGE: code = OS_ProcessParameters__cwdTooLong; break;
   case EACCES: code = OS_ProcessParameters__accessDenied; break;
+  default    : code = -1;
   }
   
   msg = Msg__New((Msg__Context)OS_ProcessParameters__errorContext, code);

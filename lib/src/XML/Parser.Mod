@@ -1,4 +1,4 @@
-(*      $Id: Parser.Mod,v 1.1 2002/07/17 17:36:34 mva Exp $   *)
+(*      $Id: Parser.Mod,v 1.2 2002/08/12 18:11:29 mva Exp $   *)
 MODULE XML:Parser;
 (*  Implements the XML parser.
     Copyright (C) 2000, 2001  Michael van Acken
@@ -3038,6 +3038,7 @@ PROCEDURE (p: Parser) ParseDocument*;
         END;
         CheckChar (">");
         
+        externalSubset := NIL;
         IF (public # NIL) OR (system # NIL) THEN
           IF p. followExternalRef THEN
             externalSubset := dtd. NewExternalDTD (public, system, baseURI);
@@ -3055,8 +3056,6 @@ PROCEDURE (p: Parser) ParseDocument*;
           ELSE
             SkippedEntity (NIL)
           END
-        ELSE
-          externalSubset := NIL;
         END;
         
         (* for every attribute declaration, expand its default value *)
