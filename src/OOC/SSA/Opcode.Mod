@@ -1,4 +1,4 @@
-(* 	$Id: Opcode.Mod,v 1.86 2003/02/12 22:22:32 mva Exp $	 *)
+(* 	$Id: Opcode.Mod,v 1.87 2003/02/14 20:14:26 mva Exp $	 *)
 MODULE OOC:SSA:Opcode;
 (*  This modules defines opcodes for SSA instructions.
     Copyright (C) 2001-2003  Michael van Acken
@@ -223,7 +223,9 @@ CONST
      @end table
 
      There is one result of class @oconst{*OOC:SSA:Opnd.store}, the value of
-     @var{store} as seen by the first instruction after the loop.  *)
+     @var{store} as seen by the first instruction after the loop.  Like for
+     @oconst{select}, there are additional results if @oconst{collect}
+     instructions feed distinct values into this instruction.  *)
   
   get* = 12;
   (**Retrieves the value of a variable.  Result is always a scalar value.  The
