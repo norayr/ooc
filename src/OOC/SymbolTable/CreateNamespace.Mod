@@ -1,4 +1,4 @@
-(* 	$Id: CreateNamespace.Mod,v 1.55 2003/06/11 06:40:12 sgreenhill Exp $	 *)
+(* 	$Id: CreateNamespace.Mod,v 1.56 2003/06/20 23:11:36 mva Exp $	 *)
 MODULE OOC:SymbolTable:CreateNamespace [OOC_EXTENSIONS];
 (*  Creates namespaces for module, and resolves type names in declarations.
     Copyright (C) 2000-2003  Michael van Acken
@@ -645,28 +645,28 @@ RAISES IO.Error;
         procDecl.formalPars.SetTypePars(class.typePars);
         (*item.formalPars.SetTypePars(receiver.type.typePars);*)
 
-        count := 0;
-        ptr := procDecl.formalPars.nestedItems;
-        WHILE (ptr # NIL) DO
-          WITH ptr: Sym.TypeDecl DO
-            IF (ptr.type = NIL) THEN
-              (* unfinished alias declaration: fixup type reference; if this
-                 is read from the symbol file, the `ptr.type' is alread set *)
-              ptr.type := class.typePars.params[count];
-              ptr.srcCodeType := ptr.type;
-            END;
-            INC(count);
-          ELSE
-            (* ignore *)
-          END;
-          ptr := ptr.nextNested;
-        END;
-
         IF (class.typePars = NIL) THEN
           IF receiver.hasAliasList THEN
             ErrType(cannotDefineTypeAliases, receiver.srcCodeType);
           END;
         ELSE
+          count := 0;
+          ptr := procDecl.formalPars.nestedItems;
+          WHILE (ptr # NIL) DO
+            WITH ptr: Sym.TypeDecl DO
+              IF (ptr.type = NIL) THEN
+                (* unfinished alias declaration: fixup type reference; if this
+                   is read from the symbol file, the `ptr.type' is alread set  *)
+                ptr.type := class.typePars.params[count];
+                ptr.srcCodeType := ptr.type;
+              END;
+              INC(count);
+            ELSE
+              (* ignore *)
+            END;
+            ptr := ptr.nextNested;
+          END;
+          
           IF ~receiver.hasAliasList OR
              (count # LEN(class.typePars.params^)) THEN
             ErrType(tooFewTypeAliases, receiver.srcCodeType);
