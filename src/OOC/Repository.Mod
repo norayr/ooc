@@ -1,4 +1,4 @@
-(* 	$Id: Repository.Mod,v 1.14 2002/07/21 11:46:12 mva Exp $	 *)
+(* 	$Id: Repository.Mod,v 1.15 2002/11/02 11:47:07 mva Exp $	 *)
 MODULE OOC:Repository [OOC_EXTENSIONS];
 (*  Abstraction of storage of source, intermediate, and target code.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -21,7 +21,7 @@ MODULE OOC:Repository [OOC_EXTENSIONS];
 *)
 
 IMPORT
-  Msg, Channel, TextRider, Strings, Time, ADT:Object, URI, OS:Path,
+  Msg, Channel, TextRider, Strings, Time, ADT:Object, URI, OS:Path, OOC:Logger,
   OOC:Scanner:InputBuffer, Sym := OOC:SymbolTable, OOC:SymbolTable:Builder;
 
 
@@ -489,6 +489,7 @@ PROCEDURE (m: Module) GetSymbolTable* (VAR res: Msg.Msg): Sym.Module;
       uri := m. GetURI (modSymbolFile);
       ch := uri. GetChannel (URI.channelOld, res);
       IF (res = NIL) THEN
+        Logger.ReadFile(uri);
         stb := Builder.New();
         symTab := stb. ReadSymbolTable (ch, res);
         ch. Close;
