@@ -1,4 +1,4 @@
-(* 	$Id: IR.Mod,v 1.272 2003/10/07 18:34:55 mva Exp $	 *)
+(* 	$Id: IR.Mod,v 1.273 2003/11/12 21:07:02 mva Exp $	 *)
 MODULE OOC:IR [OOC_EXTENSIONS];
 (*  High-level intermediate code representation.
     Copyright (C) 2001-2003  Michael van Acken, Stewart Greenhill
@@ -1516,6 +1516,8 @@ PROCEDURE (b: Builder) SetNameToType(type: Sym.Type);
       | type: Sym.TypeVar DO
         name := "TYPE_VAR";
       | type: Sym.PredefType DO
+        name := "unknown";
+      ELSE  (* for example, a module or the type representing types *)
         name := "unknown";
       END;
     END;
