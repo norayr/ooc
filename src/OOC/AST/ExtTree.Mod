@@ -1,4 +1,4 @@
-(* 	$Id: ExtTree.Mod,v 1.25 2002/06/02 11:52:40 mva Exp $	 *)
+(* 	$Id: ExtTree.Mod,v 1.26 2002/07/03 22:12:53 mva Exp $	 *)
 MODULE OOC:AST:ExtTree [OOC_EXTENSIONS];
 (*  Creates extended abstract syntax tree from the parser output.
     Copyright (C) 2000-2002  Michael van Acken
@@ -317,9 +317,9 @@ TYPE
   FunctionCallDesc = RECORD
     (NodeDesc)
     design-: Node;
-    lParen-: AST.Node;
+    lParen-: Terminal;
     arguments-: AST.NodeList;
-    rParen-: AST.Node;
+    rParen-: Terminal;
   END;
 
 
@@ -1209,9 +1209,9 @@ PROCEDURE (b: Builder) FunctionCall* (design, lParen: AST.Node; arguments: AST.N
   BEGIN
     NEW (fc);
     fc. design := design(Node);
-    fc. lParen := lParen;
+    fc. lParen := lParen(Terminal);
     fc. arguments := arguments;
-    fc. rParen := rParen;
+    fc. rParen := rParen(Terminal);
     RETURN fc
   END FunctionCall;
 
