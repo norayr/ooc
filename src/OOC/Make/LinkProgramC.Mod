@@ -1,4 +1,4 @@
-(* 	$Id: LinkProgramC.Mod,v 1.22 2003/05/17 18:52:16 mva Exp $	 *)
+(* 	$Id: LinkProgramC.Mod,v 1.23 2003/05/18 11:30:06 mva Exp $	 *)
 MODULE OOC:Make:LinkProgramC;
 (*  Links object files and libraries to create an executable file.
     Copyright (C) 2001, 2002, 2003  Michael van Acken
@@ -252,7 +252,7 @@ RAISES IO.Error;
     
     Out.String (str);
     Out.Ln;
-    exit := ProcessManagement.system (str);
+    exit := ProcessManagement.system(Object.NewLatin1(str));
     RETURN (exit = 0)
   END Run;
 
