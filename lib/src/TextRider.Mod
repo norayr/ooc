@@ -1,4 +1,4 @@
-(*	$Id: TextRider.Mod,v 1.3 2002/06/15 11:48:56 mva Exp $	*)
+(*	$Id: TextRider.Mod,v 1.4 2002/06/18 19:59:28 mva Exp $	*)
 MODULE TextRider [OOC_EXTENSIONS];
 
 (*
@@ -188,8 +188,8 @@ reporting this.
 TYPE
   ErrorContext = POINTER TO ErrorContextDesc;
   ErrorContextDesc* = RECORD
-     (**This record is exported, so that extensions of Channel can access the
-        error descriptions by extending @otype{ErrorContextDesc}.  *)
+    (**This record is exported, so that extensions of Channel can access the
+       error descriptions by extending @otype{ErrorContextDesc}.  *)
     (Msg.ContextDesc)
   END;
 
