@@ -1,4 +1,4 @@
-(* 	$Id: IGraph.Mod,v 1.3 2002/02/14 23:13:38 mva Exp $	 *)
+(* 	$Id: IGraph.Mod,v 1.4 2002/07/19 18:12:34 mva Exp $	 *)
 MODULE OOC:SSA:IGraph;
 (*  Manipulation of interference graph of values' life ranges.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -147,6 +147,15 @@ PROCEDURE (g: Graph) In* (res: LONGINT; live: Vector): BOOLEAN;
   BEGIN
     RETURN (res MOD bitsPerSet) IN live[res DIV bitsPerSet]
   END In;
+
+PROCEDURE (g: Graph) Conflicts* (i, j: LONGINT): BOOLEAN;
+(**Returns @code{TRUE} if @oparam{i} conflicts with @oparam{j}.  *)
+  VAR
+    m: BitMatrix;
+  BEGIN
+    m := g. m;
+    RETURN (j MOD bitsPerSet IN m[i, j DIV bitsPerSet]);
+  END Conflicts;
 
 PROCEDURE (g: Graph) MergeVector* (source, dest: Vector);
 (**Stores the union of the elements in @oparam{source} and @oparam{dest}
