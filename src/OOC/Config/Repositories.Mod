@@ -1,4 +1,4 @@
-(* 	$Id: Repositories.Mod,v 1.11 2002/11/26 21:37:53 mva Exp $	 *)
+(* 	$Id: Repositories.Mod,v 1.12 2002/11/26 22:27:13 mva Exp $	 *)
 MODULE OOC:Config:Repositories [OOC_EXTENSIONS];
 (*  Management of a hierarchy of configured repositories.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -46,7 +46,7 @@ TYPE
   END;
 
 CONST
-  packageData = "package.xml";
+  packageData = "pkginfo.xml";
   
 CONST
   invalidContent = 1;
