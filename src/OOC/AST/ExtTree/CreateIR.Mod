@@ -1,4 +1,4 @@
-(* 	$Id: CreateIR.Mod,v 1.66 2003/05/11 14:52:54 mva Exp $	 *)
+(* 	$Id: CreateIR.Mod,v 1.67 2003/07/07 22:06:23 mva Exp $	 *)
 MODULE OOC:AST:ExtTree:CreateIR;
 (*  Creates an IR representation from the abstract syntax tree.
     Copyright (C) 2001-2003  Michael van Acken
@@ -451,7 +451,11 @@ PROCEDURE CreateIR* (module: ExtTree.Module;
         statmSeq := StatementSeq(tryStatm.statmSeq);
         FOR i := 0 TO tryStatm.catchList.len-1 BY 4 DO
           guard := Expr(tryStatm.catchList.n[i+1](ExtTree.Node));
+          
+          b.StartExceptionScope(guard, currentNamespace);
           catchStatm := StatementSeq(tryStatm.catchList.n[i+3](ExtTree.NodeList));
+          b.EndExceptionScope(currentNamespace);
+          
           catchList[i DIV 4] := b.NewCatchClause(guard, catchStatm);
         END;
         RETURN b.NewTryStatm(tryStatm.try.sym, statmSeq, catchList);
