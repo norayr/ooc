@@ -1,4 +1,4 @@
-(* 	$Id: SymbolTable.Mod,v 1.80 2003/05/01 17:25:21 mva Exp $	 *)
+(* 	$Id: SymbolTable.Mod,v 1.81 2003/05/03 10:48:39 mva Exp $	 *)
 MODULE OOC:SymbolTable [OOC_EXTENSIONS];
 (*  Defines structure and entries of the symbol table.
     Copyright (C) 2000-2003  Michael van Acken
@@ -98,6 +98,8 @@ CONST
   flagUnion* = 7;
   flagReadOnly* = 8;
   flagNoReturn* = 9;
+  flagDeprecated* = 10;
+  flagOOCExtensions* = 11;
   
 CONST
   nameNotExported* = 0;
@@ -184,6 +186,9 @@ TYPE
     docString-: Doc.Document;
     (**Some piece of documentation attached to this declaration.  Typically,
        this is a doc comment placed after the name of the declaration.  *)
+    deprecated*: BOOLEAN;
+    (**If @code{TRUE}, then the declaration has been marked as deprecated.
+       For each use of the object a warning is generated.  *)
     cachedId: NameString;
     (* used by @oproc{Declaration.GetId} to cache the result of an id
        computation; initialized to NIL, not stored in a symbol file *)
@@ -1156,6 +1161,10 @@ PROCEDURE (item: Item) AddFlag* (name: Name);
       id := flagReadOnly;
     ELSIF (name.str^ = "NO_RETURN") THEN
       id := flagNoReturn;
+    ELSIF (name.str^ = "DEPRECATED") THEN
+      id := flagDeprecated;
+    ELSIF (name.str^ = "OOC_EXTENSIONS") THEN
+      id := flagOOCExtensions;
     ELSE
       id := flagUnknownName;
     END;
@@ -1175,6 +1184,7 @@ PROCEDURE InitDeclaration* (decl: Declaration; parent: Item; name: Name;
     decl. visibleFrom := visibleFrom;
     decl. exportMark := exportMark;
     decl. docString := docString;
+    decl. deprecated := FALSE;
     decl. cachedId := NIL;
     decl. usageCount := 0;
   END InitDeclaration;
@@ -1190,6 +1200,7 @@ PROCEDURE (decl: Declaration) Store* (w: Storable.Writer) RAISES IO.Error;
     ELSE  
       w. WriteObject (NIL);  
     END;
+    w. WriteBool (decl.deprecated);
   END Store;
 
 PROCEDURE (decl: Declaration) Load* (r: Storable.Reader) RAISES IO.Error;
@@ -1214,6 +1225,7 @@ PROCEDURE (decl: Declaration) Load* (r: Storable.Reader) RAISES IO.Error;
     ELSE  
       decl. docString := obj(Doc.Document)  
     END;
+    r. ReadBool (decl.deprecated);
     decl. cachedId := NIL;
     decl. usageCount := 0;
   END Load;
