@@ -1,4 +1,4 @@
-(* 	$Id: DeclWriter.Mod,v 1.34 2002/07/10 01:33:32 sgreenhill Exp $	 *)
+(* 	$Id: DeclWriter.Mod,v 1.35 2002/07/12 13:53:02 mva Exp $	 *)
 MODULE OOC:C:DeclWriter [OOC_EXTENSIONS];
 (*  Defines classes to handle C declarations, types, and include statements.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -213,7 +213,7 @@ TYPE
     typeQualifier: TypeQualifier;
     storageClass: StorageClass;
     type: Type;
-    name: String.String;
+    name-: String.String;
   END;
 
 TYPE
