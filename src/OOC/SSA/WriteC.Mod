@@ -1,4 +1,4 @@
-(* 	$Id: WriteC.Mod,v 1.65 2002/05/10 15:22:28 mva Exp $	 *)
+(* 	$Id: WriteC.Mod,v 1.66 2002/05/10 17:10:02 mva Exp $	 *)
 MODULE OOC:SSA:WriteC [OOC_EXTENSIONS];
 (*  Translates a set of scheduled SSA instructions to plain C.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -441,6 +441,7 @@ PROCEDURE (w: Writer) WriteInstrList (b: Schedule.Block;
       adr: SSA.Instr;
       decl: Sym.Declaration;
       name: String.String;
+      procType: Sym.FormalPars;
     BEGIN
       IF (call. opndList. arg. instr. opcode = Opcode.tbProcAddress) THEN
         (* calling type bound procedure: cast procedure address *)
@@ -454,9 +455,9 @@ PROCEDURE (w: Writer) WriteInstrList (b: Schedule.Block;
         w. WriteChar (")");
       ELSIF ~(call. opndList. arg IS SSA.DeclRef) THEN
         (* calling through variable: cast address to function type *)
+        procType := call. opndList(SSA.TypedOpnd). type(Sym.FormalPars);
         w. WriteChar ("(");
-        CastToPtr (call. opndList. arg,
-                   call. opndList(SSA.TypedOpnd). type, FALSE);
+        w. WriteTypeCast (ConvertDecl.ConvertType (w, procType, procType));
         w. Ref (call. opndList);
         w. WriteChar (")");
       ELSE
