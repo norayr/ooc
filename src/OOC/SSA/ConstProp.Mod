@@ -1,7 +1,7 @@
-(* 	$Id: ConstProp.Mod,v 1.8 2002/12/17 01:23:13 mva Exp $	 *)
+(* 	$Id: ConstProp.Mod,v 1.9 2003/02/16 12:52:00 mva Exp $	 *)
 MODULE OOC:SSA:ConstProp;
 (*  Constant propagation and unreachable code elimination.
-    Copyright (C) 2002  Michael van Acken
+    Copyright (C) 2002, 2003  Michael van Acken
 
     This file is part of OOC.
 
@@ -184,7 +184,9 @@ PROCEDURE Transform* (pb: SSA.ProcBlock);
       
       BEGIN
         IF isSwitch THEN
-          WHILE (branch # NIL) & (branch.class = Opnd.labels) DO
+          WHILE (branch # NIL) &
+                (branch.class = Opnd.labels) &
+                ~(branch.arg IS SSA.Const) DO
             IF InLabelList (expr. value, branch. arg(SSA.Instr). opndList) THEN
               RETURN branch. nextOpnd;
             END;

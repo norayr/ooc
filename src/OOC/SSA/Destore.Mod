@@ -1,4 +1,4 @@
-(* 	$Id: Destore.Mod,v 1.63 2003/01/05 14:11:41 mva Exp $	 *)
+(* 	$Id: Destore.Mod,v 1.64 2003/02/16 12:52:00 mva Exp $	 *)
 MODULE OOC:SSA:Destore;
 (*  Converts reads from/writes to memory into local values.
     Copyright (C) 2001-2003  Michael van Acken
@@ -799,7 +799,7 @@ PROCEDURE (s: State) Transform*;
           IF (select. GetOpndClass (Opnd.labels) = NIL) THEN
             RETURN (select. CountOpndClass (Opnd.arg) DIV 2);
           ELSE
-            RETURN (select. CountOpndClass (Opnd.arg)-1);
+            RETURN select. CountOpndClass (Opnd.labels);
           END;
         | Opcode.loopStart : RETURN 2
         | Opcode.loopEnd   : RETURN select. CountOpndClass (Opnd.storeExit)
