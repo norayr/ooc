@@ -1,4 +1,4 @@
-(* 	$Id: SymbolTable.Mod,v 1.36 2002/11/11 21:44:16 mva Exp $	 *)
+(* 	$Id: SymbolTable.Mod,v 1.37 2002/11/14 20:51:31 mva Exp $	 *)
 MODULE OOC:SymbolTable [OOC_EXTENSIONS];
 (*  Defines structure and entries of the symbol table.
     Copyright (C) 2000-2002  Michael van Acken
@@ -323,7 +323,7 @@ TYPE
   LinkLibDesc = RECORD
     (LinkDirectiveDesc)
     libraryName-: String.String;
-    dependencies: String.StringArrayPtr;
+    dependencies-: String.StringArrayPtr;
     prefixOption, suffixOption: String.String;
   END;
 
