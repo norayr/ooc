@@ -1,4 +1,4 @@
-(* 	$Id: Make.Mod,v 1.47 2003/05/12 17:48:20 mva Exp $	 *)
+(* 	$Id: Make.Mod,v 1.48 2003/05/12 21:33:50 mva Exp $	 *)
 MODULE OOC:Make;
 (*  Builds object files, libraries, binaries, and the like.
     Copyright (C) 2002, 2003  Michael van Acken
@@ -780,6 +780,10 @@ RAISES IO.Error;
         uri(File.URI). GetPath (path);
         Strings.Insert (path, 0, str);
         Strings.Insert (" -o ", 0, str);
+
+        (* create directory for HTML file, if it does not exist *)
+        Path.dirname (path, path);
+        OSFiles.makedirs (path, OSFiles.defaultMode, res);
         
         (* prefix option and style sheet argument with command name *)
         Strings.Insert(Config.xsltproc.value(StringValue.Value).string^,
@@ -791,8 +795,6 @@ RAISES IO.Error;
         Strings.Append (" ", str);
         Strings.Append (path, str);
         
-        Path.dirname (path, path);
-        OSFiles.makedirs (path, OSFiles.defaultMode, res);
         IF (res = NIL) THEN
           Logger.ShellCommand(str);
           exit := ProcessManagement.system (str)
