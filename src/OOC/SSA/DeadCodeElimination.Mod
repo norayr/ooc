@@ -1,4 +1,4 @@
-(* 	$Id: DeadCodeElimination.Mod,v 1.3 2003/02/14 20:06:23 mva Exp $	 *)
+(* 	$Id: DeadCodeElimination.Mod,v 1.4 2003/02/16 14:24:43 mva Exp $	 *)
 MODULE OOC:SSA:DeadCodeElimination;
 (*  Removes unreachable code from a procedure's SSA representation.
     Copyright (C) 2001-2003  Michael van Acken
@@ -93,6 +93,18 @@ PROCEDURE MarkLive (res: SSA.Result);
         MarkStore(loopEnd.opndList.nextOpnd, i);
       END;
       
+    | Opcode.loopEnd:
+      IF (res.marker = dead) THEN
+        res.marker := live;
+        i := res.ResultIndex();
+        
+        opnd := instr.NthOpnd(2);
+        WHILE (opnd # NIL) & (opnd.class = Opnd.storeExit) DO
+          ASSERT(opnd.arg.instr.opcode = Opcode.exit);
+          MarkStore(opnd.arg.instr.opndList, i);
+          opnd := opnd.nextOpnd;
+        END;
+      END;
     ELSE  (* ignore *)
     END;
   END MarkLive;
@@ -105,8 +117,6 @@ PROCEDURE DeleteDeadCode (pb: SSA.ProcBlock);
     i: LONGINT;
 
   PROCEDURE DeleteStore(opnd: SSA.Opnd; index: LONGINT);
-    VAR
-      collect: SSA.Instr;
     BEGIN
       ASSERT(index > 1);
       ASSERT(opnd.arg.instr.opcode = Opcode.collect);
@@ -167,6 +177,25 @@ PROCEDURE DeleteDeadCode (pb: SSA.ProcBlock);
             
             DeleteStore(instr.opndList, i);
             DeleteStore(loopEnd.opndList.nextOpnd, i);
+            res.DeleteResult();
+          END;
+          res := nextResult;
+        END;
+
+      ELSIF (instr.opcode = Opcode.loopEnd) THEN
+        res := instr.nextResult;
+        WHILE (res # NIL) DO
+          nextResult := res.nextResult;
+          IF (res.marker = dead) THEN
+            (* if the result is dead, remove the corresponding operand from
+               any exit instructions feeding into the loop-end *)
+            i := res.ResultIndex();
+            
+            opnd := instr.NthOpnd(2);
+            WHILE (opnd # NIL) & (opnd.class = Opnd.storeExit) DO
+              DeleteStore(opnd.arg.instr.opndList, i);
+              opnd := opnd.nextOpnd;
+            END;
             res.DeleteResult();
           END;
           res := nextResult;
