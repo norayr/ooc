@@ -1,7 +1,7 @@
-(* 	$Id: Opnd.Mod,v 1.7 2001/12/16 01:26:12 mva Exp $	 *)
+(* 	$Id: Opnd.Mod,v 1.8 2002/01/04 16:14:52 mva Exp $	 *)
 MODULE OOC:SSA:Opnd;
 (*  Symbolic names for operand classes.
-    Copyright (C) 2001  Michael van Acken
+    Copyright (C) 2001, 2002  Michael van Acken
 
     This file is part of OOC.
 
@@ -95,6 +95,10 @@ CONST
      representing the data flow, and must be treated specially in some
      algorithms.  Forward references are used to model loops.  See
      @oconst{*OOC:SSA:Opcode.loopStart}.  *)
+
+  dimension* = 15;
+  (**Dimension identifier of a @oconst{*OOC:SSA:Opcode.getLength} instruction.
+     This is an integer constant.  *)
   
 PROCEDURE GetName* (class: Class; VAR name: ARRAY OF CHAR);
 (**Retrieves the symbolic name of an operand class.  *)
@@ -110,6 +114,7 @@ PROCEDURE GetName* (class: Class; VAR name: ARRAY OF CHAR);
     | sourceValue: COPY ("source-value", name)
     | functionResult: COPY ("function-result", name)
     | forwardRef: COPY ("forward-ref", name)
+    | dimension: COPY ("dimension", name)
     END;
   END GetName;
   

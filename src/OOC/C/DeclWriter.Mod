@@ -1,4 +1,4 @@
-(* 	$Id: DeclWriter.Mod,v 1.5 2002/01/03 13:09:39 mva Exp $	 *)
+(* 	$Id: DeclWriter.Mod,v 1.6 2002/01/04 16:14:52 mva Exp $	 *)
 MODULE OOC:C:DeclWriter [OOC_EXTENSIONS];
 (*  Defines classes to handle C declarations, types, and include statements.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -655,6 +655,14 @@ PROCEDURE (fct: Function) WriteRight (w: Writer);
     w. WriteChar(")");
     WriteRight (w, fct. resultType, priFunction)
   END WriteRight;
+
+
+PROCEDURE (w: Writer) WriteType* (t: Type);
+  BEGIN
+    t. WriteLeft (w);
+    t. WriteRight (w)
+  END WriteType;
+
 
 
 
