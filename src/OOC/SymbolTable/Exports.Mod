@@ -1,4 +1,4 @@
-(* 	$Id: Exports.Mod,v 1.18 2003/04/20 12:46:58 mva Exp $	 *)
+(* 	$Id: Exports.Mod,v 1.19 2003/04/20 21:58:24 mva Exp $	 *)
 MODULE OOC:SymbolTable:Exports;
 (*  Marks declarations that are part of the module's symbol file.
     Copyright (C) 2000-2003  Michael van Acken
@@ -110,6 +110,7 @@ PROCEDURE GetExports* (module: Sym.Module; forSymbolFile: BOOLEAN): Dictionary.D
             END;
 
             IF (type.typePars # NIL) THEN
+              dict.Set(type.typePars, NIL);
               MarkList(type.typePars);
             END;
           END
