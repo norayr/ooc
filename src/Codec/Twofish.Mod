@@ -1,4 +1,4 @@
-(* 	$Id: Twofish.Mod,v 1.2 2002/09/19 19:32:03 mva Exp $	 *)
+(* 	$Id: Twofish.Mod,v 1.3 2002/09/19 20:11:29 mva Exp $	 *)
 MODULE Codec:Twofish[OOC_EXTENSIONS];
 (*  Codec for the Twofish encryption algorithm.
     Copyright (C) 2002  Michael van Acken
@@ -162,6 +162,11 @@ PROCEDURE (dec: Decoder) DecodeIncr* (data[NO_COPY]: ARRAY OF CHAR;
     dec.incompleteSize := end-start;
   END DecodeIncr;
 
+PROCEDURE (dec: Decoder) Reset*;
+  BEGIN
+    dec. incompleteSize := 0;
+  END Reset;
+
 PROCEDURE (enc: Encoder) EncodeIncr*(s: String.String;
                                      start, end: LONGINT;
                                      b: String.Buffer);
@@ -236,6 +241,11 @@ PROCEDURE (enc: Encoder) Closure*(b: String.Buffer);
       b.AppendLatin1Region (d, 0, blockSize);
     END;
   END Closure;
+
+PROCEDURE (enc: Encoder) Reset*;
+  BEGIN
+    enc. incompleteSize := 0;
+  END Reset;
 
 PROCEDURE Register*;
   BEGIN
