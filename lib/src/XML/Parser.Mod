@@ -1,4 +1,4 @@
-(*      $Id: Parser.Mod,v 1.4 2003/01/30 23:36:04 mva Exp $   *)
+(*      $Id: Parser.Mod,v 1.5 2003/01/31 13:34:59 mva Exp $   *)
 MODULE XML:Parser;
 (*  Implements the XML parser.
     Copyright (C) 2000, 2001, 2003  Michael van Acken
@@ -739,17 +739,9 @@ PROCEDURE (p: Parser) ParseDocument*() RAISES IO.Error;
         RETURN NIL
       ELSE
         ch := entity. baseURI. GetChannel (URI.channelOld);
-        IF (ch = NIL) THEN
-          Err (accessError);
-          entity. baseURI. GetString (str);
-          p. lastError. SetStringAttrib ("uri", Msg.GetStringPtr (str));
-          p. lastError. SetMsgAttrib ("channel_error", res);
-          RETURN NIL
-        ELSE
-          in := Buffer.NewInput (ch, NIL, p. errList);
-          entity. SetCodecFactory (in. codecFactory);
-          RETURN in
-        END
+        in := Buffer.NewInput (ch, NIL, p. errList);
+        entity. SetCodecFactory (in. codecFactory);
+        RETURN in
       END
     END GetBuffer;
   
@@ -3247,11 +3239,7 @@ RAISES IO.Error;
     ch: IO.ByteChannel;
   BEGIN
     ch := uri. GetChannel (URI.channelOld);
-    IF (ch = NIL) THEN
-      RETURN NIL
-    ELSE
-      RETURN NewChannel (ch, uri, codecFactory, entityResolver, builder)
-    END
+    RETURN NewChannel (ch, uri, codecFactory, entityResolver, builder);
   END NewURI;
 
 PROCEDURE NewFile* (filePath: ARRAY OF CHAR; baseURI: URI.URI; 
