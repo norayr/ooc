@@ -1,4 +1,4 @@
-(* 	$Id: CreateSymTab.Mod,v 1.39 2003/05/08 19:14:57 mva Exp $	 *)
+(* 	$Id: CreateSymTab.Mod,v 1.40 2003/05/11 13:56:32 mva Exp $	 *)
 MODULE OOC:AST:ExtTree:CreateSymTab;
 (*  Creates symbol table from abstract syntax tree of module `ExtTree'.
     Copyright (C) 2000-2003  Michael van Acken
@@ -456,12 +456,25 @@ PROCEDURE (v: Visitor) VisitReceiver* (receiver: ExtTree.Receiver);
   VAR
     type: Sym.Type;
     var: Sym.VarDecl;
+    alias: Sym.TypeDecl;
+    i: LONGINT;
+    nodes: AST.NodeArray;
   BEGIN
     type := GetType (v, receiver. type);
     var := v. stb. NewVarDecl (v. parent, 
       GetName (receiver. ident), EndOfType (receiver. type),
       Sym.nameNotExported, receiver. ident. docString,
-      TRUE, TRUE, receiver. var # NIL, type)
+      TRUE, TRUE, receiver. var # NIL, type);
+
+    IF (receiver.lParenAlias # NIL) THEN
+      var.hasAliasList := TRUE;
+      nodes := receiver.aliasList.n;
+      FOR i := 0 TO receiver.aliasList.len-1 BY 2 DO
+        alias := v.stb.NewTypeDecl
+            (v.parent, GetName(nodes[i]), EndOfType(nodes[i]),
+             Sym.nameNotExported, NIL, NIL, FALSE);
+      END;
+    END;
   END VisitReceiver;
 
 PROCEDURE (v: Visitor) VisitFPSection* (fpSection: ExtTree.FPSection);

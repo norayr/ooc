@@ -1,4 +1,4 @@
-(* 	$Id: Namespace.Mod,v 1.18 2003/05/07 22:24:03 mva Exp $	 *)
+(* 	$Id: Namespace.Mod,v 1.19 2003/05/11 13:56:32 mva Exp $	 *)
 MODULE OOC:SymbolTable:Namespace;
 (*  Implements namespaces and semantic checks on them.
     Copyright (C) 2000-2003  Michael van Acken
@@ -22,6 +22,7 @@ MODULE OOC:SymbolTable:Namespace;
 
 
 IMPORT
+  Log,
   OOC:Error, Sym := OOC:SymbolTable, TR := OOC:SymbolTable:TypeRules,
   OOC:SymbolTable:Predef, OOC:SymbolTable:Uses;
 
@@ -138,6 +139,11 @@ PROCEDURE (ns: Namespace) IdentifyLocal2*(sourceContext: Sym.Item;
     s, e, m: LONGINT;
     decl: Sym.Declaration;
   BEGIN
+(*    Log.String("### looking for", name.str^);
+    FOR s := 0 TO ns.localCount-1 DO
+      Log.String ("  local", ns.localDecl[s].name.str^);
+    END;*)
+    
     s := 0; e := ns. localCount;
     WHILE (s < e) DO
       m := (s+e) DIV 2;
