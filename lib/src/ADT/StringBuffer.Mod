@@ -1,4 +1,4 @@
-(*	$Id: StringBuffer.Mod,v 1.1 2002/07/12 20:47:04 mva Exp $	*)
+(*	$Id: StringBuffer.Mod,v 1.2 2002/12/03 15:24:26 mva Exp $	*)
 MODULE ADT:StringBuffer [OOC_EXTENSIONS];
 (*  String data type of dynamic length.
     Copyright (C) 1998-2001  Michael van Acken
@@ -480,7 +480,11 @@ BEGIN
       COPY (type.name^, name);
       str.AppendString(name);
       str.AppendChar("@");
+<*IF TARGET_ADDRESS = 64 THEN*>
+      str.AppendString("???");
+<*ELSE*>
       str.AppendLongInt(S.VAL(LONGINT, object));
+<*END*>
       str.AppendChar("]");
     END
   END;
