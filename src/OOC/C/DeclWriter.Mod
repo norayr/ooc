@@ -1,4 +1,4 @@
-(* 	$Id: DeclWriter.Mod,v 1.35 2002/07/12 13:53:02 mva Exp $	 *)
+(* 	$Id: DeclWriter.Mod,v 1.36 2002/07/17 17:23:46 mva Exp $	 *)
 MODULE OOC:C:DeclWriter [OOC_EXTENSIONS];
 (*  Defines classes to handle C declarations, types, and include statements.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -492,7 +492,11 @@ PROCEDURE (w: Writer) WriteConst* (value: Language.Value; type: Sym.Type);
             w. WriteChar ("'");
           END;
         ELSE
-          w. WriteString ("(OOC_CHAR16[]){");
+          (* Interesting bit of C knowledge: An expression like `(T){1,2}'
+             cannot be passed to a cpp macro, because the preprocessor
+             interprets the `,' as its argument separator.  On the other hand,
+             `((T){1,2})' works.  *)
+          w. WriteString ("((OOC_CHAR16[]){");
           i := 0; len := value. Length();
           WHILE (i # len) DO
             IF (i # 0) THEN
@@ -505,7 +509,7 @@ PROCEDURE (w: Writer) WriteConst* (value: Language.Value; type: Sym.Type);
             w. WriteChar (",");
           END;
           w. textWriter. WriteLInt (0, 0);
-          w. WriteChar ("}");
+          w. WriteString ("})");
         END;
         
       | value: Real.Value DO
