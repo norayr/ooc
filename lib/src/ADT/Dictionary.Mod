@@ -1,4 +1,4 @@
-(*	$Id: Dictionary.Mod,v 1.9 2003/05/12 22:33:47 mva Exp $	*)
+(*	$Id: Dictionary.Mod,v 1.10 2003/05/30 16:06:39 mva Exp $	*)
 MODULE ADT:Dictionary;
 (*  A dictionary implementation using objects' HashCode() as keys.
     Copyright (C) 2000, 2001, 2003  Michael van Acken
@@ -440,16 +440,16 @@ PROCEDURE (dict: Dictionary(K, V)) Values* (): Object.ObjectArrayPtr;
 
 PROCEDURE (dict: Dictionary(K, V)) Equals* (obj: Object.Object): BOOLEAN;
   BEGIN
-<*PUSH; Assertions:=TRUE*>
+<*WITH Assertions:=TRUE DO*>
     ASSERT (FALSE);
-<*POP*>
+<*END*>
   END Equals;
 
-PROCEDURE (dict: Dictionary(K, V)) HashCode* (): LONGINT;
+PROCEDURE (dict: Dictionary(K, V)) HashCode* (): Object.Hash;
   BEGIN
-<*PUSH; Assertions:=TRUE*>
+<*WITH Assertions:=TRUE DO*>
     ASSERT (FALSE);
-<*POP*>
+<*END*>
   END HashCode;
 
 PROCEDURE (dict: Dictionary(K, V)) Store* (w: Storable.Writer) RAISES IO.Error;
