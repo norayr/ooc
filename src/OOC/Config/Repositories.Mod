@@ -1,4 +1,4 @@
-(* 	$Id: Repositories.Mod,v 1.9 2002/11/23 17:41:34 mva Exp $	 *)
+(* 	$Id: Repositories.Mod,v 1.10 2002/11/24 23:52:40 mva Exp $	 *)
 MODULE OOC:Config:Repositories [OOC_EXTENSIONS];
 (*  Management of a hierarchy of configured repositories.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -367,6 +367,7 @@ PROCEDURE (s: Section) ParseMetaData*(): BOOLEAN;
   VAR
     rep: Repository.Repository;
     uri: URI.URI;
+    fileName: Repository.URIBuffer;
     errList: Error.List;
   BEGIN
     errList := Error.NewList("");
@@ -374,7 +375,8 @@ PROCEDURE (s: Section) ParseMetaData*(): BOOLEAN;
     WHILE (rep # NIL) DO
       uri := rep.GetResource("", packageData);
       IF (uri # NIL) THEN
-        rep.SetPackageInfo(Package.ParseFile(uri, errList));
+        uri(File.URI).GetPath(fileName);
+        rep.SetPackageInfo(Package.ParseFile(fileName, errList));
       END;
       rep := rep. baseRep
     END;
