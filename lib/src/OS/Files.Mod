@@ -1,4 +1,4 @@
-(* 	$Id: Files.Mod,v 1.8 2003/05/18 18:38:48 mva Exp $	 *)
+(* 	$Id: Files.Mod,v 1.9 2003/05/19 22:54:47 mva Exp $	 *)
 MODULE OS:Files [FOREIGN "C"; LINK FILE "Files.c";
   <*IF HAVE_LIB_MINGWEX THEN*> LIB "mingwex"; <*END*>
   END];
@@ -63,5 +63,8 @@ RAISES IO.Error;
 PROCEDURE Remove*(path: STRING)
 RAISES IO.Error;
 (**Removes the file @oparam{path}.  *)
+
+PROCEDURE Exists*(path: STRING): BOOLEAN;
+(**Return @code{TRUE} if an entity @oparam{path} exists.  *)
 
 END OS:Files.
