@@ -1,4 +1,4 @@
-(* 	$Id: CreateNamespace.Mod,v 1.50 2003/05/11 14:52:54 mva Exp $	 *)
+(* 	$Id: CreateNamespace.Mod,v 1.51 2003/05/14 20:55:19 mva Exp $	 *)
 MODULE OOC:SymbolTable:CreateNamespace [OOC_EXTENSIONS];
 (*  Creates namespaces for module, and resolves type names in declarations.
     Copyright (C) 2000-2003  Michael van Acken
@@ -567,7 +567,12 @@ RAISES IO.Error;
               Err (notTypeName, typeName);
               RETURN typeName
             ELSE
-              type := item(Sym.TypeDecl).type;
+              (* the right hand side of a type declaration might be another
+                 type name *)
+              type := GetTypeByName(item(Sym.TypeDecl).type, contextOfUse,
+                                    extendedSearch, addQualTypeDefaults,
+                                    errList);
+              
               IF addQualTypeDefaults & (type.typePars # NIL) &
                  ~(type IS Sym.TypeVar) THEN
                 NEW(qt);
