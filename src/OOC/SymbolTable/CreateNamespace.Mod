@@ -1,4 +1,4 @@
-(* 	$Id: CreateNamespace.Mod,v 1.11 2002/10/14 21:54:22 mva Exp $	 *)
+(* 	$Id: CreateNamespace.Mod,v 1.12 2002/11/10 00:06:48 mva Exp $	 *)
 MODULE OOC:SymbolTable:CreateNamespace [OOC_EXTENSIONS];
 (*  Creates namespaces for module, and resolves type names in declarations.
     Copyright (C) 2000-2002  Michael van Acken
@@ -21,7 +21,6 @@ MODULE OOC:SymbolTable:CreateNamespace [OOC_EXTENSIONS];
 *)
 
 IMPORT
-  Log,
   ADT:Dictionary, OOC:Error, Sym := OOC:SymbolTable, OOC:SymbolTable:Namespace,
   TR := OOC:SymbolTable:TypeRules, OOC:SymbolTable:Builder,
   OOC:SymbolTable:Predef, OOC:SymbolTable:ImportModules, OOC:Doc:ResolveRef;
@@ -898,6 +897,26 @@ PROCEDURE CreateNamespace* (root: Sym.Module;
     ResolveRef.Resolve (root, errList)
   END CreateNamespace;
 
+(*PROCEDURE CreateNamespaceRec*(root: Sym.Module;
+                              errList: Error.List);
+  VAR
+    ptr: Sym.Item;
+  BEGIN
+    IF (root.ns = NIL) THEN
+      ptr := root. nestedItems;
+      WHILE (ptr # NIL) & (errList.msgCount = 0) DO
+        WITH ptr: Sym.Import DO
+          CreateNamespaceRec(ptr.externalSymTab, errList);
+        ELSE
+        END;
+        ptr := ptr. nextNested
+      END;
+      IF (errList.msgCount = 0) THEN
+        CreateNamespace(root, errList);
+      END;
+    END;
+  END CreateNamespaceRec;*)
+    
 PROCEDURE Init* ();
   VAR
     stb: Builder.Builder;

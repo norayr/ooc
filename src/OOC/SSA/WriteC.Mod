@@ -1,4 +1,4 @@
-(* 	$Id: WriteC.Mod,v 1.128 2002/10/29 22:00:03 mva Exp $	 *)
+(* 	$Id: WriteC.Mod,v 1.129 2002/11/10 00:06:48 mva Exp $	 *)
 MODULE OOC:SSA:WriteC [OOC_EXTENSIONS];
 (*  Translates a set of scheduled SSA instructions to plain C.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -31,7 +31,7 @@ IMPORT
   OOC:SSA:DeadCodeElimination, OOC:SSA:Destore, OOC:SSA:CSE, OOC:SSA:Algebraic,
   OOC:SSA:ConstProp,
   OOC:SSA:Allocator, OOC:C:ConvertDecl, OOC:C:Naming, OOC:C:DeclWriter, 
-  OOC:Make:Command:TranslateToC;
+  OOC:Make:TranslateToC;
 
 
 TYPE

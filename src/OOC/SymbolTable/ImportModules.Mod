@@ -1,4 +1,4 @@
-(* 	$Id: ImportModules.Mod,v 1.4 2002/07/09 18:47:34 mva Exp $	 *)
+(* 	$Id: ImportModules.Mod,v 1.5 2002/11/10 00:06:48 mva Exp $	 *)
 MODULE OOC:SymbolTable:ImportModules;
 (*  Retrieve exported symbol data for imported modules.
     Copyright (C) 2000, 2001, 2002  Michael van Acken
@@ -21,8 +21,7 @@ MODULE OOC:SymbolTable:ImportModules;
 *)
 
 IMPORT
-  Msg, OOC:Config, OOC:Error, Sym := OOC:SymbolTable,
-  OOC:Repository, OOC:Config:Repositories;
+  Msg, OOC:Config, OOC:Error, Sym := OOC:SymbolTable, OOC:Repository;
 
 
 CONST
@@ -75,18 +74,22 @@ PROCEDURE ImportModules* (systemModule: Sym.Module;
       m: Repository.Module;
       res: Msg.Msg;
     BEGIN
-      IF (import. moduleName. str^ = "SYSTEM") THEN
+      IF import. IsInternalImport() THEN
         import. SetExternalSymTab (systemModule)
       ELSE
         m := Config.repositories. GetModule (import. moduleName. str^);
         IF (m = NIL) THEN
           Err (noSuchModule, import. moduleName)
         ELSE
-          symTab := m. GetSymbolTable (res);
+          symTab := m. ReadSymbolFile (res);
           IF (res # NIL) THEN
             Err (readErrorSymbolFile, import. moduleName);
             lastError. SetMsgAttrib ("reason", res)
           ELSE
+            (* when we reach this point, then the imported modules have
+               been processed one way or other, and we must make sure that
+               we only see exactly this processed data further on *)
+            m.SetInterfaceData(symTab, Repository.completeInterface);
             import. SetExternalSymTab (symTab)
           END
         END

@@ -1,4 +1,4 @@
-(* 	$Id: FileSystem.Mod,v 1.9 2002/11/02 11:47:07 mva Exp $	 *)
+(* 	$Id: FileSystem.Mod,v 1.10 2002/11/10 00:06:48 mva Exp $	 *)
 MODULE OOC:Repository:FileSystem;
 (*  Implementation of a repository in the local file system.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -227,6 +227,16 @@ PROCEDURE (m: Module) GetTimeStamp* (fileId: Rep.FileId; VAR ts: Time.TimeStamp)
       Time.InitTimeStamp (ts, MAX (LONGINT), 0)
     END
   END GetTimeStamp;
+
+PROCEDURE (m: Module) FileExists* (fileId: Rep.FileId): BOOLEAN;
+  VAR
+    uri: URI.URI;
+    path: Rep.URIBuffer;
+  BEGIN
+    uri := m. GetURI (fileId);
+    uri(FileURI.URI). GetPath (path);
+    RETURN Files.Exists(path);
+  END FileExists;
 
 PROCEDURE (m: Module) GetInputBuffer* (VAR res: Msg.Msg): InputBuffer.Buffer;
   VAR

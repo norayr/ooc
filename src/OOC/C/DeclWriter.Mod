@@ -1,4 +1,4 @@
-(* 	$Id: DeclWriter.Mod,v 1.36 2002/07/17 17:23:46 mva Exp $	 *)
+(* 	$Id: DeclWriter.Mod,v 1.37 2002/11/10 00:06:49 mva Exp $	 *)
 MODULE OOC:C:DeclWriter [OOC_EXTENSIONS];
 (*  Defines classes to handle C declarations, types, and include statements.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -972,6 +972,7 @@ PROCEDURE (w: Writer) NewIncludeModule* (module: Repository.Module): IncludeModu
   VAR
     d: IncludeModule;
   BEGIN
+    ASSERT(module # NIL);
     NEW (d);
     InitIncludeModule (d, module);
     RETURN d

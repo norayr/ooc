@@ -1,4 +1,4 @@
-(* 	$Id: WriteAssembler.Mod,v 1.6 2002/08/03 06:41:20 mva Exp $	 *)
+(* 	$Id: WriteAssembler.Mod,v 1.7 2002/11/10 00:06:49 mva Exp $	 *)
 MODULE OOC:IA32:WriteAssembler [OOC_EXTENSIONS];
 (*  Translates a set of scheduled SSA instructions to IA32 assembler.
     Copyright (C) 2002  Michael van Acken
@@ -33,7 +33,7 @@ IMPORT
   ADT:String,
   Rep := OOC:Repository, OOC:IR, Sym := OOC:SymbolTable,OOC:SymbolTable:Predef,
   OOC:SSA, OOC:SSA:Opcode, OOC:SSA:Opnd, OOC:SSA:Schedule, 
-  OOC:C:Naming, OOC:IA32:Writer, OOC:Make:Command:TranslateToIA32,
+  OOC:C:Naming, OOC:IA32:Writer, OOC:Make:TranslateToIA32,
   OOC:SSA:IRtoSSA, OOC:SSA:XML, OOC:SSA:Inspector,
   OOC:SSA:DeadCodeElimination, OOC:SSA:Destore,
   Language, Language:Boolean, Language:Integer, Language:String8,

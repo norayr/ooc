@@ -1,4 +1,4 @@
-(* 	$Id: SymbolTable.Mod,v 1.33 2002/10/14 21:54:27 mva Exp $	 *)
+(* 	$Id: SymbolTable.Mod,v 1.34 2002/11/10 00:06:49 mva Exp $	 *)
 MODULE OOC:SymbolTable [OOC_EXTENSIONS];
 (*  Defines structure and entries of the symbol table.
     Copyright (C) 2000-2002  Michael van Acken
@@ -374,7 +374,7 @@ TYPE
        but no whitespace.  *)
     
     externalSymTab-: Module;
-    (**A reference to the imported symbol table of the external modules.  This
+    (**A reference to the imported symbol table of the external module.  This
        field is initialized to @code{NIL}, and is filled when
        @oproc{*OOC:SymbolTable:CreateNamespace.CreateNamespace} is called.  *)
   END;

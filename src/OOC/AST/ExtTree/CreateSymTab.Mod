@@ -1,4 +1,4 @@
-(* 	$Id: CreateSymTab.Mod,v 1.17 2002/10/14 21:54:26 mva Exp $	 *)
+(* 	$Id: CreateSymTab.Mod,v 1.18 2002/11/10 00:06:49 mva Exp $	 *)
 MODULE OOC:AST:ExtTree:CreateSymTab;
 (*  Creates symbol table from abstract syntax tree of module `ExtTree'.
     Copyright (C) 2000, 2001, 2002  Michael van Acken
@@ -284,7 +284,9 @@ PROCEDURE (v: Visitor) VisitModule* (module: ExtTree.Module);
     IF (module. importList # NIL) THEN
       AcceptParent (v, module. importList, moduleDecl)
     END;
-    AcceptParent (v, module. body, moduleDecl)
+    IF (module. body # NIL) THEN (* no body if parsing stopped after IMPORT *)
+      AcceptParent (v, module. body, moduleDecl)
+    END;
   END VisitModule;
 
 PROCEDURE (v: Visitor) VisitImportList* (importList: ExtTree.ImportList);
