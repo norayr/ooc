@@ -1,4 +1,4 @@
-(* 	$Id: IR.Mod,v 1.262 2003/08/26 14:05:23 mva Exp $	 *)
+(* 	$Id: IR.Mod,v 1.263 2003/09/07 21:11:14 mva Exp $	 *)
 MODULE OOC:IR [OOC_EXTENSIONS];
 (*  High-level intermediate code representation.
     Copyright (C) 2001-2003  Michael van Acken, Stewart Greenhill
@@ -3047,7 +3047,8 @@ PROCEDURE (b: Builder) NewShift (sym: Symbol; value, by: Expression;
       IF (expr # b.errorExpr) THEN
         IF ~(TR.IsIntegerType(expr.type) OR
              TR.IsCharType(expr.type) OR
-             TR.IsPredefType(expr.type, Predef.byte)) THEN
+             TR.IsPredefType(expr.type, Predef.byte) OR
+             TR.IsSetType(expr.type)) THEN
           b.ErrSym(invalidOpType, expr.sym);
           v := BigInt.NewInt(1);
           RETURN NewConst(expr.sym, Predef.SmallestIntType(v), v);
