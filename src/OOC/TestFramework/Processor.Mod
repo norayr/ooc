@@ -1,4 +1,4 @@
-(* 	$Id: Processor.Mod,v 1.15 2002/07/16 12:05:47 mva Exp $	 *)
+(* 	$Id: Processor.Mod,v 1.16 2002/11/26 22:14:20 mva Exp $	 *)
 MODULE OOC:TestFramework:Processor;
 (*  Processes test cases using an OOC compiler.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -78,7 +78,7 @@ PROCEDURE Init (proc: Processor; setup: TestSetup.TestSetup);
     proc. modDir := GetPath ("src");
     proc. symDir := GetPath ("sym");
     proc. objDir := GetPath ("obj");
-    proc. binDir := GetPath ("exe");
+    proc. binDir := GetPath ("bin");
     proc. txtDir := GetPath ("txt");
     
     (* put together command string for compile/make *)

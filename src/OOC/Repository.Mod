@@ -1,4 +1,4 @@
-(* 	$Id: Repository.Mod,v 1.25 2002/11/23 17:41:34 mva Exp $	 *)
+(* 	$Id: Repository.Mod,v 1.26 2002/11/26 22:14:20 mva Exp $	 *)
 MODULE OOC:Repository [OOC_EXTENSIONS];
 (*  Abstraction of storage of source, intermediate, and target code.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -419,7 +419,7 @@ PROCEDURE (rep: Repository) GetDefaultSubdir* (id: FileId; VAR subdir: ARRAY OF 
     | modObjectFileLib:
       COPY ("obj", subdir)
     | modExecutable:
-      COPY ("exe", subdir)
+      COPY ("bin", subdir)
     | modLibrary:
       COPY ("obj", subdir)
     | resourceFile:
