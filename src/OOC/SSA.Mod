@@ -1,4 +1,4 @@
-(* 	$Id: SSA.Mod,v 1.34 2002/05/01 17:58:37 mva Exp $	 *)
+(* 	$Id: SSA.Mod,v 1.35 2002/05/05 15:15:13 mva Exp $	 *)
 MODULE OOC:SSA;
 (*  Data structures for SSA code representation.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -601,6 +601,12 @@ PROCEDURE (instr: Instr) GetArgClass* (class: OpndClass.Class): Result;
       RETURN opnd. arg
     END
   END GetArgClass;
+
+PROCEDURE (instr: Instr) GetArgStore* (): Result;
+(**Short for @code{GetArgClass(store)}.  *)
+  BEGIN
+    RETURN instr. GetArgClass (OpndClass.store);
+  END GetArgStore;
 
 PROCEDURE (instr: Instr) NthResult* (nth: LONGINT): Result;
 (**Returns the @oparam{nth} result of @oparam{instr}.  A value of
