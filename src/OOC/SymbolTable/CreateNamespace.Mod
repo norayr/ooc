@@ -1,4 +1,4 @@
-(* 	$Id: CreateNamespace.Mod,v 1.18 2002/12/14 13:18:18 mva Exp $	 *)
+(* 	$Id: CreateNamespace.Mod,v 1.19 2002/12/17 21:30:33 mva Exp $	 *)
 MODULE OOC:SymbolTable:CreateNamespace [OOC_EXTENSIONS];
 (*  Creates namespaces for module, and resolves type names in declarations.
     Copyright (C) 2000-2002  Michael van Acken
@@ -995,7 +995,11 @@ PROCEDURE CreateNamespace* (root: Sym.Module;
       Builder's Finalize method *)
 
     (* eighth pass: resolve forward declarations of procedures *)
-    ResolveForwardDecl (root, errList);
+    IF errList.NoErrors() THEN
+      (* if there are type names that could not be resolved, then this
+         function cannot operator properly; only run it if we are clean *)
+      ResolveForwardDecl (root, errList);
+    END;
 
 
     (* here holds: any namespace (module, procedure, or record) can be
