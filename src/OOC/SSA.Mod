@@ -1,4 +1,4 @@
-(* 	$Id: SSA.Mod,v 1.40 2002/05/20 12:25:18 mva Exp $	 *)
+(* 	$Id: SSA.Mod,v 1.41 2002/06/22 21:50:52 mva Exp $	 *)
 MODULE OOC:SSA;
 (*  Data structures for SSA code representation.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -1131,25 +1131,33 @@ PROCEDURE (pb: ProcBlock) AddSetInstr* (get: Instr; sourceValue: Result): Instr;
     RETURN set
   END AddSetInstr;
 
-PROCEDURE (pb: ProcBlock) AddGetLengthInstr* (get: Instr; dimension: Result): Instr;
+PROCEDURE (pb: ProcBlock) AddGetLengthInstr* (get: Instr; dim: LONGINT;
+                                              dimType: Sym.Array): Instr;
 (**Given a @code{get} instruction, this method produces a @code{get-length}
-   instruction that returns the length of the variable for @oparam{dimension}.  *)
+   instruction that returns the length of the variable for @oparam{dim}.
+   @oparam{dimType} is the array type of dimension @oparam{dim}.  *)
   VAR
     getLength: Instr;
     opnd: Opnd;
+    i: LONGINT;
   BEGIN
     ASSERT (get. instr. opcode = Opcode.get);
-    getLength := pb. AddInstr (Opcode.getLength, Opcode.scLength);
-    opnd := get. opndList;
-    WHILE (opnd # NIL) DO
-      IF (opnd. class = OpndClass.store) THEN
-        getLength. AddOpnd (dimension, OpndClass.dimension)
-      ELSE
-        getLength. AddOpnd (opnd. arg, opnd. class);
+    IF dimType. isOpenArray THEN
+      getLength := pb. AddInstr (Opcode.getLength, Opcode.scLength);
+      opnd := get. opndList;
+      WHILE (opnd # NIL) DO
+        IF (opnd. class = OpndClass.store) THEN
+          getLength. AddOpnd (pb. GetConstInt (dim), OpndClass.dimension)
+        ELSE
+          getLength. AddOpnd (opnd. arg, opnd. class);
+        END;
+        opnd := opnd. nextOpnd
       END;
-      opnd := opnd. nextOpnd
+      RETURN getLength;
+
+    ELSE
+      RETURN pb. GetConstInt (dimType. length);
     END;
-    RETURN getLength
   END AddGetLengthInstr;
 
 PROCEDURE (pb: ProcBlock) SetSelectExit* (selectExit: Instr): Instr;
