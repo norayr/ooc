@@ -1,4 +1,4 @@
-(* 	$Id: Predef.Mod,v 1.23 2002/05/21 00:08:11 mva Exp $	 *)
+(* 	$Id: Predef.Mod,v 1.24 2002/05/21 00:28:55 mva Exp $	 *)
 MODULE OOC:SymbolTable:Predef;
 (*  Defines symbol table of pseudo module with predefined entities.
     Copyright (C) 2000, 2001, 2002  Michael van Acken
@@ -51,7 +51,7 @@ CONST
   set* = 8;
   (**A set of integer values in the range @samp{0 <= x < 32}.  Stored in
      four bytes.  *)
-  address* = 9;
+  address* = longint;
   byte* = 10;
   ptr* = 11;
 
@@ -138,6 +138,16 @@ PROCEDURE PredefType (stb: Builder.Builder;
     END;
     RETURN ptype
   END PredefType;
+
+PROCEDURE TypeAlias (stb: Builder.Builder;
+                     module: Sym.Module;
+                     name: ARRAY OF CHAR; baseType: Sym.PredefType);
+  VAR
+    tdecl: Sym.TypeDecl;
+  BEGIN
+    tdecl := stb. NewTypeDecl (module, GetName (name), 0,
+                               Sym.nameExported, NIL, baseType);
+  END TypeAlias;
 
 PROCEDURE PredefProc (stb: Builder.Builder; module: Sym.Module;
                       id: Sym.PredefId; name: ARRAY OF CHAR;
@@ -233,8 +243,8 @@ PROCEDURE CreateSYSTEM* (stb: Builder.Builder): Sym.Module;
   BEGIN
     module := stb. NewModule (GetName ("SYSTEM"), NIL, Sym.mcInternal,
                               Sym.callConvInternal, NIL);
-    
-    ptype := PredefType (stb, module, address, "ADDRESS", 4, 4, NIL, NIL);
+
+    TypeAlias (stb, module, "ADDRESS", Sym.predefIdToType[longint]);
     ptype := PredefType (stb, module, byte, "BYTE", 1, 1, NIL, NIL);
     ptype := PredefType (stb, module, ptr, "PTR", 4, 4, NIL, NIL);
 
