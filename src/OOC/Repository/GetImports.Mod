@@ -1,4 +1,4 @@
-(* 	$Id: GetImports.Mod,v 1.10 2002/09/28 14:15:15 mva Exp $	 *)
+(* 	$Id: GetImports.Mod,v 1.11 2002/10/20 11:56:57 mva Exp $	 *)
 MODULE OOC:Repository:GetImports;
 (*  Determine the list of modules imported by a given module.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -154,7 +154,8 @@ PROCEDURE GetImports* (m: Rep.Module; VAR errList: Error.List);
       ELSE
         errList := inputBuffer. errList;
         scannerBuilder := BasicList.New (inputBuffer, TRUE);
-        Scanner.ScanInput (scannerBuilder, Config.pragmas, Scanner.enableAll);
+        Scanner.ScanInput (scannerBuilder, Config.pragmas,
+                           Scanner.enableAll+{Scanner.abortAtDeclarations});
         inputBuffer. Close;
         
         ast := NIL;
