@@ -1,4 +1,4 @@
-(* 	$Id: Schedule.Mod,v 1.19 2002/04/10 21:45:43 mva Exp $	 *)
+(* 	$Id: Schedule.Mod,v 1.20 2002/04/14 08:48:12 mva Exp $	 *)
 MODULE OOC:SSA:Schedule [OOC_EXTENSIONS];
 (*  Generates basic block representation and schedules instructions.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -453,7 +453,7 @@ PROCEDURE TransferInstructions (region: Blocker.Region; block: JumpBlock): JumpB
       | bProxy: Blocker.Select DO
         block := TransferSelect (bProxy, block);
       | bProxy: Blocker.Region DO        (* this is a "select-exit" *)
-        block := TransferInstructions (bProxy(Blocker.Region), block);
+        block := TransferInstructions (bProxy, block);
       ELSE
         (* nothing to do *)
       END;
@@ -792,6 +792,8 @@ PROCEDURE Schedule* (pb: SSA.ProcBlock): Block;
     END CheckCollects;
   
   BEGIN
+    (*Blocker.Write (StdChannels.stdout, pb);*)
+    
     root := Blocker.ArrangeInstructions (pb);
     proxy := NewInstrProxy (root. instr);
     root. instr. info := proxy;
