@@ -1,9 +1,9 @@
-(* 	$Id: Files.Mod,v 1.4 2003/05/12 03:56:36 sgreenhill Exp $	 *)
-MODULE OS:Files [FOREIGN "C"; LINK FILE "Files.c" 
-  <*IF HAVE_LIB_MINGWEX THEN *> ; LIB "mingwex" <* END *>
+(* 	$Id: Files.Mod,v 1.5 2003/05/17 12:28:09 mva Exp $	 *)
+MODULE OS:Files [FOREIGN "C"; LINK FILE "Files.c";
+  <*IF HAVE_LIB_MINGWEX THEN*> LIB "mingwex"; <*END*>
   END];
 (*  Manipulation of file and directory entries.
-    Copyright (C) 2000, 2002  Michael van Acken
+    Copyright (C) 2000, 2002, 2003  Michael van Acken
 
     This module is free software; you can redistribute it and/or
     modify it under the terms of the GNU Lesser General Public License
@@ -27,15 +27,14 @@ MODULE OS:Files [FOREIGN "C"; LINK FILE "Files.c"
    an exception.  *)
 
 IMPORT
-  Msg, LongStrings, CharClass;
+  Object, Msg, LongStrings, CharClass;
 
 TYPE
   Result* = Msg.Msg;
   Path* = ARRAY OF CHAR;
   Mode* = LONGINT;
   (**File creation mask.  *)
-  Name* = POINTER TO ARRAY OF CHAR;
-  NameArray* = POINTER TO ARRAY OF Name;
+  NameArray* = POINTER TO ARRAY OF Object.String8;
   
 CONST
   done* = NIL;
