@@ -1,4 +1,4 @@
-(* 	$Id: Opcode.Mod,v 1.98 2003/07/09 20:03:10 mva Exp $	 *)
+(* 	$Id: Opcode.Mod,v 1.99 2003/07/12 21:00:31 mva Exp $	 *)
 MODULE OOC:SSA:Opcode;
 (*  This modules defines opcodes for SSA instructions.
     Copyright (C) 2001-2003  Michael van Acken
@@ -693,7 +693,7 @@ CONST
      @var{store}, the first (result index @samp{1}) for the body and the second
      (result index @samp{2}) is used for the @code{CATCH} clauses.  *)
   tryEnd* = 73;
-  (**Marks the end of a @code{TRY} block.  This instruction 2 operands
+  (**Marks the end of a @code{TRY} block.  This instruction has 2 operands
      representing values of @var{store}.  The first operand is the @var{store}
      at the end of the @code{TRY}'s body.  The second one holds the @var{store}
      after processing the @code{CATCH} clauses.  *)
