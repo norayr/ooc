@@ -1,4 +1,4 @@
-(* 	$Id: DeclWriter.Mod,v 1.15 2002/02/28 21:54:53 mva Exp $	 *)
+(* 	$Id: DeclWriter.Mod,v 1.16 2002/04/16 21:11:15 mva Exp $	 *)
 MODULE OOC:C:DeclWriter [OOC_EXTENSIONS];
 (*  Defines classes to handle C declarations, types, and include statements.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -505,7 +505,7 @@ PROCEDURE (w: Writer) AddDeclaration* (d: Declaration);
 PROCEDURE (w: Writer) WriteDeclarationList*;
 (**Writes out all declarations that have been registered with
    @oproc{w.AddDeclaration}.  All include statements are written first
-   (omittend duplicates), followed by the other declarations in the order in
+   (omitting duplicates), followed by the other declarations in the order in
    which they were added.  *)
   
   PROCEDURE WriteIncludes;
