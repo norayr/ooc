@@ -1,4 +1,4 @@
-(* 	$Id: TranslateToC.Mod,v 1.37 2002/06/03 23:40:55 mva Exp $	 *)
+(* 	$Id: TranslateToC.Mod,v 1.38 2002/07/02 18:57:00 mva Exp $	 *)
 MODULE OOC:Make:Command:TranslateToC [OOC_EXTENSIONS];
 (*  Translates a module file into a bunch of C code files.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -346,7 +346,9 @@ PROCEDURE (cmd: Command) Run*(): BOOLEAN;
         ASTtoXML.Write (StdChannels.stdout.NewWriter(), ast(ExtTree.Module));
       END;
       module := CreateIR.CreateIR (ast(ExtTree.Module), symTab, 
-                                 IR.NewBuilder (pragmaHistory, errList, config.typeRules, ConstFold.NewConstFold()));
+                                   IR.NewBuilder (symTab, pragmaHistory,
+                                                  errList, config. typeRules,
+                                                  ConstFold.NewConstFold()));
       IF cmd. writeIR THEN
         IRtoXML.Write (StdChannels.stdout. NewWriter(), module);
       END;

@@ -1,4 +1,4 @@
-(* 	$Id: TypeRules.Mod,v 1.22 2002/06/30 15:17:10 mva Exp $	 *)
+(* 	$Id: TypeRules.Mod,v 1.23 2002/07/02 18:57:00 mva Exp $	 *)
 MODULE OOC:SymbolTable:TypeRules;
 (*  Defines the type rules of the language.
     Copyright (C) 2000-2002  Michael van Acken
@@ -469,6 +469,15 @@ PROCEDURE (tr: Rules) IsNilCompatible* (type: Sym.Type): BOOLEAN;
       RETURN FALSE;
     END;
   END IsNilCompatible;
+
+PROCEDURE (tr: Rules) IsReadOnly* (usingModule: Sym.Module; decl: Sym.Declaration): BOOLEAN;
+(**Returns @code{TRUE}, iff the declaration @oparam{decl} is imported read-only
+   by module @oparam{usingModule}.  *)
+  BEGIN
+    RETURN (decl. exportMark = Sym.nameExportedRO) &
+        (decl. Module() # usingModule);
+  END IsReadOnly;
+
 
 PROCEDURE (tr: Rules) AllocateType* (type: Sym.Type);
 (**This maps a type @oparam{type} onto the size and alignment constrains of the
