@@ -1,4 +1,4 @@
-(* 	$Id: Namespace.Mod,v 1.7 2002/11/28 21:21:57 mva Exp $	 *)
+(* 	$Id: Namespace.Mod,v 1.8 2002/12/07 16:02:05 mva Exp $	 *)
 MODULE OOC:SymbolTable:Namespace;
 (*  Implements namespaces and semantic checks on them.
     Copyright (C) 2000-2002  Michael van Acken
@@ -197,7 +197,7 @@ PROCEDURE (ns: Namespace) CheckLocalUniqueness* (errList: Error.List);
         j := i+1;
         WHILE (j < ns. localCount) & 
               (da[i]. name. str^ = da[j]. name. str^) DO
-          IF (da[j]. name. pos < da[i]. name. pos) THEN
+          IF (da[j]. name. pos < da[min]. name. pos) THEN
             min := j
           END;
           INC (j)
