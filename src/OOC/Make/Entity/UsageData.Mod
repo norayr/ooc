@@ -1,4 +1,4 @@
-(* 	$Id: UsageData.Mod,v 1.2 2001/05/15 21:13:27 mva Exp $	 *)
+(* 	$Id: UsageData.Mod,v 1.3 2001/05/22 21:28:57 mva Exp $	 *)
 MODULE OOC:Make:Entity:UsageData;
 (*  Implements pseudo `Make' entity to collect usage date of declarations.
     Copyright (C) 2001  Michael van Acken
@@ -153,7 +153,7 @@ PROCEDURE (entity: Entity) Discover*(): Make.EntityState;
         IF (ptr IS ModuleFile.Entity) THEN
           symFile := ModuleFile.GetEntity (entity. context,
                             ptr(ModuleFile.Entity). module, Rep.modSymbolFile);
-          IF ~entity. IsDescendentOf (symFile) THEN
+          IF ~entity. IsDescendantOf (symFile) THEN
             entity. AddAncestor (symFile)
           END
         END;
