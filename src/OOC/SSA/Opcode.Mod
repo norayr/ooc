@@ -1,4 +1,4 @@
-(* 	$Id: Opcode.Mod,v 1.67 2002/07/18 17:02:03 mva Exp $	 *)
+(* 	$Id: Opcode.Mod,v 1.68 2002/07/23 18:03:57 mva Exp $	 *)
 MODULE OOC:SSA:Opcode;
 (*  This modules defines opcodes for SSA instructions.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -210,8 +210,9 @@ CONST
      Value of @var{store} once evaluation of the loop is done.  If the loop has
      been completed, the instructions after the loop see the global state
      represented by this value.  Note: In the variant with @oconst{selectExit},
-     then this @var{store} at the end of the loop body, but instructions after
-     the loop see only the @var{store} produced by the @oconst{selectExit}.
+     this is the @var{store} at the end of the loop body, but instructions
+     after the loop see only the @var{store} produced by the
+     @oconst{selectExit}.
 
      @item *OOC:SSA:Opnd.arg
      The exit predicate of the loop.  A boolean value.
