@@ -1,4 +1,4 @@
-(* 	$Id: IR.Mod,v 1.260 2003/08/24 00:03:58 mva Exp $	 *)
+(* 	$Id: IR.Mod,v 1.261 2003/08/26 13:04:16 mva Exp $	 *)
 MODULE OOC:IR [OOC_EXTENSIONS];
 (*  High-level intermediate code representation.
     Copyright (C) 2001-2003  Michael van Acken, Stewart Greenhill
@@ -26,7 +26,7 @@ Log,
   ADT:ArrayList, ADT:StringBuffer, Config,
   Id := OOC:Scanner:Symbol, OOC:Scanner:SymList, OOC:Error,
   OOC:Config:Pragmas, OOC:Config:StdPragmas,
-  OOC:AST, Sym := OOC:SymbolTable, OOC:SymbolTable:Predef,
+  OOC:AST:ExtTree, Sym := OOC:SymbolTable, OOC:SymbolTable:Predef,
   TR := OOC:SymbolTable:TypeRules, OOC:SymbolTable:Namespace,
   OOC:SymbolTable:CreateNamespace, OOC:SymbolTable:Uses;
 
@@ -151,7 +151,7 @@ Log,
 
 
 TYPE
-  Name* = AST.Name;
+  Name* = ExtTree.Name;
   Symbol* = SymList.Symbol;
   
 TYPE

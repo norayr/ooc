@@ -1,4 +1,4 @@
-(* 	$Id: TranslateToIA32.Mod,v 1.12 2003/05/06 22:00:59 mva Exp $	 *)
+(* 	$Id: TranslateToIA32.Mod,v 1.13 2003/08/26 13:04:15 mva Exp $	 *)
 MODULE OOC:Make:TranslateToIA32 [OOC_EXTENSIONS];
 (*  Translates a module file into a bunch of C code files.
     Copyright (C) 2001, 2002, 2003  Michael van Acken
@@ -23,7 +23,7 @@ MODULE OOC:Make:TranslateToIA32 [OOC_EXTENSIONS];
 IMPORT
   Ascii, IO, IO:StdChannels,
   OOC:Config:Pragmas, OOC:Auxiliary:ParseModule,
-  OOC:Auxiliary:WriteSymbolFile, OOC:Error, Rep := OOC:Repository, OOC:AST,
+  OOC:Auxiliary:WriteSymbolFile, OOC:Error, Rep := OOC:Repository,
   OOC:AST:ExtTree, OOC:AST:ExtTree:CreateIR, ASTtoXML := OOC:AST:ExtTree:XML, 
   OOC:IR, IRtoXML := OOC:IR:XML, OOC:IR:ConstFold,
   Sym := OOC:SymbolTable, OOC:SymbolTable:Exports, OOC:SymbolTable:Uses,
@@ -141,7 +141,7 @@ PROCEDURE Run*(m: Rep.Module; libraryName: STRING; uses: Uses.Uses;
 RAISES IO.Error;
 (**Compiles a module, creating the symbol file and the assembler file.  *)
   VAR
-    ast: AST.Node;
+    ast: ExtTree.Node;
     symTab: Sym.Module;
     errList: Error.List;
     exports: Sym.Exports;

@@ -1,4 +1,4 @@
-(* 	$Id: TranslateToC.Mod,v 1.24 2003/08/11 22:23:32 mva Exp $	 *)
+(* 	$Id: TranslateToC.Mod,v 1.25 2003/08/26 13:04:16 mva Exp $	 *)
 MODULE OOC:Make:TranslateToC [OOC_EXTENSIONS];
 (*  Translates a module file into a bunch of C code files.
     Copyright (C) 2001, 2002, 2003  Michael van Acken
@@ -23,8 +23,8 @@ MODULE OOC:Make:TranslateToC [OOC_EXTENSIONS];
 IMPORT
   IO, IO:StdChannels,
   OOC:Config, OOC:Config:Pragmas, OOC:Auxiliary:ParseModule,
-  OOC:Auxiliary:WriteSymbolFile, OOC:Error, OOC:Repository, OOC:AST,
-  OOC:AST:ExtTree, OOC:AST:ExtTree:CreateIR, ASTtoXML := OOC:AST:ExtTree:XML, 
+  OOC:Auxiliary:WriteSymbolFile, OOC:Error, OOC:Repository, OOC:AST:ExtTree,
+  OOC:AST:ExtTree:CreateIR, ASTtoXML := OOC:AST:ExtTree:XML, 
   OOC:IR, IRtoXML := OOC:IR:XML, OOC:IR:ConstFold, OOC:IR:CheckUses,
   Sym := OOC:SymbolTable, OOC:SymbolTable:Exports, OOC:SymbolTable:Uses,
   OOC:C:DeclWriter, OOC:C:ConvertDecl, OOC:C:RuntimeData, OOC:C:Naming;
@@ -225,7 +225,7 @@ PROCEDURE Run*(m: Repository.Module; libraryName: STRING;
 RAISES IO.Error;
 (**Compiles a module, creating the symbol file and all relevant C files.  *)
   VAR
-    ast: AST.Node;
+    ast: ExtTree.Node;
     symTab: Sym.Module;
     errList: Error.List;
     exports: Sym.Exports;

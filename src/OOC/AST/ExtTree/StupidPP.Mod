@@ -1,4 +1,4 @@
-(* 	$Id: StupidPP.Mod,v 1.6 2003/05/03 10:48:39 mva Exp $	 *)
+(* 	$Id: StupidPP.Mod,v 1.7 2003/08/26 13:04:16 mva Exp $	 *)
 MODULE OOC:AST:ExtTree:StupidPP;
 (*  A simple pretty printer: it writes the syntax tree, omitting any comments.
     Copyright (C) 2000-2003  Michael van Acken
@@ -22,7 +22,7 @@ MODULE OOC:AST:ExtTree:StupidPP;
 
 
 IMPORT
-  Log, TextRider, OOC:Scanner:Symbol, OOC:AST, OOC:AST:ExtTree;
+  Log, TextRider, OOC:Scanner:Symbol, OOC:AST:ExtTree;
   
 PROCEDURE Write* (w: TextRider.Writer; m: ExtTree.Module);
 (**Writes the abstract syntax tree @oparam{m} to the output writer
@@ -41,13 +41,13 @@ PROCEDURE Write* (w: TextRider.Writer; m: ExtTree.Module);
       END
     END NewLine;
 
-  PROCEDURE Node (n: AST.Node);
+  PROCEDURE Node (n: ExtTree.Node);
     VAR
       i, j: LONGINT;
 
     BEGIN
       IF (n # NIL) THEN
-        WITH n: AST.NodeList DO
+        WITH n: ExtTree.NodeList DO
           FOR i := 0 TO n. len-1 DO
             Node (n. n[i])
           END
@@ -385,11 +385,11 @@ PROCEDURE Write* (w: TextRider.Writer; m: ExtTree.Module);
               NewLine;
               w. WriteString ("| ");
               j := 0;
-              WHILE (j < n. caseList. n[i](AST.NodeList). len) DO
+              WHILE (j < n. caseList. n[i](ExtTree.NodeList). len) DO
                 IF (j # 0) THEN
                   w. WriteString (", ")
                 END;
-                Node (n. caseList. n[i](AST.NodeList). n[j]);
+                Node (n. caseList. n[i](ExtTree.NodeList). n[j]);
                 INC (j, 2)
               END;
               w. WriteString (": ");

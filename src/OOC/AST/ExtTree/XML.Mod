@@ -1,4 +1,4 @@
-(* 	$Id: XML.Mod,v 1.9 2003/04/17 20:50:46 mva Exp $	 *)
+(* 	$Id: XML.Mod,v 1.10 2003/08/26 13:04:16 mva Exp $	 *)
 MODULE OOC:AST:ExtTree:XML;
 (*  Writes an abstract syntax tree into an XML document.
     Copyright (C) 2000, 2001, 2002, 2003  Michael van Acken
@@ -21,7 +21,7 @@ MODULE OOC:AST:ExtTree:XML;
 *)
 
 IMPORT
-  IO, OOC:Scanner:Symbol, OOC:AST, OOC:AST:ExtTree, XML:Writer,
+  IO, OOC:Scanner:Symbol, OOC:AST:ExtTree, XML:Writer,
   XML:UnicodeCodec:Latin1, OOC:Doc, DocXML := OOC:Doc:Output:XML;
 
 
@@ -55,7 +55,7 @@ RAISES IO.Error;
   VAR
     w: Writer.Writer;
   
-  PROCEDURE Node (n: AST.Node);
+  PROCEDURE Node (n: ExtTree.Node);
     VAR
       i: LONGINT;
 
@@ -68,7 +68,7 @@ RAISES IO.Error;
     
     BEGIN
       IF (n # NIL) THEN
-        WITH n: AST.NodeList DO
+        WITH n: ExtTree.NodeList DO
           w. StartTag ("node_list", FALSE);
           FOR i := 0 TO n. len-1 DO
             Node (n. n[i])
