@@ -1,4 +1,4 @@
-(* 	$Id: TranslateToC.Mod,v 1.23 2002/01/25 21:13:34 mva Exp $	 *)
+(* 	$Id: TranslateToC.Mod,v 1.24 2002/01/29 23:32:33 mva Exp $	 *)
 MODULE OOC:Make:Command:TranslateToC;
 (*  Translates a module file into a bunch of C code files.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -180,7 +180,7 @@ PROCEDURE WriteCodeFile (w: DeclWriter.Writer; m: Repository.Module;
       name: String.String;
     BEGIN
       WITH expr: IR.Const DO
-        w. WriteConst (expr. value)
+        w. WriteConst (expr. value, expr. type)
         
       | expr: IR.Var DO
         name := Naming.NameOfDeclaration (expr. decl);
