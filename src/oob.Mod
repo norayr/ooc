@@ -1,4 +1,4 @@
-(* 	$Id: oob.Mod,v 1.13 2003/04/14 19:30:09 mva Exp $	 *)
+(* 	$Id: oob.Mod,v 1.14 2003/04/15 12:45:09 mva Exp $	 *)
 MODULE oob;
 (*  Symbol file browser.
     Copyright (C) 2002, 2003  Michael van Acken
@@ -453,7 +453,7 @@ BEGIN
   Config.Read(cfgErrList);
   
   IF (cfgErrList. msgCount # 0) THEN
-    cfgErrList. Write (StdChannels.stdout);
+    cfgErrList. Write (StdChannels.stderr);
   END;
   IF ~cfgErrList.NoErrors() THEN
     HALT (1)
