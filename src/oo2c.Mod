@@ -1,4 +1,4 @@
-(* 	$Id: oo2c.Mod,v 1.64 2003/05/18 14:12:17 mva Exp $	 *)
+(* 	$Id: oo2c.Mod,v 1.65 2003/05/19 22:56:50 mva Exp $	 *)
 MODULE oo2c;
 (*  Main module for the Oberon-2 to C translator.
     Copyright (C) 2002,2003  Michael van Acken
@@ -229,9 +229,7 @@ RAISES IO.Error;
   PROCEDURE InstallFiles(list: Package.FileData): BOOLEAN;
     VAR
       end: Package.FileData;
-      dir, str: STRING;
-      string: Object.String;
-      sourcePrefix: Rep.URIBuffer;
+      dir, str, sourcePrefix, string: STRING;
       cmd: StringBuffer.StringBuffer;
       baseURI: URI.URI;
       chars: Object.CharsLatin1;
@@ -273,7 +271,7 @@ RAISES IO.Error;
     
     BEGIN
       baseURI := rep(FileSystem.Repository).relativeBaseURI;
-      baseURI(File.URI).GetPath(sourcePrefix);
+      sourcePrefix := baseURI(File.URI).GetPath();
       
       WHILE (list # NIL) DO
         end := list.nextFileData;
@@ -297,7 +295,7 @@ RAISES IO.Error;
           cmd := StringBuffer.New(CCompiler.installData.value(CfgData.StringVar).string);
           WHILE (list # end) DO
             cmd.Append(" ");
-            cmd.AppendLatin1(sourcePrefix);
+            cmd.Append(sourcePrefix);
             cmd.Append(list(Package.File).name);
             list := list.nextFileData;
           END;

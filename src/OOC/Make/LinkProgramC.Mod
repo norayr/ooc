@@ -1,4 +1,4 @@
-(* 	$Id: LinkProgramC.Mod,v 1.24 2003/05/18 12:12:33 mva Exp $	 *)
+(* 	$Id: LinkProgramC.Mod,v 1.25 2003/05/19 22:56:49 mva Exp $	 *)
 MODULE OOC:Make:LinkProgramC;
 (*  Links object files and libraries to create an executable file.
     Copyright (C) 2001, 2002, 2003  Michael van Acken
@@ -169,7 +169,6 @@ RAISES IO.Error;
   VAR
     sb: StringBuffer.StringBuffer;
     cmd: STRING;
-    path: Repository.URIBuffer;
     uri: URI.URI;
     exit, i: LONGINT;
     importedLibs: Dictionary.Dictionary;
@@ -207,18 +206,16 @@ RAISES IO.Error;
         END;
       ELSIF ~imports[i].ifData.NoObjectFile() THEN
         uri := imports[i]. GetURI (objectFile, TRUE);
-        uri(File.URI). GetPath (path);
         sb.Append(" ");
-        sb.AppendLatin1(path);
+        sb.Append(uri(File.URI).GetPath());
       END;
     END;
 
     IF (forLibrary = NIL) THEN
       (* add file with function main() *)
       uri := module. GetURI (Repository.modMainObjectFile, TRUE);
-      uri(File.URI). GetPath (path);
       sb.Append(" ");
-      sb.AppendLatin1(path);
+      sb.Append(uri(File.URI).GetPath());
     END;
 
     FOR i := 0 TO importedLibsList.size-1 DO
@@ -226,9 +223,8 @@ RAISES IO.Error;
       IF import.FileExists(Repository.modLibrary) THEN
         (* looks like an uninstalled library *)
         uri := import.GetURI(Repository.modLibrary, TRUE);
-        uri(File.URI). GetPath (path);
         sb.Append(" ");
-        sb.AppendLatin1(path);
+        sb.Append(uri(File.URI).GetPath());
       ELSE
         (* we don't have a .la file, so assume that it's a regularly
            installed libtool library  *)

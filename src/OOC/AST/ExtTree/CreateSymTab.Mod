@@ -1,4 +1,4 @@
-(* 	$Id: CreateSymTab.Mod,v 1.40 2003/05/11 13:56:32 mva Exp $	 *)
+(* 	$Id: CreateSymTab.Mod,v 1.41 2003/05/19 22:56:50 mva Exp $	 *)
 MODULE OOC:AST:ExtTree:CreateSymTab;
 (*  Creates symbol table from abstract syntax tree of module `ExtTree'.
     Copyright (C) 2000-2003  Michael van Acken
@@ -21,7 +21,7 @@ MODULE OOC:AST:ExtTree:CreateSymTab;
 *)
 
 IMPORT
-  Msg, Object, URI, ParserURI := URI:Parser,
+  Object, Exception, URI, ParserURI := URI:Parser,
   OOC:Scanner:Symbol, OOC:AST, OOC:Scanner:BasicList, OOC:AST:ExtTree,
   Sym := OOC:SymbolTable, OOC:SymbolTable:Predef,
   SymTabBuilder := OOC:SymbolTable:Builder;
@@ -218,7 +218,6 @@ PROCEDURE (v: Visitor) VisitModule* (module: ExtTree.Module);
     mf: ExtTree.ModuleFlags;
     uri: URI.URI;
     str, prefixOption, suffixOption: STRING;
-    res: Msg.Msg;
     i, j: LONGINT;
     n: AST.Node;
     depList: Object.StringArrayPtr;
@@ -275,8 +274,11 @@ PROCEDURE (v: Visitor) VisitModule* (module: ExtTree.Module);
           WITH n: ExtTree.LinkFileFlag DO
             str := n. fileName. GetString (TRUE);
             chars := str(Object.String8).CharsLatin1();
-            uri := ParserURI.NewURI (chars^, v. baseURI, res);
-            ASSERT (res = NIL);
+            TRY
+              uri := ParserURI.NewURI (chars^, v. baseURI);
+            CATCH Exception.ParseError:
+              ASSERT(FALSE);
+            END;
             ASSERT (uri # NIL);
             uri := uri. MakeRelative (v. rootURI);
             IF (n. prefixOpt # NIL) THEN

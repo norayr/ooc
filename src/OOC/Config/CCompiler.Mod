@@ -1,4 +1,4 @@
-(* 	$Id: CCompiler.Mod,v 1.31 2003/05/18 14:10:30 mva Exp $	 *)
+(* 	$Id: CCompiler.Mod,v 1.32 2003/05/19 22:56:49 mva Exp $	 *)
 MODULE OOC:Config:CCompiler;
 (*  Generates command lines for the C compiler and linker.
     Copyright (C) 2001, 2002, 2003  Michael van Acken
@@ -53,7 +53,6 @@ PROCEDURE SetCommand(mode: STRING): StringBuffer.StringBuffer;
 PROCEDURE CompileFileCmd* (in, out: URI.URI; forLibrary: BOOLEAN): STRING;
   VAR
     sb: StringBuffer.StringBuffer;
-    str: ARRAY 2*1024 OF CHAR;
     include: Object.StringArrayPtr;
     i: LONGINT;
     f: File.URI;
@@ -88,9 +87,8 @@ PROCEDURE CompileFileCmd* (in, out: URI.URI; forLibrary: BOOLEAN): STRING;
        currently no .h files except for the run-time data are installed in the
        src/ directory, putting this first should be safe.   *)
     f := GetURIofRT();
-    f. GetPath (str);
     sb.Append(" -I");
-    sb.AppendLatin1(str);
+    sb.Append(f.GetPath());
     
     include := Config.repositories. GetIncludePaths();
     FOR i := 0 TO LEN (include^)-1 DO
@@ -99,23 +97,19 @@ PROCEDURE CompileFileCmd* (in, out: URI.URI; forLibrary: BOOLEAN): STRING;
     END;
     
     sb.Append(" -c ");
-    in(File.URI). GetPath (str);
-    sb.AppendLatin1(str);
+    sb.Append(in(File.URI).GetPath());
     sb.Append(" -o ");
-    out(File.URI). GetPath (str);
-    sb.AppendLatin1(str);
+    sb.Append(out(File.URI).GetPath());
     RETURN sb.ToString();
   END CompileFileCmd;
 
 PROCEDURE LinkProgramCmd* (execFile: URI.URI; forLibrary: BOOLEAN): STRING;
   VAR
     sb: StringBuffer.StringBuffer;
-    str: ARRAY 1024 OF CHAR;
   BEGIN
     sb := SetCommand("link");
     sb.Append("-o ");
-    execFile(File.URI). GetPath (str);
-    sb.AppendLatin1(str);
+    sb.Append(execFile(File.URI).GetPath());
     IF forLibrary & HaveLibtool() THEN
       sb.Append(" -rpath ");
       sb.Append(libdir.value);
@@ -138,7 +132,6 @@ PROCEDURE InstallDirectoryCmd*(path: STRING): STRING;
 PROCEDURE InstallProgramCmd*(file: URI.URI; asLibrary: BOOLEAN): STRING;
   VAR
     sb: StringBuffer.StringBuffer;
-    str: ARRAY 1024 OF CHAR;
   BEGIN
     sb := StringBuffer.New("");
     IF HaveLibtool() THEN
@@ -148,8 +141,7 @@ PROCEDURE InstallProgramCmd*(file: URI.URI; asLibrary: BOOLEAN): STRING;
     
     sb.Append(installProgram.value);
     sb.Append(" ");
-    file(File.URI).GetPath(str);
-    sb.AppendLatin1(str);
+    sb.Append(file(File.URI).GetPath());
     sb.Append(" ");
     IF asLibrary THEN
       sb.Append(libdir.value);
