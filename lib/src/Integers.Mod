@@ -1,4 +1,4 @@
-(*	$Id: Integers.Mod,v 1.1 2002/07/18 15:44:41 mva Exp $	*)
+(*	$Id: Integers.Mod,v 1.2 2002/07/20 20:11:47 mva Exp $	*)
 MODULE Integers;
 
 (* DON'T USE THIS MODULE WITH OOC2!!! Part of its functionality will
@@ -600,17 +600,21 @@ VAR
   
   PROCEDURE Difference* (x, y: Integer) : Integer;
   (* Post: RETURN x-y *)
-  VAR d: Integer;
+  VAR d: Integer; sign: INTEGER;
   BEGIN
     (* ensure that ABS(x)>ABS(y) *)
-    IF UCompare(x^, y^)<0 THEN d:=y; y:=x; x:=d END; (* swap x and y *)
+    IF UCompare(x^, y^)<0 THEN (* swap x and y, remember the sign change *)
+      d:=y; y:=x; x:=d; sign := -1;
+    ELSE
+      sign := 1;
+    END;
 
     (* determine how to subtract the numbers *)
     IF x[0]=y[0] THEN d:=Sub(x^, y^) (* x+,y+, so z=x-y or x-,y-, so z=-x-(-y)=-(x-y) *)           
     ELSE d:=Add(x^, y^)              (* x-,y+, so z=-x-y=-(x+y) or x+,y-, so z=x-(-y)=x+y *)                           
     END;
     
-    d[0]:=x[0]; (* sign of x always gives the right result *)
+    d[0]:=x[0]*sign; (* sign of x always gives the right result *)
     RETURN d
   END Difference;
 
