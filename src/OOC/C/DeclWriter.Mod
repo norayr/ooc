@@ -1,4 +1,4 @@
-(* 	$Id: DeclWriter.Mod,v 1.3 2001/12/23 21:19:49 mva Exp $	 *)
+(* 	$Id: DeclWriter.Mod,v 1.4 2001/12/29 14:33:12 sgreenhill Exp $	 *)
 MODULE OOC:C:DeclWriter [OOC_EXTENSIONS];
 (*  Defines classes to handle C declarations, types, and include statements.
     Copyright (C) 2001  Michael van Acken
@@ -24,7 +24,7 @@ IMPORT
   Channel, Err, Files, Msg, TextRider, ADT:Object, ADT:String, ADT:ArrayList,
   URI, FileURI := URI:Scheme:File, IO:Memory, 
   Language, Language:Boolean, Language:Char8, Language:String8,
-  Language:IntegerType,
+  Language:Integer,
   OOC:Repository;
   
 
@@ -349,6 +349,7 @@ PROCEDURE (w: Writer) WriteConst* (value: Language.Value);
     quotedDelim = '\"';
   VAR
     i, len: LONGINT;
+    str : String.String;
 
   PROCEDURE WriteOct (ch: LONGINT);
     BEGIN
@@ -397,9 +398,9 @@ PROCEDURE (w: Writer) WriteConst* (value: Language.Value);
         w. WriteChar (delim)
       END
     
-    | value: IntegerType.Value DO
-      w. WriteLInt (value. value, 0);
-      
+    | value: Integer.Value DO
+      str := value.ToString();
+      w. WriteString(str.array^);
     END
   END WriteConst;
 
