@@ -1,4 +1,4 @@
-(* 	$Id: SSA.Mod,v 1.39 2002/05/20 02:09:15 mva Exp $	 *)
+(* 	$Id: SSA.Mod,v 1.40 2002/05/20 12:25:18 mva Exp $	 *)
 MODULE OOC:SSA;
 (*  Data structures for SSA code representation.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -440,7 +440,7 @@ PROCEDURE (instr: Instr) SetSubclass* (subclass: Opcode.Subclass);
   END SetSubclass;
 
 PROCEDURE AddOpnd (instr: Instr; opnd: Opnd);
-(**Adds @oparam{arg} to the end of the operand list of instruction
+(**Adds @oparam{opnd} to the end of the operand list of instruction
    @oparam{instr}.  *)
   VAR
     prev: Opnd;

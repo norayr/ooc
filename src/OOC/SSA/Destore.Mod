@@ -1,4 +1,4 @@
-(* 	$Id: Destore.Mod,v 1.32 2002/05/20 02:12:49 mva Exp $	 *)
+(* 	$Id: Destore.Mod,v 1.33 2002/05/20 12:25:18 mva Exp $	 *)
 MODULE OOC:SSA:Destore;
 (*  Converts reads from/writes to memory into local values.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -546,12 +546,13 @@ PROCEDURE Transform* (pb: SSA.ProcBlock; tr: TypeRules.Rules);
             RETURN VisibleEffect (i. GetResultStore(), set)
             
           | Opcode.loopEnd:
-            (* FIXME... should loop-end always have a "store" result? *)
-            IF (instr. useList # NIL) THEN (* feeding into select-exit *)
-              ASSERT (instr. useList. instr. opcode = Opcode.selectExit);
-              RETURN VisibleEffect (instr, set)
+            storeOut := instr. GetResultStore();
+            IF (storeOut = NIL) THEN
+              (* loop is left through its "select-exit", control never
+                 passes through "loop-end" *)
+              RETURN FALSE;
             ELSE
-              RETURN VisibleEffect (instr. GetResultStore(), set)
+              RETURN VisibleEffect (storeOut, set);
             END;
             
           | Opcode.loopStart, Opcode.selectExit, Opcode.collect,
