@@ -1,4 +1,4 @@
-(* 	$Id: RuntimeData.Mod,v 1.17 2003/01/30 23:38:24 mva Exp $	 *)
+(* 	$Id: RuntimeData.Mod,v 1.18 2003/04/20 21:57:31 mva Exp $	 *)
 MODULE OOC:C:RuntimeData;
 (*  Writes C code for run-time data like type descriptors.
     Copyright (C) 2002, 2003  Michael van Acken
@@ -151,6 +151,7 @@ PROCEDURE Write* (declWriter: DeclWriter.Writer;
         IF (t = NIL) THEN
           RETURN -1;
         ELSE
+          t := t.Deparam();
           len := BaseTypes (t(Sym.Record). baseType);
           name := Naming.NameOfTypeDescriptor (t);
           w. WriteChar ("&");

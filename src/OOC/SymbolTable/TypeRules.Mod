@@ -1,4 +1,4 @@
-(* 	$Id: TypeRules.Mod,v 1.42 2003/04/20 12:46:58 mva Exp $	 *)
+(* 	$Id: TypeRules.Mod,v 1.43 2003/04/20 21:57:31 mva Exp $	 *)
 MODULE OOC:SymbolTable:TypeRules;
 (*  Defines the type rules of the language.
     Copyright (C) 2000-2003  Michael van Acken
@@ -270,7 +270,11 @@ PROCEDURE IsValidRecordBaseType* (type: Sym.Type): BOOLEAN;
 (**Returns @code{TRUE}, iff the type @oparam{type} can be used for the
    base type of a record definition.  *)
   BEGIN
-    RETURN (type IS Sym.Record) & type(Sym.Record).isExtensible;
+    WITH type: Sym.QualType DO
+      RETURN IsValidRecordBaseType(type.baseType);
+    ELSE
+      RETURN (type IS Sym.Record) & type(Sym.Record).isExtensible;
+    END;
   END IsValidRecordBaseType;
 
 PROCEDURE IsValidParameterType* (type: Sym.Type): BOOLEAN;

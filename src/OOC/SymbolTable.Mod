@@ -1,4 +1,4 @@
-(* 	$Id: SymbolTable.Mod,v 1.68 2003/04/20 12:46:59 mva Exp $	 *)
+(* 	$Id: SymbolTable.Mod,v 1.69 2003/04/20 21:57:32 mva Exp $	 *)
 MODULE OOC:SymbolTable [OOC_EXTENSIONS];
 (*  Defines structure and entries of the symbol table.
     Copyright (C) 2000-2003  Michael van Acken
@@ -2572,6 +2572,11 @@ PROCEDURE (item: Record) Namespace* (): Namespace;
 PROCEDURE (item: TypePars) Namespace* (): Namespace;
   BEGIN
     RETURN item. ns
+  END Namespace;
+
+PROCEDURE (item: QualType) Namespace* (): Namespace;
+  BEGIN
+    RETURN item.baseType.Namespace();
   END Namespace;
 
 
