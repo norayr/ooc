@@ -1,4 +1,4 @@
-(* 	$Id: XML.Mod,v 1.65 2002/10/06 18:47:50 mva Exp $	 *)
+(* 	$Id: XML.Mod,v 1.66 2002/11/28 19:31:18 mva Exp $	 *)
 MODULE OOC:IR:XML;
 (*  Write an IR data structure as an XML document.
     Copyright (C) 2001, 2002  Michael van Acken, Stewart Greenhill
@@ -170,6 +170,14 @@ PROCEDURE (v: Visitor) VisitNegate* (neg: IR.Negate);
     neg. operand. Accept (v);
     v. w. EndTag;  (* negate *)
   END VisitNegate;
+
+PROCEDURE (v: Visitor) VisitNewBlock* (new: IR.NewBlock);
+  BEGIN
+    v. w. StartTag ("new-block", FALSE);
+    (* FIXME... write type *)
+    new. size. Accept (v);
+    v. w. EndTag;  (* new-block *)
+  END VisitNewBlock;
 
 PROCEDURE (v: Visitor) VisitNewObject* (new: IR.NewObject);
   VAR

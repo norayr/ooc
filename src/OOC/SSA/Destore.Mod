@@ -1,4 +1,4 @@
-(* 	$Id: Destore.Mod,v 1.58 2002/11/16 10:23:03 mva Exp $	 *)
+(* 	$Id: Destore.Mod,v 1.59 2002/11/28 19:31:18 mva Exp $	 *)
 MODULE OOC:SSA:Destore;
 (*  Converts reads from/writes to memory into local values.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -249,8 +249,8 @@ PROCEDURE (s: State) ClobberedBy* (readDesign: SSA.Opnd; instr: SSA.Instr): BOOL
       
     | Opcode.enter, Opcode.get, Opcode.select,
       Opcode.loopStart, Opcode.loopEnd,
-      Opcode.collect, Opcode.newObject, Opcode.copyParameter,
-      Opcode.exit, Opcode.return,
+      Opcode.collect, Opcode.newObject, Opcode.newBlock,
+      Opcode.copyParameter, Opcode.exit, Opcode.return,
       Opcode.halt, Opcode.assert, Opcode.checkIndex, Opcode.checkPointer,
       Opcode.typeGuard, Opcode.failedTypeAssert,
       Opcode.failedWith, Opcode.failedCase:
@@ -641,8 +641,8 @@ PROCEDURE (s: State) Transform*;
       | Opcode.select, Opcode.loopEnd:
         RETURN GetSelectValue (instr);
         
-      | Opcode.collect, Opcode.newObject, Opcode.copyParameter,
-        Opcode.exit, Opcode.return,
+      | Opcode.collect, Opcode.newObject, Opcode.newBlock,
+        Opcode.copyParameter, Opcode.exit, Opcode.return,
         Opcode.halt, Opcode.assert, Opcode.checkIndex, Opcode.checkPointer,
         Opcode.typeGuard, Opcode.failedTypeAssert,
         Opcode.failedWith, Opcode.failedCase:
@@ -789,7 +789,7 @@ PROCEDURE (s: State) Transform*;
             RETURN VisibleEffect (i. GetResultStore(), set)
             
           | Opcode.loopStart, Opcode.loopEnd, Opcode.collect,
-            Opcode.select, Opcode.newObject,
+            Opcode.select, Opcode.newObject, Opcode.newBlock,
             Opcode.assert, Opcode.checkIndex:
             RETURN VisibleEffect (instr. GetResultStore(), set)
             

@@ -1,4 +1,4 @@
-(* 	$Id: WriteC.Mod,v 1.131 2002/11/16 10:23:03 mva Exp $	 *)
+(* 	$Id: WriteC.Mod,v 1.132 2002/11/28 19:31:17 mva Exp $	 *)
 MODULE OOC:SSA:WriteC [OOC_EXTENSIONS];
 (*  Translates a set of scheduled SSA instructions to plain C.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -757,6 +757,18 @@ PROCEDURE WriteExpr (w: Writer; instr: SSA.Instr);
       w. WriteString (")");
     END NewObject;
   
+  PROCEDURE NewBlock (instr: SSA.Instr);
+    VAR
+      name: String.String;
+      opnd: SSA.Opnd;
+    BEGIN
+      CastFromPtr (instr);
+      w. WriteString ("RT0__NewBlock(");
+      opnd := instr. GetOpndClass (Opnd.arg);
+      w. Ref (opnd);
+      w. WriteString (")");
+    END NewBlock;
+  
   PROCEDURE TypeCast (instr: SSA.Instr);
     VAR
       destType, sourceType: Opcode.Subclass;
@@ -1076,6 +1088,8 @@ PROCEDURE WriteExpr (w: Writer; instr: SSA.Instr);
       
     | Opcode.newObject:
       NewObject (instr);
+    | Opcode.newBlock:
+      NewBlock (instr);
     | Opcode.typeTag:
       TypeTag (instr);
     | Opcode.typeTest:

@@ -1,4 +1,4 @@
-(* 	$Id: SymbolTable.Mod,v 1.41 2002/11/26 21:38:17 mva Exp $	 *)
+(* 	$Id: SymbolTable.Mod,v 1.42 2002/11/28 19:31:18 mva Exp $	 *)
 MODULE OOC:SymbolTable [OOC_EXTENSIONS];
 (*  Defines structure and entries of the symbol table.
     Copyright (C) 2000-2002  Michael van Acken
@@ -1338,6 +1338,7 @@ PROCEDURE NewLinkLib (libraryName: String.String;
 PROCEDURE AddLinkDirective (VAR list: LinkDirective; l: LinkDirective);
   BEGIN
     IF (list = NIL) THEN
+      l. next := NIL;
       list := l
     ELSE
       AddLinkDirective (list. next, l)

@@ -1,4 +1,4 @@
-(* 	$Id: VisitAll.Mod,v 1.9 2002/10/06 18:47:50 mva Exp $	 *)
+(* 	$Id: VisitAll.Mod,v 1.10 2002/11/28 19:31:18 mva Exp $	 *)
 MODULE OOC:IR:VisitAll;
 (*  A visitor traversing the whole IR data structure.
     Copyright (C) 2002  Michael van Acken
@@ -118,6 +118,11 @@ PROCEDURE (v: Visitor) VisitNegate* (neg: IR.Negate);
   BEGIN
     neg. operand. Accept (v);
   END VisitNegate;
+
+PROCEDURE (v: Visitor) VisitNewBlock* (new: IR.NewBlock);
+  BEGIN
+    new.size.Accept(v);
+  END VisitNewBlock;
 
 PROCEDURE (v: Visitor) VisitNewObject* (new: IR.NewObject);
   VAR
