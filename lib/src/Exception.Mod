@@ -1,4 +1,4 @@
-(* 	$Id: Exception.Mod,v 1.14 2003/07/14 22:10:00 mva Exp $	 *)
+(* 	$Id: Exception.Mod,v 1.15 2003/07/15 18:49:05 mva Exp $	 *)
 MODULE Exception [FOREIGN "C"; LINK FILE "Exception.c" END];
 (*  Implements the run-time part of the exceptions mechanism.
     Copyright (C) 2002,2003  Michael van Acken
@@ -123,9 +123,6 @@ TYPE
   Context* = RECORD [NO_DESCRIPTOR]
   (**Use by the run-time system to store an execution context for later
      (re)use.  *)
-    localException: Exception;
-    (* Local copy of the current exception.  This variable is accessed when
-       using pseudo-variable @samp{EXCEPTION}.  *)
     next: ContextPtr;
     jmpbuf: SYSTEM.PTR;
   END;
@@ -195,8 +192,6 @@ PROCEDURE Clear*;
    @code{TRY} @oproc{Current} is @code{NIL} if an exception was raised.  *)
 PROCEDURE ClearFixed*(VAR context: Context);
 (**FIXME... Eliminate this procedure again.  *)
-PROCEDURE StoreCurrentException*(VAR context: Context): Exception;
-(**Store the current exception in @oparam{context} and also return it.  *)
 PROCEDURE PushContext*(VAR context: Context; jmpbuf: SYSTEM.PTR);
 (**Push @oparam{context} on the stack of exception handlers, and make it point
    to the execution context @oparam{jmpbuf}.  This procedure should never be
