@@ -1,4 +1,4 @@
-(* 	$Id: LRealConv.Mod,v 1.8 2002/06/01 12:10:23 mva Exp $	 *)
+(* 	$Id: LRealConv.Mod,v 1.9 2002/07/08 12:05:15 mva Exp $	 *)
 MODULE LRealConv;
 (*  String to LONGREAL conversion functions.
     Copyright (C) 2002  Michael van Acken
@@ -74,8 +74,7 @@ PROCEDURE ValueReal*(str: ARRAY OF CHAR): LONGREAL;
       (* skip our definition of whitespace *)
       INC (i);
     END;
-    value := libc.strtod (SYSTEM.ADR (str[i]), tail);
-    IF (tail[0] = 0X) THEN
+    IF libc.sscanf(SYSTEM.ADR(str[i]), "%lf", SYSTEM.ADR(value)) = 1 THEN
       RETURN value                       (* syntax is ok *)
     ELSE
       RETURN 0;                          (* error *)

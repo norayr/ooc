@@ -1,4 +1,4 @@
-(* 	$Id: RealConv.Mod,v 1.2 2002/06/01 12:10:23 mva Exp $	 *)
+(* 	$Id: RealConv.Mod,v 1.3 2002/07/08 12:05:14 mva Exp $	 *)
 MODULE RealConv;
 (*  String to REAL conversion functions.
     Copyright (C) 2002  Michael van Acken
@@ -74,8 +74,7 @@ PROCEDURE ValueReal*(str: ARRAY OF CHAR): REAL;
       (* skip our definition of whitespace *)
       INC (i);
     END;
-    value := libc.strtof (SYSTEM.ADR (str[i]), tail);
-    IF (tail[0] = 0X) THEN
+    IF libc.sscanf(SYSTEM.ADR(str[i]), "%f", SYSTEM.ADR(value)) = 1 THEN
       RETURN value                       (* syntax is ok *)
     ELSE
       RETURN 0;                          (* error *)

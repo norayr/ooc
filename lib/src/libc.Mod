@@ -1,4 +1,4 @@
-(* 	$Id: libc.Mod,v 1.1 2002/06/01 12:10:23 mva Exp $	 *)
+(* 	$Id: libc.Mod,v 1.2 2002/07/08 12:05:14 mva Exp $	 *)
 MODULE libc [INTERFACE "C"; LINK FILE "libc.c" END];
 (*  Basic data types for interfacing to C code.
     Copyright (C) 1997-1998  Michael van Acken
@@ -35,6 +35,7 @@ PROCEDURE strtod* (string: C.address;
                    VAR tailptr: C.charPtr1d): C.double;
 PROCEDURE strtof* (string: C.address;
                    VAR tailptr: C.charPtr1d): C.float;
+PROCEDURE sscanf* (s: C.address; template: ARRAY OF CHAR; ...) : C.int;
 PROCEDURE sprintf* (VAR s: ARRAY OF CHAR; template: ARRAY OF CHAR; ...);
                         
 END libc.
