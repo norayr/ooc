@@ -1,4 +1,4 @@
-(* 	$Id: ConstFold.Mod,v 1.64 2002/10/20 12:00:00 mva Exp $	 *)
+(* 	$Id: ConstFold.Mod,v 1.65 2002/11/22 18:10:32 mva Exp $	 *)
 MODULE OOC:IR:ConstFold;
 (*  Constant folding on IR expressions.
     Copyright (C) 2002  Stewart Greenhill, Michael van Acken
@@ -640,9 +640,10 @@ PROCEDURE (c: ConstFold) VisitTypeConv* (op : IR.TypeConv);
         END;
         c.result := c. builder. NewConst (op. sym, op. type, value);
         
-      ELSIF TR.IsRealType (op. type) &
-            TR.IsIntegerType (op. expr. type) THEN
-        c.result := NIL;
+      ELSIF TR.IsIntegerType(op.expr.type) & TR.IsRealType(op.type) THEN
+        (* type conversion integer -> real *)
+        value := Real.New(value(Integer.Value).ToInt());
+        c.result := c.builder.NewConst(op.sym, op.type,value);
         
       ELSIF IsPredefType (op. type, Predef.longchar) &
             IsPredefType (op. expr. type, Predef.char) THEN
