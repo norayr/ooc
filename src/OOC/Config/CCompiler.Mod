@@ -1,4 +1,4 @@
-(* 	$Id: CCompiler.Mod,v 1.15 2002/11/13 21:40:57 mva Exp $	 *)
+(* 	$Id: CCompiler.Mod,v 1.16 2002/11/14 20:59:24 mva Exp $	 *)
 MODULE OOC:Config:CCompiler;
 (*  Generates command lines for the C compiler and linker.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -26,7 +26,7 @@ IMPORT
   OOC:Config, OOC:Repository;
 
 VAR
-  cc, cppflags, cflags, ldflags, libs, libtool, libdir: Options.Option;
+  cc, cppflags, cflags, ldflags, libs-, libtool, libdir: Options.Option;
 
 PROCEDURE CompileFileCmd* (in, out: URI.URI; forLibrary: BOOLEAN;
                            VAR cmd: ARRAY OF CHAR);
@@ -106,8 +106,6 @@ PROCEDURE LinkProgramCmd* (execFile: URI.URI; forLibrary: BOOLEAN;
     END;
     Strings.Append (" ", cmd);
     Strings.Append (ldflags. value(StringValue.Value). string^, cmd);
-    Strings.Append (" ", cmd);
-    Strings.Append (libs. value(StringValue.Value). string^, cmd);
   END LinkProgramCmd;
 
 PROCEDURE RegisterConfig*;
