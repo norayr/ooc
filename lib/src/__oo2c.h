@@ -1,4 +1,4 @@
-/*      $Id: __oo2c.h,v 1.19 2002/06/11 21:34:36 mva Exp $        */
+/*      $Id: __oo2c.h,v 1.20 2002/06/22 21:47:44 mva Exp $        */
 /*  Run-time system for C back-ends of OOC2
     Copyright (C) 2001, 2002  Michael van Acken
 
@@ -36,6 +36,14 @@
 #define NORETURN2
 #endif
 
+
+
+extern void NORETURN _index_out_of_range(OOC_LEN index, OOC_LEN length) NORETURN2;
+#define _check_index(index,length,utype)   \
+  ({ if ((utype)index >= (OOC_ULEN)length) {  \
+       _index_out_of_range(index,length);  \
+     }                                     \
+     index; })
 
 /* ASSERT(p) and ASSERT(p,code) */
 extern void NORETURN _assertion_failed(OOC_INT32 code, OOC_CHARPOS pos) NORETURN2;
