@@ -1,4 +1,4 @@
-(* 	$Id: IR.Mod,v 1.235 2003/05/05 20:48:07 mva Exp $	 *)
+(* 	$Id: IR.Mod,v 1.236 2003/05/05 20:55:19 mva Exp $	 *)
 MODULE OOC:IR [OOC_EXTENSIONS];
 (*  High-level intermediate code representation.
     Copyright (C) 2001-2003  Michael van Acken, Stewart Greenhill
@@ -6165,6 +6165,8 @@ PROCEDURE (b: Builder) NewCall* (design: Expression;
             (LEN(arguments^) = 1) & (arguments[0] IS TypeRef) THEN
         RETURN b.NewTypeGuard(arguments[0]. sym, design,
                               arguments[0](TypeRef));
+      ELSIF (design.type = b.typeType) THEN
+        RETURN b.NewQualType(design, arguments, endOfArgsSym);
       ELSIF ~(design.type.Deparam() IS Sym.FormalPars) THEN
         RETURN b. ErrExpr (notProcedure, design. sym);
       ELSE
