@@ -1,4 +1,4 @@
-(* 	$Id: Destore.Mod,v 1.29 2002/05/10 15:24:18 mva Exp $	 *)
+(* 	$Id: Destore.Mod,v 1.30 2002/05/10 23:05:41 mva Exp $	 *)
 MODULE OOC:SSA:Destore;
 (*  Converts reads from/writes to memory into local values.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -683,7 +683,6 @@ PROCEDURE Transform* (pb: SSA.ProcBlock; tr: TypeRules.Rules);
                 origin. selectOut[var] := NIL;
                 
               ELSE
-                ASSERT (registerCount+memoryCount = 2);
                 (* we have the value we need partially in memory, partially as
                    value; convert this situation into an "all memory" or "all
                    value" scenario; on the assumption that a reads are cheaper
