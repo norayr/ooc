@@ -1,4 +1,4 @@
-(* 	$Id: TypeRules.Mod,v 1.43 2003/04/20 21:57:31 mva Exp $	 *)
+(* 	$Id: TypeRules.Mod,v 1.44 2003/04/20 23:41:17 mva Exp $	 *)
 MODULE OOC:SymbolTable:TypeRules;
 (*  Defines the type rules of the language.
     Copyright (C) 2000-2003  Michael van Acken
@@ -336,6 +336,19 @@ PROCEDURE IsValidCaseSelector* (type: Sym.Type): BOOLEAN;
   BEGIN
     RETURN IsIntegerType (type) OR IsCharType (type);
   END IsValidCaseSelector;
+
+PROCEDURE IsValidTypeBound* (type: Sym.Type): BOOLEAN;
+(**Returns @code{TRUE}, iff the type @oparam{type} can be used as the
+   bound of a type parameter of a parametric type.  *)
+  BEGIN
+    type := type.Deparam();
+    IF (type IS Sym.Pointer) THEN
+      type := type(Sym.Pointer).baseType.Deparam();
+      RETURN (type IS Sym.Record);
+    ELSE
+      RETURN FALSE;
+    END;
+  END IsValidTypeBound;
 
 PROCEDURE VariableInstance* (type: Sym.Type): BOOLEAN;
 (**Returns @code{TRUE}, iff the type can be used to instanciate variables.
