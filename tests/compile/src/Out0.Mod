@@ -1,5 +1,5 @@
-(*	$Id: Out.Mod,v 1.6 2002/05/31 19:03:41 mva Exp $	*)
-MODULE Out [FOREIGN "C"; LINK FILE "Out.c" END];
+(*	$Id: Out0.Mod,v 1.1 2002/06/04 22:03:51 mva Exp $	*)
+MODULE Out0 [FOREIGN "C"; LINK FILE "Out0.c" END];
 <* Warnings := FALSE *>
 
 PROCEDURE Open*;
@@ -13,4 +13,4 @@ PROCEDURE Real* (x: REAL; n: LONGINT);
 PROCEDURE LongReal* (x: LONGREAL; n: LONGINT);
 PROCEDURE Ln*;
 
-END Out.
+END Out0.

@@ -1,4 +1,4 @@
-(* 	$Id: RunTests.Mod,v 1.10 2002/02/27 09:34:56 mva Exp $	 *)
+(* 	$Id: RunTests.Mod,v 1.11 2002/06/04 22:03:52 mva Exp $	 *)
 MODULE RunTests;
 (*  Applies a test schedule to an OOC compiler and produces an XML report.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -129,9 +129,16 @@ PROCEDURE ReadConfig (VAR setup: TestSetup.TestSetup;
     ELSE
       r. ReadLine (arg);
       r. ReadLine (arg);
-      IF (arg = "--stop-on-error") THEN
-        stopOnError := TRUE;
-        r. ReadLine (arg);
+      LOOP
+        IF (arg = "--stop-on-error") THEN
+          stopOnError := TRUE;
+          r. ReadLine (arg);
+        ELSIF (arg = "--out-module") THEN
+          r. ReadLine (Processor.outModule);
+          r. ReadLine (arg);
+        ELSE
+          EXIT;
+        END;
       END;
       
       elem := ReadURI (File.ToURI (arg), testSetup);
@@ -346,9 +353,8 @@ PROCEDURE RunTests (testSetup: TestSetup.TestSetup;
   END RunTests;
     
 BEGIN
-  IF (ProgramArgs.args. ArgNumber() # 2) &
-     (ProgramArgs.args. ArgNumber() # 3) THEN
-    Err.String ("Usage: RunTests [--stop-on-error] <test-setup> <report-file>"); Err.Ln; HALT (1)
+  IF (ProgramArgs.args. ArgNumber() < 2) THEN
+    Err.String ("Usage: RunTests [--stop-on-error][--out-module <module-name>] <test-setup> <report-file>"); Err.Ln; HALT (1)
   ELSE
     (* make error message values "line" and "character position" Emacs
        compatible be having them start at line 1, point 1 for the XML

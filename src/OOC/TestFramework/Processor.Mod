@@ -1,4 +1,4 @@
-(* 	$Id: Processor.Mod,v 1.13 2002/04/28 12:37:10 mva Exp $	 *)
+(* 	$Id: Processor.Mod,v 1.14 2002/06/04 22:03:52 mva Exp $	 *)
 MODULE OOC:TestFramework:Processor;
 (*  Processes test cases using an OOC compiler.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -52,6 +52,9 @@ TYPE
 TYPE
   FilePath = ARRAY 1024 OF CHAR;
 
+VAR
+  outModule*: ARRAY 32 OF CHAR;
+  
 
 PROCEDURE Init (proc: Processor; setup: TestSetup.TestSetup);
   VAR
@@ -344,15 +347,20 @@ PROCEDURE (proc: Processor) Process* (test: Testcases.Test;
         w. WriteString (name. array^);
         w. WriteString (";");
         w. WriteLn;
-        IF (name. array^ = "Out") THEN
-          w. WriteString ("IMPORT Out");
+        IF (name. array^ = outModule) THEN
+          w. WriteString ("IMPORT ");
+          w. WriteString (outModule);
         ELSE
-          w. WriteString ("IMPORT Out, ");
+          w. WriteString ("IMPORT ");
+          w. WriteString (outModule);
+          w. WriteString (", ");
           w. WriteString (name. array^);
         END;
         w. WriteString (";");
         w. WriteLn;
-        w. WriteString ("BEGIN Out.Open; ");
+        w. WriteString ("BEGIN ");
+        w. WriteString (outModule);
+        w. WriteString (".Open; ");
         w. WriteString (name. array^);
         w. WriteString (".Test;");
         w. WriteLn;
@@ -566,4 +574,6 @@ PROCEDURE (proc: Processor) Process* (test: Testcases.Test;
     END
   END Process;
 
+BEGIN
+  outModule := "Out0";
 END OOC:TestFramework:Processor.
