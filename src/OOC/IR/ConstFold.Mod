@@ -1,4 +1,4 @@
-(* 	$Id: ConstFold.Mod,v 1.76 2003/05/31 16:51:53 mva Exp $	 *)
+(* 	$Id: ConstFold.Mod,v 1.77 2003/06/10 23:21:58 mva Exp $	 *)
 MODULE OOC:IR:ConstFold;
 (*  Constant folding on IR expressions.
     Copyright (C) 2002, 2003  Stewart Greenhill, Michael van Acken
@@ -33,7 +33,7 @@ TYPE
 CONST
   (* To enable constant folding for REAL expressions, set foldReals TRUE. Even
   better, allow it to be enabled/disabled at run-time *)
-  foldReals = FALSE;
+  foldReals = TRUE;
 
 PROCEDURE InitConstFold (c : ConstFold);
 BEGIN
@@ -371,7 +371,7 @@ VAR
     | IR.arithSub:  RETURN left.Sub(right);
     | IR.arithMul:  RETURN left.Mul(right);
     | IR.arithDivR: 
-      IF right.Sign() = 0 THEN
+      IF (right.value = 0) THEN
         c.builder.ErrSym(IR.divideByZero, op.sym);
       ELSE
         RETURN left.Div(right);

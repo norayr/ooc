@@ -1,4 +1,4 @@
-(*	$Id: Boxed.Mod,v 1.12 2003/05/30 16:06:38 mva Exp $	*)
+(*	$Id: Boxed.Mod,v 1.13 2003/06/10 23:21:58 mva Exp $	*)
 MODULE Object:Boxed;
 (*  Implements object representations for predefined types.
     Copyright (C) 2002, 2003  Michael van Acken
@@ -279,6 +279,8 @@ PROCEDURE (v: LongReal) Cmp*(right: Obj.Object): LONGINT;
 
 PROCEDURE (v: LongReal) Sign*(): LONGINT;
   BEGIN
+    (* If I remember correctly, IEEE 754's has both a positive and a negative
+       zero.  This means that the sign() function never return 0.  CHECKME...*)
     RETURN v.Cmp(zeroLongReal);
   END Sign;
 
