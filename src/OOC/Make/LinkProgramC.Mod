@@ -1,4 +1,4 @@
-(* 	$Id: LinkProgramC.Mod,v 1.7 2002/11/26 21:36:57 mva Exp $	 *)
+(* 	$Id: LinkProgramC.Mod,v 1.8 2002/11/26 22:06:39 mva Exp $	 *)
 MODULE OOC:Make:LinkProgramC;
 (*  Links object files and libraries to create an executable file.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -88,7 +88,7 @@ PROCEDURE GetExternalLibs (moduleList: ARRAY OF Repository.Module;
         obj := option.Get(libraryName);
         RETURN obj(String.String);
       ELSE
-        str := String.New("-l");
+        str := String.New(" -l");
         str := str.Concat(libraryName);
         option.Set(libraryName, str);
         RETURN str;
@@ -123,13 +123,13 @@ PROCEDURE GetExternalLibs (moduleList: ARRAY OF Repository.Module;
             FOR j := 0 TO LEN(linkDirective.dependencies^)-1 DO
               depArray.Append(linkDirective.dependencies[j]);
             END;
+            prev := Option(linkDirective.libraryName);
             IF (linkDirective.prefixOption # NIL) THEN
-              prev := space.Concat(Option(linkDirective.libraryName));
-              new := LookupValue(linkDirective.prefixOption);
+              new := space.Concat(LookupValue(linkDirective.prefixOption));
               option.Set(linkDirective.libraryName, new.Concat(prev));
+              prev := Option(linkDirective.libraryName); (* refresh *)
             END;
             IF (linkDirective.suffixOption # NIL) THEN
-              prev := Option(linkDirective.libraryName);
               new := space.Concat(LookupValue(linkDirective.suffixOption));
               option.Set(linkDirective.libraryName, prev.Concat(new));
             END;
