@@ -1,4 +1,4 @@
-(* 	$Id: Predef.Mod,v 1.9 2002/01/18 19:13:09 mva Exp $	 *)
+(* 	$Id: Predef.Mod,v 1.10 2002/01/18 20:44:11 mva Exp $	 *)
 MODULE OOC:SymbolTable:Predef;
 (*  Defines symbol table of pseudo module with predefined entities.
     Copyright (C) 2000, 2001, 2002  Michael van Acken
@@ -123,7 +123,8 @@ PROCEDURE CreatePredef* (stb: Builder.Builder): Sym.Module;
     END PredefConst;
   
   BEGIN
-    module := stb. NewModule (GetName ("#predef"), NIL, Sym.mcInternal, Sym.callConvInternal);
+    module := stb. NewModule (GetName ("#predef"), NIL, Sym.mcInternal,
+                              Sym.callConvInternal, NIL);
     
     ptype := PredefType (stb, module, boolean, "BOOLEAN");
     PredefConst ("FALSE", Boolean.New (FALSE), ptype);
@@ -155,7 +156,8 @@ PROCEDURE CreateSYSTEM* (stb: Builder.Builder): Sym.Module;
     module: Sym.Module;
     ptype: Sym.PredefType;
   BEGIN
-    module := stb. NewModule (GetName ("SYSTEM"), NIL, Sym.mcInternal, Sym.callConvInternal);
+    module := stb. NewModule (GetName ("SYSTEM"), NIL, Sym.mcInternal,
+                              Sym.callConvInternal, NIL);
     
     ptype := PredefType (stb, module, address, "ADDRESS");
     ptype := PredefType (stb, module, byte, "BYTE");
