@@ -1,4 +1,4 @@
-(* 	$Id: Make.Mod,v 1.3 2001/05/22 21:28:42 mva Exp $	 *)
+(* 	$Id: Make.Mod,v 1.4 2001/08/26 21:39:42 mva Exp $	 *)
 MODULE Make [OOC_EXTENSIONS];
 (*  Framework for discovering and building interdependend resources.
     Copyright (C) 2001  Michael van Acken
@@ -62,7 +62,7 @@ CONST
      to be outdated.  If the entity cannot be rebuild, it stays in this state.  *)
   entityUndiscovered* = 0;
   (**The entity's state has not been determined yet.  The framework treats all
-     values @samp{>=@oconst{entityUndiscovered}}.  *)
+     values @samp{>=@oconst{entityUndiscovered}} alike.  *)
 
 TYPE
   CommandState* = LONGINT;
