@@ -1,4 +1,4 @@
-(* 	$Id: SSA.Mod,v 1.63 2002/10/20 18:31:50 mva Exp $	 *)
+(* 	$Id: SSA.Mod,v 1.64 2002/12/03 17:12:43 mva Exp $	 *)
 MODULE OOC:SSA;
 (*  Data structures for SSA code representation.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -497,7 +497,11 @@ PROCEDURE (result: Result) LogId* (msg: ARRAY OF CHAR);
   BEGIN
     Log.writer. WriteString (msg);
     Log.writer. WriteString (": ");
+<*IF TARGET_ADDRESS = 64 THEN*>
+    Log.writer. WriteString ("???");
+<*ELSE*>
     Log.writer. WriteHex (SYSTEM.VAL (LONGINT, result. instr), 8);
+<*END*>
     i := result. ResultIndex();
     IF (i # 0) THEN
       Log.writer. WriteChar (".");
