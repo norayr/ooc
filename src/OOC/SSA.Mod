@@ -1,4 +1,4 @@
-(* 	$Id: SSA.Mod,v 1.49 2002/07/31 14:24:33 mva Exp $	 *)
+(* 	$Id: SSA.Mod,v 1.50 2002/07/31 20:02:20 mva Exp $	 *)
 MODULE OOC:SSA;
 (*  Data structures for SSA code representation.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -340,6 +340,11 @@ PROCEDURE (opnd: Opnd) GetIntConst*(): LONGINT;
   BEGIN
     RETURN opnd. arg(Const). value(Integer.Value). ToInt();
   END GetIntConst;
+
+PROCEDURE (opnd: Opnd) IsScheduleOpnd*(): BOOLEAN;
+  BEGIN
+    RETURN (opnd. class = OpndClass.loopExternalDef);
+  END IsScheduleOpnd;
 
   (* ---------------------------------------------------------------------- *)
   

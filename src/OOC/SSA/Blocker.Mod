@@ -1,4 +1,4 @@
-(* 	$Id: Blocker.Mod,v 1.22 2002/07/31 14:24:33 mva Exp $	 *)
+(* 	$Id: Blocker.Mod,v 1.23 2002/07/31 20:02:20 mva Exp $	 *)
 MODULE OOC:SSA:Blocker;
 (*  Imposes a block structure on a flat list of SSA instructions.
     Copyright (C) 2002  Michael van Acken
@@ -1160,8 +1160,13 @@ PROCEDURE Write* (c: Channel.Channel; pb: SSA.ProcBlock);
             IF (opnd # instr. opndList) THEN
               w. WriteChar (",");
             END;
-            IF (opnd. class = Opnd.antiDependency) THEN
-              w. WriteString ("ad");
+            CASE opnd. class OF
+            | Opnd.antiDependency:
+              w. WriteString ("*ad*");
+            | Opnd.loopExternalDef:
+              w. WriteString ("*led*");
+            ELSE
+              (* omit class *)
             END;
             WriteResultId (opnd. arg);
             opnd := opnd. nextOpnd
