@@ -1,4 +1,4 @@
-(* 	$Id: SSA.Mod,v 1.20 2002/01/04 16:14:52 mva Exp $	 *)
+(* 	$Id: SSA.Mod,v 1.21 2002/01/05 16:32:33 mva Exp $	 *)
 MODULE OOC:SSA;
 (*  Data structures for SSA code representation.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -63,7 +63,6 @@ TYPE
     (**Links that make up the ``uses'' list of a given value.  By traversing
        this list, all using occurences of a result are reached.  The head of
        the list is @ofield{Result.useList}.  *)
-    
   END;
 
 TYPE

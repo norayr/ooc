@@ -1,4 +1,4 @@
-(* 	$Id: Opnd.Mod,v 1.8 2002/01/04 16:14:52 mva Exp $	 *)
+(* 	$Id: Opnd.Mod,v 1.9 2002/01/05 16:32:32 mva Exp $	 *)
 MODULE OOC:SSA:Opnd;
 (*  Symbolic names for operand classes.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -99,7 +99,13 @@ CONST
   dimension* = 15;
   (**Dimension identifier of a @oconst{*OOC:SSA:Opcode.getLength} instruction.
      This is an integer constant.  *)
+
+  argPointer* = 16;
+  (**For @oconst{*OOC:SSA:Opcode.call}: Used instead of @oconst{arg} to
+     indicate that this operand is passed to a pointer variable, and must
+     therefore cast to void* by the C back-end.  *)
   
+
 PROCEDURE GetName* (class: Class; VAR name: ARRAY OF CHAR);
 (**Retrieves the symbolic name of an operand class.  *)
   BEGIN
@@ -115,6 +121,7 @@ PROCEDURE GetName* (class: Class; VAR name: ARRAY OF CHAR);
     | functionResult: COPY ("function-result", name)
     | forwardRef: COPY ("forward-ref", name)
     | dimension: COPY ("dimension", name)
+    | argPointer: COPY ("arg-pointer", name)
     END;
   END GetName;
   
