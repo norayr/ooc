@@ -1,4 +1,4 @@
-(* 	$Id: CreateNamespace.Mod,v 1.6 2002/07/09 19:10:23 mva Exp $	 *)
+(* 	$Id: CreateNamespace.Mod,v 1.7 2002/07/09 20:53:29 mva Exp $	 *)
 MODULE OOC:SymbolTable:CreateNamespace [OOC_EXTENSIONS];
 (*  Creates namespaces for module, and resolves type names in declarations.
     Copyright (C) 2000-2002  Michael van Acken
@@ -108,13 +108,11 @@ PROCEDURE CreateNamespace* (root: Sym.Module;
                             errList: Error.List);
 (**Populates the namespaces of the symbol table @oparam{root} and performs
    semantic checks on the declarations.  It is assumed, that the namespace
-   of module @oparam{root} is nested into the namespace of module
-   @oparam{predefModule}.  Typically, @oparam{predefModule} defines the 
-   predefined entities of the language, and is defined by module
-   @omodule{*OOC:SymbolTable:Predef}.
+   of module @oparam{root} is nested into the namespace of the pseudo module
+   holding the predefined objects.
    
    The type rules used to check the declarations are taken from object
-   @oparam{tr}.  Any errors are reported to the error list @oparam{errList}.
+   @omodule{TR}.  Any errors are reported to the error list @oparam{errList}.
    After successful completion of this procedure, the symbol table
    @oparam{root} can be used to resolve any using occurences of names within
    the module's source code.  *)
