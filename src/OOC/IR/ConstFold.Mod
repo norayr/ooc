@@ -1,4 +1,4 @@
-(* 	$Id: ConstFold.Mod,v 1.21 2002/03/20 22:16:54 mva Exp $	 *)
+(* 	$Id: ConstFold.Mod,v 1.22 2002/04/26 21:27:00 mva Exp $	 *)
 MODULE OOC:IR:ConstFold;
 (*  Constant folding on IR expressions.
     Copyright (C) 2002  Stewart Greenhill, Michael van Acken
@@ -146,14 +146,18 @@ PROCEDURE (c: ConstFold) VisitAdr* (adr: IR.Adr);
   END VisitAdr;
 
 PROCEDURE (c: ConstFold) VisitLen* (len: IR.Len);
-  VAR length : LONGINT;
+  VAR
+    length: LONGINT;
+    type: Sym.Type;
   BEGIN
-    (* FIXME! Implement lenFixedArray, but how do we get its length? . *)
     CASE len. variant OF
     | IR.lenStringConst:
       length := len.array(IR.Const).value(String8.Value).value.length+1;
+      
     | IR.lenFixedArray:
-      length := len.array.type(Sym.Array).length;
+      type := len. arrayVariable. type(Sym.Array). GetNthElementType (len.dim);
+      length := type(Sym.Array).length;
+      
     | IR.lenOpenArrayParam, IR.lenOpenArrayHeap:
       c.result := NIL; RETURN;
     END;

@@ -1,4 +1,4 @@
-(* 	$Id: IRtoSSA.Mod,v 1.40 2002/04/26 19:26:39 mva Exp $	 *)
+(* 	$Id: IRtoSSA.Mod,v 1.41 2002/04/26 21:27:00 mva Exp $	 *)
 MODULE OOC:SSA:IRtoSSA;
 (*  Converts the IR of a procedure into its SSA representation.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -162,7 +162,7 @@ PROCEDURE StatmSeq* (pb: SSA.ProcBlock; s: SSA.Result;
           RETURN pb. GetConstInt (expr. array(IR.Const). value(String8.Value). value. length+1);
 
         | IR.lenOpenArrayParam:
-          res := Expression (expr. array);
+          res := Expression (expr. arrayVariable);
           RETURN pb. AddGetLengthInstr (res(SSA.Instr),
                                         pb. GetConstInt (expr. dim));
         END;
@@ -200,8 +200,13 @@ PROCEDURE StatmSeq* (pb: SSA.ProcBlock; s: SSA.Result;
           instr := pb. AddInstr (Opcode.subtract,
                                  Opcode.TypeToSubclass (expr. left. type));
           
+        | IR.arithMul:
+          instr := pb. AddInstr (Opcode.multiply,
+                                 Opcode.TypeToSubclass (expr. left. type));
+          
         ELSE
-          Log.Type("++ Unknown variant of BinaryArith in Expression", expr);
+          Log.Int("++ Unknown variant of BinaryArith in Expression",
+                  expr. variant);
           ASSERT (FALSE);
         END;
         instr. AddOpnd (Expression (expr. left), Opnd.arg);
