@@ -1,4 +1,4 @@
-(* 	$Id: Namespace.Mod,v 1.16 2003/05/04 15:22:11 mva Exp $	 *)
+(* 	$Id: Namespace.Mod,v 1.17 2003/05/05 21:53:25 mva Exp $	 *)
 MODULE OOC:SymbolTable:Namespace;
 (*  Implements namespaces and semantic checks on them.
     Copyright (C) 2000-2003  Michael van Acken
@@ -422,7 +422,7 @@ PROCEDURE (ns: Extended) CheckRestrictions* (record: Sym.Record;
    @ofield{Sym.Record.tbProcCount} correctly reflects the
    number of type-bound procedures attached to it.  *)
   VAR
-    i: LONGINT;
+    i, j: LONGINT;
     decl, base: Sym.Declaration;
     baseNotExported: BOOLEAN;
     rec, ptr, baseFormalPars: Sym.Type;
@@ -462,8 +462,8 @@ PROCEDURE (ns: Extended) CheckRestrictions* (record: Sym.Record;
               (* calculate type closure for the record type of the original
                  procedure definition *)
               NEW(args, LEN(rec.typePars.params^));
-              FOR i := 0 TO LEN(args^)-1 DO
-                Sym.InitTypeRef(args[i], rec.typePars.params[i]);
+              FOR j := 0 TO LEN(args^)-1 DO
+                Sym.InitTypeRef(args[j], rec.typePars.params[j]);
               END;
               
               NEW(qualType);
