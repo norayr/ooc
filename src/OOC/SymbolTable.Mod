@@ -1,4 +1,4 @@
-(* 	$Id: SymbolTable.Mod,v 1.118 2003/09/30 17:40:48 mva Exp $	 *)
+(* 	$Id: SymbolTable.Mod,v 1.119 2004/01/12 05:45:55 sgreenhill Exp $	 *)
 MODULE OOC:SymbolTable [OOC_EXTENSIONS];
 (*  Defines structure and entries of the symbol table.
     Copyright (C) 2000-2003  Michael van Acken
@@ -111,6 +111,7 @@ CONST
   flagAlign8* = 16;
   flagVtable* = 17;
   flagUncheckedException* = 18;
+  flagAtomic* = 19;
 
 CONST
   libTypeStandard* = 0;
@@ -683,6 +684,9 @@ TYPE
        @otype{*Exception.Exception}.  *)
     isVtable*: BOOLEAN;
     (**If @code{TRUE}, then this type has a C++ virtual method table. *)
+    isAtomic*: BOOLEAN;
+    (**If @code{TRUE}, then this type contains no pointers that need to be 
+       considered by the GC. *)
     fieldAlign* : INTEGER;
     (**Alignment constraint on fields of this record. Normally, a field is
        placed at an address that is a multiple of its size.  For example, a
@@ -1356,6 +1360,8 @@ PROCEDURE (item: Item) AddFlag* (name: Name);
       id := flagAlign8;
     ELSIF (name.str^ = "VTABLE") THEN
       id := flagVtable;
+    ELSIF (name.str^ = "NO_TRACED_POINTERS") THEN
+      id := flagAtomic;
     ELSE
       id := flagUnknownName;
     END;
@@ -2417,6 +2423,7 @@ PROCEDURE InitRecord* (record: Record; parent: Item; position: Position;
     record. isExtensible := TRUE;
     record. isUncheckedException := FALSE;
     record. isVtable := FALSE;
+    record. isAtomic := FALSE;
     record. fieldAlign := 0;
     record. className := NIL
   END InitRecord;
@@ -2431,6 +2438,7 @@ PROCEDURE (record: Record) Store* (w: Storable.Writer) RAISES IO.Error;
     w. WriteBool (record. isExtensible);
     w. WriteBool (record. isUncheckedException);
     w. WriteBool (record. isVtable);
+    w. WriteBool (record. isAtomic);
     w. WriteInt (record. fieldAlign);
     w. WriteObject (record. className);
     (* ignore field `ns' *)
@@ -2449,6 +2457,7 @@ PROCEDURE (record: Record) Load* (r: Storable.Reader) RAISES IO.Error;
     r. ReadBool (record. isExtensible);
     r. ReadBool (record. isUncheckedException);
     r. ReadBool (record. isVtable);
+    r. ReadBool (record. isAtomic);
     r. ReadInt (record. fieldAlign);
     r. ReadObject (obj);
     IF (obj = NIL) THEN
