@@ -1,4 +1,4 @@
-(* 	$Id: Predef.Mod,v 1.5 2001/12/20 17:27:51 mva Exp $	 *)
+(* 	$Id: Predef.Mod,v 1.6 2001/12/21 10:20:33 sgreenhill Exp $	 *)
 MODULE OOC:SymbolTable:Predef;
 (*  Defines symbol table of pseudo module with predefined entities.
     Copyright (C) 2000, 2001  Michael van Acken
@@ -46,11 +46,19 @@ CONST
   longcharString* = 13;
   void* = 14;
   lastId = void;
-  
+
+CONST
+  (* These represent set of types that may be treated similarly. *)
+
+  classChar* = {char, longchar};
+  classInteger* = {shortint, integer, longint};
+  classReal* = {real, longreal};
+  classNumeric* = classInteger + classReal;
+  classSet* = {set};
+
 CONST
   (* predefine procedures and functions *)
   assert* = 0;
-
 
 PROCEDURE GetName (name: ARRAY OF CHAR): Sym.Name;
   VAR
