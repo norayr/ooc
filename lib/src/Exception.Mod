@@ -1,4 +1,4 @@
-(* 	$Id: Exception.Mod,v 1.18 2003/08/01 20:40:35 mva Exp $	 *)
+(* 	$Id: Exception.Mod,v 1.19 2003/09/28 10:17:36 mva Exp $	 *)
 MODULE Exception [FOREIGN "C"; LINK FILE "Exception.c" END];
 (*  Implements the run-time part of the exceptions mechanism.
     Copyright (C) 2002,2003  Michael van Acken
@@ -99,13 +99,6 @@ IMPORT
    this is 768 bytes.  As a consequence, the work done within a @code{TRY}
    should be large enough to amortize the costs of the @code{TRY} for all
    possible targets.  *)
-
-(*
-   Each @code{TRY} block pushes an exception handler on a stack managed as a
-   global variable of module Exception.  If threading is ever supported,
-   then each thread needs its own pointer to the top of this stack, as
-   well as its own `current' exception pointer.
-*)
 
 CONST
   maxBacktraceSize = 20+1;
