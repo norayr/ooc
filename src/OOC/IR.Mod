@@ -1,4 +1,4 @@
-(* 	$Id: IR.Mod,v 1.265 2003/09/13 20:10:17 mva Exp $	 *)
+(* 	$Id: IR.Mod,v 1.266 2003/09/21 21:22:48 mva Exp $	 *)
 MODULE OOC:IR [OOC_EXTENSIONS];
 (*  High-level intermediate code representation.
     Copyright (C) 2001-2003  Michael van Acken, Stewart Greenhill
@@ -4870,7 +4870,9 @@ PROCEDURE (b: Builder) CheckExit (procDecl: Sym.ProcDecl;
 
     initWithoutSuper := FALSE;
     procClass := procDecl.Class();
-    initWithoutSuper := (procClass # NIL) & (procClass.baseType # NIL) &
+    initWithoutSuper :=
+        procDecl.InStandardModule() &
+        (procClass # NIL) & (procClass.baseType # NIL) &
         (procClass.baseType IS Sym.Record) &
         (procDecl.name.str^ = Predef.initMethod) &
         (procDecl.tbProcIndex < procClass.baseType(Sym.Record).tbProcCount);
@@ -5519,7 +5521,7 @@ PROCEDURE (b: Builder) NewQualType*(type: Expression;
       ELSE
         FOR i := 0 TO LEN(params^)-1 DO
           t := arguments[i](TypeRef).qualType;
-          IF TR.IsExtensionOf(t, params[i].bound) THEN
+          IF (t # NIL) & TR.IsExtensionOf(t, params[i].bound) THEN
             Sym.InitTypeRef(qualType(Sym.QualType).arguments[i], t);
           ELSE
             b.ErrSym(notExtensionOfBound, arguments[i].sym);
