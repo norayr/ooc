@@ -1,4 +1,4 @@
-(* 	$Id: Opcode.Mod,v 1.71 2002/07/30 06:18:11 mva Exp $	 *)
+(* 	$Id: Opcode.Mod,v 1.72 2002/08/10 17:39:37 mva Exp $	 *)
 MODULE OOC:SSA:Opcode;
 (*  This modules defines opcodes for SSA instructions.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -77,7 +77,8 @@ CONST
      The instruction has one mandatory result of class
      @oconst{*OOC:SSA:Result.store}.  If there @var{store} arguments are
      produced by @oconst{collect} statements, then there are additional
-     results, one for each collected value.
+     results, one for each collected value.  These results use the class
+     id @oconst{*OOC:SSA:Result.selectValue}.
 
      FIXME... still need more explanation.  *)
   collect* = 6;

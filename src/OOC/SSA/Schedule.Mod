@@ -1,4 +1,4 @@
-(* 	$Id: Schedule.Mod,v 1.32 2002/08/07 04:53:47 mva Exp $	 *)
+(* 	$Id: Schedule.Mod,v 1.33 2002/08/10 17:41:09 mva Exp $	 *)
 MODULE OOC:SSA:Schedule [OOC_EXTENSIONS];
 (*  Generates basic block representation and schedules instructions.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -770,6 +770,9 @@ PROCEDURE Schedule* (pb: SSA.ProcBlock): Block;
     END MarkBackedges;
 
   PROCEDURE RemoveUnreachable (VAR b: Block);
+  (* Note: This procedure does not eliminate blocks that contain the end marker
+     of a block, like @oconst{Opcode.loopEnd} or @oconst{Opcode.selectReturn},
+     even if they are unreachable.  *)
     VAR
       d, i: LONGINT;
       j: Jump;
