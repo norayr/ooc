@@ -1,4 +1,4 @@
-(* 	$Id: ExtTree.Mod,v 1.15 2001/12/20 17:27:52 mva Exp $	 *)
+(* 	$Id: ExtTree.Mod,v 1.16 2002/01/10 03:43:43 sgreenhill Exp $	 *)
 MODULE OOC:AST:ExtTree [OOC_EXTENSIONS];
 (*  Creates extended abstract syntax tree from the parser output.
     Copyright (C) 2000, 2001  Michael van Acken
@@ -186,6 +186,7 @@ TYPE
     equal-: AST.Node;
     expr-: AST.Node;
     semicolon-: AST.Node;
+    symTabEntry-: Sym.ConstDecl;
   END;
 
 TYPE
@@ -961,6 +962,11 @@ PROCEDURE (constDecl: ConstDecl) Accept* (v: Visitor);
   BEGIN
     v. VisitConstDecl (constDecl)
   END Accept;
+
+PROCEDURE (constDecl: ConstDecl) SetSymTabEntry* (item: Sym.Item);
+  BEGIN
+    constDecl. symTabEntry := item(Sym.ConstDecl)
+  END SetSymTabEntry;
 
 
 PROCEDURE (b: Builder) TypeDecl* (identDef, equal, type, semicolon: AST.Node): Node;

@@ -1,4 +1,4 @@
-(* 	$Id: SymbolTable.Mod,v 1.3 2002/01/04 16:11:26 mva Exp $	 *)
+(* 	$Id: SymbolTable.Mod,v 1.4 2002/01/10 03:43:43 sgreenhill Exp $	 *)
 MODULE OOC:SymbolTable [OOC_EXTENSIONS];
 (*  Defines structure and entries of the symbol table.
     Copyright (C) 2000-2002  Michael van Acken
@@ -1038,6 +1038,12 @@ PROCEDURE InitConstDecl* (constDecl: ConstDecl; parent: Item; name: Name;
     constDecl. value := value;
     constDecl. type := type;
   END InitConstDecl;
+
+PROCEDURE (constDecl: ConstDecl) SetValueType* (value : Language.Value; type : PredefType);
+  BEGIN
+    constDecl.value := value;
+    constDecl.type := type;
+  END SetValueType;
 
 PROCEDURE (constDecl: ConstDecl) Store* (w: Object.Writer);
   BEGIN

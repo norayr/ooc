@@ -1,4 +1,4 @@
-(* 	$Id: CreateSymTab.Mod,v 1.6 2001/12/20 17:27:52 mva Exp $	 *)
+(* 	$Id: CreateSymTab.Mod,v 1.7 2002/01/10 03:43:43 sgreenhill Exp $	 *)
 MODULE OOC:AST:ExtTree:CreateSymTab;
 (*  Creates symbol table from abstract syntax tree of module `ExtTree'.
     Copyright (C) 2000, 2001  Michael van Acken
@@ -293,7 +293,8 @@ PROCEDURE (v: Visitor) VisitConstDecl* (constDecl: ExtTree.ConstDecl);
         v. parent, GetName (constDecl. identDef. ident),
         constDecl. semicolon(ExtTree.Terminal). sym. pos,
         ExportMark (constDecl. identDef), constDecl. identDef. docString,
-        NIL, NIL)
+        NIL, NIL);
+    constDecl. SetSymTabEntry (const);
   END VisitConstDecl;
 
 PROCEDURE (v: Visitor) VisitTypeDecl* (typeDecl: ExtTree.TypeDecl);
