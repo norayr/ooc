@@ -1,4 +1,4 @@
-(* 	$Id: Repository.Mod,v 1.8 2001/12/20 17:27:52 mva Exp $	 *)
+(* 	$Id: Repository.Mod,v 1.9 2001/12/23 21:19:49 mva Exp $	 *)
 MODULE OOC:Repository [OOC_EXTENSIONS];
 (*  Abstraction of storage of source, intermediate, and target code.
     Copyright (C) 2001  Michael van Acken
@@ -96,7 +96,7 @@ CONST
      importing modules.  *)
   modSymbolTableXML* = 2;
   (**This is an XML representation of the internal symbol table built of the
-     datatypes defined in @omodule{*Sym := OOC:SymbolTable}.  It is used for
+     datatypes defined in @omodule{*OOC:SymbolTable}.  It is used for
      debugging.  *)
   modInterfaceXML* = 3;
   (**An XML representation of the public interface of a module.  Files of this

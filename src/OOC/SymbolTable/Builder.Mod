@@ -1,4 +1,4 @@
-(* 	$Id: Builder.Mod,v 1.5 2001/12/20 17:27:51 mva Exp $	 *)
+(* 	$Id: Builder.Mod,v 1.6 2001/12/23 21:19:49 mva Exp $	 *)
 MODULE OOC:SymbolTable:Builder [OOC_EXTENSIONS];
 (*  Defines a builder class with factory methods for symbol table entries.
     Copyright (C) 2000, 2001  Michael van Acken
@@ -31,7 +31,7 @@ TYPE
     (**The builder defines a factory method for every item that can appear
        in a module's symbol table.  The arguments of the factory methods
        are passed directly to the initialization procedures of the
-       corresponding classes from @omodule{Item}.
+       corresponding classes from @omodule{Sym}.
        The arguments correspond directly to the record fields defined for
        the specializations of @otype{Sym.Item}.  *)
   END;

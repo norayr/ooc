@@ -1,4 +1,4 @@
-(* 	$Id: Opcode.Mod,v 1.16 2001/12/20 17:27:51 mva Exp $	 *)
+(* 	$Id: Opcode.Mod,v 1.17 2001/12/23 21:19:49 mva Exp $	 *)
 MODULE OOC:SSA:Opcode;
 (*  This modules defines opcodes for SSA instructions.
     Copyright (C) 2001  Michael van Acken
@@ -221,11 +221,11 @@ CONST
   (**Maps to the integer type that is used to store boolean values.  *)
 
   scMerge* = 10;
-  (**Subclass of a @const{select} instruction.  *)
+  (**Subclass of a @oconst{select} instruction.  *)
   scExit* = 11;
-  (**Subclass of a @const{select} instruction.  *)
+  (**Subclass of a @oconst{select} instruction.  *)
   scReturn* = 12;
-  (**Subclass of a @const{select} instruction.  *)
+  (**Subclass of a @oconst{select} instruction.  *)
   
 
 PROCEDURE IsSigned* (subclass: Subclass): BOOLEAN;

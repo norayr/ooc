@@ -1,4 +1,4 @@
-(* 	$Id: SSA.Mod,v 1.16 2001/12/20 17:27:52 mva Exp $	 *)
+(* 	$Id: SSA.Mod,v 1.17 2001/12/23 21:19:49 mva Exp $	 *)
 MODULE OOC:SSA;
 (*  Data structures for SSA code representation.
     Copyright (C) 2001  Michael van Acken
@@ -146,13 +146,13 @@ TYPE
   ProcBlockDesc = RECORD
     (**A procedure block holds the set of instructions of a procedure or module
        body.  The result of evaluating the code block is represented by the
-       operand list of a single instruction, @ofield{exit}.  *)
+       operand list of a single instruction, @ofield{selectReturn}.  *)
     (NodeDesc)
     
     selectReturn-: Instr;
     (**Represents the whole procedure block.  All results of evaluating the
        block's instructions are summarized---directly or indirectly---in this
-       instruction's operand list.  See @oconst{OpndClass.selectReturn}.  *)
+       instruction's operand list.  See @oconst{Opcode.selectReturn}.  *)
     
     instrList-, instrTail: Instr;
     (**Set of instructions that make up the procedure block.  The instructions
@@ -168,7 +168,7 @@ TYPE
     
     adrMap: Dictionary.Dictionary;
     (**Maps items of the symbol table to their @code{adr} instructions.  See
-       @oproc{ProcBlock.GetAdr}.  *)
+       @oproc{ProcBlock.GetAddress}.  *)
   END;
   
 

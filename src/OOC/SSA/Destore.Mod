@@ -1,4 +1,4 @@
-(* 	$Id: Destore.Mod,v 1.8 2001/12/20 17:27:51 mva Exp $	 *)
+(* 	$Id: Destore.Mod,v 1.9 2001/12/23 21:19:49 mva Exp $	 *)
 MODULE OOC:SSA:Destore;
 (*  Converts reads from/writes to memory into local values.
     Copyright (C) 2001  Michael van Acken
@@ -47,7 +47,7 @@ IMPORT
    the variable, be it in part or as a whole.  Such a call erases all local
    knowledge of the variable's content, which must be regained by doing an
    explicit memory read.
-   @end table
+   @end itemize
 
    If it can be removed, a ``get'' is replaced with the value that it produces.
    In the simplest case, this is the value written by a directly preceding
@@ -68,7 +68,7 @@ IMPORT
    written value from the variable.  Here, the ``set'' instruction creates an
    input value to the called procedure that is passed indirectly through
    memory.
-   @end table
+   @end itemize
 
    A ``set'' is made obsolete by replacing all ``get'' instructions reading its
    source value from the variable with the source value itself.  *)

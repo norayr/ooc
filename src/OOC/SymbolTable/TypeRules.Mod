@@ -1,4 +1,4 @@
-(* 	$Id: TypeRules.Mod,v 1.3 2001/12/21 10:20:33 sgreenhill Exp $	 *)
+(* 	$Id: TypeRules.Mod,v 1.4 2001/12/23 21:19:49 mva Exp $	 *)
 MODULE OOC:SymbolTable:TypeRules;
 (*  Defines the type rules of the language.
     Copyright (C) 2000, 2001  Michael van Acken
@@ -55,8 +55,8 @@ PROCEDURE (tr: Rules) IsScalarType* (type: Sym.Type): BOOLEAN;
 
 PROCEDURE (tr : Rules) IsPredefClass* (type : Sym.Type; class : SET) : BOOLEAN;
 (**Returns @code{TRUE}, iff the type @oparam{type} is a a member of a class of
-   types. A class is represented by a SET of @oparam{Sym.PredefId} values.
-   These are defined by classXXX constants in @omodule{OOC:SymbolTable:Predef}.
+   types. A class is represented by a SET of @otype{Sym.PredefId} values.
+   These are defined by classXXX constants in @omodule{*OOC:SymbolTable:Predef}.
    *)
   BEGIN
     WITH type : Sym.PredefType DO
