@@ -1,4 +1,4 @@
-(* 	$Id: IR.Mod,v 1.121 2002/06/30 16:26:31 mva Exp $	 *)
+(* 	$Id: IR.Mod,v 1.122 2002/06/30 19:37:50 mva Exp $	 *)
 MODULE OOC:IR [OOC_EXTENSIONS];
 (*  High-level intermediate code representation.
     Copyright (C) 2001, 2002  Michael van Acken, Stewart Greenhill
@@ -927,6 +927,7 @@ CONST
   invalidCaseSelector = 26;
   labelNotInSelect = 27;
   duplicateLabel = 28;
+  notVariable = 29;
   
 TYPE
   ErrorContext = POINTER TO ErrorContextDesc;
@@ -999,6 +1000,8 @@ PROCEDURE (context: ErrorContext) GetTemplate* (msg: Error.Msg; VAR templ: Error
       t := "Label not in type of select expression"
     | duplicateLabel:
       t := "Label already in use"
+    | notVariable:
+      t := "This must be a variable"
     END;
     context. BaseTemplate (msg, t, templ)
   END GetTemplate;
@@ -2898,11 +2901,18 @@ PROCEDURE (b: Builder) NewForStatm* (sym: Symbol;
   VAR
     forStatm: ForStatm;
   BEGIN
-    NEW (forStatm);
     IF (step = NIL) THEN
       step := b. NewConst
           (sym, Predef.GetType (Predef.shortint), Integer.New (1));
     END;
+
+    IF ~(var IS Var) THEN
+      b. ErrSym (notVariable, var. sym);
+    ELSIF ~b. typeRules. IsIntegerType (var. type) THEN
+      b. ErrSym (notInteger, var. sym);
+    END;
+    
+    NEW (forStatm);
     InitForStatm (forStatm, sym, var, start, end, step, body);
     RETURN forStatm
   END NewForStatm;
@@ -3382,7 +3392,9 @@ END InitConstFold;
 (* Class: Builder
    ------------------------------------------------------------------------ *)
 
-PROCEDURE InitBuilder* (b: Builder; pragmaHistory: Pragmas.History; errList: Error.List; typeRules : TypeRules.Rules; fold : ConstFold);
+PROCEDURE InitBuilder* (b: Builder;
+                        pragmaHistory: Pragmas.History; errList: Error.List;
+                        typeRules: TypeRules.Rules; fold : ConstFold);
   
   PROCEDURE NewTypeType (parent: Sym.Item; position: Sym.Position): TypeType;
     VAR
@@ -3406,7 +3418,9 @@ PROCEDURE InitBuilder* (b: Builder; pragmaHistory: Pragmas.History; errList: Err
     fold. builder := b;
   END InitBuilder;
 
-PROCEDURE NewBuilder* (pragmaHistory: Pragmas.History; errList: Error.List; typeRules : TypeRules.Rules; constFold: ConstFold): Builder;
+PROCEDURE NewBuilder* (pragmaHistory: Pragmas.History;
+                       errList: Error.List; typeRules : TypeRules.Rules;
+                       constFold: ConstFold): Builder;
   VAR
     b: Builder;
   BEGIN
