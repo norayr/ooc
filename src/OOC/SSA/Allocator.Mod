@@ -1,4 +1,4 @@
-(* 	$Id: Allocator.Mod,v 1.2 2001/12/28 20:49:39 mva Exp $	 *)
+(* 	$Id: Allocator.Mod,v 1.3 2001/12/28 21:05:43 mva Exp $	 *)
 MODULE OOC:SSA:Allocator;
 (*  A register allocator for the C back-end.
     Copyright (C) 2001  Michael van Acken
@@ -100,10 +100,10 @@ PROCEDURE GetBlockList (enterBlock, exitBlock: Schedule.Block): BlockList;
 
         IF (b # exitBlock) THEN
           WITH b: Schedule.BranchBlock DO
-            ScanBlock (Schedule.FollowJump (b. branchTo));
-            ScanBlock (Schedule.FollowJump (b. jump));
+            ScanBlock (b. branchTo. dest);
+            ScanBlock (b. jump. dest);
           | b: Schedule.JumpBlock DO
-            ScanBlock (Schedule.FollowJump (b. jump));
+            ScanBlock (b. jump. dest);
           | b: Schedule.DeadEndBlock DO
             (* nowhere to go *)
           END;
@@ -365,7 +365,7 @@ PROCEDURE AssignRegisterFile (rf: RegisterFile;
     PROCEDURE Propagate (jump: Schedule.Jump);
       BEGIN
         WHILE (jump # NIL) DO
-          IF ~Schedule.Dominates (jump. dest, jump. src) THEN
+          IF ~jump. isLoopBackedge THEN
             (* don't follow back-edges of loops *)
             ASSERT (jump. dest = b);
             TraverseBlocks (rf, jump. src, rf. iGraph. CopyVector (live));
@@ -378,8 +378,7 @@ PROCEDURE AssignRegisterFile (rf: RegisterFile;
       BEGIN
         RETURN
             (jump = NIL) OR
-            (jump. dest. isLoopHead &
-             Schedule.Dominates (jump. dest, jump. src))
+            (jump. dest. isLoopHead & jump. isLoopBackedge)
       END BackedgeJump;
     
     BEGIN
