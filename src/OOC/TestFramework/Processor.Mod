@@ -1,4 +1,4 @@
-(* 	$Id: Processor.Mod,v 1.10 2001/10/20 21:16:32 mva Exp $	 *)
+(* 	$Id: Processor.Mod,v 1.11 2001/11/11 18:20:28 mva Exp $	 *)
 MODULE OOC:TestFramework:Processor;
 (*  Processes test cases using an OOC compiler.
     Copyright (C) 2001  Michael van Acken
@@ -38,7 +38,8 @@ CONST
   processSuccess* = 7;             (* executable ran successfully *)
   processOutputDifference* = 8;    (* executable ran, but output differs *)
   processCompareFailed* = 9;       (* executable ran, but could not compare *)
-
+  processSkipped* = 10;
+  
 TYPE
   Processor* = POINTER TO ProcessorDesc;
   ProcessorDesc = RECORD
