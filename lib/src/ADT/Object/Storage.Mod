@@ -1,4 +1,4 @@
-(*	$Id: Storage.Mod,v 1.10 2003/01/30 23:25:20 mva Exp $	*)
+(*	$Id: Storage.Mod,v 1.11 2003/02/01 12:45:41 mva Exp $	*)
 MODULE ADT:Object:Storage;
 (*  Implements a framework for persistent objects.
     Copyright (C) 2000, 2001, 2003  Michael van Acken
@@ -121,7 +121,7 @@ PROCEDURE ConnectReader* (ch: IO.ByteChannel): Reader;
   BEGIN
     NEW (r);
     InitReader (r, ch);
-    IF (r. base = NIL) THEN  (* initialization of BinaryRider.Reader failed *)
+    IF (r. channel = NIL) THEN  (* initialization of BinaryRider.Reader failed *)
       RETURN NIL
     ELSE
       RETURN r
@@ -135,7 +135,7 @@ PROCEDURE ConnectWriter* (ch: IO.ByteChannel): Writer;
   BEGIN
     NEW (w);
     InitWriter (w, ch);
-    IF (w. base = NIL) THEN  (* initialization of BinaryRider.Writer failed *)
+    IF (w. channel = NIL) THEN  (* initialization of BinaryRider.Writer failed *)
       RETURN NIL
     ELSE
       RETURN w

@@ -1,4 +1,4 @@
-(* 	$Id: LinkProgramC.Mod,v 1.16 2003/01/30 23:38:23 mva Exp $	 *)
+(* 	$Id: LinkProgramC.Mod,v 1.17 2003/02/01 12:45:40 mva Exp $	 *)
 MODULE OOC:Make:LinkProgramC;
 (*  Links object files and libraries to create an executable file.
     Copyright (C) 2001, 2002, 2003  Michael van Acken
@@ -23,7 +23,7 @@ MODULE OOC:Make:LinkProgramC;
 IMPORT
   Out, Strings, IO, URI, URI:Scheme:File, Object, ADT:Dictionary,
   ADT:ArrayList, Config:Value, StringValue := Config:Value:String,
-  OS:ProcessManagement, OOC:Error, OOC:Repository, OOC:Config,
+  OS:ProcessManagement, OOC:Repository, OOC:Config,
   OOC:Config:CCompiler, Sym := OOC:SymbolTable;
 
 VAR
