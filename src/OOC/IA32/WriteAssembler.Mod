@@ -1,4 +1,4 @@
-(* 	$Id: WriteAssembler.Mod,v 1.8 2002/11/10 11:15:37 mva Exp $	 *)
+(* 	$Id: WriteAssembler.Mod,v 1.9 2002/11/21 23:12:56 mva Exp $	 *)
 MODULE OOC:IA32:WriteAssembler [OOC_EXTENSIONS];
 (*  Translates a set of scheduled SSA instructions to IA32 assembler.
     Copyright (C) 2002  Michael van Acken
@@ -190,6 +190,13 @@ PROCEDURE WriteInstrList (w: Writer.Writer; b: Schedule.Block);
       | Opcode.labels:
         (* nothing *)
 
+      | Opcode.multiply:
+        (* ... *)
+      | Opcode.getLengthParam:
+        (* ... *)
+      | Opcode.copyParameter:
+        (* ... *)
+        
       | Opcode.return:
         (* nothing *)
       | Opcode.selectReturn:
