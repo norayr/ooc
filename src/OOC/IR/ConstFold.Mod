@@ -1,4 +1,4 @@
-(* 	$Id: ConstFold.Mod,v 1.31 2002/05/10 17:02:29 mva Exp $	 *)
+(* 	$Id: ConstFold.Mod,v 1.32 2002/05/10 19:31:01 mva Exp $	 *)
 MODULE OOC:IR:ConstFold;
 (*  Constant folding on IR expressions.
     Copyright (C) 2002  Stewart Greenhill, Michael van Acken
@@ -455,6 +455,12 @@ PROCEDURE (c: ConstFold) VisitTypeConv* (op : IR.TypeConv);
   VAR
     value : Language.Value;
   BEGIN
+    (* FIXME... this needs to be made "safe": if there is no code
+       that performs the required type conversion, then "op"
+       is always returned *)
+    (* FIXME... make sure that overflows are handled correctly;
+       one way to deal with them is to _not_ convert and make
+       it a run-time problems; not nice, but cheap ;- *)
     IF c.ValidEval(op.expr, value) THEN
       IF c. builder. typeRules. IsIntegerType (op. type) &
          c. builder. typeRules. IsCharType (op. expr. type) THEN
