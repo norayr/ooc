@@ -1,4 +1,4 @@
-(* 	$Id: TypeRules.Mod,v 1.59 2003/05/08 23:19:15 mva Exp $	 *)
+(* 	$Id: TypeRules.Mod,v 1.60 2003/05/10 20:39:20 mva Exp $	 *)
 MODULE OOC:SymbolTable:TypeRules;
 (*  Defines the type rules of the language.
     Copyright (C) 2000-2003  Michael van Acken
@@ -413,10 +413,11 @@ PROCEDURE EqualTypes* (a, b: Sym.Type): BOOLEAN;
   END EqualTypes;
 
 PROCEDURE IsPointer*(type: Sym.Type): BOOLEAN;
-(**Result is @code{TRUE} if @oparam{type} is a pointer type, or if it is a
-   parametric type derived from a pointer.  *)
+(**Result is @code{TRUE} if @oparam{type} is a pointer type, if it is a
+   parametric type derived from a pointer, or a type variable (and therefore a
+   record pointer).  *)
   BEGIN
-    RETURN (type.Deparam() IS Sym.Pointer);
+    RETURN (type.Deparam() IS Sym.Pointer) OR (type IS Sym.TypeVar);
   END IsPointer;
 
 PROCEDURE PointerBaseType*(pointer: Sym.Type): Sym.Type;
