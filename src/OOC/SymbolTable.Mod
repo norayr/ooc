@@ -1,4 +1,4 @@
-(* 	$Id: SymbolTable.Mod,v 1.77 2003/04/27 17:50:04 mva Exp $	 *)
+(* 	$Id: SymbolTable.Mod,v 1.78 2003/04/27 22:18:32 mva Exp $	 *)
 MODULE OOC:SymbolTable [OOC_EXTENSIONS];
 (*  Defines structure and entries of the symbol table.
     Copyright (C) 2000-2003  Michael van Acken
@@ -2474,12 +2474,12 @@ PROCEDURE (array: Array) GetNthElementType* (dim: LONGINT): Type;
 
 
 PROCEDURE InitFormalPars* (formalPars: FormalPars; parent: Item;
-                           position: Position; resultType: Type);
+                           position: Position);
   BEGIN
     InitType (formalPars, parent, position);
     formalPars. receiver := NIL;
-    formalPars. resultType := resultType;
-    formalPars. srcCodeResultType := resultType;
+    formalPars. resultType := NIL;
+    formalPars. srcCodeResultType := NIL;
     formalPars. params := NIL;
     formalPars. anyRestParameters := FALSE;
     formalPars. noReturn := FALSE;
@@ -2492,7 +2492,13 @@ PROCEDURE (formalPars: FormalPars) EnableRestParameters*;
   BEGIN
     formalPars. anyRestParameters := TRUE
   END EnableRestParameters;
-  
+
+PROCEDURE (formalPars: FormalPars) SetResultType*(resultType: Type);
+  BEGIN
+    formalPars.resultType := resultType;
+    formalPars.srcCodeResultType := resultType;
+  END SetResultType;
+
 PROCEDURE (formalPars: FormalPars) Store* (w: Storable.Writer) RAISES IO.Error;
   VAR
     i: LONGINT;
