@@ -1,4 +1,4 @@
-(* 	$Id: DeclWriter.Mod,v 1.1 2001/12/23 02:27:32 mva Exp $	 *)
+(* 	$Id: DeclWriter.Mod,v 1.2 2001/12/23 04:20:05 mva Exp $	 *)
 MODULE OOC:C:DeclWriter [OOC_EXTENSIONS];
 (*  Defines classes to handle C declarations, types, and include statements.
     Copyright (C) 2001  Michael van Acken
@@ -184,7 +184,7 @@ TYPE
   
 TYPE
   Writer* = POINTER TO WriterDesc;
-  WriterDesc = RECORD
+  WriterDesc* = RECORD
     (**This writer is wrapper around of @omodule{TextRider.Writer} with
        additional knowledge about C declarations, definitions, and literals.
        Its main purpose is to act as an abstraction layer for the not so easy
@@ -212,7 +212,6 @@ CONST
   priArray = 2;
   priFunction = 2;
   priDeclaration = 3;
-
 
 
 
@@ -263,6 +262,20 @@ PROCEDURE NewWriter* (ch: Channel.Channel;
     InitWriter (w, ch, baseURI);
     RETURN w
   END NewWriter;
+
+PROCEDURE (w: Writer) CopyTo* (dest: Writer);
+  (**Copies the internal state of @oparam{w} to @oparam{dest}.  Afterwards,
+     @oparam{dest} can be used in place of @oparam{w} and vice versa.  *)
+  
+  BEGIN  (* dest^ := w^ is prevented by the language definition :-(  *)
+    dest. ch := w. ch;
+    dest. baseURI := w. baseURI;
+    dest. textWriter := w. textWriter;
+    dest. includes := w. includes;
+    dest. declarations := w. declarations;
+    dest. relativeIncludePaths := w. relativeIncludePaths;
+    dest. basicType := w. basicType;
+  END CopyTo;
 
 PROCEDURE (w: Writer) WriteString* (str[NO_COPY]: ARRAY OF CHAR);
   BEGIN
