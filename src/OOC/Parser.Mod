@@ -1,4 +1,4 @@
-(* 	$Id: Parser.Mod,v 1.4 2002/05/25 18:56:40 mva Exp $	 *)
+(* 	$Id: Parser.Mod,v 1.5 2002/06/30 19:33:20 mva Exp $	 *)
 MODULE OOC:Parser;
 (*  Parses an Oberon-2 module and creates an abstract syntax tree.
     Copyright (C) 1999-2002  Michael van Acken
@@ -263,7 +263,7 @@ PROCEDURE Module* (sym: BasicList.Symbol; ast: AST.Builder;
               (sym. id = Symbol.ident) THEN
           NextSym
         END;
-        RETURN NIL
+        RETURN ast. Terminal (sym);
       END;
       node := ast. Terminal (sym);
       NextSym;
@@ -769,7 +769,7 @@ PROCEDURE Module* (sym: BasicList.Symbol; ast: AST.Builder;
               factor := ast. Operator (NIL, op, right)
             ELSE
               Err (illegalFactor, sym);
-              factor := NIL
+              factor := ast. Terminal (sym); (* avoid NIL *)
             END;
             RETURN factor
           END Factor;
