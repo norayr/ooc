@@ -1,4 +1,4 @@
-(* 	$Id: Repository.Mod,v 1.22 2002/11/13 21:40:58 mva Exp $	 *)
+(* 	$Id: Repository.Mod,v 1.23 2002/11/19 21:54:43 mva Exp $	 *)
 MODULE OOC:Repository [OOC_EXTENSIONS];
 (*  Abstraction of storage of source, intermediate, and target code.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -268,10 +268,13 @@ PROCEDURE (rep: Repository) [ABSTRACT] GetResource* (package, path: ARRAY OF CHA
    @oparam{package} in the repository.  On success, an URI for the file is
    returned.  Otherwise, result is @code{NIL}.
 
+   An empty package name signals that a repository specific resource is
+   requested.
+   
    This function should never be called by directly, except from
    @oproc{*OOC:Config:Repositories.Section.GetResource}.  *)
   END GetResource;
-  
+
 PROCEDURE (rep: Repository) [ABSTRACT] DumpContent* (w: TextRider.Writer);
   END DumpContent;
 
