@@ -1,4 +1,4 @@
-(* 	$Id: Assembler.Mod,v 1.1 2002/07/06 09:00:24 mva Exp $	 *)
+(* 	$Id: Assembler.Mod,v 1.2 2002/07/07 08:58:35 mva Exp $	 *)
 MODULE OOC:Config:Assembler;
 (*  Generates command lines for the assembler.
     Copyright (C) 2002  Michael van Acken
@@ -24,8 +24,9 @@ IMPORT
   Strings, ADT:String, URI, URI:Scheme:File,
   Config:Section:Options, OOC:Repository, OOC:Auxiliary:Config;
 
-CONST
-  useAssembler* = TRUE;
+VAR
+  (* FIXME... move this into a config module: *)
+  useAssembler*: BOOLEAN;
   (**If @code{FALSE}, then the C code is emitted instead of assembler code.  *)
   
      
@@ -62,4 +63,6 @@ PROCEDURE AssembleFileCmd* (config: Config.Config; in, out: URI.URI;
     Strings.Append (str, cmd);
   END AssembleFileCmd;
 
+BEGIN
+  useAssembler := TRUE;
 END OOC:Config:Assembler.
