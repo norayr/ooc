@@ -1,4 +1,4 @@
-(* 	$Id: Predef.Mod,v 1.14 2002/02/06 21:58:42 mva Exp $	 *)
+(* 	$Id: Predef.Mod,v 1.15 2002/03/10 12:41:24 mva Exp $	 *)
 MODULE OOC:SymbolTable:Predef;
 (*  Defines symbol table of pseudo module with predefined entities.
     Copyright (C) 2000, 2001, 2002  Michael van Acken
@@ -45,8 +45,11 @@ CONST
   charString* = 12;
   longcharString* = 13;
   void* = 14;
-  lastId = void;
-
+  
+  lastId* = void;
+  (**Id of last predefined type.  Typically used in client modules
+     to declare variables @code{ARRAY @oconst{lastId}+1 OF @dots{}}.  *)
+  
   lengthType* = 5;
   (**Alias for the integer type used to represent the length of an array.
      This is also the result type of the predefined function @code{LEN}.
