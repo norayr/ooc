@@ -1,4 +1,4 @@
-/*      $Id: __oo2c.h,v 1.33 2002/07/18 17:02:03 mva Exp $        */
+/*      $Id: __oo2c.h,v 1.34 2002/07/19 14:09:25 sgreenhill Exp $        */
 /*  Run-time system for C back-ends of OOC2
     Copyright (C) 2001, 2002  Michael van Acken
 
@@ -101,7 +101,7 @@
 
 /* string compare */
 extern OOC_INT32 _cmp8(const OOC_CHAR8* l, const OOC_CHAR8* r);
-extern OOC_INT32 _cmp16(const OOC_CHAR8* l, const OOC_CHAR8* r);
+extern OOC_INT32 _cmp16(const OOC_CHAR16* l, const OOC_CHAR16* r);
 
 /* range of set values */
 #define _bit_range(_from,_to) (_from > _to) ? (OOC_UINT32)0 : \
