@@ -1,4 +1,4 @@
-(* 	$Id: IR.Mod,v 1.285 2004/11/24 17:39:14 mva Exp $	 *)
+(* 	$Id: IR.Mod,v 1.286 2004/12/06 07:00:41 mva Exp $	 *)
 MODULE OOC:IR [OOC_EXTENSIONS];
 (*  High-level intermediate code representation.
     Copyright (C) 2001-2004  Michael van Acken, Stewart Greenhill
@@ -5912,7 +5912,7 @@ PROCEDURE (b: Builder) NewOperator* (sym: Symbol; left, right: Expression): Expr
     ELSIF (id = Id.is) THEN
       result := b.NewTypeTest(sym, left, right);
     ELSIF b.WidenToCommon(left, right) THEN
-      leftType := left.type; rightType := right.type;
+      leftType := left.type.Deparam(); rightType := right.type.Deparam();
       
       isNumeric := TR.IsNumericType(leftType);
       isInteger := TR.IsIntegerType(leftType);
