@@ -1,4 +1,4 @@
-(* 	$Id: URI.Mod,v 1.2 2003/01/30 23:34:32 mva Exp $	 *)
+(* 	$Id: URI.Mod,v 1.3 2003/05/18 10:19:29 mva Exp $	 *)
 MODULE URI [OOC_EXTENSIONS];
 (*  Implements RFC2396 "Uniform Resource Identifiers: Generic Syntax"
     Copyright (C) 2000, 2003  Michael van Acken
@@ -285,12 +285,8 @@ RAISES IO.Error;
 
    Note: Currently, only the @samp{file} URI (@omodule{*URI:Scheme:File}) and
    the @samp{http} URI (@omodule{*URI:Scheme:HTTP}) support this method.  *)
-  VAR
-    e: IO.NotImplemented;
   BEGIN
-    NEW(e);
-    IO.InitError(e, NIL);
-    RAISE(e);
+    RAISE(NEW(IO.NotImplemented, NIL));
   END GetChannel;
 
 

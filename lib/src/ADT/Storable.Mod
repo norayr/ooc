@@ -1,4 +1,4 @@
-(*      $Id: Storable.Mod,v 1.7 2003/02/04 20:55:35 mva Exp $       *)
+(*      $Id: Storable.Mod,v 1.8 2003/05/18 10:19:20 mva Exp $       *)
 MODULE ADT:Storable [OOC_EXTENSIONS];
 (*  Base definitions for a persistent object implementation.
     Copyright (C) 1999-2003  Michael van Acken
@@ -86,12 +86,8 @@ TYPE
   END;
 
 PROCEDURE RaiseTypeError*(msg: STRING) RAISES TypeError;
-  VAR
-    e: TypeError;
   BEGIN
-    NEW(e);
-    IO.InitError(e, "Unknown type");
-    RAISE(e);
+    RAISE(NEW(TypeError, msg));
   END RaiseTypeError;
 
 
