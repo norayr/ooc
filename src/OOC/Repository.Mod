@@ -1,4 +1,4 @@
-(* 	$Id: Repository.Mod,v 1.39 2003/05/19 22:56:50 mva Exp $	 *)
+(* 	$Id: Repository.Mod,v 1.40 2003/05/20 20:10:31 mva Exp $	 *)
 MODULE OOC:Repository [OOC_EXTENSIONS];
 (*  Abstraction of storage of source, intermediate, and target code.
     Copyright (C) 2001, 2002, 2003  Michael van Acken
@@ -417,8 +417,8 @@ PROCEDURE (m: Module) MatchesURI* (fileId: FileId; uri: URI.URI): BOOLEAN;
     muri: URI.HierarchicalURI;
   BEGIN
     muri := m. GetURI (fileId, FALSE);
-    a := muri.GetString();
-    b := uri.GetString();
+    a := muri.ToString();
+    b := uri.ToString();
     RETURN a.Equals(b);
   END MatchesURI;
 
@@ -550,7 +550,7 @@ PROCEDURE (rep: Repository) GetModuleByURI* (uri: URI.HierarchicalURI; force: BO
     
     IF force THEN
       (* force: take basename of uri minus extension as module name *)
-      s := Path.BaseName(uri.GetString());
+      s := Path.BaseName(uri.ToString());
       Path.SplitExt(s, s, ext);
       chars := s(Object.String8).CharsLatin1();
       IF ValidModuleName (chars^) THEN
@@ -560,7 +560,7 @@ PROCEDURE (rep: Repository) GetModuleByURI* (uri: URI.HierarchicalURI; force: BO
 
       relURI := uri. MakeRelative (rep. baseURI);
       IF (relURI. schemeId = NIL) THEN  (* uri is relative to baseURI *)
-        s := relURI.GetString();
+        s := relURI.ToString();
         s8 := s.ToString8("?");
         chars := s8.CharsLatin1();
         COPY(chars^, str);

@@ -1,4 +1,4 @@
-(*      $Id: Parser.Mod,v 1.9 2003/05/19 22:56:52 mva Exp $   *)
+(*      $Id: Parser.Mod,v 1.10 2003/05/20 20:10:32 mva Exp $   *)
 MODULE XML:Parser;
 (*  Implements the XML parser.
     Copyright (C) 2000, 2001, 2003  Michael van Acken
@@ -516,7 +516,7 @@ PROCEDURE SetBaseURI(err: Error.Msg; name: ARRAY OF CHAR; uri: URI.URI);
     str8: Object.String8;
     chars: Object.CharsLatin1;
   BEGIN
-    str := uri.GetString();
+    str := uri.ToString();
     str8 := str.ToString8("?");
     chars := str8.CharsLatin1();
     err.SetStringAttrib(name, Msg.GetStringPtr(chars^));

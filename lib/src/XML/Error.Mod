@@ -1,4 +1,4 @@
-(* 	$Id: Error.Mod,v 1.2 2003/05/19 22:56:52 mva Exp $	 *)
+(* 	$Id: Error.Mod,v 1.3 2003/05/20 20:10:33 mva Exp $	 *)
 MODULE XML:Error;
 (*  Creates lists of error messages and converts them to text.
     Copyright (C) 2000, 2001, 2003  Michael van Acken
@@ -228,7 +228,7 @@ PROCEDURE (errList: List) Write* (ch: Channel.Channel);
     writer := TextRider.ConnectWriter (ch);
     ASSERT (writer # NIL);
 
-    Copy(errList.cwdURI.GetString(), repl1);
+    Copy(errList.cwdURI.ToString(), repl1);
     Copy(errList.cwdURI(File.URI).GetPath(), repl2);
     Strings.Insert ("file_name=", 0, repl2);
     

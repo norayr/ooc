@@ -1,4 +1,4 @@
-(* 	$Id: SymbolTable.Mod,v 1.92 2003/05/19 22:56:50 mva Exp $	 *)
+(* 	$Id: SymbolTable.Mod,v 1.93 2003/05/20 20:10:30 mva Exp $	 *)
 MODULE OOC:SymbolTable [OOC_EXTENSIONS];
 (*  Defines structure and entries of the symbol table.
     Copyright (C) 2000-2003  Michael van Acken
@@ -1466,7 +1466,7 @@ PROCEDURE (l: LinkFile) Store* (w: Storable.Writer) RAISES IO.Error;
       str8: Object.String8;
       chars: Object.CharsLatin1;
     BEGIN
-      str8 := uri.GetString();
+      str8 := uri.ToString();
       chars := str8.CharsLatin1();
       w.WriteString(chars^);
     END WriteURI;

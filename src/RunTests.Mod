@@ -1,4 +1,4 @@
-(* 	$Id: RunTests.Mod,v 1.19 2003/05/19 22:56:50 mva Exp $	 *)
+(* 	$Id: RunTests.Mod,v 1.20 2003/05/20 20:10:31 mva Exp $	 *)
 MODULE RunTests;
 (*  Applies a test schedule to an OOC compiler and produces an XML report.
     Copyright (C) 2001, 2002, 2003  Michael van Acken
@@ -308,7 +308,7 @@ RAISES IO.Error;
             END;
             Out.String (test. id);
             Out.String (" / ");
-            Out.Object (Path.BaseName(test.file.GetString()));
+            Out.Object (Path.BaseName(test.file.ToString()));
             IF (test. relevance = Testcases.relevanceInformal) &
                (result # Processor.processCrash) THEN
               Out.String (" (informal test)")

@@ -1,4 +1,4 @@
-(* 	$Id: FileSystem.Mod,v 1.26 2003/05/19 22:56:49 mva Exp $	 *)
+(* 	$Id: FileSystem.Mod,v 1.27 2003/05/20 20:10:30 mva Exp $	 *)
 MODULE OOC:Repository:FileSystem;
 (*  Implementation of a repository in the local file system.
     Copyright (C) 2001, 2002, 2003  Michael van Acken
@@ -188,7 +188,7 @@ PROCEDURE (rep: Repository) GetResource* (package, path: ARRAY OF CHAR): URI.URI
 PROCEDURE (rep: Repository) DumpContent* (w: TextRider.Writer);
   BEGIN
     w. WriteString ("  <file-system>");
-    w. WriteObject (rep.baseURI.GetString());
+    w. WriteObject (rep.baseURI.ToString());
     w. WriteString ("</file-system>");
     w. WriteLn
   END DumpContent;
@@ -289,7 +289,7 @@ RAISES IO.Error;
     IF (modURI IS FileURI.URI) THEN
       str := modURI(FileURI.URI).GetPath();
     ELSE
-      str := modURI.GetString();
+      str := modURI.ToString();
     END;
     errList := Error.NewList(str);
     

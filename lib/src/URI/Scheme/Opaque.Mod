@@ -1,4 +1,4 @@
-(* 	$Id: Opaque.Mod,v 1.2 2003/05/19 22:55:36 mva Exp $	 *)
+(* 	$Id: Opaque.Mod,v 1.3 2003/05/20 20:10:33 mva Exp $	 *)
 MODULE URI:Scheme:Opaque;
 (*  Implementation of the generic opaque URI.
     Copyright (C) 2000  Michael van Acken
@@ -112,7 +112,7 @@ PROCEDURE (uri: Generic) WriteXML* (w: TextRider.Writer);
     w. WriteString (CC.eol+"</opaque-uri>")
   END WriteXML;
 
-PROCEDURE (uri: Generic) GetString*(): Object.String8;
+PROCEDURE (uri: Generic) ToString*(): Object.String8;
   VAR
     sb: StringBuffer.StringBuffer;
     str: STRING;
@@ -122,6 +122,6 @@ PROCEDURE (uri: Generic) GetString*(): Object.String8;
     String.AppendEscaped (uri. opaque, CharClass.reserved, sb);
     str := sb.ToString();
     RETURN str(Object.String8);
-  END GetString;
+  END ToString;
 
 END URI:Scheme:Opaque.

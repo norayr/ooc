@@ -1,4 +1,4 @@
-(* 	$Id: InterfaceDescr.Mod,v 1.20 2003/05/19 22:56:48 mva Exp $	 *)
+(* 	$Id: InterfaceDescr.Mod,v 1.21 2003/05/20 20:10:30 mva Exp $	 *)
 MODULE OOC:SymbolTable:InterfaceDescr;
 (*  Writes a description of a module's interface as XML.
     Copyright (C) 2000, 2001, 2002, 2003  Michael van Acken
@@ -498,7 +498,7 @@ RAISES IO.Error;
         w. AttrStringLatin1 ("type", "html");
         remoteURI := remoteMod. GetURI (Repository.modInterfaceHTML, FALSE);
         relativeURI := remoteURI. MakeRelative (baseURI);
-        w. AttrObject ("relative-uri", relativeURI. GetString());
+        w. AttrObject ("relative-uri", relativeURI.ToString());
         w. EndTag;
 
         w. EndTag

@@ -1,4 +1,4 @@
-(* 	$Id: Testcases.Mod,v 1.16 2003/05/19 22:56:48 mva Exp $	 *)
+(* 	$Id: Testcases.Mod,v 1.17 2003/05/20 20:10:29 mva Exp $	 *)
 MODULE OOC:TestFramework:Testcases;
 (*  Parser for XML testsuite and testcases elements.
     Copyright (C) 2001, 2003  Michael van Acken
@@ -322,7 +322,7 @@ PROCEDURE (test: Test) ModuleName* (): STRING;
     path, ext: STRING;
   BEGIN
     IF (test. moduleName = NIL) THEN
-      path := Path.BaseName(test.file.GetString());
+      path := Path.BaseName(test.file.ToString());
       Path.SplitExt(path, test.moduleName, ext);
     END;
     RETURN test. moduleName

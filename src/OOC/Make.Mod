@@ -1,4 +1,4 @@
-(* 	$Id: Make.Mod,v 1.59 2003/05/19 22:56:50 mva Exp $	 *)
+(* 	$Id: Make.Mod,v 1.60 2003/05/20 20:10:31 mva Exp $	 *)
 MODULE OOC:Make;
 (*  Builds object files, libraries, binaries, and the like.
     Copyright (C) 2002, 2003  Michael van Acken
@@ -313,7 +313,7 @@ PROCEDURE CreateErrList(module: Rep.Module): Error.List;
     uri: URI.URI;
   BEGIN
     uri := module.GetURI(Rep.modModuleSource, TRUE);
-    RETURN Error.NewList(uri.GetString());
+    RETURN Error.NewList(uri.ToString());
   END CreateErrList;
 
 PROCEDURE (r: Rules) WriteErrList* (errList: Error.List);
