@@ -1,4 +1,4 @@
-(* 	$Id: IR.Mod,v 1.249 2003/06/12 20:39:56 mva Exp $	 *)
+(* 	$Id: IR.Mod,v 1.250 2003/06/12 22:19:15 mva Exp $	 *)
 MODULE OOC:IR [OOC_EXTENSIONS];
 (*  High-level intermediate code representation.
     Copyright (C) 2001-2003  Michael van Acken, Stewart Greenhill
@@ -4376,10 +4376,11 @@ PROCEDURE (b: Builder) NewCatchClause*(guardType: Expression;
   BEGIN
     NEW(catch);
     type := b.AssertType(guardType);
+    InitCatchClause(catch, guardType.sym, type, statmSeq);
     IF ~TR.IsException(type) THEN
       b.ErrSym(notException, guardType.sym);
+      catch.triggered := TRUE;  (* prevent further warnings on this clause *)
     END;
-    InitCatchClause(catch, guardType.sym, type, statmSeq);
     RETURN catch;
   END NewCatchClause;
 
