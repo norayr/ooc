@@ -1,4 +1,4 @@
-/*	$Id: Select.c,v 1.2 2002/07/17 05:21:52 sgreenhill Exp $	*/
+/*	$Id: Select.c,v 1.3 2002/07/17 12:55:25 sgreenhill Exp $	*/
 /*  Wrapper around the select() function.
     Copyright (C) 2000  Michael van Acken
 
@@ -21,8 +21,12 @@
 #include <unistd.h>
 #include <stddef.h>
 #include <errno.h>
+#ifdef __APPLE__
+/* APPLE sys/types.h defines FD_SET functions in terms of bzero/bcopy, but 
+   does not include a definition of these functions. Therefore, we need
+   string.h */
 #include <string.h>
-
+#endif
 #include "__oo2c.h"
 #include "__config.h"
 #include "IO/Select.d"
