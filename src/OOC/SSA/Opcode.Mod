@@ -1,4 +1,4 @@
-(* 	$Id: Opcode.Mod,v 1.88 2003/02/16 12:52:00 mva Exp $	 *)
+(* 	$Id: Opcode.Mod,v 1.89 2003/02/16 14:25:17 mva Exp $	 *)
 MODULE OOC:SSA:Opcode;
 (*  This modules defines opcodes for SSA instructions.
     Copyright (C) 2001-2003  Michael van Acken
@@ -123,7 +123,10 @@ CONST
      only @oconst{collect} instructions with the @var{store} operand are
      created, which are basically identity operations on @var{store}.
      @omodule{*OOC:SSA:Destore} adds further collects, and typically adds more
-     values to the argument lists.  *)
+     values to the argument lists.
+
+     The result of a collect instruction is used in one of @oconst{select},
+     @oconst{loopStart}, @oconst{loopEnd}, or @oconst{exit}.  *)
   
   return* = 7;
   (**This instruction serves two purposes: it marks the place where control
