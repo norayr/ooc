@@ -1,4 +1,4 @@
-(* 	$Id: IRtoSSA.Mod,v 1.116 2003/04/28 21:58:31 mva Exp $	 *)
+(* 	$Id: IRtoSSA.Mod,v 1.117 2003/05/04 19:15:20 mva Exp $	 *)
 MODULE OOC:SSA:IRtoSSA;
 (*  Converts the IR of a procedure into its SSA representation.
     Copyright (C) 2001-2003  Michael van Acken
@@ -718,6 +718,11 @@ PROCEDURE StatmSeq* (pb: SSA.ProcBlock; s: SSA.Result;
         END;
         RETURN instr;
       END Concat;
+
+    PROCEDURE Constructor(expr: IR.Constructor): SSA.Result;
+      BEGIN
+        RETURN NewObject(expr.alloc);
+      END Constructor;
     
     BEGIN
       WITH expr: IR.Const DO
@@ -959,7 +964,10 @@ PROCEDURE StatmSeq* (pb: SSA.ProcBlock; s: SSA.Result;
         instr. AddOpnd (s, Opnd.store);
         s := instr. AddResult (Result.store);
         RETURN instr
-            
+
+      | expr: IR.Constructor DO
+        RETURN Constructor(expr);
+        
       ELSE
         Log.Type("++ Unknown type in Expression", expr);
         ASSERT (FALSE)

@@ -1,4 +1,4 @@
-(* 	$Id: TypeRules.Mod,v 1.54 2003/05/04 10:12:50 mva Exp $	 *)
+(* 	$Id: TypeRules.Mod,v 1.55 2003/05/04 19:15:19 mva Exp $	 *)
 MODULE OOC:SymbolTable:TypeRules;
 (*  Defines the type rules of the language.
     Copyright (C) 2000-2003  Michael van Acken
@@ -595,6 +595,12 @@ PROCEDURE RecordBaseType*(record: Sym.Type): Sym.Type;
       RETURN record.Closure(ptr(Sym.Record).baseType);
     END;
   END RecordBaseType;
+
+PROCEDURE IsRecordPointer*(type: Sym.Type): BOOLEAN;
+(**Result is @code{TRUE} if @oparam{type} is a pointer to record type.  *)
+  BEGIN
+    RETURN IsPointer(type) & IsRecord(PointerBaseType(type));
+  END IsRecordPointer;
 
 PROCEDURE IsExtensionOf* (type, base: Sym.Type): BOOLEAN;
 (* Result is TRUE iff the type @oparam{type} is an extension of the type
