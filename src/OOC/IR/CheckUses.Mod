@@ -1,4 +1,4 @@
-(* 	$Id: CheckUses.Mod,v 1.22 2004/03/21 16:09:17 mva Exp $	 *)
+(* 	$Id: CheckUses.Mod,v 1.23 2004/03/21 22:33:00 mva Exp $	 *)
 MODULE OOC:IR:CheckUses;
 (*  Warn about uninitialized variables and unreachable code, 
     Copyright (C) 2003, 2004  Michael van Acken, Stewart Greenhill
@@ -804,6 +804,11 @@ PROCEDURE CheckUses*(module: IR.Module; moduleDecl: Sym.Module;
           
         | statm: IR.IterateArrayStatm DO
           CheckExpr(statm.range);
+          CheckDesign(statm.var, write);
+          CheckStatmSeq(def, statm.body);
+          
+        | statm: IR.IterateObjectStatm DO
+          CheckExpr(statm.iteratorFactory);
           CheckDesign(statm.var, write);
           CheckStatmSeq(def, statm.body);
           

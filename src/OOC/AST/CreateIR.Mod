@@ -1,4 +1,4 @@
-(* 	$Id: CreateIR.Mod,v 1.2 2004/03/21 16:09:18 mva Exp $	 *)
+(* 	$Id: CreateIR.Mod,v 1.3 2004/03/21 22:33:00 mva Exp $	 *)
 MODULE OOC:AST:CreateIR;
 (*  Creates an IR representation from the abstract syntax tree.
     Copyright (C) 2001-2004  Michael van Acken
@@ -436,10 +436,10 @@ PROCEDURE CreateIR* (module: AST.Module;
   
     PROCEDURE IterateStatm (iterStatm: AST.IterateStatm): IR.Statement;
       BEGIN
-        RETURN b. NewIterateArrayStatm (iterStatm. for. sym,
-                               Designator (iterStatm. ident),
-                               Expr (iterStatm. range),
-                               StatementSeq (iterStatm. statmSeq));
+        RETURN b. NewIterateStatm (iterStatm. for. sym, currentSourceContext,
+                                   Designator (iterStatm. ident),
+                                   Expr (iterStatm. range),
+                                   StatementSeq (iterStatm. statmSeq));
       END IterateStatm;
   
     PROCEDURE LoopStatm (loopStatm: AST.LoopStatm): IR.Statement;
