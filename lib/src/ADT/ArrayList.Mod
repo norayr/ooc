@@ -1,4 +1,4 @@
-(*	$Id: ArrayList.Mod,v 1.12 2003/07/06 09:09:05 mva Exp $	*)
+(*	$Id: ArrayList.Mod,v 1.13 2003/07/06 11:31:41 mva Exp $	*)
 MODULE ADT:ArrayList;
 (*  Implements a resizable list of objects.
     Copyright (C) 2000, 2003  Michael van Acken
@@ -310,16 +310,10 @@ PROCEDURE (l: ArrayList(E)) HashCode* (): Object.Hash;
 PROCEDURE (l: ArrayList(E)) Store* (w: Storable.Writer) RAISES IO.Error;
   VAR
     i: LONGINT;
-    obj: Object.Object;
   BEGIN
     w. WriteNum (l. size);
     FOR i := 0 TO l. size-1 DO
-      obj := l. array[i];
-      IF (obj = NIL) THEN
-        w. WriteObject (NIL);
-      ELSE
-        w. WriteObject (obj(Storable.Object));
-      END;
+      w. WriteObject (l. array[i]);
     END
   END Store;
 
