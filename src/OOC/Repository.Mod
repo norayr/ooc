@@ -1,4 +1,4 @@
-(* 	$Id: Repository.Mod,v 1.32 2002/12/07 21:22:30 mva Exp $	 *)
+(* 	$Id: Repository.Mod,v 1.33 2002/12/12 14:22:38 mva Exp $	 *)
 MODULE OOC:Repository [OOC_EXTENSIONS];
 (*  Abstraction of storage of source, intermediate, and target code.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -90,7 +90,10 @@ TYPE
        @oconst{importsWithFingerprint}, or @oconst{completeInterface}.  *)
     ifImportList-: POINTER TO ARRAY OF ModuleRef;
     (**Mirrors the imports from @ofield{ifData}.  *)
-
+    visitedByMake*: SET;
+    (**Used by @omodule{*OOC:Make} to detect cyclic dependencies when
+       updating or building files.  *)
+    
     haveFingerprint: BOOLEAN;
     fingerprint: LONGINT;
   END;
@@ -250,7 +253,8 @@ PROCEDURE InitModule* (m: Module; origin: Repository; name: ModuleName;
     m. ifQuality := noInterfaceData;
     m. ifData := NIL;
     m. ifImportList := NIL;
-
+    m. visitedByMake := {};
+    
     m. haveFingerprint := FALSE;
     m. fingerprint := 0;
   END InitModule;

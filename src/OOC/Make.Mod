@@ -1,4 +1,4 @@
-(* 	$Id: Make.Mod,v 1.26 2002/12/08 23:10:09 mva Exp $	 *)
+(* 	$Id: Make.Mod,v 1.27 2002/12/12 14:22:38 mva Exp $	 *)
 MODULE OOC:Make;
 (*  Builds object files, libraries, binaries, and the like.
     Copyright (C) 2002  Michael van Acken
@@ -1224,8 +1224,14 @@ PROCEDURE (r: Rules) Update*(module: Rep.Module; fileId: Rep.FileId): BOOLEAN;
     IF mInfo.updated[fileId] THEN
       RETURN Logger.CachedMake(fileIdNames[fileId],
                                module.name^, mInfo.updateResult[fileId]);
+    ELSIF (fileId IN module.visitedByMake) THEN
+      Out.String("Error: Cyclic dependency in module ");
+      Out.String(module.name^);
+      Out.Ln;
+      RETURN FALSE;
     ELSE
       Logger.EnterMake(module.name^, fileIdNames[fileId]);
+      INCL(module.visitedByMake, fileId);
       CASE fileId OF
       | Rep.modExecutable:
         res := r.UpdateExecutable(module);
@@ -1262,6 +1268,7 @@ PROCEDURE (r: Rules) Update*(module: Rep.Module; fileId: Rep.FileId): BOOLEAN;
       END;
       mInfo.updated[fileId] := TRUE;
       mInfo.updateResult[fileId] := res;
+      EXCL(module.visitedByMake, fileId);
       RETURN Logger.ExitMake(module.name^, fileIdNames[fileId], res);
     END;
   END Update;
