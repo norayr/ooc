@@ -1,5 +1,6 @@
-(* 	$Id: LRealMath.Mod,v 1.4 2003/01/08 11:44:57 mva Exp $	 *)
-MODULE LRealMath [INTERFACE "C"; LINK LIB "m" END];
+(* 	$Id: LRealMath.Mod,v 1.5 2003/04/16 14:03:56 sgreenhill Exp $	 *)
+MODULE LRealMath [INTERFACE "C"
+  <* IF LIB_HAVE_LIBM THEN *> ; LINK LIB "m" END <* END *> ];
 (*  Math functions for LONGREAL.
     Copyright (C) 2002,2003  Michael van Acken
 

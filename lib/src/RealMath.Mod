@@ -1,5 +1,6 @@
-(* 	$Id: RealMath.Mod,v 1.7 2003/02/05 21:55:14 mva Exp $	 *)
-MODULE RealMath [INTERFACE "C"; LINK LIB "m" END];
+(* 	$Id: RealMath.Mod,v 1.8 2003/04/16 14:03:55 sgreenhill Exp $	 *)
+MODULE RealMath [INTERFACE "C"
+  <* IF LIB_HAVE_LIBM THEN *> ; LINK LIB "m" END <* END *> ];
 (*  Math functions for REAL.
     Copyright (C) 2002,2003  Michael van Acken
 

@@ -1,5 +1,6 @@
-(* 	$Id: RT0.Mod,v 1.34 2003/01/01 14:02:23 mva Exp $	 *)
-MODULE RT0 [FOREIGN "C"; LINK FILE "RT0.c"; LIB "m" END];
+(* 	$Id: RT0.Mod,v 1.35 2003/04/16 14:03:54 sgreenhill Exp $	 *)
+MODULE RT0 [FOREIGN "C"; LINK FILE "RT0.c"
+  <* IF LIB_HAVE_LIBM THEN *> ; LIB "m" <* END *> END];
 (*  Proxy module for the run-time system of C back-ends of OOC2
     Copyright (C) 2001, 2002, 2003  Michael van Acken
 
