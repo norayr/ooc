@@ -1,4 +1,4 @@
-(*	$Id: ProgramArgs.Mod,v 1.3 2002/07/06 09:58:53 mva Exp $	*)
+(*	$Id: ProgramArgs.Mod,v 1.4 2002/08/15 06:30:11 sgreenhill Exp $	*)
 MODULE ProgramArgs;
 (*  Provides access to a program invokation's command line arguments.
     Copyright (C) 1997-2000  Michael van Acken
@@ -37,6 +37,11 @@ MODULE ProgramArgs;
 
    For the given example @oproc{args.ArgNumber} would return @samp{2}.  *)
 <* ConformantMode := FALSE *>  (* for NewReader/NewWriter *)
+
+(* FIXME! Remove when array descriptors are implemented. This avoids generating
+   an index check on RT0.argv. *)
+
+<* IndexCheck := FALSE *>   
 
 IMPORT
   SYSTEM, RT0, Ch := Channel, PosixFileDescr, CharClass, Time, Msg;
