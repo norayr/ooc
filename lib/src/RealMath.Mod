@@ -1,4 +1,4 @@
-(* 	$Id: RealMath.Mod,v 1.6 2003/01/08 11:44:57 mva Exp $	 *)
+(* 	$Id: RealMath.Mod,v 1.7 2003/02/05 21:55:14 mva Exp $	 *)
 MODULE RealMath [INTERFACE "C"; LINK LIB "m" END];
 (*  Math functions for REAL.
     Copyright (C) 2002,2003  Michael van Acken
@@ -24,8 +24,8 @@ MODULE RealMath [INTERFACE "C"; LINK LIB "m" END];
    with some C level type cast trickery, which prevent them from being
    used in a procedure variable, but should work fine otherwise.  *)
 
-IMPORT
-  LRealMath;
+IMPORT  <*Warnings:=FALSE*>
+  LRealMath;  (* unused but mandatory *)
 
 CONST
   pi*   = 3.1415926535897932384626433832795028841972E0;
