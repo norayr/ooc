@@ -1,4 +1,4 @@
-(* 	$Id: Builder.Mod,v 1.19 2002/11/10 14:33:38 mva Exp $	 *)
+(* 	$Id: Builder.Mod,v 1.20 2002/11/18 00:28:30 mva Exp $	 *)
 MODULE OOC:SymbolTable:Builder [OOC_EXTENSIONS];
 (*  Defines a builder class with factory methods for symbol table entries.
     Copyright (C) 2000-2002  Michael van Acken
@@ -157,7 +157,7 @@ PROCEDURE (b: Builder) NewVarDecl* (parent: Sym.Item; name: Sym.Name;
                       isParameter, isReceiver, isVarParam, type);
 
     IF isParameter & (b. class = Sym.mcInterface) THEN
-      var. SetSupplementArgs (FALSE);
+      var.supplementArgs := FALSE;
     END;
     RETURN var
   END NewVarDecl;
@@ -231,6 +231,10 @@ PROCEDURE (b: Builder) NewRecord* (parent: Sym.Item;
   BEGIN
     NEW (record);
     Sym.InitRecord (record, parent, position, baseType);
+    IF (b.class = Sym.mcInterface) THEN
+      record.hasDescriptor := FALSE;
+      record.isExtensible := FALSE;
+    END;
     RETURN record
   END NewRecord;
 
@@ -245,6 +249,10 @@ PROCEDURE (b: Builder) NewArray* (parent: Sym.Item;
     NEW (array);
     Sym.InitArray (array, parent, position, isOpenArray,
                    elementType, lengthExpr);
+    IF isOpenArray & (b.class = Sym.mcInterface) THEN
+      array.hasDescriptor := FALSE;
+      array.hasLengthInfo := FALSE;
+    END;
     RETURN array
   END NewArray;
 
@@ -256,6 +264,9 @@ PROCEDURE (b: Builder) NewPointer* (parent: Sym.Item;
   BEGIN
     NEW (ptr);
     Sym.InitPointer (ptr, parent, position, baseType);
+    IF (b.class = Sym.mcInterface) THEN
+      ptr.isStatic := TRUE;
+    END;
     RETURN ptr
   END NewPointer;
 
