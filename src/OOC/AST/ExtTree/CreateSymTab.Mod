@@ -1,4 +1,4 @@
-(* 	$Id: CreateSymTab.Mod,v 1.33 2003/04/20 12:46:59 mva Exp $	 *)
+(* 	$Id: CreateSymTab.Mod,v 1.34 2003/04/20 21:57:48 mva Exp $	 *)
 MODULE OOC:AST:ExtTree:CreateSymTab;
 (*  Creates symbol table from abstract syntax tree of module `ExtTree'.
     Copyright (C) 2000-2003  Michael van Acken
@@ -391,6 +391,7 @@ PROCEDURE (v: Visitor) VisitTypeDecl* (typeDecl: ExtTree.TypeDecl);
         AcceptParent(v, typeDecl.typePars.tpSections.n[i], typePars);
       END;
       base := GetTypeParent(v, typeDecl.type, typePars);
+      ASSERT(base.namingDecl = NIL);
       base.SetTypePars(typePars);
     END;
     type := v. stb. NewTypeDecl
@@ -687,7 +688,7 @@ PROCEDURE (v: Visitor) VisitQualType* (qualType: ExtTree.QualType);
   BEGIN
     baseType := GetType(v, qualType.qualident);
     NEW(arguments, (qualType.arguments.len+1) DIV 2);
-    FOR i := 0 TO LEN(arguments^) BY 2 DO
+    FOR i := 0 TO qualType.arguments.len-1 BY 2 DO
       Sym.InitTypeRef(arguments[i DIV 2],
                       GetType(v, qualType.arguments.n[i]));
     END;
