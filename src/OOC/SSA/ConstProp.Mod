@@ -1,4 +1,4 @@
-(* 	$Id: ConstProp.Mod,v 1.2 2002/08/11 18:31:01 mva Exp $	 *)
+(* 	$Id: ConstProp.Mod,v 1.3 2002/08/12 16:37:10 mva Exp $	 *)
 MODULE OOC:SSA:ConstProp;
 (*  Constant propagation and unreachable code elimination.
     Copyright (C) 2002  Michael van Acken
@@ -174,20 +174,23 @@ PROCEDURE Transform* (pb: SSA.ProcBlock);
         END InLabelList;
       
       BEGIN
-        WHILE (branch # NIL) & (branch. class = Opnd.arg) DO
-          IF isSwitch THEN
-            IF (branch. arg IS SSA.Const) (* default branch *)  OR
-               InLabelList (expr. value, branch. arg(SSA.Instr). opndList) THEN
+        IF isSwitch THEN
+          WHILE (branch # NIL) & (branch.class = Opnd.labels) DO
+            IF InLabelList (expr. value, branch. arg(SSA.Instr). opndList) THEN
               RETURN branch. nextOpnd;
             END;
-          ELSE
+            branch := branch. nextOpnd. nextOpnd;
+          END;
+          RETURN branch. nextOpnd;       (* default branch *)
+        ELSE
+          WHILE (branch # NIL) & (branch. class = Opnd.arg) DO
             IF expr. value. Equals (branch. arg(SSA.Const). value) THEN
               RETURN branch. nextOpnd;
             END;
+            branch := branch. nextOpnd. nextOpnd;
           END;
-          branch := branch. nextOpnd. nextOpnd;
+          ASSERT (FALSE);
         END;
-        ASSERT (FALSE);
       END MatchingPath;
 
     PROCEDURE ReplaceSelect (select: SSA.Instr; branch: SSA.Opnd);
