@@ -1,4 +1,4 @@
-(* 	$Id: SymbolTable.Mod,v 1.102 2003/06/12 20:07:27 mva Exp $	 *)
+(* 	$Id: SymbolTable.Mod,v 1.103 2003/06/12 20:39:06 mva Exp $	 *)
 MODULE OOC:SymbolTable [OOC_EXTENSIONS];
 (*  Defines structure and entries of the symbol table.
     Copyright (C) 2000-2003  Michael van Acken
@@ -2753,6 +2753,13 @@ PROCEDURE InitTypeClosure(tc: TypeClosure; position: Position;
     tc.baseType := baseType;
     tc.params := params;
     tc.arguments := arguments;
+    IF (baseType # NIL) THEN
+      tc.size := baseType.size;
+      tc.align := baseType.align;
+    ELSE
+      tc.size := -1;
+      tc.align := -1;
+    END;
   END InitTypeClosure;
 
 PROCEDURE NewTypeClosure*(position: Position; baseType: Type;
