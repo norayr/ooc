@@ -1,4 +1,4 @@
-(* 	$Id: InterfaceDescr.Mod,v 1.7 2001/01/15 11:16:18 mva Exp $	 *)
+(* 	$Id: InterfaceDescr.Mod,v 1.8 2001/05/01 20:36:26 mva Exp $	 *)
 MODULE OOC:SymbolTable:Item:InterfaceDescr;
 (*  Writes a description of a module's interface as XML.
     Copyright (C) 2000, 2001  Michael van Acken
@@ -485,7 +485,7 @@ PROCEDURE Write* (cw: Channel.Writer; baseURI: URI.HierarchicalURI;
       list: ArrayList.ArrayList;
       item: Item.Item;
     BEGIN
-      IF extensionDict. HasKey (type) THEN
+      IF (extensionDict # NIL) & extensionDict. HasKey (type) THEN
         obj := extensionDict. Get (type);
         list := obj(ArrayList.ArrayList);
         FOR i := 0 TO list. size-1 DO
