@@ -1,4 +1,4 @@
-(* 	$Id: Parser.Mod,v 1.1 2000/08/20 13:54:31 mva Exp $	 *)
+(* 	$Id: Parser.Mod,v 1.2 2000/10/09 19:44:00 mva Exp $	 *)
 MODULE OOC:Parser;
 (*  Parses an Oberon-2 module and creates an abstract syntax tree.
     Copyright (C) 1999, 2000  Michael van Acken
@@ -147,7 +147,7 @@ PROCEDURE Module* (sym: BasicList.Symbol; ast: AST.Builder;
    For these reasons, the rule for @samp{Designator} does start with an
    @samp{ident} instead of a @samp{Qualident}, and it also includes the
    function call syntax.  The latter is normally part of @samp{Factor}.  Later
-   passes of the compiler must ensure, that designators comply to the original
+   passes of the compiler must ensure that designators comply to the original
    Oberon-2 syntax.
    
    Optional syntactic extensions are enabled through flags of
@@ -1538,6 +1538,5 @@ PROCEDURE Module* (sym: BasicList.Symbol; ast: AST.Builder;
 
 BEGIN
   NEW (parserContext);
-(***)
   Error.InitContext (parserContext, "OOC:Parser")
 END OOC:Parser.
