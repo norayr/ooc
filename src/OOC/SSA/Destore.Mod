@@ -1,4 +1,4 @@
-(* 	$Id: Destore.Mod,v 1.33 2002/05/20 12:25:18 mva Exp $	 *)
+(* 	$Id: Destore.Mod,v 1.34 2002/05/23 23:06:08 mva Exp $	 *)
 MODULE OOC:SSA:Destore;
 (*  Converts reads from/writes to memory into local values.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -525,16 +525,23 @@ PROCEDURE Transform* (pb: SSA.ProcBlock; tr: TypeRules.Rules);
             alias := Aliasing.DesignatorAlias (tr,
                                                set. GetOpndClass (Opnd.writeDesign),
                                                instr. GetOpndClass (Opnd.writeDesign));
-            IF (alias # Aliasing.noAliasing) THEN
+            IF (alias >= Aliasing.partiallyCovered) THEN
               (* this string copy does not overwrite completely the original
                  set, or no static aliasing calculation can be done: we must
-                 keep the write operation alive, but its static visibility ends
-                 here *)
+                 keep the write operation alive *)
               RETURN TRUE;
             ELSE
-              (* this "set" and "origin" work on different variables, and cannot
-                 interfere with each other: continue trace through `instr' *)
-              RETURN VisibleEffect (instr. GetResultStore(), set);
+              alias := Aliasing.DesignatorAlias (tr,
+                                                 set. GetOpndClass (Opnd.writeDesign),
+                                                 instr. GetOpndClass (Opnd.readDesign));
+              IF (alias # Aliasing.noAliasing) THEN
+                (* this string copy may read the value that is being written *)
+                RETURN TRUE;
+              ELSE
+                (* "set" and "copy" work on different variables, and cannot
+                   interfere with each other: continue trace through `instr' *)
+                RETURN VisibleEffect (instr. GetResultStore(), set);
+              END
             END;
             
           | Opcode.return, Opcode.selectReturn:
