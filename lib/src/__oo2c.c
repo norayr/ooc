@@ -1,4 +1,4 @@
-/*      $Id: __oo2c.c,v 1.6 2002/04/28 12:34:16 mva Exp $        */
+/*      $Id: __oo2c.c,v 1.7 2002/05/31 01:02:31 mva Exp $        */
 /*  Run-time system for C back-ends of OOC2
     Copyright (C) 2001, 2002  Michael van Acken
 
@@ -23,6 +23,17 @@
 /* --- stack for copies of array value parameters (see __dynvar.h): */
 void* _ooc_top_vs;
 void* _ooc_end_vs;
+
+/* --- string compare */
+OOC_INT32 _cmp8(const OOC_CHAR8* l, const OOC_CHAR8* r) {
+  while ((*l == *r) && *l) { l++; r++; }
+  return ((OOC_INT32)*l-(OOC_INT32)*r);
+}
+
+OOC_INT32 _cmp16(const OOC_CHAR8* l, const OOC_CHAR8* r) {
+  while ((*l == *r) && *l) { l++; r++; }
+  return ((OOC_INT32)*l-(OOC_INT32)*r);
+}
 
 /* --- functions to handle exceptions and failed run-time checks: */
 #define PREFIX "## "

@@ -1,4 +1,4 @@
-/*      $Id: __oo2c.h,v 1.13 2002/05/28 19:50:12 mva Exp $        */
+/*      $Id: __oo2c.h,v 1.14 2002/05/31 01:02:31 mva Exp $        */
 /*  Run-time system for C back-ends of OOC2
     Copyright (C) 2001, 2002  Michael van Acken
 
@@ -65,7 +65,9 @@ extern void NORETURN _assertion_failed(OOC_INT32 code, OOC_CHARPOS pos) NORETURN
   if (_d == _max) *_d = '\000';                 \
 }
 
-
+/* string compare */
+extern OOC_INT32 _cmp8(const OOC_CHAR8* l, const OOC_CHAR8* r);
+extern OOC_INT32 _cmp16(const OOC_CHAR8* l, const OOC_CHAR8* r);
 
 /* CAP(CHAR) and CAP(LONGCHAR) */
 #define _cap(_c) ((96<_c && _c<123) || (224<=_c && _c<255 && _c!=247)) ? (_c-32) : _c
