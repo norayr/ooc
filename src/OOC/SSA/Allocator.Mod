@@ -1,4 +1,4 @@
-(* 	$Id: Allocator.Mod,v 1.5 2002/02/25 21:42:08 mva Exp $	 *)
+(* 	$Id: Allocator.Mod,v 1.6 2002/04/09 20:10:40 mva Exp $	 *)
 MODULE OOC:SSA:Allocator;
 (*  A register allocator for the C back-end.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -472,12 +472,14 @@ PROCEDURE CollectCrossLoopResults (rf: RegisterFile;
       loopStart: Schedule.InstrProxy;
       collect: SSA.Instr;
       opnd: SSA.Opnd;
+      backwardFeed: SSA.Result;
     BEGIN
       loopStart := loopHead. proxyList;
       WHILE (loopStart. instr. opcode # Opcode.loopStart) DO
         loopStart := loopStart. nextProxy
       END;
-      collect := loopStart. instr. opndList. nextOpnd. arg. instr;
+      backwardFeed := loopStart. instr. GetBackwardFeed();
+      collect := backwardFeed. instr;
       opnd := collect. opndList;
       WHILE (opnd # NIL) & (opnd. arg # res) DO
         opnd := opnd. nextOpnd;

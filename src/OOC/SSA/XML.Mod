@@ -1,4 +1,4 @@
-(* 	$Id: XML.Mod,v 1.14 2002/04/07 22:53:24 mva Exp $	 *)
+(* 	$Id: XML.Mod,v 1.15 2002/04/09 20:10:40 mva Exp $	 *)
 MODULE OOC:SSA:XML;
 (*  Produces a canonical representation of SSA code in XML.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -219,9 +219,7 @@ PROCEDURE (w: Writer) WriteProcBody* (pb: SSA.ProcBlock;
            operand list *)
         opnd := instr. opndList;
         WHILE (opnd # NIL) DO
-          IF (opnd. class # Opnd.forwardRef) THEN
-            AssignId (opnd. arg. instr);
-          END;
+          AssignId (opnd. arg. instr);
           opnd := opnd. nextOpnd
         END;
         
@@ -232,9 +230,7 @@ PROCEDURE (w: Writer) WriteProcBody* (pb: SSA.ProcBlock;
         
         opnd := instr. opndList;
         WHILE (opnd # NIL) DO
-          IF (opnd. class = Opnd.forwardRef) THEN
-            AssignId (opnd. arg. instr);
-          END;
+          AssignId (opnd. arg. instr);
           opnd := opnd. nextOpnd
         END;
       END;
@@ -243,6 +239,7 @@ PROCEDURE (w: Writer) WriteProcBody* (pb: SSA.ProcBlock;
   PROCEDURE TraverseInstr (instr: SSA.Instr);
     VAR
       opnd: SSA.Opnd;
+      backwardFeed: SSA.Result;
       id: LONGINT;
     BEGIN
       IF ~instr. IsConst() THEN
@@ -256,7 +253,8 @@ PROCEDURE (w: Writer) WriteProcBody* (pb: SSA.ProcBlock;
                after it *)
             TraverseInstr (instr. opndList. arg. instr);
             w. WriteInstr (instr);
-            TraverseInstr (instr. opndList. nextOpnd. arg. instr);
+            backwardFeed := instr. GetBackwardFeed();
+            TraverseInstr (backwardFeed. instr);
           ELSE
             (* schedule all operands for writing _before_ this instruction *)
             opnd := instr. opndList;
