@@ -1,7 +1,7 @@
-(* 	$Id: Result.Mod,v 1.4 2001/12/18 20:36:45 mva Exp $	 *)
+(* 	$Id: Result.Mod,v 1.5 2002/06/23 18:50:16 mva Exp $	 *)
 MODULE OOC:SSA:Result;
 (*  Symbolic names for result classes.
-    Copyright (C) 2001  Michael van Acken
+    Copyright (C) 2001, 2002  Michael van Acken
 
     This file is part of OOC.
 
@@ -64,7 +64,11 @@ CONST
   (**The result represents a value selected from the
      @oconst{*OOC:SSA:Opcode.collect} operands that appear in the instruction's
      argument list.  Also see @oconst{*OOC:SSA:Opcode.select}.  *)
-      
+
+  exception* = 19;
+  (**Marks the possible branch of control flow from the instruction to a
+     @oconst{*OOC:SSA:Opcode.selectException} instruction.  *)
+
 PROCEDURE GetName* (class: Class; VAR name: ARRAY OF CHAR);
 (**Retrieves the symbolic name of a result class.  *)
   BEGIN

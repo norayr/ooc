@@ -1,4 +1,4 @@
-(* 	$Id: WriteC.Mod,v 1.86 2002/06/23 12:35:10 mva Exp $	 *)
+(* 	$Id: WriteC.Mod,v 1.87 2002/06/23 18:50:16 mva Exp $	 *)
 MODULE OOC:SSA:WriteC [OOC_EXTENSIONS];
 (*  Translates a set of scheduled SSA instructions to plain C.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -530,7 +530,7 @@ PROCEDURE (w: Writer) WriteInstrList (b: Schedule.Block;
     BEGIN
       w. Newline;
       w. WriteString ("_assert(");
-      RefList (assert. opndList, Opnd.arg);
+      RefList (assert. opndList. nextOpnd, Opnd.arg);
       w. WriteString (", ");
       w. WriteLInt (assert. pos, 0);
       w. WriteString (");")
