@@ -1,4 +1,4 @@
-(* 	$Id: IRtoSSA.Mod,v 1.46 2002/05/01 17:58:36 mva Exp $	 *)
+(* 	$Id: IRtoSSA.Mod,v 1.47 2002/05/01 21:03:50 mva Exp $	 *)
 MODULE OOC:SSA:IRtoSSA;
 (*  Converts the IR of a procedure into its SSA representation.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -228,6 +228,58 @@ PROCEDURE StatmSeq* (pb: SSA.ProcBlock; s: SSA.Result;
         Chain (instr);
         RETURN instr;
       END NewArray;
+
+    PROCEDURE ShortcutAnd (left, right: IR.Expression): SSA.Result;
+      VAR
+        select, collect: SSA.Instr;
+        storeAfterGuard, bool: SSA.Result;
+      BEGIN
+        select := pb. AddInstr (Opcode.select, Opcode.scNone);
+        select. AddOpnd (Expression (left), Opnd.arg);
+        storeAfterGuard := s;
+        
+        select. AddOpnd (pb. GetConstBool (TRUE), Opnd.arg);
+        bool := Expression (right);
+        collect := pb. AddInstr (Opcode.collect, Opcode.scNone);
+        collect. AddOpnd (s, Opnd.store);
+        collect. AddOpnd (bool, Opnd.arg);
+        select. AddOpnd (collect. AddResult (Result.store), Opnd.arg);
+        
+        select. AddOpnd (pb. GetConstBool (FALSE), Opnd.arg);
+        collect := pb. AddInstr (Opcode.collect, Opcode.scNone);
+        collect. AddOpnd (storeAfterGuard, Opnd.store);
+        collect. AddOpnd (pb. GetConstBool (FALSE), Opnd.arg);
+        select. AddOpnd (collect. AddResult (Result.store), Opnd.arg);
+        
+        s := select. AddResult (Result.store);
+        RETURN select. AddResultSubclass (Result.selectValue, Opcode.scBoolean)
+      END ShortcutAnd;
+    
+    PROCEDURE ShortcutOr (left, right: IR.Expression): SSA.Result;
+      VAR
+        select, collect: SSA.Instr;
+        storeAfterGuard, bool: SSA.Result;
+      BEGIN
+        select := pb. AddInstr (Opcode.select, Opcode.scNone);
+        select. AddOpnd (Expression (left), Opnd.arg);
+        storeAfterGuard := s;
+        
+        select. AddOpnd (pb. GetConstBool (TRUE), Opnd.arg);
+        collect := pb. AddInstr (Opcode.collect, Opcode.scNone);
+        collect. AddOpnd (storeAfterGuard, Opnd.store);
+        collect. AddOpnd (pb. GetConstBool (TRUE), Opnd.arg);
+        select. AddOpnd (collect. AddResult (Result.store), Opnd.arg);
+
+        select. AddOpnd (pb. GetConstBool (FALSE), Opnd.arg);
+        bool := Expression (right);
+        collect := pb. AddInstr (Opcode.collect, Opcode.scNone);
+        collect. AddOpnd (s, Opnd.store);
+        collect. AddOpnd (bool, Opnd.arg);
+        select. AddOpnd (collect. AddResult (Result.store), Opnd.arg);
+        
+        s := select. AddResult (Result.store);
+        RETURN select. AddResultSubclass (Result.selectValue, Opcode.scBoolean)
+      END ShortcutOr;
     
     BEGIN
       WITH expr: IR.Const DO
@@ -309,16 +361,13 @@ PROCEDURE StatmSeq* (pb: SSA.ProcBlock; s: SSA.Result;
       | expr: IR.BooleanOp DO
         CASE expr.variant OF
         | IR.and:
-          instr := pb. AddInstr (Opcode.and, Opcode.scBoolean);
+          RETURN ShortcutAnd (expr. left, expr. right);
         | IR.or:
-          instr := pb. AddInstr (Opcode.or, Opcode.scBoolean);
+          RETURN ShortcutOr (expr. left, expr. right);
         ELSE
           Log.Type("++ Unknown variant of BooleanOp in Expression", expr);
           ASSERT (FALSE);
         END;
-        instr. AddOpnd (Expression (expr. left), Opnd.arg);
-        instr. AddOpnd (Expression (expr. right), Opnd.arg);
-        RETURN instr
         
       | expr: IR.Compare DO
         CASE expr.variant OF
