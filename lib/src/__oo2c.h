@@ -1,4 +1,4 @@
-/*      $Id: __oo2c.h,v 1.8 2002/05/10 19:33:37 mva Exp $        */
+/*      $Id: __oo2c.h,v 1.9 2002/05/12 21:50:22 mva Exp $        */
 /*  Run-time system for C back-ends of OOC2
     Copyright (C) 2001, 2002  Michael van Acken
 
@@ -41,6 +41,17 @@
 extern void NORETURN _assertion_failed(OOC_INT32 code, OOC_CHARPOS pos) NORETURN2;
 #define _assert(p,code,pos) \
   if (!(p)) { _assertion_failed(code, pos); }
+
+/* COPY(s,d) */
+#define _copy(_src,_dest,_max_len) {            \
+  char* _d=(char*)_dest;                        \
+  const char* _s=(const char*)_src;             \
+  char* _max=_d+_max_len-1;                     \
+  while ((_d != _max) && (*(_d++) = *(_s++)));  \
+  if (_d == _max) *_d = '\000';                 \
+}
+
+
 
 /* CAP(CHAR) and CAP(LONGCHAR) */
 #define _cap(_c) ((96<_c && _c<123) || (224<=_c && _c<255 && _c!=247)) ? (_c-32) : _c
