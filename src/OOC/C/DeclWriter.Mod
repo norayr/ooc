@@ -1,4 +1,4 @@
-(* 	$Id: DeclWriter.Mod,v 1.56 2003/01/30 23:38:24 mva Exp $	 *)
+(* 	$Id: DeclWriter.Mod,v 1.57 2003/02/02 17:58:39 mva Exp $	 *)
 MODULE OOC:C:DeclWriter [OOC_EXTENSIONS];
 (*  Defines classes to handle C declarations, types, and include statements.
     Copyright (C) 2001-2003  Michael van Acken
@@ -21,7 +21,7 @@ MODULE OOC:C:DeclWriter [OOC_EXTENSIONS];
 *)
 
 IMPORT
-  SYSTEM, IntStr, Strings, IO, IO:TextRider, IO:FileChannel,
+  SYSTEM, IntStr, Strings, IO, IO:TextRider, IO:FileChannel, IO:Buffer,
   Object, Object:Boxed, Object:BigInt, ADT:ArrayList, URI, 
   OOC:Repository, Sym := OOC:SymbolTable, OOC:SymbolTable:Predef,
   TR := OOC:SymbolTable:TypeRules;
@@ -389,11 +389,20 @@ PROCEDURE (w: Writer) WriteInclude* (includePath: ARRAY OF CHAR);
 PROCEDURE (w: Writer) Close* ()
 RAISES IO.Error;
 (**Closes the writer's output channel.  *)
+  VAR
+    ch: IO.ByteChannel;
   BEGIN
-    IF (w. ch IS FileChannel.Channel) THEN
-      w. ch(FileChannel.Channel). CloseAndRegister;
+    ch := w.ch;
+    
+    ch.Flush();
+    IF (ch IS Buffer.Channel) THEN
+      ch := ch(Buffer.Channel).base;
+    END;
+    
+    IF (ch IS FileChannel.Channel) THEN
+      ch(FileChannel.Channel). CloseAndRegister;
     ELSE
-      w. ch. Close();
+      ch. Close();
     END;
   END Close;
 

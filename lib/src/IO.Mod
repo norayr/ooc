@@ -1,4 +1,4 @@
-(*	$Id: IO.Mod,v 1.1 2003/01/30 23:23:36 mva Exp $	*)
+(*	$Id: IO.Mod,v 1.2 2003/02/02 17:58:40 mva Exp $	*)
 MODULE IO;
 (*  Defines common behaviour of I/O channel and selector.
     Copyright (C) 2003  Michael van Acken
@@ -439,7 +439,7 @@ RAISES Error;
    @end precond  *)
   END Write;
 
-PROCEDURE (ch: ByteChannel) Flush*();
+PROCEDURE (ch: ByteChannel) Flush*() RAISES Error;
   BEGIN
   END Flush;
 

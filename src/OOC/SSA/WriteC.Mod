@@ -1,4 +1,4 @@
-(* 	$Id: WriteC.Mod,v 1.149 2003/01/30 23:38:21 mva Exp $	 *)
+(* 	$Id: WriteC.Mod,v 1.150 2003/02/02 17:58:38 mva Exp $	 *)
 MODULE OOC:SSA:WriteC [OOC_EXTENSIONS];
 (*  Translates a set of scheduled SSA instructions to plain C.
     Copyright (C) 2001, 2002, 2003  Michael van Acken
@@ -21,7 +21,7 @@ MODULE OOC:SSA:WriteC [OOC_EXTENSIONS];
 *)
 
 IMPORT
-  IntStr, Out, Strings, StringSearch, IO:PFD,
+  IntStr, Out, Strings, StringSearch, IO, IO:PFD,
   Object, Object:Boxed, ADT:Dictionary, ADT:ArrayList,
   Sym := OOC:SymbolTable,
   TR := OOC:SymbolTable:TypeRules, OOC:SymbolTable:Predef,
@@ -1681,7 +1681,10 @@ PROCEDURE (t: Translator) WriteProcBody* (proc: IR.Procedure);
         Out.String (":");
         Out.Ln;
         Out.Flush;
-        XML.Write (PFD.stdout, pb, TRUE);
+        TRY
+          XML.Write (PFD.stdout, pb, TRUE);
+        CATCH IO.Error:
+        END;
         Out.Flush;
       END;
     END Write;
@@ -1819,7 +1822,10 @@ PROCEDURE (t: Translator) WriteProcBody* (proc: IR.Procedure);
     IF writeProc THEN
       IF (t. inspectStage. MatchChars ("schedule", 0, -1) # NIL) THEN
         (* write schedule SSA code to stdout *)
-        XML.WriteSchedule (PFD.stdout, domRoot);
+        TRY
+          XML.WriteSchedule (PFD.stdout, domRoot);
+        CATCH IO.Error:
+        END;
         Out.Flush
       END;
     END;

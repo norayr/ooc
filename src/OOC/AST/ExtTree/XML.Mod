@@ -1,4 +1,4 @@
-(* 	$Id: XML.Mod,v 1.7 2003/01/30 23:38:26 mva Exp $	 *)
+(* 	$Id: XML.Mod,v 1.8 2003/02/02 17:58:39 mva Exp $	 *)
 MODULE OOC:AST:ExtTree:XML;
 (*  Writes an abstract syntax tree into an XML document.
     Copyright (C) 2000, 2001, 2002, 2003  Michael van Acken
@@ -25,7 +25,8 @@ IMPORT
   XML:UnicodeCodec:Latin1, OOC:Doc, DocXML := OOC:Doc:Output:XML;
 
 
-PROCEDURE Write* (cw: IO.ByteChannel; m: ExtTree.Module);
+PROCEDURE Write* (cw: IO.ByteChannel; m: ExtTree.Module)
+RAISES IO.Error;
 (**Writes the abstract syntax tree @oparam{m} to the output writer 
    @oparam{cw}.  The result is an XML document that describes the
    structure of the syntax tree.  The only information lost is formatting,

@@ -1,4 +1,4 @@
-(* 	$Id: Make.Mod,v 1.36 2003/02/01 17:29:34 mva Exp $	 *)
+(* 	$Id: Make.Mod,v 1.37 2003/02/02 17:58:39 mva Exp $	 *)
 MODULE OOC:Make;
 (*  Builds object files, libraries, binaries, and the like.
     Copyright (C) 2002, 2003  Michael van Acken
@@ -21,7 +21,7 @@ MODULE OOC:Make;
 *)
 
 IMPORT
-  Channel, Msg, Out, StdChannels, Strings, Time, IO, IO:FileChannel,
+  Channel, Msg, Out, StdChannels, Strings, Time, IO, IO:FileChannel, IO:Buffer,
 
   Object, ADT:ArrayList, ADT:Dictionary, StringSearch,
   StringSearch:NoMatch, OS:Path,
@@ -650,7 +650,8 @@ RAISES IO.Error;
                               module.GetURI (Rep.modInterfaceDescr, FALSE),
                               module.ifData,
                               Config.repositories, r.extensionDict);
-        outputChannel(FileChannel.Channel).CloseAndRegister;
+        outputChannel.Flush();  (* flush for CloseAndRegister() *)
+        outputChannel(Buffer.Channel).base(FileChannel.Channel).CloseAndRegister;
         
         r.WriteErrList(errList);
         success := errList.NoErrors();

@@ -1,4 +1,4 @@
-(* 	$Id: InterfaceXML.Mod,v 1.4 2003/01/30 23:38:19 mva Exp $	 *)
+(* 	$Id: InterfaceXML.Mod,v 1.5 2003/02/02 17:58:38 mva Exp $	 *)
 MODULE OOC:SymbolTable:InterfaceXML;
 (*  Writes the exported interface of a module into an XML document.
     Copyright (C) 2000, 2001, 2002, 2003  Michael van Acken
@@ -48,7 +48,8 @@ PROCEDURE GetSystemId (repositories: Repositories.Section): URI.URI;
 
 PROCEDURE Write* (cw: IO.ByteChannel; baseURI: URI.HierarchicalURI;
                   module: Sym.Module;
-                  repositories: Repositories.Section);
+                  repositories: Repositories.Section)
+RAISES IO.Error;
 (**Writes the exported parts of the symbol table with root @oparam{module}
    to the output writer @oparam{cw}.  The result is an XML document that
    describes the public interface of the module.

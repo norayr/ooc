@@ -1,4 +1,4 @@
-(* 	$Id: File.Mod,v 1.3 2003/02/02 01:27:40 mva Exp $	 *)
+(* 	$Id: File.Mod,v 1.4 2003/02/02 17:58:39 mva Exp $	 *)
 MODULE URI:Scheme:File;
 (*  Implementation of the "file" URI scheme.
     Copyright (C) 2000, 2003  Michael van Acken
@@ -87,7 +87,7 @@ PROCEDURE (file: URI) GetPath* (VAR filePath: ARRAY OF CHAR);
     END
   END GetPath;
 
-PROCEDURE (file: URI) GetChannel* (mode: URI0.ChannelMode): FileChannel.Channel
+PROCEDURE (file: URI) GetChannel* (mode: URI0.ChannelMode): IO.ByteChannel
 RAISES IO.Error;
   VAR
     filePath: ARRAY 2*1024 OF CHAR;

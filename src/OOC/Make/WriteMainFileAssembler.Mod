@@ -1,4 +1,4 @@
-(* 	$Id: WriteMainFileAssembler.Mod,v 1.4 2003/01/30 23:38:23 mva Exp $	 *)
+(* 	$Id: WriteMainFileAssembler.Mod,v 1.5 2003/02/02 17:58:38 mva Exp $	 *)
 MODULE OOC:Make:WriteMainFileAssembler;
 (*  Generates the main file of a program as i386 assembler code.
     Copyright (C) 2002, 2003  Michael van Acken
@@ -21,7 +21,7 @@ MODULE OOC:Make:WriteMainFileAssembler;
 *)
 
 IMPORT
-  Ascii, IO, IO:TextRider, IO:FileChannel, OOC:Repository;
+  Ascii, IO, IO:TextRider, IO:FileChannel, IO:Buffer, OOC:Repository;
 
 PROCEDURE WriteFile*(module: Repository.Module;
                      imports: ARRAY OF Repository.Module)
@@ -107,8 +107,9 @@ RAISES IO.Error;
     Instr(".text");
     Directive("Letext:");
     Instr(".ident"+Ascii.ht+'"OOC: 0.1"');
-    
-    ch(FileChannel.Channel). CloseAndRegister;
+
+    ch.Flush();
+    ch(Buffer.Channel).base(FileChannel.Channel).CloseAndRegister;
   END WriteFile;
 
 END OOC:Make:WriteMainFileAssembler.
