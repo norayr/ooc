@@ -1,4 +1,4 @@
-(* 	$Id: CreateNamespace.Mod,v 1.51 2003/05/14 20:55:19 mva Exp $	 *)
+(* 	$Id: CreateNamespace.Mod,v 1.52 2003/05/16 19:37:08 mva Exp $	 *)
 MODULE OOC:SymbolTable:CreateNamespace [OOC_EXTENSIONS];
 (*  Creates namespaces for module, and resolves type names in declarations.
     Copyright (C) 2000-2003  Michael van Acken
@@ -628,8 +628,8 @@ RAISES IO.Error;
         END;
       END CollectFormalPars;
 
-    PROCEDURE ResolverReceiver(procDecl: Sym.ProcDecl;
-                               receiver: Sym.VarDecl);
+    PROCEDURE ResolveReceiver(procDecl: Sym.ProcDecl;
+                              receiver: Sym.VarDecl);
       VAR
         class: Sym.Record;
         ptr: Sym.Item;
@@ -638,6 +638,10 @@ RAISES IO.Error;
         receiver.SetType(GetTypeByName(receiver.type, contextOfUse, FALSE,
                                        FALSE, errList));
         class := procDecl.Class();
+        IF (class = NIL) THEN
+          (* some previous error prevents the class lookup: bail out *)
+          RETURN;
+        END;
         procDecl.formalPars.SetTypePars(class.typePars);
         (*item.formalPars.SetTypePars(receiver.type.typePars);*)
 
@@ -669,7 +673,7 @@ RAISES IO.Error;
             lastError.SetIntAttrib("count", LEN(class.typePars.params^));
           END;
         END;
-      END ResolverReceiver;
+      END ResolveReceiver;
     
     BEGIN
       IF (item # NIL) THEN
@@ -740,7 +744,7 @@ RAISES IO.Error;
           contextOfUse := item
         | item: Sym.ProcDecl DO
           IF (item.formalPars # NIL) & (item.formalPars.receiver # NIL) THEN
-            ResolverReceiver(item, item.formalPars.receiver);
+            ResolveReceiver(item, item.formalPars.receiver);
           END;
           contextOfUse := item
         | item: Sym.TypePars DO
