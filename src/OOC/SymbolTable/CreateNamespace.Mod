@@ -1,4 +1,4 @@
-(* 	$Id: CreateNamespace.Mod,v 1.31 2003/04/19 16:19:54 mva Exp $	 *)
+(* 	$Id: CreateNamespace.Mod,v 1.32 2003/04/20 12:46:59 mva Exp $	 *)
 MODULE OOC:SymbolTable:CreateNamespace [OOC_EXTENSIONS];
 (*  Creates namespaces for module, and resolves type names in declarations.
     Copyright (C) 2000-2003  Michael van Acken
@@ -357,7 +357,7 @@ RAISES IO.Error;
         | item: Sym.Record DO
           item. SetNamespace (Assemble (item, FALSE));
           privateRecords.Set(item, NIL);
-        | item: Sym.ParametricType DO
+        | item: Sym.TypePars DO
           item. SetNamespace (Assemble (item, TRUE));
         ELSE  (* no other item is associated with a namespace *)
         END
@@ -417,7 +417,7 @@ RAISES IO.Error;
               SetEnclosingNamespace (item. parent(Sym.ProcDecl). 
                                        ns(Namespace.Namespace))
           END
-        | item: Sym.ParametricType DO
+        | item: Sym.TypePars DO
           IF (item. parent IS Sym.Module) THEN
             item. ns(Namespace.Nested). 
               SetEnclosingNamespace (item. parent(Sym.Module). 
@@ -470,6 +470,10 @@ RAISES IO.Error;
             IF (item = NIL) THEN
               Err (undeclaredModule, typeName);
               RETURN typeName
+            ELSIF (item IS Sym.TypeDecl) &
+                  (item(Sym.TypeDecl).type.typePars # NIL) THEN
+              ns := item(Sym.TypeDecl).type.typePars.ns;
+              ASSERT(ns # NIL);
             ELSIF ~(item IS Sym.Import) THEN
               Err (notModule, typeName);
               RETURN typeName
@@ -481,7 +485,7 @@ RAISES IO.Error;
           item := ns. Identify (contextOfUse, typeName. ident, FALSE);
           IF (item = NIL) & extendedSearch THEN
             item := ns. IdentifyLocal (contextOfUse, typeName. ident, TRUE);
-            IF (item = NIL) & (contextOfUse IS Sym.ParametricType) THEN
+            IF (item = NIL) & (contextOfUse IS Sym.TypePars) THEN
               (* with parametric types, the local namespace may contain just
                  the formal parameter names; compensate by going one level
                  higher *)
@@ -580,7 +584,7 @@ RAISES IO.Error;
           contextOfUse := item
         | item: Sym.ProcDecl DO
           contextOfUse := item
-        | item: Sym.ParametricType DO
+        | item: Sym.TypePars DO
           contextOfUse := item
         ELSE  (* ignore any other kind items *)
         END;
