@@ -1,4 +1,4 @@
-(* 	$Id: ConstProp.Mod,v 1.9 2003/02/16 12:52:00 mva Exp $	 *)
+(* 	$Id: ConstProp.Mod,v 1.10 2003/02/22 21:49:03 mva Exp $	 *)
 MODULE OOC:SSA:ConstProp;
 (*  Constant propagation and unreachable code elimination.
     Copyright (C) 2002, 2003  Michael van Acken
@@ -91,9 +91,9 @@ PROCEDURE ComputeConst (pb: SSA.ProcBlock; instr: SSA.Instr): SSA.Const;
 
       IF (v # NIL) THEN
         IF (v IS Boxed.Boolean) THEN
-          RETURN pb. GetConstBool (v(Boxed.Boolean). value);
+          RETURN pb. GetConstBool(v(Boxed.Boolean). value);
         ELSE
-          RETURN pb. GetConst (v, arg1. type);
+          RETURN pb. GetConst(v, arg1.subclass, NIL);
         END;
       END;
     END;

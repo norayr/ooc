@@ -1,4 +1,4 @@
-(* 	$Id: Opcode.Mod,v 1.90 2003/02/22 13:22:35 mva Exp $	 *)
+(* 	$Id: Opcode.Mod,v 1.91 2003/02/22 21:49:03 mva Exp $	 *)
 MODULE OOC:SSA:Opcode;
 (*  This modules defines opcodes for SSA instructions.
     Copyright (C) 2001-2003  Michael van Acken
@@ -794,6 +794,7 @@ CONST
   scReal64* = 11;
   (**Double precision IEEE-754 floating point number.  *)
 
+  lastSubclass* = scReal64;
   
 PROCEDURE IsSigned* (subclass: Subclass): BOOLEAN;
   BEGIN
