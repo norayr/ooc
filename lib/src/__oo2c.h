@@ -1,4 +1,4 @@
-/*      $Id: __oo2c.h,v 1.5 2002/01/27 23:15:03 mva Exp $        */
+/*      $Id: __oo2c.h,v 1.6 2002/05/03 18:08:28 mva Exp $        */
 /*  Run-time system for C back-ends of OOC2
     Copyright (C) 2001, 2002  Michael van Acken
 
@@ -45,5 +45,13 @@ extern void NORETURN _assertion_failed(OOC_INT32 code, OOC_CHARPOS pos) NORETURN
 /* CAP(CHAR) and CAP(LONGCHAR) */
 #define _cap(_c) ((96<_c && _c<123) || (224<=_c && _c<255 && _c!=247)) ? (_c-32) : _c
 #define _capl(_c) _cap(_c)
+
+
+/* run-time meta data: type tags, dynamic array length, type test */
+#define OOC_ARRAY_LENGTH(_adr,_dim) (((OOC_LEN*)(_adr))[-_dim-1])
+#define OOC_TYPE_TAG(_adr) (((RT0__Struct*)(_adr))[-1])
+#define OOC_TYPE_TEST(_tag,_td) \
+  ((((RT0__Struct)(_tag))->len >= (_td)->len) && \
+   (((RT0__Struct)(_tag))->baseTypes[(_td)->len] == (_td)))
 
 #endif /* __oo2c__ */

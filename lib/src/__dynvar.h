@@ -1,4 +1,4 @@
-/*      $Id: __dynvar.h,v 1.4 2002/04/30 19:08:11 mva Exp $        */
+/*      $Id: __dynvar.h,v 1.5 2002/05/03 18:08:28 mva Exp $        */
 /*  Handling of dynamic variables and value parameters.
     Copyright (C) 2002  Michael van Acken
 
@@ -44,7 +44,5 @@ extern void* _ooc_end_vs;  /* end of value stack; defined in __oo2c.c */
 #define OOC_INITIALIZE_VPAR(_source,_dest,_basetype,_size) \
   memcpy((_dest),(_source),(_size));
 
-
-#define OOC_ARRAY_LENGTH(adr,dim) (((OOC_LEN*)(adr))[-dim-1])
 
 #endif  /* __dynvar__ */

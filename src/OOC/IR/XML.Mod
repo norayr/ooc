@@ -1,4 +1,4 @@
-(* 	$Id: XML.Mod,v 1.40 2002/05/01 21:25:02 mva Exp $	 *)
+(* 	$Id: XML.Mod,v 1.41 2002/05/03 18:08:28 mva Exp $	 *)
 MODULE OOC:IR:XML;
 (*  Write an IR data structure as an XML document.
     Copyright (C) 2001, 2002  Michael van Acken, Stewart Greenhill
@@ -201,8 +201,11 @@ PROCEDURE (v: Visitor) VisitNewObject* (new: IR.NewObject);
     i: LONGINT;
   BEGIN
     v. w. StartTag ("new-object", FALSE);
-    FOR i := 0 TO LEN (new. length^)-1 DO
-      new. length[i]. Accept (v);
+    (* FIXME... write type *)
+    IF (new. length # NIL) THEN
+      FOR i := 0 TO LEN (new. length^)-1 DO
+        new. length[i]. Accept (v);
+      END;
     END;
     v. w. EndTag;  (* new-object *)
   END VisitNewObject;
@@ -245,11 +248,19 @@ PROCEDURE (v: Visitor) VisitSetOp* (op: IR.SetOp);
 
 PROCEDURE (v : Visitor) VisitTypeConv* (op : IR.TypeConv);
   BEGIN
-    v. w. StartTag("typeConv", FALSE);
+    v. w. StartTag("type-conv", FALSE);
     (* FIXME! Write type. How? *)
     op. expr. Accept(v);
     v. w. EndTag;
   END VisitTypeConv;
+
+PROCEDURE (v : Visitor) VisitTypeTest* (op : IR.TypeTest);
+  BEGIN
+    v. w. StartTag("type-test", FALSE);
+    op. expr. Accept(v);
+    (* FIXME! Write type. How? *)
+    v. w. EndTag;
+  END VisitTypeTest;
 
 
 PROCEDURE VisitStatementSeq (v: Visitor; statmSeq: IR.StatementSeq);
