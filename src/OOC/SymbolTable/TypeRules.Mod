@@ -1,4 +1,4 @@
-(* 	$Id: TypeRules.Mod,v 1.64 2003/06/11 06:44:03 sgreenhill Exp $	 *)
+(* 	$Id: TypeRules.Mod,v 1.65 2003/06/11 14:02:47 sgreenhill Exp $	 *)
 MODULE OOC:SymbolTable:TypeRules;
 (*  Defines the type rules of the language.
     Copyright (C) 2000-2003  Michael van Acken
@@ -588,7 +588,7 @@ BEGIN
   ELSIF a IN DefaultConvention THEN
     RETURN b IN DefaultConvention
   ELSE
-	RETURN a = b;
+    RETURN a = b;
   END;
 END CallingConventionsMatch;
 
