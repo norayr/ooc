@@ -1,4 +1,4 @@
-(*	$Id: Out0.Mod,v 1.3 2002/12/19 03:18:22 mva Exp $	*)
+(*	$Id: Out0.Mod,v 1.1 2004/03/25 20:16:24 mva Exp $	*)
 MODULE Out0 [FOREIGN "C"; LINK FILE "Out0.c" END];
 <* Warnings := FALSE *>
 
