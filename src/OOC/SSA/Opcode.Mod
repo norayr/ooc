@@ -1,4 +1,4 @@
-(* 	$Id: Opcode.Mod,v 1.6 2001/12/09 23:25:26 mva Exp $	 *)
+(* 	$Id: Opcode.Mod,v 1.7 2001/12/10 00:44:58 mva Exp $	 *)
 MODULE OOC:SSA:Opcode;
 (*  This modules defines opcodes for SSA instructions.
     Copyright (C) 2001  Michael van Acken
@@ -153,6 +153,7 @@ PROCEDURE TypeToSubclass* (type: Item.Type): Subclass;
     WITH type: Item.PredefType DO
       CASE type. id OF
       | Predef.void: RETURN scNone
+      | Predef.char: RETURN scUnsigned8
       | Predef.boolean: RETURN scUnsigned8
       | Predef.shortint: RETURN scSigned8
       | Predef.integer: RETURN scSigned16
