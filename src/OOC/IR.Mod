@@ -1,4 +1,4 @@
-(* 	$Id: IR.Mod,v 1.145 2002/07/17 23:19:57 mva Exp $	 *)
+(* 	$Id: IR.Mod,v 1.146 2002/07/18 14:26:03 mva Exp $	 *)
 MODULE OOC:IR [OOC_EXTENSIONS];
 (*  High-level intermediate code representation.
     Copyright (C) 2001, 2002  Michael van Acken, Stewart Greenhill
@@ -3059,7 +3059,16 @@ PROCEDURE (b: Builder) NewCopyString* (sym: Symbol;
                                        source, dest, maxLength: Expression): CopyString;
   VAR
     cp: CopyString;
+    baseChar: Sym.Type;
+    ok: BOOLEAN;
   BEGIN
+    IF (source IS Const) THEN
+      (* make sure that any character constant source is converted into
+         its equivalent string constant form; this way, the copy operation
+         doesn't need to deal with single characters *)
+      baseChar := TR.BaseCharType (dest. type);
+      ok := b. Widen (source, TR.MatchingStringConst (baseChar));
+    END;
     NEW (cp);
     InitCopyString (cp, sym, source, dest, b. Fold (maxLength));
     RETURN cp
