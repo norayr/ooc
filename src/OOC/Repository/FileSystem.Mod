@@ -1,4 +1,4 @@
-(* 	$Id: FileSystem.Mod,v 1.10 2002/11/10 00:06:48 mva Exp $	 *)
+(* 	$Id: FileSystem.Mod,v 1.11 2002/11/13 19:31:17 mva Exp $	 *)
 MODULE OOC:Repository:FileSystem;
 (*  Implementation of a repository in the local file system.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -200,6 +200,15 @@ PROCEDURE (m: Module) GetURI* (fileId: Rep.FileId): URI.HierarchicalURI;
         END;
         COPY (m. name^, str);
         ModuleToFileName (str);
+
+        IF (fileId = Rep.modLibrary) THEN
+          ASSERT(m.ifQuality = Rep.completeInterface);
+          Strings.Append("lib", path);
+          COPY(m.ifData.libraryName.array^, str);
+        ELSE
+          ModuleToFileName (str);
+        END;
+        
         Strings.Append (str, path);
         Strings.Append (suffix, path);
         uri := URIParser.NewURI (path, m. origin. baseURI, res);
