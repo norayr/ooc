@@ -1,4 +1,4 @@
-(* 	$Id: Predef.Mod,v 1.34 2002/07/09 18:47:34 mva Exp $	 *)
+(* 	$Id: Predef.Mod,v 1.35 2002/07/09 19:10:23 mva Exp $	 *)
 MODULE OOC:SymbolTable:Predef;
 (*  Defines symbol table of pseudo module with predefined entities.
     Copyright (C) 2000, 2001, 2002  Michael van Acken
@@ -24,7 +24,7 @@ MODULE OOC:SymbolTable:Predef;
 IMPORT
   Strings, Language, Language:Boolean, Language:Integer, Language:String8,
   Language:String16, Language:Real,
-  OOC:Config, Sym := OOC:SymbolTable, OOC:SymbolTable:Builder;
+  Sym := OOC:SymbolTable, OOC:SymbolTable:Builder;
 
 
 CONST
@@ -318,16 +318,11 @@ PROCEDURE SmallestIntType* (value: Integer.Value): Sym.Type;
 PROCEDURE Init;
   VAR
     i: LONGINT;
-    stb: Builder.Builder;
   BEGIN
     NEW (Sym.predefIdToType, lastId+1);
     FOR i := 0 TO lastId DO
       minConst[i] := NIL; maxConst[i] := NIL;
     END;
-
-    stb := Builder.New();
-    Config.SetPredefModules (CreatePredef (stb),
-                             CreateSYSTEM (stb));
   END Init;
 
 BEGIN
