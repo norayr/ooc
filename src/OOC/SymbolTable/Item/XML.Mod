@@ -1,4 +1,4 @@
-(* 	$Id: XML.Mod,v 1.2 2001/01/15 10:06:00 mva Exp $	 *)
+(* 	$Id: XML.Mod,v 1.3 2001/01/15 11:16:18 mva Exp $	 *)
 MODULE OOC:SymbolTable:Item:XML;
 (*  Converts symbol table to XML document.
     Copyright (C) 2000, 2001  Michael van Acken
@@ -27,8 +27,8 @@ IMPORT
 
 
 PROCEDURE Write* (cw: Channel.Writer; module: Item.Module);
-(**Writes the symbol table with root @oparam{module} to the output channel 
-   @oparam{ch}.  The result is an XML document that describes the
+(**Writes the symbol table with root @oparam{module} to the output writer 
+   @oparam{cw}.  The result is an XML document that describes the
    structure of the symbol table.  Here is an example of the output for the
    most simple module:
    

@@ -1,4 +1,4 @@
-(* 	$Id: InterfaceXML.Mod,v 1.2 2001/01/15 10:06:00 mva Exp $	 *)
+(* 	$Id: InterfaceXML.Mod,v 1.3 2001/01/15 11:16:18 mva Exp $	 *)
 MODULE OOC:SymbolTable:Item:InterfaceXML;
 (*  Writes the exported interface of a module into an XML document.
     Copyright (C) 2000, 2001  Michael van Acken
@@ -50,7 +50,7 @@ PROCEDURE Write* (cw: Channel.Writer; baseURI: URI.HierarchicalURI;
                   module: Item.Module;
                   repositories: Repositories.Section);
 (**Writes the exported parts of the symbol table with root @oparam{module}
-   to the output channel @oparam{ch}.  The result is an XML document that
+   to the output writer @oparam{cw}.  The result is an XML document that
    describes the public interface of the module.
    
    Note: The implementation is incomplete.  Declaration and type flags

@@ -1,4 +1,4 @@
-(* 	$Id: InterfaceDescr.Mod,v 1.6 2001/01/15 10:06:00 mva Exp $	 *)
+(* 	$Id: InterfaceDescr.Mod,v 1.7 2001/01/15 11:16:18 mva Exp $	 *)
 MODULE OOC:SymbolTable:Item:InterfaceDescr;
 (*  Writes a description of a module's interface as XML.
     Copyright (C) 2000, 2001  Michael van Acken
@@ -51,7 +51,7 @@ PROCEDURE Write* (cw: Channel.Writer; baseURI: URI.HierarchicalURI;
                   module: Item.Module; repositories: Repositories.Section;
                   extensionDict: Dictionary.Dictionary);
 (**Writes the exported parts of the symbol table with root @oparam{module} as
-   XML to the output channel @oparam{ch}.  Includes descriptions for
+   XML to the output writer @oparam{cw}.  Includes descriptions for
    declarations, cross-references, information about class and base classes,
    inherited fields and methods, and so on.  The output document is used as the
    common base for all module documentation output targets.  In particular, the
