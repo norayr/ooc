@@ -1,4 +1,4 @@
-(* 	$Id: CreateIR.Mod,v 1.51 2002/07/03 22:12:53 mva Exp $	 *)
+(* 	$Id: CreateIR.Mod,v 1.52 2002/07/05 22:10:37 uid24743 Exp $	 *)
 MODULE OOC:AST:ExtTree:CreateIR;
 (*  Creates an IR representation from the abstract syntax tree.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -350,7 +350,6 @@ PROCEDURE CreateIR* (module: ExtTree.Module;
         else: IR.Statement;
         elseSeq, region: IR.StatementSeq;
         i: LONGINT;
-        oldType: Sym.Type;
         guard: IR.Expression;
 
       PROCEDURE TypeTestExpr (op: ExtTree.Operator): IR.Expression;
@@ -367,9 +366,9 @@ PROCEDURE CreateIR* (module: ExtTree.Module;
         i := withStatm. guardList. len-4;
         REPEAT
           guard := TypeTestExpr(withStatm.guardList.n[i+1](ExtTree.Operator));
-          oldType := b. StartTypeGuard (guard(IR.TypeTest));
+          b. StartTypeGuard (guard(IR.TypeTest), currentNamespace);
           region := StatementSeq(withStatm.guardList.n[i+3](ExtTree.NodeList));
-          b. EndTypeGuard (guard(IR.TypeTest), oldType);
+          b. EndTypeGuard (currentNamespace);
           
           else := b. NewWithStatm
               (withStatm. guardList. n[i](ExtTree.Terminal). sym,

@@ -1,4 +1,4 @@
-(* 	$Id: SymbolTable.Mod,v 1.23 2002/06/06 21:19:53 mva Exp $	 *)
+(* 	$Id: SymbolTable.Mod,v 1.24 2002/07/05 22:10:37 uid24743 Exp $	 *)
 MODULE OOC:SymbolTable [OOC_EXTENSIONS];
 (*  Defines structure and entries of the symbol table.
     Copyright (C) 2000-2002  Michael van Acken
@@ -127,7 +127,7 @@ CONST
 
 TYPE
   Declaration* = POINTER TO DeclarationDesc;
-  DeclarationDesc = RECORD [ABSTRACT]
+  DeclarationDesc* = RECORD [ABSTRACT]
     (**A declaration defines an Oberon-2 object, and associates a name with
        this object.  *)
     (ItemDesc)
