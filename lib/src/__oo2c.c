@@ -1,4 +1,4 @@
-/*      $Id: __oo2c.c,v 1.4 2002/01/04 16:04:12 mva Exp $        */
+/*      $Id: __oo2c.c,v 1.5 2002/04/26 07:36:11 mva Exp $        */
 /*  Run-time system for C back-ends of OOC2
     Copyright (C) 2001, 2002  Michael van Acken
 
@@ -17,6 +17,7 @@
     59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 */
 
+#include "RT0.d"
 #include "__oo2c.h"
 #include <stdio.h>
 
