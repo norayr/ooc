@@ -1,4 +1,4 @@
-(*	$Id: Boxed.Mod,v 1.8 2003/02/04 20:55:30 mva Exp $	*)
+(*	$Id: Boxed.Mod,v 1.9 2003/04/05 18:45:44 mva Exp $	*)
 MODULE Object:Boxed;
 (*  Implements object representations for predefined types.
     Copyright (C) 2002, 2003  Michael van Acken
@@ -242,7 +242,9 @@ PROCEDURE (v: LongReal) HashCode*(): Obj.Hash;
     SYSTEM.MOVE(SYSTEM.ADR(v.value), SYSTEM.ADR(a), size * SIZE(LONGINT));
     hash := {};
     FOR i := 0 TO size-1 DO
+      <*PUSH; Warnings:=FALSE*>
       hash := hash / a[i];
+      <*POP*>
     END;
     RETURN SYSTEM.VAL(Obj.Hash, hash);
   END HashCode;

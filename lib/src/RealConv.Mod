@@ -1,4 +1,4 @@
-(* 	$Id: RealConv.Mod,v 1.5 2002/11/16 10:23:04 mva Exp $	 *)
+(* 	$Id: RealConv.Mod,v 1.6 2003/04/05 18:45:45 mva Exp $	 *)
 MODULE RealConv;
 (*  String to REAL conversion functions.
     Copyright (C) 2002  Michael van Acken
@@ -74,7 +74,9 @@ PROCEDURE ValueReal*(str: ARRAY OF CHAR): REAL;
       INC (i);
     END;
     IF libc.sscanf(SYSTEM.ADR(str[i]), "%f", SYSTEM.ADR(value)) = 1 THEN
+      <*PUSH; Warnings:=FALSE*>
       RETURN value                       (* syntax is ok *)
+      <*POP*>
     ELSE
       RETURN 0;                          (* error *)
     END;
