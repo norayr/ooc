@@ -1,4 +1,4 @@
-(* 	$Id: XML.Mod,v 1.14 2003/05/04 12:02:57 mva Exp $	 *)
+(* 	$Id: XML.Mod,v 1.15 2003/05/06 22:00:01 mva Exp $	 *)
 MODULE OOC:SymbolTable:XML;
 (*  Converts symbol table to XML document.
     Copyright (C) 2000, 2001, 2002, 2003  Michael van Acken
@@ -22,6 +22,7 @@ MODULE OOC:SymbolTable:XML;
 
 IMPORT
   Strings, Object, IO, XML:Writer, XML:UnicodeCodec:Latin1,
+  Dictionary := ADT:Dictionary:IntValue, 
   Sym := OOC:SymbolTable, OOC:SymbolTable:GetClass,
   DocXML := OOC:Doc:Output:XML;
 
@@ -58,6 +59,7 @@ RAISES IO.Error;
     w: Writer.Writer;
     counter: LONGINT;
     items: POINTER TO ARRAY OF Sym.Item;
+    floatingItems: Dictionary.Dictionary;
     
   PROCEDURE CountItems (item: Sym.Item): LONGINT;
     VAR
@@ -96,10 +98,17 @@ RAISES IO.Error;
       i: LONGINT;
     BEGIN
       i := 0;
-      WHILE (items[i] # item) DO
+      WHILE (i # LEN(items^)) & (items[i] # item) DO
         INC (i)
       END;
-      RETURN i
+      IF (i = LEN(items^)) THEN
+        IF ~floatingItems.HasKey(item) THEN
+          floatingItems.Set(item, -(floatingItems.Size()+1));
+        END;
+        RETURN floatingItems.Get(item);
+      ELSE
+        RETURN i;
+      END;
     END Id;
   
   
@@ -355,7 +364,12 @@ RAISES IO.Error;
           END;
           
           WriteNested (item);
-          w. EndTag
+          w. EndTag;
+              
+        | item: Sym.ExceptionName DO
+          StartTag ("exception_name", Id (item));
+          AttribTypeId ("", "type_id", item. type);
+          w. EndTag;
         END
       END
     END WriteItem;
@@ -368,6 +382,7 @@ RAISES IO.Error;
     NEW (items, CountItems (module));
     StoreId (module, counter);
     ASSERT (counter = LEN (items^));
+    floatingItems := Dictionary.New();
     
     WriteItem (module);
     w. EndOfText
