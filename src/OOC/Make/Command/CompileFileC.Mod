@@ -1,4 +1,4 @@
-(* 	$Id: CompileFileC.Mod,v 1.1 2001/05/22 21:26:03 mva Exp $	 *)
+(* 	$Id: CompileFileC.Mod,v 1.2 2001/08/27 05:21:02 mva Exp $	 *)
 MODULE OOC:Make:Command:CompileFileC;
 (*  Translates a C file into an object file.
     Copyright (C) 2001  Michael van Acken
@@ -87,10 +87,8 @@ PROCEDURE (cmd: Command) Run*(): BOOLEAN;
     cmd. module. CreateOutputDir (cmd. fileId, res);
     IF (res = NIL) THEN
       CCompiler.CompileFileCmd (config. options, 
-                            cmd. module. GetURI (cmd. sourceId, res),
-                            cmd. module. GetURI (cmd. fileId, res), str)
-    END;
-    IF (res = NIL) THEN
+                            cmd. module. GetURI (cmd. sourceId),
+                            cmd. module. GetURI (cmd. fileId), str);
       Out.String (str);
       Out.Ln;
       exit := ProcessManagment.system (str)
