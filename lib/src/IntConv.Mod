@@ -1,4 +1,4 @@
-(*	$Id: IntConv.Mod,v 1.1 2002/05/10 22:25:18 mva Exp $	*)
+(*	$Id: IntConv.Mod,v 1.2 2002/05/10 23:06:21 mva Exp $	*)
 MODULE IntConv;
 (*
     IntConv -  Low-level integer/string conversions.       
@@ -124,7 +124,6 @@ BEGIN
   class:=Conv.padding; prev:=class;
   state:=SI; int:=0; positive:=TRUE;
   LOOP
-    IF index=len THEN EXIT END;
     ch:=str[index];
     state.p(ch, class, state);
     CASE class OF
@@ -149,14 +148,23 @@ BEGIN
             END
           END
         END
-    | Conv.invalid, Conv.terminator: EXIT
+      
+    | Conv.invalid:
+      IF (prev = Conv.padding) THEN
+        RETURN strEmpty;
+      ELSE
+        RETURN strWrongFormat;
+      END;
+      
+    | Conv.terminator:
+      IF (ch = 0X) THEN
+        RETURN strAllRight;
+      ELSE
+        RETURN strWrongFormat;
+      END;
     END;
     prev:=class; INC(index)
   END;
-  IF class IN {Conv.invalid, Conv.terminator} THEN RETURN strWrongFormat
-  ELSIF prev=Conv.padding THEN RETURN strEmpty
-  ELSE RETURN strAllRight
-  END
 END FormatInt;
  
  
