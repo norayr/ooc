@@ -1,4 +1,4 @@
-(* 	$Id: SymbolTable.Mod,v 1.76 2003/04/27 10:27:16 mva Exp $	 *)
+(* 	$Id: SymbolTable.Mod,v 1.77 2003/04/27 17:50:04 mva Exp $	 *)
 MODULE OOC:SymbolTable [OOC_EXTENSIONS];
 (*  Defines structure and entries of the symbol table.
     Copyright (C) 2000-2003  Michael van Acken
@@ -214,9 +214,13 @@ TYPE
   TypeVar* = POINTER TO TypeVarDesc;
   TypeVarArray* = POINTER TO ARRAY OF TypeVar;
   TypeParsDesc = RECORD
-    (**This is a formal parameter list of a parameterized type.  All parameters
+    (**This is a formal parameter list of a parameterized type.
+
+       If the instance is associated with a type declaration, all parameters
        are nested in this item, as well as all items that make up the base
-       type.  *)
+       type.  If it is associated with an unnamed type, then it is empty and
+       @ofield{params} is a list of all type variables used in the type's
+       definition.  *)
     (ItemDesc)
     params*: TypeVarArray;
     (**The list of formal type parameters.  @samp{LEN(params^)} is the number
