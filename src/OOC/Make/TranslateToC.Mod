@@ -1,4 +1,4 @@
-(* 	$Id: TranslateToC.Mod,v 1.5 2002/12/02 19:58:18 mva Exp $	 *)
+(* 	$Id: TranslateToC.Mod,v 1.6 2002/12/08 15:08:23 mva Exp $	 *)
 MODULE OOC:Make:TranslateToC [OOC_EXTENSIONS];
 (*  Translates a module file into a bunch of C code files.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -262,8 +262,6 @@ PROCEDURE Run*(m: Repository.Module; libraryName: String.String;
     END CloseFile;
   
   BEGIN
-    Out.String ("module: "); Out.String(m. name^); Out.Ln; Out.Flush;
-    
     ParseModule.ParseModule (m, TRUE, TRUE, FALSE, FALSE, libraryName,
                              ast, symTab, pragmaHistory, errList);
     (* note: don't let `ParseModule' write the symbol file; this reduces the
