@@ -1,4 +1,4 @@
-(*	$Id: StringBuffer.Mod,v 1.10 2002/12/20 03:18:00 mva Exp $	*)
+(*	$Id: StringBuffer.Mod,v 1.11 2002/12/20 05:12:16 mva Exp $	*)
 MODULE ADT:StringBuffer [OOC_EXTENSIONS];
 (*  String data type of dynamic length.
     Copyright (C) 1998-2002  Michael van Acken
@@ -63,7 +63,7 @@ PROCEDURE NewCapacity*(initialCapacity: LONGINT): StringBuffer;
     RETURN b;
   END NewCapacity;
 
-PROCEDURE (b: StringBuffer) ToString*(): Object.String;
+PROCEDURE (b: StringBuffer) ToString*(): STRING;
   BEGIN
     IF(b.data8 # NIL) THEN
       RETURN Object.NewLatin1Region(b.data8^, 0, b.length);
@@ -197,14 +197,14 @@ PROCEDURE (b: StringBuffer) AppendUCS4Region*(data[NO_COPY]: ARRAY OF UCS4CHAR;
 
 PROCEDURE (b: StringBuffer) Append*(obj: Object.Object);
   VAR
-    s: Object.String;
+    s: STRING;
     c8: Object.CharsLatin1;
     c32: Object.CharsUCS4;
   BEGIN
     IF (obj = NIL) THEN
       b.Append("NIL");
     ELSE
-      WITH obj: Object.String DO
+      WITH obj: STRING DO
         s := obj;
       ELSE
         s := obj.ToString();
@@ -220,7 +220,7 @@ PROCEDURE (b: StringBuffer) Append*(obj: Object.Object);
     END;
   END Append;
 
-PROCEDURE New*(str: Object.String): StringBuffer;
+PROCEDURE New*(str: STRING): StringBuffer;
   VAR
     b: StringBuffer;
   BEGIN
