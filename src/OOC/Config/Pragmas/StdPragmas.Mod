@@ -1,4 +1,4 @@
-(* 	$Id: StdPragmas.Mod,v 1.15 2002/12/08 15:10:53 mva Exp $	 *)
+(* 	$Id: StdPragmas.Mod,v 1.16 2002/12/08 20:19:36 mva Exp $	 *)
 MODULE OOC:Config:Pragmas:StdPragmas;
 (*  Creates standard pragma variables with default values.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -21,8 +21,8 @@ MODULE OOC:Config:Pragmas:StdPragmas;
 *)
 
 IMPORT
-  Config:Value:Boolean, Config:Value:Integer, OOC:Config:Autoconf,
-  OOC:Config:Pragmas;
+  Config:Value:Boolean, Config:Value:Integer, Config:Value:String,
+  OOC:Config:Autoconf, OOC:Config:Pragmas;
 
 
 CONST
@@ -37,15 +37,9 @@ CONST
   defaultTypeGuard = TRUE;
   defaultConformantMode = FALSE;
 
-  (*defaultIndexCheck = FALSE;
-  defaultDerefCheck = FALSE;
-  defaultOverflowCheck = FALSE;
-  defaultCaseSelectCheck = FALSE;
-  defaultFunctionResultCheck = FALSE;
-  defaultTypeGuard = FALSE;
-  defaultConformantMode = FALSE;*)
-
-  defaultCompilerMajor = 2;
+  defaultCompilerVersion* = Autoconf.compilerVersion;
+  defaultCompilerMajor = Autoconf.compilerMajor;
+  defaultCompilerMinor = Autoconf.compilerMinor;
   
   defaultTargetInteger = Autoconf.bitsTargetInteger;
   defaultTargetAddress = Autoconf.bitsTargetAddress;
@@ -61,7 +55,9 @@ VAR
   typeGuard-: Pragmas.Pragma;
   conformantMode-: Pragmas.Pragma;
 
+  compilerVersion-: Pragmas.Pragma;
   compilerMajor-: Pragmas.Pragma;
+  compilerMinor-: Pragmas.Pragma;
   
   targetInteger-: Pragmas.Pragma;
   targetAddress-: Pragmas.Pragma;
@@ -79,7 +75,9 @@ PROCEDURE CreateVariables* (s: Pragmas.Section);
     typeGuard := s. Set ("TypeGuard", Boolean.New (defaultTypeGuard));
     conformantMode := s. Set ("ConformantMode", Boolean.New (defaultConformantMode));
 
+    compilerVersion := s. Set ("COMPILER_VERSION", String.New (defaultCompilerVersion));
     compilerMajor := s. Set ("COMPILER_MAJOR", Integer.New (defaultCompilerMajor));
+    compilerMinor := s. Set ("COMPILER_MINOR", Integer.New (defaultCompilerMinor));
     
     targetInteger := s. Set ("TARGET_INTEGER", Integer.New (defaultTargetInteger));
     targetAddress := s. Set ("TARGET_ADDRESS", Integer.New (defaultTargetAddress));
