@@ -1,4 +1,4 @@
-(* 	$Id: StdPragmas.Mod,v 1.18 2003/04/04 22:35:13 mva Exp $	 *)
+(* 	$Id: StdPragmas.Mod,v 1.19 2003/04/06 09:26:15 mva Exp $	 *)
 MODULE OOC:Config:Pragmas:StdPragmas;
 (*  Creates standard pragma variables with default values.
     Copyright (C) 2001, 2002, 2003  Michael van Acken
@@ -28,7 +28,7 @@ IMPORT
 CONST
   defaultWarnings = TRUE;
   defaultAssertions = TRUE;
-  defaultInitialize = FALSE;  (* not supported in v2 *)
+  (*defaultInitialize = FALSE;   not supported in v2 *)
   defaultStackCheck = FALSE;  (* no effect for gcc back-end *)
   defaultConformantMode = FALSE;
   
@@ -54,7 +54,7 @@ CONST
 VAR
   warnings-: Pragmas.Pragma;
   assertions-: Pragmas.Pragma;
-  initialize-: Pragmas.Pragma;
+  (*initialize-: Pragmas.Pragma;*)
   stackCheck-: Pragmas.Pragma;
   conformantMode-: Pragmas.Pragma;
 
@@ -83,7 +83,7 @@ PROCEDURE CreateVariables* (s: Pragmas.Section);
   BEGIN
     warnings := s. Set ("Warnings", Boolean.New (defaultWarnings));
     assertions := s. Set ("Assertions", Boolean.New (defaultAssertions));
-    initialize := s. Set ("Initialize", Boolean.New (defaultInitialize));
+    (*initialize := s. Set ("Initialize", Boolean.New (defaultInitialize));*)
     stackCheck := s. Set ("StackCheck", Boolean.New (defaultStackCheck));
     conformantMode := s. Set ("ConformantMode", Boolean.New (defaultConformantMode));
     
