@@ -1,4 +1,4 @@
-(* 	$Id: RT0.Mod,v 1.8 2002/05/04 17:58:23 mva Exp $	 *)
+(* 	$Id: RT0.Mod,v 1.9 2002/05/26 16:26:25 mva Exp $	 *)
 MODULE RT0 [FOREIGN "C"; LINK FILE "RT0.c" END];
 (*  Proxy module for the run-time system of C back-ends of OOC2
     Copyright (C) 2001, 2002  Michael van Acken
@@ -157,5 +157,11 @@ PROCEDURE NewObject* (td: Struct; ...): SYSTEM.PTR;
    descriptor @oparam{td}.  For an open array object, the lengths of the
    array's dimensions are passed as second, third, and so on, parameter.  They
    must be of type @code{LONGINT}.  *)
+   
+PROCEDURE NewBlock* (bytes: LONGINT): SYSTEM.PTR;
+(**Allocates a memory block on the heap with a size of at least @oparam{bytes}
+   bytes.  Pointers in the allocated block are ignored during garbage
+   collection.  That is, the block must not contain any references to objects
+   on the heap that are not kept live by other pointers.  *)
    
 END RT0.
