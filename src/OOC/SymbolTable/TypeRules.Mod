@@ -1,4 +1,4 @@
-(* 	$Id: TypeRules.Mod,v 1.17 2002/06/05 21:59:54 mva Exp $	 *)
+(* 	$Id: TypeRules.Mod,v 1.18 2002/06/06 21:20:37 mva Exp $	 *)
 MODULE OOC:SymbolTable:TypeRules;
 (*  Defines the type rules of the language.
     Copyright (C) 2000-2002  Michael van Acken
@@ -389,10 +389,11 @@ PROCEDURE (tr: Rules) IsByteCompatible* (type: Sym.Type): BOOLEAN;
 
 PROCEDURE (tr: Rules) IsNilCompatible* (type: Sym.Type): BOOLEAN;
 (**Returns @code{TRUE}, iff the value @code{NIL} can be assigned to
-   variables of type @oparam{type}.  *)
+   variables of type @oparam{type}, or if @code{NIL} can be compared to
+   such variables.  *)
   BEGIN
     WITH type: Sym.PredefType DO
-      RETURN (type. id = Predef.ptr)
+      RETURN (type. id = Predef.ptr) OR (type. id = Predef.nil)
     | type: Sym.Pointer DO
       RETURN TRUE;
     | type: Sym.FormalPars DO
