@@ -1,4 +1,4 @@
-(* 	$Id: ExtTree.Mod,v 1.24 2002/05/25 17:10:45 mva Exp $	 *)
+(* 	$Id: ExtTree.Mod,v 1.25 2002/06/02 11:52:40 mva Exp $	 *)
 MODULE OOC:AST:ExtTree [OOC_EXTENSIONS];
 (*  Creates extended abstract syntax tree from the parser output.
     Copyright (C) 2000-2002  Michael van Acken
@@ -297,9 +297,9 @@ TYPE
   SetDesc = RECORD
     (NodeDesc)
     type-: AST.Node;
-    lBrace-: AST.Node;
+    lBrace-: Terminal;
     elementList-: AST.NodeList;
-    rBrace-: AST.Node;
+    rBrace-: Terminal;
   END;
 
 TYPE
@@ -1173,9 +1173,9 @@ PROCEDURE (b: Builder) Set* (type, lBrace: AST.Node; elementList: AST.NodeList; 
   BEGIN
     NEW (s);
     s. type := type;
-    s. lBrace := lBrace;
+    s. lBrace := lBrace(Terminal);
     s. elementList := elementList;
-    s. rBrace := rBrace;
+    s. rBrace := rBrace(Terminal);
     RETURN s
   END Set;
 
