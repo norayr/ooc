@@ -1,4 +1,4 @@
-(* 	$Id: CreateNamespace.Mod,v 1.60 2003/07/07 22:06:22 mva Exp $	 *)
+(* 	$Id: CreateNamespace.Mod,v 1.61 2003/07/27 10:36:59 mva Exp $	 *)
 MODULE OOC:SymbolTable:CreateNamespace [OOC_EXTENSIONS];
 (*  Creates namespaces for module, and resolves type names in declarations.
     Copyright (C) 2000-2003  Michael van Acken
@@ -759,12 +759,12 @@ RAISES IO.Error;
           FOR i := 0 TO LEN(item.arguments^)-1 DO
             item.arguments[i].type :=
                 GetTypeByName(item.arguments[i].srcCodeType, contextOfUse,
-                              FALSE, TRUE, errList);
+                              TRUE, TRUE, errList);
           END;
 
         | item: Sym.TypeVar DO
           item.bound := GetTypeByName(item.bound, contextOfUse,
-                                      FALSE, TRUE, errList);
+                                      TRUE, TRUE, errList);
           
           
         (* scope objects: fix context of use for using 
