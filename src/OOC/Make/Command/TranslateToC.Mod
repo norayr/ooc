@@ -1,4 +1,4 @@
-(* 	$Id: TranslateToC.Mod,v 1.28 2002/02/10 14:25:20 sgreenhill Exp $	 *)
+(* 	$Id: TranslateToC.Mod,v 1.29 2002/02/11 13:37:38 sgreenhill Exp $	 *)
 MODULE OOC:Make:Command:TranslateToC;
 (*  Translates a module file into a bunch of C code files.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -198,10 +198,7 @@ PROCEDURE WriteCodeFile (w: DeclWriter.Writer; m: Repository.Module;
       w. WriteString (")");
     END Call;
  
-  PROCEDURE SetConstruct(expr : IR.SetConstruct);
-  VAR 
-    i, count : LONGINT;
-    element : IR.Expression;
+  PROCEDURE SetRange(expr : IR.SetRange);
 
     PROCEDURE Bit(expr : IR.Expression; next : BOOLEAN);
     BEGIN
@@ -212,24 +209,16 @@ PROCEDURE WriteCodeFile (w: DeclWriter.Writer; m: Repository.Module;
     END Bit;
 
   BEGIN
-    count := 0;
-    w. WriteString ("(");
-    FOR i := 0 TO LEN(expr.elements^)-1 DO
-      IF count # 0 THEN w. WriteString(" | ") END;
-      INC(count);
-      element := expr.elements[i];
-      WITH element : IR.Range DO
-        w. WriteString("(");
-        Bit(element.to, TRUE);
-        w. WriteString("-");
-        Bit(element.from, FALSE);
-        w. WriteString(")");
-      ELSE
-        Bit(element, FALSE);
-      END
+    IF expr.to = expr.from THEN
+      Bit(expr.from, FALSE);
+    ELSE
+      w. WriteString ("(");
+      Bit(expr.to, TRUE);
+      w. WriteString("-");
+      Bit(expr.from, FALSE);
+      w. WriteString(")");
     END;
-    w.WriteString (")");
-  END SetConstruct;
+  END SetRange;
 
   PROCEDURE WriteExpr (w: DeclWriter.Writer;
                        expr: IR.Expression);
@@ -286,8 +275,8 @@ PROCEDURE WriteCodeFile (w: DeclWriter.Writer; m: Repository.Module;
       | expr: IR.Call DO
         Call (expr)
 
-      | expr : IR.SetConstruct DO
-        SetConstruct(expr);
+      | expr : IR.SetRange DO
+        SetRange(expr);
       ELSE
         Log.Type("++ Unknown operator class in WriteExpr", expr);
         ASSERT (FALSE)
