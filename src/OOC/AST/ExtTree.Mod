@@ -1,4 +1,4 @@
-(* 	$Id: ExtTree.Mod,v 1.7 2001/10/23 20:35:27 mva Exp $	 *)
+(* 	$Id: ExtTree.Mod,v 1.8 2001/12/09 15:21:59 mva Exp $	 *)
 MODULE OOC:AST:ExtTree [OOC_EXTENSIONS];
 (*  Creates extended abstract syntax tree from the parser output.
     Copyright (C) 2000, 2001  Michael van Acken
@@ -432,7 +432,7 @@ TYPE
   ReturnStatm* = POINTER TO ReturnStatmDesc;
   ReturnStatmDesc = RECORD
     (NodeDesc)
-    return-: AST.Node;
+    return-: Terminal;
     expr-: AST.Node;
   END;
 
@@ -1417,7 +1417,7 @@ PROCEDURE (b: Builder) ReturnStatm* (return, expr: AST.Node): Node;
     r: ReturnStatm;
   BEGIN
     NEW (r);
-    r. return := return;
+    r. return := return(Terminal);
     r. expr := expr;
     RETURN r
   END ReturnStatm;
