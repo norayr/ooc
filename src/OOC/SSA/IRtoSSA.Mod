@@ -1,4 +1,4 @@
-(* 	$Id: IRtoSSA.Mod,v 1.71 2002/06/22 21:55:45 mva Exp $	 *)
+(* 	$Id: IRtoSSA.Mod,v 1.72 2002/06/23 07:47:41 mva Exp $	 *)
 MODULE OOC:SSA:IRtoSSA;
 (*  Converts the IR of a procedure into its SSA representation.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -290,7 +290,7 @@ PROCEDURE StatmSeq* (pb: SSA.ProcBlock; s: SSA.Result;
            change it into a "get" for the array element *)
         instr := baseResult. instr;
         index := Expression (indexOp. index);
-        IF FALSE & indexOp. checkIndex THEN
+        IF indexOp. checkIndex THEN
           check := AddException (pb, Opcode.checkIndex, index. subclass);
           check. AddOpnd (index, Opnd.arg);
           check. AddOpnd (length, Opnd. arg);
