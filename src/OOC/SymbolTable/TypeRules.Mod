@@ -1,4 +1,4 @@
-(* 	$Id: TypeRules.Mod,v 1.14 2002/06/01 10:49:29 mva Exp $	 *)
+(* 	$Id: TypeRules.Mod,v 1.15 2002/06/01 20:36:05 mva Exp $	 *)
 MODULE OOC:SymbolTable:TypeRules;
 (*  Defines the type rules of the language.
     Copyright (C) 2000-2002  Michael van Acken
@@ -81,7 +81,7 @@ PROCEDURE (tr: Rules) IsIntegerType* (type: Sym.Type): BOOLEAN;
 (**Result is @code{TRUE} iff @oparam{type} is an integer type.  *)
   BEGIN
     WITH type: Sym.PredefType DO
-      RETURN (type. id IN {Predef.shortint, Predef.integer, Predef.longint})
+      RETURN (type. id IN {Predef.shortint .. Predef.real-1})
     ELSE
       RETURN FALSE
     END;
