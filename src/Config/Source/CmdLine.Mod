@@ -1,4 +1,4 @@
-(* 	$Id: CmdLine.Mod,v 1.4 2003/05/17 16:50:57 mva Exp $	 *)
+(* 	$Id: CmdLine.Mod,v 1.5 2003/05/17 18:52:17 mva Exp $	 *)
 MODULE Config:Source:CmdLine;
 (*  Command line parser for OOC's configuration system.
     Copyright (C) 2000, 2003  Michael van Acken
@@ -21,7 +21,7 @@ MODULE Config:Source:CmdLine;
 IMPORT
   Object, CharClass, Strings, LongStrings, Msg, Channel, TextRider,
   IO, Writer := IO:TextRider,
-  Config:Value, Config:Source, Config:Parser;
+  Config:Source, Config:Parser;
 
 CONST
   maxLenArgument = 2*1024;

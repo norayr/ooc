@@ -1,4 +1,4 @@
-(* 	$Id: Testcases.Mod,v 1.13 2003/04/02 22:08:24 mva Exp $	 *)
+(* 	$Id: Testcases.Mod,v 1.14 2003/05/17 18:52:16 mva Exp $	 *)
 MODULE OOC:TestFramework:Testcases;
 (*  Parser for XML testsuite and testcases elements.
     Copyright (C) 2001, 2003  Michael van Acken
@@ -168,7 +168,7 @@ PROCEDURE (inlineText: InlineText) MissingChild* (): Element.String;
   BEGIN
     elem := inlineText. textList. head;
     WHILE (elem # NIL) DO
-      WITH elem: Element.PCData DO
+      WITH elem: Element.PCfgData DO
         elem. Normalize (FALSE, FALSE)
       ELSE                               (* already normalized *)
       END;
@@ -185,14 +185,14 @@ PROCEDURE (inlineText: InlineText) HasMixedContent*(): BOOLEAN;
 PROCEDURE (inlineText: InlineText) AddCharacters* (VAR chars: Element.StringVar;
                                           charsStart, charsEnd: Element.CharPos);
   VAR
-    pcdata: Element.PCData;
+    pcdata: Element.PCfgData;
   BEGIN
     IF (inlineText. textList. tail = NIL) OR
-       ~(inlineText. textList. tail IS Element.PCData) THEN
-      pcdata := Element.NewPCData();
+       ~(inlineText. textList. tail IS Element.PCfgData) THEN
+      pcdata := Element.NewPCfgData();
       inlineText. textList. Append (pcdata)
     ELSE
-      pcdata := inlineText. textList. tail(Element.PCData)
+      pcdata := inlineText. textList. tail(Element.PCfgData)
     END;
     pcdata. AddCharacters (chars, charsStart, charsEnd)
   END AddCharacters;
@@ -307,7 +307,7 @@ PROCEDURE (test: Test) MissingChild* (): Element.String;
   BEGIN
     elem := test. textList. head;
     WHILE (elem # NIL) DO
-      WITH elem: Element.PCData DO
+      WITH elem: Element.PCfgData DO
         elem. Normalize (elem = test. textList. head, 
                          elem = test. textList. tail)
       ELSE                               (* already normalized *)
