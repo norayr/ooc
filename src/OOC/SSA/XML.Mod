@@ -1,4 +1,4 @@
-(* 	$Id: XML.Mod,v 1.6 2001/12/16 01:26:12 mva Exp $	 *)
+(* 	$Id: XML.Mod,v 1.7 2001/12/18 20:36:45 mva Exp $	 *)
 MODULE OOC:SSA:XML;
 (*  Produces a canonical representation of SSA code in XML.
     Copyright (C) 2001  Michael van Acken
@@ -97,6 +97,11 @@ PROCEDURE WriteInstr (w: Writer.Writer; instr: SSA.Instr;
       
       Result.GetName (res. class, str);
       w. AttrStringLatin1 ("class", str);
+
+      IF (res. subclass # Opcode.scNone) THEN
+        Opcode.GetSubclassName (res. subclass, str);
+        w. AttrStringLatin1 ("subclass", str);
+      END;
       
       w. EndTag;  (* res *)
     END WriteResult;
@@ -126,14 +131,14 @@ PROCEDURE WriteInstr (w: Writer.Writer; instr: SSA.Instr;
     END WriteOpnd;
   
   BEGIN
-    IF (instr IS SSA.Const) OR
+(*    IF (instr IS SSA.Const) OR
        (instr IS SSA.DeclRef) OR
        (instr IS SSA.Address) THEN
       (* these kinds of instructions are written in a shorthand form:
          their actual value is indicated in the "opnd" tag, and the
          instructions themselves are omitted *)
       RETURN
-    END;
+    END;*)
     
     StartTagInstr (w, instr);
     w. AttrInt ("id", GetId (idMap, instr));
@@ -141,6 +146,9 @@ PROCEDURE WriteInstr (w: Writer.Writer; instr: SSA.Instr;
     WITH instr: SSA.Const DO
       value := instr. value. ToString();
       w. AttrStringLatin1 ("value", value. array^);
+
+    | instr: SSA.Address DO
+      w. AttrStringLatin1 ("address-of", instr. decl. name. str^);
     ELSE
     END;
     
