@@ -1,4 +1,4 @@
-/*      $Id: __oo2c.h,v 1.28 2002/07/12 20:44:49 mva Exp $        */
+/*      $Id: __oo2c.h,v 1.29 2002/07/13 12:47:32 mva Exp $        */
 /*  Run-time system for C back-ends of OOC2
     Copyright (C) 2001, 2002  Michael van Acken
 
@@ -150,6 +150,11 @@ extern OOC_INT32 _cmp16(const OOC_CHAR8* l, const OOC_CHAR8* r);
 
 /* i IN s */
 #define _in(_i,_s) (((_s)>>(_i))&1)
+
+/* INCL, EXCL */
+#define _set_bit(_s,_i) ((_s) | (((typeof(_s))1) << (_i)))
+#define _clear_bit(_s,_i) ((_s) & ~(((typeof(_s))1) << (_i)))
+
 
 /* SYSTEM.VAL */
 #define _type_cast(_destType, _sourceType, _x) \

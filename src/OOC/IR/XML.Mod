@@ -1,4 +1,4 @@
-(* 	$Id: XML.Mod,v 1.59 2002/07/12 20:44:49 mva Exp $	 *)
+(* 	$Id: XML.Mod,v 1.60 2002/07/13 12:47:31 mva Exp $	 *)
 MODULE OOC:IR:XML;
 (*  Write an IR data structure as an XML document.
     Copyright (C) 2001, 2002  Michael van Acken, Stewart Greenhill
@@ -295,6 +295,11 @@ PROCEDURE (v : Visitor) VisitCompare* (op : IR.Compare);
   BEGIN
     VisitDyadicOp (v, op, op.variant, op.left, op.right, "compare");
   END VisitCompare;
+
+PROCEDURE (v: Visitor) VisitChangeElement* (op: IR.ChangeElement);
+  BEGIN
+    VisitDyadicOp (v, op, op.variant, op.set, op.element, "change-element");
+  END VisitChangeElement;
 
 PROCEDURE (v: Visitor) VisitSetOp* (op: IR.SetOp);
   BEGIN
