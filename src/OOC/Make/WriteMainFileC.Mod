@@ -1,4 +1,4 @@
-(* 	$Id: WriteMainFileC.Mod,v 1.3 2002/11/29 23:17:18 mva Exp $	 *)
+(* 	$Id: WriteMainFileC.Mod,v 1.4 2002/12/02 19:58:18 mva Exp $	 *)
 MODULE OOC:Make:WriteMainFileC;
 (*  Generates the main file of a program.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -71,7 +71,7 @@ PROCEDURE WriteFile*(module: Repository.Module;
     ch := module. GetOutputChannel (Repository.modMainFileC, TRUE, res);
     IF (res = Channel.done) THEN
       w := TextRider.ConnectWriter (ch);
-      w. WriteString ('#include "RT0.h"');
+      w. WriteString ('#include "RT0'+Repository.headerSuffix+'"');
       w. WriteLn;
       WriteModules (w, "extern void ", "_init0(void);");
       w. WriteLn;

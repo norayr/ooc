@@ -1,4 +1,4 @@
-(* 	$Id: TranslateToC.Mod,v 1.4 2002/11/16 01:53:49 mva Exp $	 *)
+(* 	$Id: TranslateToC.Mod,v 1.5 2002/12/02 19:58:18 mva Exp $	 *)
 MODULE OOC:Make:TranslateToC [OOC_EXTENSIONS];
 (*  Translates a module file into a bunch of C code files.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -159,7 +159,7 @@ PROCEDURE WriteHeaderFile (w: DeclWriter.Writer; m: Repository.Module;
 
     (* pull in type definitions for the run-time meta data: module descriptor,
        type descriptor, and so on.  *)
-    w. WriteString ('#include "'+Config.runtimeModule+'.h"');
+    w. WriteString ('#include "'+Config.runtimeModule+Repository.headerSuffix+'"');
     w. WriteLn;
     
     ConvertDecl.ConvertSymTab (w, m, symTab, exports, TRUE);

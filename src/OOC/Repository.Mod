@@ -1,4 +1,4 @@
-(* 	$Id: Repository.Mod,v 1.28 2002/11/29 18:13:57 mva Exp $	 *)
+(* 	$Id: Repository.Mod,v 1.29 2002/12/02 19:58:18 mva Exp $	 *)
 MODULE OOC:Repository [OOC_EXTENSIONS];
 (*  Abstraction of storage of source, intermediate, and target code.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -25,6 +25,8 @@ IMPORT
   URI, OS:Path, OOC:Logger,
   OOC:Scanner:InputBuffer, Sym := OOC:SymbolTable, OOC:SymbolTable:Builder;
 
+CONST
+  headerSuffix* = ".oh";
 
 TYPE
   URIBuffer* = ARRAY 1024 OF CHAR;
@@ -465,7 +467,7 @@ PROCEDURE (rep: Repository) GetDefaultSuffix* (id: FileId; VAR suffix: ARRAY OF 
     | modDeclFileC:
       COPY (".d", suffix)
     | modHeaderFileC:
-      COPY (".h", suffix)
+      COPY (headerSuffix, suffix);
     | modAssemblerFile:
       COPY (".s", suffix)
     | modMainFileC:
