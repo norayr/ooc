@@ -1,4 +1,4 @@
-(* 	$Id: DeclWriter.Mod,v 1.51 2002/12/22 16:11:06 mva Exp $	 *)
+(* 	$Id: DeclWriter.Mod,v 1.52 2002/12/23 04:59:58 mva Exp $	 *)
 MODULE OOC:C:DeclWriter [OOC_EXTENSIONS];
 (*  Defines classes to handle C declarations, types, and include statements.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -515,6 +515,9 @@ PROCEDURE (w: Writer) WriteConst* (value: Boxed.Object; type: Sym.Type);
         
       | value: Boxed.LongReal DO
         w. WriteStr(value.ToString());
+        IF TR.IsPredefType(type, Predef.real) THEN
+          w. WriteString("f");
+        END;
         
       | value: BigInt.BigInt DO
         IF (value. ToLongInt() = MIN (LONGINT)) THEN
