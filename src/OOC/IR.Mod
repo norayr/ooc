@@ -1,4 +1,4 @@
-(* 	$Id: IR.Mod,v 1.248 2003/06/11 14:02:42 sgreenhill Exp $	 *)
+(* 	$Id: IR.Mod,v 1.249 2003/06/12 20:39:56 mva Exp $	 *)
 MODULE OOC:IR [OOC_EXTENSIONS];
 (*  High-level intermediate code representation.
     Copyright (C) 2001-2003  Michael van Acken, Stewart Greenhill
@@ -3023,7 +3023,7 @@ PROCEDURE (shift: Shift) Accept* (v: Visitor);
    ------------------------------------------------------------------------ *)
 
 PROCEDURE InitTypeCast (cast: TypeCast; sym: Symbol; type: Sym.Type;
-                     expr: Expression);
+                        expr: Expression);
   BEGIN
     InitOperator (cast, sym, type);
     cast. expr := expr;
@@ -3035,7 +3035,7 @@ PROCEDURE (b: Builder) NewTypeCast (sym: Symbol;
     cast: TypeCast;
     type: Sym.Type;
   BEGIN
-    type := b.AssertType(typeExpr);
+    type := Sym.Expand(b.AssertType(typeExpr));
     IF (type.size < 0) OR (expr.type.size < 0) OR
        (type.size # expr.type.size) THEN
       b.ErrSym(objectSizeMismatch, expr.sym);
