@@ -1,4 +1,4 @@
-(* 	$Id: ExtTree.Mod,v 1.22 2002/05/05 18:23:15 mva Exp $	 *)
+(* 	$Id: ExtTree.Mod,v 1.23 2002/05/06 19:46:49 mva Exp $	 *)
 MODULE OOC:AST:ExtTree [OOC_EXTENSIONS];
 (*  Creates extended abstract syntax tree from the parser output.
     Copyright (C) 2000-2002  Michael van Acken
@@ -414,7 +414,7 @@ TYPE
     (NodeDesc)
     guardList-: AST.NodeList;
     else-: AST.Node;
-    elseStatmSeq-: AST.NodeList;
+    elseStatmSeq-: NodeList;
     end-: AST.Node;
   END;
 
@@ -1389,7 +1389,11 @@ PROCEDURE (b: Builder) WithStatm* (guardList: AST.NodeList; else: AST.Node; else
     NEW (w);
     w. guardList := guardList;
     w. else := else;
-    w. elseStatmSeq := elseStatmSeq;
+    IF (elseStatmSeq # NIL) THEN
+      w. elseStatmSeq := elseStatmSeq(NodeList);
+    ELSE
+      w. elseStatmSeq := NIL;
+    END;
     w. end := end;
     RETURN w
   END WithStatm;
