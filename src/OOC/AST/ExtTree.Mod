@@ -1,4 +1,4 @@
-(* 	$Id: ExtTree.Mod,v 1.8 2001/12/09 15:21:59 mva Exp $	 *)
+(* 	$Id: ExtTree.Mod,v 1.9 2001/12/10 18:16:41 mva Exp $	 *)
 MODULE OOC:AST:ExtTree [OOC_EXTENSIONS];
 (*  Creates extended abstract syntax tree from the parser output.
     Copyright (C) 2000, 2001  Michael van Acken
@@ -331,7 +331,7 @@ TYPE
   Assignment* = POINTER TO AssignmentDesc;
   AssignmentDesc = RECORD
     (NodeDesc)
-    assignment-: AST.Node;
+    assignment-: Operator;
   END;
 
 TYPE
@@ -1236,7 +1236,7 @@ PROCEDURE (b: Builder) Assignment* (assignment: AST.Node): Node;
     a: Assignment;
   BEGIN
     NEW (a);
-    a. assignment := assignment;
+    a. assignment := assignment(Operator);
     RETURN a
   END Assignment;
 
