@@ -1,4 +1,4 @@
-(* 	$Id: WriteC.Mod,v 1.126 2002/10/06 20:08:10 mva Exp $	 *)
+(* 	$Id: WriteC.Mod,v 1.127 2002/10/20 18:04:47 mva Exp $	 *)
 MODULE OOC:SSA:WriteC [OOC_EXTENSIONS];
 (*  Translates a set of scheduled SSA instructions to plain C.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -1745,6 +1745,8 @@ PROCEDURE (t: Translator) WriteProcBody* (proc: IR.Procedure);
        label at end of compound statement'  *)
     w. WriteString (";");
     t. w. Indent (-1);
+
+    pb.Destroy();                        (* cleanup for the sake of the gc *)
   END WriteProcBody;
 
 

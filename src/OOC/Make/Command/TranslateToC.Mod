@@ -1,4 +1,4 @@
-(* 	$Id: TranslateToC.Mod,v 1.45 2002/10/20 11:58:51 mva Exp $	 *)
+(* 	$Id: TranslateToC.Mod,v 1.46 2002/10/20 18:04:47 mva Exp $	 *)
 MODULE OOC:Make:Command:TranslateToC [OOC_EXTENSIONS];
 (*  Translates a module file into a bunch of C code files.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -387,6 +387,7 @@ PROCEDURE (cmd: Command) Run*(): BOOLEAN;
         CloseFile (wd);
         CloseFile (wc);
       END;
+      module.Destroy;                    (* cleanup for the sake of the gc *)
     END;
     
     cmd. errList := errList;
