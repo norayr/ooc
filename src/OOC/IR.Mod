@@ -1,4 +1,4 @@
-(* 	$Id: IR.Mod,v 1.279 2004/04/13 21:08:21 mva Exp $	 *)
+(* 	$Id: IR.Mod,v 1.280 2004/06/15 19:17:45 mva Exp $	 *)
 MODULE OOC:IR [OOC_EXTENSIONS];
 (*  High-level intermediate code representation.
     Copyright (C) 2001-2004  Michael van Acken, Stewart Greenhill
@@ -5171,6 +5171,7 @@ PROCEDURE (b: Builder) NewProcedure* (sym: Symbol;
     NEW (p);
     statmSeq := AddSetupCode (sym, decl, statmSeq);
     InitProcedure (p, sym, decl, statmSeq, endOfProc,
+                   (decl.formalPars.resultType # NIL) &
                    GetPragmaValue (b, StdPragmas.functionResultCheck,
                                    decl. name. pos));
     RETURN p
