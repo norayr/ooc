@@ -1,4 +1,4 @@
-(* 	$Id: DeclWriter.Mod,v 1.59 2003/02/22 21:49:03 mva Exp $	 *)
+(* 	$Id: DeclWriter.Mod,v 1.60 2003/02/23 02:26:18 mva Exp $	 *)
 MODULE OOC:C:DeclWriter [OOC_EXTENSIONS];
 (*  Defines classes to handle C declarations, types, and include statements.
     Copyright (C) 2001-2003  Michael van Acken
@@ -540,6 +540,7 @@ PROCEDURE (w: Writer) WriteBasicConst* (value: Boxed.Object;
   VAR
     charValue: LONGINT;
     s: STRING;
+    signed: BOOLEAN;
     
   PROCEDURE WriteOct (ch: LONGINT);
     BEGIN
@@ -605,7 +606,8 @@ PROCEDURE (w: Writer) WriteBasicConst* (value: Boxed.Object;
         END;
         
       | value: BigInt.BigInt DO
-        IF (value. ToLongInt() = MIN (LONGINT)) THEN
+        signed := (type < uint8);
+        IF signed & (value. ToLongInt() = MIN (LONGINT)) THEN
           (* this assumes that MIN(LONGINT) is also the smallest value of
              the C type "int"; to avoid overflow errors, we must rewrite
              the value slightly *)
@@ -614,6 +616,9 @@ PROCEDURE (w: Writer) WriteBasicConst* (value: Boxed.Object;
           w. WriteString ("-1)");
         ELSE
           w. WriteObject(value.ToString());
+          IF ~signed THEN
+            w.WriteString("u");
+          END;
         END;
         
       | value: Boxed.Set DO
