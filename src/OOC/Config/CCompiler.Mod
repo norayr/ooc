@@ -1,4 +1,4 @@
-(* 	$Id: CCompiler.Mod,v 1.13 2002/11/12 21:51:16 mva Exp $	 *)
+(* 	$Id: CCompiler.Mod,v 1.14 2002/11/13 19:35:06 mva Exp $	 *)
 MODULE OOC:Config:CCompiler;
 (*  Generates command lines for the C compiler and linker.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -92,12 +92,11 @@ PROCEDURE LinkProgramCmd* (execFile: URI.URI; forLibrary: BOOLEAN;
   VAR
     str: ARRAY 1024 OF CHAR;
   BEGIN
-    IF forLibrary THEN
-      COPY (libtool. value(StringValue.Value). string^, cmd);
-      Strings.Append (" ", cmd);
-    ELSE
-      COPY("", cmd);
-    END;
+    (* always use the libtool wrapper, so that we can add .la files to
+       the linker argument line *)
+    COPY (libtool. value(StringValue.Value). string^, cmd);
+    Strings.Append (" ", cmd);
+    
     Strings.Append (cc. value(StringValue.Value). string^, cmd);
     Strings.Append (" -o ", cmd);
     execFile(File.URI). GetPath (str);
