@@ -1,4 +1,4 @@
-(* 	$Id: FileSystem.Mod,v 1.6 2001/10/18 21:17:13 mva Exp $	 *)
+(* 	$Id: FileSystem.Mod,v 1.7 2001/11/12 23:45:26 mva Exp $	 *)
 MODULE OOC:Repository:FileSystem;
 (*  Implementation of a repository in the local file system.
     Copyright (C) 2001  Michael van Acken
@@ -228,11 +228,28 @@ PROCEDURE (m: Module) GetInputBuffer* (VAR res: Msg.Msg): InputBuffer.Buffer;
     errList: Error.List;
     str: Rep.URIBuffer;
     modURI, relative: URI.URI;
+    i: LONGINT;
+    scheme: ARRAY 6 OF CHAR;
   BEGIN
     (* create new error list for the source file *)
     modURI := m. GetURI (Rep.modModuleSource);
     relative := modURI. MakeRelative (baseURI);
     relative. GetString (str);
+    i := 0;
+    WHILE (str[i] = ".") OR (str[i] = "/") DO
+      INC (i)
+    END;
+    IF (i > 6) THEN
+      (* string begins with ../../..; with this many steps back in the
+         directory hierarchy, a relative file name is pretty useless,
+         so we use the original absolue one *)
+      modURI. GetString (str);
+      Strings.Extract (str, 0, 5, scheme);
+      Strings.Capitalize (scheme);
+      IF (scheme = "FILE:") THEN
+        Strings.Delete (str, 0, 5)
+      END;
+    END;
     errList := Error.NewList (str);
     
     (* open file for reading *)
