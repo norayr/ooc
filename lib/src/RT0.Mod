@@ -1,4 +1,4 @@
-(* 	$Id: RT0.Mod,v 1.5 2002/05/01 15:32:03 mva Exp $	 *)
+(* 	$Id: RT0.Mod,v 1.6 2002/05/01 21:25:02 mva Exp $	 *)
 MODULE RT0 [FOREIGN "C"; LINK FILE "RT0.c" END];
 (*  Proxy module for the run-time system of C back-ends of OOC2
     Copyright (C) 2001, 2002  Michael van Acken
@@ -142,14 +142,10 @@ VAR
   integer-: StructDesc;
   longint-: StructDesc;
 
-PROCEDURE NewArray* (td: Struct; ...): SYSTEM.PTR;
-(**Allocates a new array variable on the heap, using the type descriptor
-   @oparam{td}.  For an open array object, the lengths of the array's
-   dimensions are passed as second, third, and so on, parameter.  They must be
-   of type @code{LONGINT}.  *)
-   
-PROCEDURE NewRecord* (td: Struct): SYSTEM.PTR;
-(**Allocates a new record variable on the heap, using the type descriptor
-   @oparam{td}.  *)
+PROCEDURE NewObject* (td: Struct; ...): SYSTEM.PTR;
+(**Allocates a new array or record variable on the heap, using the type
+   descriptor @oparam{td}.  For an open array object, the lengths of the
+   array's dimensions are passed as second, third, and so on, parameter.  They
+   must be of type @code{LONGINT}.  *)
    
 END RT0.
