@@ -1,4 +1,4 @@
-(* 	$Id: RT0.Mod,v 1.17 2002/06/26 19:38:01 mva Exp $	 *)
+(* 	$Id: RT0.Mod,v 1.18 2002/06/26 21:14:23 mva Exp $	 *)
 MODULE RT0 [FOREIGN "C"; LINK FILE "RT0.c"; LIB "m" END];
 (*  Proxy module for the run-time system of C back-ends of OOC2
     Copyright (C) 2001, 2002  Michael van Acken
@@ -192,6 +192,7 @@ PROCEDURE ErrorIndexOutOfRange* (mid: Module; pos: LONGINT;
 PROCEDURE ErrorDerefOfNil* (mid: Module; pos: LONGINT);
 PROCEDURE ErrorFailedCase* (mid: Module; pos: LONGINT; select: LONGINT);
 PROCEDURE ErrorFailedWith* (mid: Module; pos: LONGINT);
+PROCEDURE ErrorFailedTypeAssert* (mid: Module; pos: LONGINT);
 PROCEDURE ErrorFailedFunction* (mid: Module; pos: LONGINT);
 PROCEDURE ErrorAssertionFailed* (mid: Module; pos: LONGINT; code: LONGINT);
 
