@@ -1,4 +1,4 @@
-(* 	$Id: SSA.Mod,v 1.31 2002/04/15 22:39:16 mva Exp $	 *)
+(* 	$Id: SSA.Mod,v 1.32 2002/04/27 13:16:56 mva Exp $	 *)
 MODULE OOC:SSA;
 (*  Data structures for SSA code representation.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -953,9 +953,7 @@ PROCEDURE (pb: ProcBlock) AddCopyParameter*
   BEGIN
     address := NewAddress (Opcode.copyParameter, param);
     address. AddOpnd (storeIn, OpndClass.store);
-    IF (size # NIL) THEN
-      address. AddOpnd (size, OpndClass.arg);
-    END;
+    address. AddOpnd (size, OpndClass.arg);
     AppendInstr (pb, address);
     pb. SetAddress (param, address);
     RETURN address

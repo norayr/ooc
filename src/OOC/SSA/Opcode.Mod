@@ -1,4 +1,4 @@
-(* 	$Id: Opcode.Mod,v 1.26 2002/04/26 19:26:39 mva Exp $	 *)
+(* 	$Id: Opcode.Mod,v 1.27 2002/04/27 13:16:56 mva Exp $	 *)
 MODULE OOC:SSA:Opcode;
 (*  This modules defines opcodes for SSA instructions.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -318,10 +318,7 @@ CONST
      The current value of the @var{store}.
 
      @item *OOC:SSA.Opnd.arg
-     If the parameter is an open array, then this argument holds the total
-     number of elements of the array.  This is the product of the length of all
-     open array dimensions.  For all other parameter type, this operand is
-     omitted.
+     The size of the parameter in bytes.
      @end table
 
      The result of the instruction is the address of the new copy.  An

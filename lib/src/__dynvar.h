@@ -1,4 +1,4 @@
-/*      $Id: __dynvar.h,v 1.1 2002/01/04 16:04:12 mva Exp $        */
+/*      $Id: __dynvar.h,v 1.2 2002/04/27 13:16:56 mva Exp $        */
 /*  Handling of dynamic variables and value parameters.
     Copyright (C) 2002  Michael van Acken
 
@@ -35,11 +35,11 @@ extern void* _ooc_end_vs;  /* end of value stack; defined in __oo2c.c */
    allocate multiples of OOC_ALIGN+1 */
 #define OOC_ALIGN 7
 
-#define OOC_ALLOCATE_VPAR(_dest,_basetype,_count) \
+#define OOC_ALLOCATE_VPAR(_dest,_basetype,_size) \
   _dest = _ooc_top_vs; \
-  _ooc_top_vs += (sizeof(_basetype)*(_count)+OOC_ALIGN) & ~OOC_ALIGN;
+  _ooc_top_vs += ((_size)+OOC_ALIGN) & ~OOC_ALIGN;
 
-#define OOC_INITIALIZE_VPAR(_source,_dest,_basetype,_count) \
-  memcpy((_dest),(_source),sizeof(_basetype)*(_count));
+#define OOC_INITIALIZE_VPAR(_source,_dest,_basetype,_size) \
+  memcpy((_dest),(_source),(_size));
 
 #endif  /* __dynvar__ */
