@@ -1,4 +1,4 @@
-(* 	$Id: XML.Mod,v 1.6 2002/12/20 09:13:36 mva Exp $	 *)
+(* 	$Id: XML.Mod,v 1.7 2002/12/20 10:19:32 mva Exp $	 *)
 MODULE OOC:SymbolTable:XML;
 (*  Converts symbol table to XML document.
     Copyright (C) 2000, 2001, 2002  Michael van Acken
@@ -235,7 +235,7 @@ PROCEDURE Write* (cw: Channel.Writer; module: Sym.Module);
           
           WITH item: Sym.Module DO
             str := item. ClassToString();
-            IF ~str.Equals(Object.NewLatin1("standard")) THEN
+            IF ~str.Equals("standard") THEN
               chars := str(Object.String8).CharsLatin1();
               AttribString ("", "class", chars^)
             END;
@@ -244,7 +244,7 @@ PROCEDURE Write* (cw: Channel.Writer; module: Sym.Module);
               AttribString("", "library_name", chars^);
             END;
             str := item. CallConvToString();
-            IF ~str.Equals(Object.NewLatin1("default")) THEN
+            IF ~str.Equals("default") THEN
               chars := str(Object.String8).CharsLatin1();
               AttribString ("", "call_conv", chars^)
             END

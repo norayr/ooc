@@ -1,4 +1,4 @@
-(* 	$Id: Allocator.Mod,v 1.30 2002/12/17 19:33:32 mva Exp $	 *)
+(* 	$Id: Allocator.Mod,v 1.31 2002/12/20 10:19:32 mva Exp $	 *)
 MODULE OOC:SSA:Allocator;
 (*  A register allocator for the C back-end.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -32,7 +32,7 @@ IMPORT
 
 TYPE
   BlockList = POINTER TO ARRAY OF Schedule.Block;
-  NameArray = POINTER TO ARRAY OF Object.String;
+  NameArray = POINTER TO ARRAY OF STRING;
   
 TYPE
   RegisterFile = POINTER TO RegisterFileDesc;
@@ -993,7 +993,7 @@ PROCEDURE AssignRegisters* (pb: SSA.ProcBlock; domRoot: Schedule.Block;
       PROCEDURE CheckOpnd (opnd: SSA.Opnd);
         VAR
           obj: Object.Object;
-          defVar: Object.String;
+          defVar: STRING;
           currentValue: SSA.Result;
         BEGIN
           IF registerMap. HasKey (opnd. arg) THEN
@@ -1003,7 +1003,7 @@ PROCEDURE AssignRegisters* (pb: SSA.ProcBlock; domRoot: Schedule.Block;
             IF (obj = markInPlace) THEN
               CheckOpndList (opnd. arg. instr);
             ELSE
-              defVar := obj(Object.String);
+              defVar := obj(STRING);
               ASSERT (state. HasKey (defVar));
               
               (* the current value of the variable must be the expected

@@ -1,4 +1,4 @@
-(* 	$Id: IRtoSSA.Mod,v 1.107 2002/12/19 05:09:02 mva Exp $	 *)
+(* 	$Id: IRtoSSA.Mod,v 1.108 2002/12/20 10:19:32 mva Exp $	 *)
 MODULE OOC:SSA:IRtoSSA;
 (*  Converts the IR of a procedure into its SSA representation.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -624,7 +624,7 @@ PROCEDURE StatmSeq* (pb: SSA.ProcBlock; s: SSA.Result;
         const: SSA.Result;
         scSource, scDest: Opcode.Subclass;
         len: LONGINT;
-        fct: Object.String;
+        fct: STRING;
       BEGIN
         IF TR.IsSTRING(conv.type) THEN
           (* converting a character or string constant to STRING *)

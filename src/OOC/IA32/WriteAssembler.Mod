@@ -1,4 +1,4 @@
-(* 	$Id: WriteAssembler.Mod,v 1.13 2002/12/20 09:13:37 mva Exp $	 *)
+(* 	$Id: WriteAssembler.Mod,v 1.14 2002/12/20 10:19:33 mva Exp $	 *)
 MODULE OOC:IA32:WriteAssembler [OOC_EXTENSIONS];
 (*  Translates a set of scheduled SSA instructions to IA32 assembler.
     Copyright (C) 2002  Michael van Acken
@@ -63,8 +63,8 @@ PROCEDURE WriteInstrList (w: Writer.Writer; b: Schedule.Block);
       
     PROCEDURE Const (value: Boxed.Object; type: Sym.Type);
       VAR
-        s: Object.String8;
-        string: Object.String;
+        s: STRING;
+        string: STRING;
         chars: Object.CharsLatin1;
       BEGIN
         IF (value = NIL) THEN
@@ -81,7 +81,7 @@ PROCEDURE WriteInstrList (w: Writer.Writer; b: Schedule.Block);
               IntStr.IntToStr(ORD(value.value.CharAt(0)), str);
             ELSE
               s := w. GetStringLabel (value);
-              chars := s.CharsLatin1();
+              chars := s(Object.String8).CharsLatin1();
               COPY(chars^, str);
             END;
             Strings.Insert ("$", 0, str);
@@ -229,7 +229,7 @@ PROCEDURE WriteBlocks (w: Writer.Writer; domRoot: Schedule.Block);
 PROCEDURE (t: Translator) WriteProcBody* (proc: IR.Procedure);
   VAR
     w: Writer.Writer;
-    name: Object.String;
+    name: STRING;
     lfe: ARRAY 32 OF CHAR;
     pb: SSA.ProcBlock;
     enter: SSA.Instr;

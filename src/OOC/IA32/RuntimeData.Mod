@@ -1,4 +1,4 @@
-(* 	$Id: RuntimeData.Mod,v 1.5 2002/12/17 19:33:33 mva Exp $	 *)
+(* 	$Id: RuntimeData.Mod,v 1.6 2002/12/20 10:19:33 mva Exp $	 *)
 MODULE OOC:IA32:RuntimeData;
 (*  Writes assembler code for run-time data like type descriptors.
     Copyright (C) 2002  Michael van Acken
@@ -31,10 +31,10 @@ PROCEDURE Write* (w: Writer.Writer; symTab: Sym.Module);
       w. Instr (".align 4");
       w. Instr (".type _mid,@object");
       w. Instr (".size _mid,4");
-      w. Label (Object.NewLatin1("_mid"));
+      w. Label ("_mid");
       w. Instr (".long .LC0");
       w. Section (".section .rodata");
-      w. Label (Object.NewLatin1(".LC0"));
+      w. Label (".LC0");
       w. StringLiteral (symTab. name. str^);
     END ModuleDescr;
   

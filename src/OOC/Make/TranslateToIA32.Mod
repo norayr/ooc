@@ -1,4 +1,4 @@
-(* 	$Id: TranslateToIA32.Mod,v 1.5 2002/12/20 09:13:37 mva Exp $	 *)
+(* 	$Id: TranslateToIA32.Mod,v 1.6 2002/12/20 10:19:32 mva Exp $	 *)
 MODULE OOC:Make:TranslateToIA32 [OOC_EXTENSIONS];
 (*  Translates a module file into a bunch of C code files.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -115,7 +115,7 @@ PROCEDURE WriteCodeFile (w: Writer.Writer; m: Rep.Module; symTab: Sym.Module;
     translator. SetWriter (w, symTab);
 
     w. Section (".text");
-    w. Label (Object.NewLatin1(".Ltext0"));
+    w. Label (".Ltext0");
     RuntimeData.Write (w, symTab);
                        
     w. Section (".text");
@@ -130,7 +130,7 @@ PROCEDURE WriteCodeFile (w: Writer.Writer; m: Rep.Module; symTab: Sym.Module;
 
     w. WriteStringData();
     
-    w. Label (Object.NewLatin1(".Letext"));
+    w. Label (".Letext");
     w. Directive (".ident"+Ascii.ht+'"OOC: 0.1"');
   END WriteCodeFile;
 

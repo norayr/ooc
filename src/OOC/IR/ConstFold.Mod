@@ -1,4 +1,4 @@
-(* 	$Id: ConstFold.Mod,v 1.71 2002/12/19 05:09:02 mva Exp $	 *)
+(* 	$Id: ConstFold.Mod,v 1.72 2002/12/20 10:19:33 mva Exp $	 *)
 MODULE OOC:IR:ConstFold;
 (*  Constant folding on IR expressions.
     Copyright (C) 2002  Stewart Greenhill, Michael van Acken
@@ -421,12 +421,12 @@ PROCEDURE (c: ConstFold) VisitBooleanOp* (op: IR.BooleanOp);
 PROCEDURE (c: ConstFold) VisitConcat* (op: IR.Concat);
   VAR
     i: LONGINT;
-    s: Object.String;
+    s: STRING;
   BEGIN
     s := Object.emptyString;
     FOR i := 0 TO LEN(op.strings^)-1 DO
       IF (op.strings[i] IS IR.Const) THEN
-        s := s.Concat(op.strings[i](IR.Const).value(Boxed.String).value);
+        s := s+op.strings[i](IR.Const).value(Boxed.String).value;
       ELSE
         c.result := NIL;
         RETURN;

@@ -1,4 +1,4 @@
-(* 	$Id: XML.Mod,v 1.67 2002/12/17 19:33:32 mva Exp $	 *)
+(* 	$Id: XML.Mod,v 1.68 2002/12/20 10:19:33 mva Exp $	 *)
 MODULE OOC:IR:XML;
 (*  Write an IR data structure as an XML document.
     Copyright (C) 2001, 2002  Michael van Acken, Stewart Greenhill
@@ -55,7 +55,7 @@ PROCEDURE TypeAttr (w : Writer.Writer; type : Sym.Type);
 
 PROCEDURE (v: Visitor) VisitConst* (const: IR.Const);
   VAR
-    value: Object.String;
+    value: STRING;
     chars: Object.CharsLatin1;
   BEGIN
     v. w. StartTag ("const", TRUE);
