@@ -1,4 +1,4 @@
-(* 	$Id: SymbolTable.Mod,v 1.28 2002/07/21 11:46:12 mva Exp $	 *)
+(* 	$Id: SymbolTable.Mod,v 1.29 2002/07/22 03:38:24 mva Exp $	 *)
 MODULE OOC:SymbolTable [OOC_EXTENSIONS];
 (*  Defines structure and entries of the symbol table.
     Copyright (C) 2000-2002  Michael van Acken
@@ -809,9 +809,9 @@ PROCEDURE (item: Item) Procedure*(): ProcDecl;
 (**Returns the procedure item in which @oparam{item} is nested.  The result is
    @code{NIL}, if @oparam{item} is not part of a procedure.  *)
   BEGIN
-    WHILE (item # NIL) & ~(item IS ProcDecl) DO
+    REPEAT
       item := item. parent
-    END;
+    UNTIL (item = NIL) OR (item IS ProcDecl);
     IF (item = NIL) THEN
       RETURN NIL
     ELSE
