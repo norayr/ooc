@@ -1,4 +1,4 @@
-(* 	$Id: WriteC.Mod,v 1.61 2002/05/04 17:58:22 mva Exp $	 *)
+(* 	$Id: WriteC.Mod,v 1.62 2002/05/05 09:40:28 mva Exp $	 *)
 MODULE OOC:SSA:WriteC [OOC_EXTENSIONS];
 (*  Translates a set of scheduled SSA instructions to plain C.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -1087,15 +1087,11 @@ PROCEDURE (t: Translator) WriteProcBody* (proc: IR.Procedure);
     w := NewWriter (t. w, pb, registerMap);
     w. Indent (1);
     WriteLocalDecl (w, pb, haveCopyParameter);
+    t. WriteNestedProcedures();          (* up call *)
     w. WriteLn;
     w. WriteBlocks (domRoot, haveCopyParameter);
     w. Indent (-1);
   END WriteProcBody;
-
-PROCEDURE (t: Translator) WriteModuleBody* (body: IR.Procedure);
-  BEGIN
-    t. WriteProcBody (body);
-  END WriteModuleBody;
 
 PROCEDURE InitTranslator* (t: Translator; 
                            config: Config.Config;
