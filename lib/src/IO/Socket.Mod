@@ -1,8 +1,8 @@
-(*	$Id: Socket.Mod,v 1.2 2002/11/28 23:52:15 mva Exp $	*)
+(*	$Id: Socket.Mod,v 1.3 2002/11/29 19:01:20 mva Exp $	*)
 MODULE IO:Socket [FOREIGN "C"; 
                   LINK
                     FILE "Socket.c"
-                    <*IF LIB_HAVE_LIBXNET="TRUE" THEN*>; LIB "xnet"<*END*>
+                    <*IF LIB_HAVE_LIBXNET THEN*>; LIB "xnet"<*END*>
                   END];
 (*  Interface to socket facilities.
     Copyright (C) 2000  Michael van Acken
