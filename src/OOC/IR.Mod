@@ -1,4 +1,4 @@
-(* 	$Id: IR.Mod,v 1.214 2003/04/15 22:59:26 mva Exp $	 *)
+(* 	$Id: IR.Mod,v 1.215 2003/04/16 10:32:46 mva Exp $	 *)
 MODULE OOC:IR [OOC_EXTENSIONS];
 (*  High-level intermediate code representation.
     Copyright (C) 2001-2003  Michael van Acken, Stewart Greenhill
@@ -25,8 +25,8 @@ Log,
   Msg, Object, Object:Boxed, Object:BigInt,
   ADT:ArrayList, ADT:StringBuffer,
   Config:Value, BooleanValue := Config:Value:Boolean, 
-  Id := OOC:Scanner:Symbol, OOC:Scanner:Builder:BasicList, OOC:Error,
-  OOC:Config:Pragmas, OOC:Config:Pragmas:StdPragmas,
+  Id := OOC:Scanner:Symbol, OOC:Scanner:BasicList, OOC:Error,
+  OOC:Config:Pragmas, OOC:Config:StdPragmas,
   OOC:AST, Sym := OOC:SymbolTable, OOC:SymbolTable:Predef,
   TR := OOC:SymbolTable:TypeRules, OOC:SymbolTable:Namespace,
   OOC:SymbolTable:CreateNamespace, OOC:SymbolTable:Uses;

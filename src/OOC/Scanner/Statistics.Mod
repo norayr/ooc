@@ -1,5 +1,5 @@
-(* 	$Id: Statistics.Mod,v 1.1 2000/08/20 13:54:36 mva Exp $	 *)
-MODULE OOC:Scanner:Builder:Statistics;
+(* 	$Id: Statistics.Mod,v 1.1 2003/04/16 10:32:35 mva Exp $	 *)
+MODULE OOC:Scanner:Statistics;
 (*  Displays statistics about the symbols of a module.
     Copyright (C) 2000  Michael van Acken
 
@@ -131,4 +131,4 @@ PROCEDURE (b: Builder) AddSymbol* (id: Symbol.Id;
     END
   END AddSymbol;
 
-END OOC:Scanner:Builder:Statistics.
+END OOC:Scanner:Statistics.

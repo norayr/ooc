@@ -1,5 +1,5 @@
-(* 	$Id: BasicList.Mod,v 1.2 2002/09/29 11:38:10 mva Exp $	 *)
-MODULE OOC:Scanner:Builder:BasicList;
+(* 	$Id: BasicList.Mod,v 1.1 2003/04/16 10:32:35 mva Exp $	 *)
+MODULE OOC:Scanner:BasicList;
 (*  Converts sequence of symbols to a list, removing any whitespace.
     Copyright (C) 2000, 2002  Michael van Acken
 
@@ -149,4 +149,4 @@ PROCEDURE (b: Builder) AddSymbol* (id: Sym.Id;
     END
   END AddSymbol;
 
-END OOC:Scanner:Builder:BasicList.
+END OOC:Scanner:BasicList.

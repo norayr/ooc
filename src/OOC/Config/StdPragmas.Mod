@@ -1,5 +1,5 @@
-(* 	$Id: StdPragmas.Mod,v 1.20 2003/04/15 12:46:36 mva Exp $	 *)
-MODULE OOC:Config:Pragmas:StdPragmas;
+(* 	$Id: StdPragmas.Mod,v 1.1 2003/04/16 10:32:41 mva Exp $	 *)
+MODULE OOC:Config:StdPragmas;
 (*  Creates standard pragma variables with default values.
     Copyright (C) 2001, 2002, 2003  Michael van Acken
 
@@ -108,4 +108,4 @@ PROCEDURE CreateVariables* (s: Pragmas.Section);
     targetByteOrder := s. Set ("TARGET_BYTE_ORDER", String.New ("unknown"));
   END CreateVariables;
 
-END OOC:Config:Pragmas:StdPragmas.
+END OOC:Config:StdPragmas.

@@ -1,4 +1,4 @@
-(* 	$Id: CreateIR.Mod,v 1.61 2003/04/05 18:51:01 mva Exp $	 *)
+(* 	$Id: CreateIR.Mod,v 1.62 2003/04/16 10:32:42 mva Exp $	 *)
 MODULE OOC:AST:ExtTree:CreateIR;
 (*  Creates an IR representation from the abstract syntax tree.
     Copyright (C) 2001-2003  Michael van Acken
@@ -22,7 +22,7 @@ MODULE OOC:AST:ExtTree:CreateIR;
 
 IMPORT
   Log, Object:BigInt,
-  OOC:Scanner:Symbol, OOC:Scanner:Builder:BasicList,
+  OOC:Scanner:Symbol, OOC:Scanner:BasicList,
   OOC:AST:ExtTree, Sym := OOC:SymbolTable, TR := OOC:SymbolTable:TypeRules,
   OOC:SymbolTable:Predef, OOC:IR;
 

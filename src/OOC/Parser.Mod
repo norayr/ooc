@@ -1,4 +1,4 @@
-(* 	$Id: Parser.Mod,v 1.8 2002/12/29 14:33:43 mva Exp $	 *)
+(* 	$Id: Parser.Mod,v 1.9 2003/04/16 10:32:44 mva Exp $	 *)
 MODULE OOC:Parser;
 (*  Parses an Oberon-2 module and creates an abstract syntax tree.
     Copyright (C) 1999-2002  Michael van Acken
@@ -22,7 +22,7 @@ MODULE OOC:Parser;
 
 IMPORT
   Msg, Strings,
-  OOC:Error, OOC:Scanner:Symbol, OOC:Scanner:Builder:BasicList, OOC:AST,
+  OOC:Error, OOC:Scanner:Symbol, OOC:Scanner:BasicList, OOC:AST,
   OOC:Doc, OOC:Doc:Input:Texinfo;
 
 

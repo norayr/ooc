@@ -1,4 +1,4 @@
-(* 	$Id: CreateSymTab.Mod,v 1.28 2003/04/05 18:45:34 mva Exp $	 *)
+(* 	$Id: CreateSymTab.Mod,v 1.29 2003/04/16 10:32:42 mva Exp $	 *)
 MODULE OOC:AST:ExtTree:CreateSymTab;
 (*  Creates symbol table from abstract syntax tree of module `ExtTree'.
     Copyright (C) 2000-2003  Michael van Acken
@@ -22,7 +22,7 @@ MODULE OOC:AST:ExtTree:CreateSymTab;
 
 IMPORT
   Msg, Object, URI, ParserURI := URI:Parser,
-  OOC:Scanner:Symbol, OOC:AST, OOC:Scanner:Builder:BasicList, OOC:AST:ExtTree,
+  OOC:Scanner:Symbol, OOC:AST, OOC:Scanner:BasicList, OOC:AST:ExtTree,
   Sym := OOC:SymbolTable,
   SymTabBuilder := OOC:SymbolTable:Builder;
 

@@ -1,4 +1,4 @@
-(* 	$Id: ExtTree.Mod,v 1.32 2003/04/05 18:51:01 mva Exp $	 *)
+(* 	$Id: ExtTree.Mod,v 1.33 2003/04/16 10:32:43 mva Exp $	 *)
 MODULE OOC:AST:ExtTree [OOC_EXTENSIONS];
 (*  Creates extended abstract syntax tree from the parser output.
     Copyright (C) 2000-2003  Michael van Acken
@@ -21,7 +21,7 @@ MODULE OOC:AST:ExtTree [OOC_EXTENSIONS];
 *)
 
 IMPORT
-  Object, OOC:Scanner:Builder:BasicList, OOC:AST, OOC:Doc;
+  Object, OOC:Scanner:BasicList, OOC:AST, OOC:Doc;
 
 
 

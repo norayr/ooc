@@ -1,4 +1,4 @@
-(* 	$Id: oo2c.Mod,v 1.52 2003/04/16 00:56:46 mva Exp $	 *)
+(* 	$Id: oo2c.Mod,v 1.53 2003/04/16 10:32:47 mva Exp $	 *)
 MODULE oo2c;
 (*  Main module for the Oberon-2 to C translator.
     Copyright (C) 2002,2003  Michael van Acken
@@ -26,7 +26,7 @@ IMPORT
   OS:ProcessManagement, Config:Section:Arguments, Config:Section:Options,
   Config:Value:Boolean, Config:Value:Integer, StringValue:=Config:Value:String,
   OOC:Logger, OOC:Config, OOC:Config:CCompiler, OOC:Package,
-  OOC:SymbolTable:Builder, OOC:Config:Pragmas:StdPragmas, OOC:Error,
+  OOC:SymbolTable:Builder, OOC:Config:StdPragmas, OOC:Error,
   Rep := OOC:Repository, OOC:Repository:FileSystem, OOC:Make, OOC:SSA:Stats;
   
 
