@@ -1,4 +1,4 @@
-(* 	$Id: CCompiler.Mod,v 1.4 2001/12/10 00:42:26 mva Exp $	 *)
+(* 	$Id: CCompiler.Mod,v 1.5 2002/07/08 12:04:01 mva Exp $	 *)
 MODULE OOC:Config:CCompiler;
 (*  Generates command lines for the C compiler and linker.
     Copyright (C) 2001  Michael van Acken
@@ -48,7 +48,7 @@ PROCEDURE CompileFileCmd* (config: Config.Config; in, out: URI.URI;
     END GetURIofRT;
   
   BEGIN
-    COPY ("gcc -Wall -W -Wno-unused -Werror -g -pipe", cmd);
+    COPY ("gcc -Wall -W -Wno-unused -Wno-format -Werror -g -pipe", cmd);
     
     include := config. repositories. GetIncludePaths();
     FOR i := 0 TO LEN (include^)-1 DO
