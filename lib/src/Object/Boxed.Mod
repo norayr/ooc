@@ -1,4 +1,4 @@
-(*	$Id: Boxed.Mod,v 1.17 2004/06/04 08:54:27 mva Exp $	*)
+(*	$Id: Boxed.Mod,v 1.18 2004/11/08 02:22:08 sgreenhill Exp $	*)
 MODULE Object:Boxed;
 (*  Implements object representations for predefined types.
     Copyright (C) 2002-2004  Michael van Acken
@@ -605,6 +605,7 @@ BEGIN
   false := NewBoolean(FALSE); falseString := Obj.NewLatin1("FALSE");
   
   zeroLongReal := NewLongReal(0.0);
+  zeroLongInt := NewLongInt(0);
 
   NEW(emptyString);
   emptyString.value := Obj.NewLatin1("");
