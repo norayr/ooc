@@ -1,4 +1,4 @@
-(* 	$Id: PThread.Mod,v 1.5 2003/08/14 07:06:12 mva Exp $	 *)
+(* 	$Id: PThread.Mod,v 1.6 2003/08/14 21:19:43 mva Exp $	 *)
 MODULE Thread:PThread [FOREIGN "C"; LINK LIB "pthread"; FILE "PThread.c" END];
 (*  Interface for ths POSIX threads library.
     Copyright (C) 2003  Michael van Acken
@@ -48,6 +48,8 @@ TYPE
        we must make sure a reference to the current exception is always life
        in an area it @emph{can} see.  *)
     thread: SYSTEM.PTR;
+    (* FIXME... under Linux and Solaris pthread_t is actually an integer type
+       (long or unsigned), which triggers a warning under 64 bit Solaris *)
   END;
 
 TYPE
