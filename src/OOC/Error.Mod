@@ -1,4 +1,4 @@
-(* 	$Id: Error.Mod,v 1.3 2002/10/26 17:09:45 mva Exp $	 *)
+(* 	$Id: Error.Mod,v 1.4 2002/10/28 20:26:12 mva Exp $	 *)
 MODULE OOC:Error;
 (*  Creates lists of error messages and converts them to text.
     Copyright (C) 1999, 2000, 2001, 2002  Michael van Acken
@@ -186,7 +186,7 @@ PROCEDURE (errList: List) Write* (ch: Channel.Channel);
       msg := errList. msgList;
       WHILE (msg # NIL) DO
         pos := msg.GetAttribute(posAttr);
-        IF (pos(M.IntAttribute).int >= lastPos) &
+        IF (pos # NIL) & (pos(M.IntAttribute).int >= lastPos) &
            ((best = NIL) OR (pos(M.IntAttribute).int < bestPos)) THEN
           best := msg;
           bestPos := pos(M.IntAttribute).int;
@@ -208,6 +208,17 @@ PROCEDURE (errList: List) Write* (ch: Channel.Channel);
       writer. WriteLn
     END;
 
+    (* first, write out all errors that have no position attribute *)
+    msg := errList. msgList;
+    WHILE (msg # NIL) DO
+      attrPos := msg.GetAttribute(posAttr);
+      IF (attrPos = NIL) THEN
+        WriteMsg (msg);
+      END;
+      msg := msg. nextMsg
+    END;
+    
+    (* second, write sorted list of all errors withs position *)
     lastPos := -1;
     LOOP
       msg := GetNext(lastPos);
