@@ -1,4 +1,4 @@
-(*	$Id: Log.Mod,v 1.1 2002/06/06 21:21:26 mva Exp $	*)
+(*	$Id: Log.Mod,v 1.2 2002/06/09 21:28:09 mva Exp $	*)
 MODULE Log [OOC_EXTENSIONS];
 (*  Simple logging facility to stderr.
     Copyright (C) 1998-2000 Michael van Acken
@@ -202,14 +202,14 @@ PROCEDURE Ln*;
     writer. WriteLn
   END Ln;
 
-(*PROCEDURE Ptr* (msg[NO_COPY]: ARRAY OF CHAR; ptr: S.PTR);
+PROCEDURE Ptr* (msg[NO_COPY]: ARRAY OF CHAR; ptr: S.PTR);
   BEGIN
     IF (ptr = NIL) THEN
       String (msg, "NIL")
     ELSE
       HexAdr (msg, S.VAL (S.ADDRESS, ptr))
     END
-  END Ptr;*)
+  END Ptr;
 
 PROCEDURE Adr* (msg[NO_COPY]: ARRAY OF CHAR; VAR x: ARRAY OF S.BYTE);
   BEGIN
