@@ -1,4 +1,4 @@
-(* 	$Id: Opcode.Mod,v 1.59 2002/06/26 21:14:22 mva Exp $	 *)
+(* 	$Id: Opcode.Mod,v 1.60 2002/06/27 18:02:56 mva Exp $	 *)
 MODULE OOC:SSA:Opcode;
 (*  This modules defines opcodes for SSA instructions.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -628,6 +628,13 @@ PROCEDURE IsUnsigned* (subclass: Subclass): BOOLEAN;
   BEGIN
     RETURN (scUnsigned8 <= subclass) & (subclass <= scUnsigned64)
   END IsUnsigned;
+
+PROCEDURE ConvDiffersFromCast* (from, to: Subclass): BOOLEAN;
+(**Returns @code{TRUE}, if a C type cast expression would do a type conversion,
+   instead of merely reinterpreting the bit pattern of the source value.  *)
+  BEGIN
+    RETURN (from < scReal32) # (to < scReal32);
+  END ConvDiffersFromCast;
 
 PROCEDURE GetSubclassName* (subclass: Subclass; VAR name: ARRAY OF CHAR);
 (**Retrieves the symbolic name of a subclass id.  *)
