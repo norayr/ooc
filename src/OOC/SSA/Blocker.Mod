@@ -1,4 +1,4 @@
-(* 	$Id: Blocker.Mod,v 1.4 2002/04/14 08:47:33 mva Exp $	 *)
+(* 	$Id: Blocker.Mod,v 1.5 2002/04/14 08:57:27 mva Exp $	 *)
 MODULE OOC:SSA:Blocker;
 (*  Imposes a block structure on a flat list of SSA instructions.
     Copyright (C) 2002  Michael van Acken
@@ -22,7 +22,7 @@ MODULE OOC:SSA:Blocker;
 
 IMPORT
   Channel, TextRider, ADT:String, Dictionary := ADT:Dictionary:IntValue,
-  OOC:SSA, OOC:SSA:Opcode, OOC:SSA:Result;
+  OOC:SSA, OOC:SSA:Opcode;
   
 (**
 
@@ -346,15 +346,15 @@ PROCEDURE ArrangeInstructions* (pb: SSA.ProcBlock): Region;
                 dummy := GetProxy (instr); (* mark loop-start as seen *)
                 loop. AppendLoop (loopProxy);
                 DiscoverLoopStructure (loopProxy,
-                                       instr. GetResultClass (Result.store),
+                                       instr. GetResultStore(),
                                        loopEnd, NIL);
                 DiscoverLoopStructure (loop,
-                                       loopEnd. GetResultClass (Result.store),
+                                       loopEnd. GetResultStore(),
                                        endOfSearch, loopProxy);
               END;
             ELSE
               DiscoverLoopStructure (loop,
-                                     instr. GetResultClass (Result.store),
+                                     instr. GetResultStore(),
                                      endOfSearch, preceedingLoop);
             END;
           END;
@@ -657,7 +657,7 @@ PROCEDURE ArrangeInstructions* (pb: SSA.ProcBlock): Region;
     pb. SetMarkers (NIL, 0);
     enter := pb. GetEnter();
     mainLoop := NewLoop (NIL);
-    DiscoverLoopStructure (mainLoop, enter. GetResultClass(Result.store),
+    DiscoverLoopStructure (mainLoop, enter. GetResultStore(),
                            NIL, NIL);
     SortNestedLoops (mainLoop);
     (*WriteLoops (mainLoop, 0);*)
