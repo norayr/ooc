@@ -1,4 +1,4 @@
-(* 	$Id: RT0.Mod,v 1.26 2002/07/18 16:31:02 mva Exp $	 *)
+(* 	$Id: RT0.Mod,v 1.27 2002/08/05 12:44:20 sgreenhill Exp $	 *)
 MODULE RT0 [FOREIGN "C"; LINK FILE "RT0.c"; LIB "m" END];
 (*  Proxy module for the run-time system of C back-ends of OOC2
     Copyright (C) 2001, 2002  Michael van Acken
@@ -46,6 +46,8 @@ CONST  (* predefined types, taken from `OOC:SymbolTable:Predef' *)
   strShortint* = 3;
   strInteger* = 4;
   strLongint* = 5;
+  strReal* = 7;
+  strLongreal* = 8;
   strSet32* = 9;
   strByte* = 10;
   strPtr* = 11;
@@ -176,6 +178,8 @@ VAR
   shortint-: StructDesc;
   integer-: StructDesc;
   longint-: StructDesc;
+  real-: StructDesc;
+  longreal-: StructDesc;
   set32-: StructDesc;
   byte-: StructDesc;
   ptr-: StructDesc;
