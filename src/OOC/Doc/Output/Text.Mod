@@ -1,4 +1,4 @@
-(* 	$Id: Text.Mod,v 1.2 2001/05/06 21:11:43 mva Exp $	 *)
+(* 	$Id: Text.Mod,v 1.3 2002/12/12 00:52:08 mva Exp $	 *)
 MODULE OOC:Doc:Output:Text;
 (*  Converts Texinfo text to plain ASCII file, similar to makeinfo.
     Copyright (C) 1999, 2000, 2001  Michael van Acken
@@ -128,7 +128,7 @@ PROCEDURE Convert* (document: Doc.Document;
     
     PROCEDURE Block (block: Doc.BlockElement; indent, offsetFirst: LONGINT);
       VAR
-        item, row, firstColumn: Doc.BlockElement;
+        item, firstColumn: Doc.BlockElement;
         len: LONGINT;
         
       PROCEDURE ItemPrefix (prefix: Doc.InlineElement): LONGINT;
@@ -233,7 +233,7 @@ PROCEDURE ToComment* (document: Doc.Document): Doc.String;
     d: Decoration.Decoration;
     s: Doc.String;
   
-  PROCEDURE CompensateIndentation (VAR s: ARRAY OF CHAR; len: LONGINT): BOOLEAN;
+(*  PROCEDURE CompensateIndentation (VAR s: ARRAY OF CHAR; len: LONGINT): BOOLEAN;
     VAR
       i: LONGINT;
     BEGIN
@@ -245,7 +245,7 @@ PROCEDURE ToComment* (document: Doc.Document): Doc.String;
         INC (i)
       END;
       RETURN TRUE
-    END CompensateIndentation;
+    END CompensateIndentation;*)
   
   BEGIN
     d := document. decoration;
