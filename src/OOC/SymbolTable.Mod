@@ -1,4 +1,4 @@
-(* 	$Id: SymbolTable.Mod,v 1.4 2002/01/10 03:43:43 sgreenhill Exp $	 *)
+(* 	$Id: SymbolTable.Mod,v 1.5 2002/01/18 18:00:56 mva Exp $	 *)
 MODULE OOC:SymbolTable [OOC_EXTENSIONS];
 (*  Defines structure and entries of the symbol table.
     Copyright (C) 2000-2002  Michael van Acken
@@ -25,6 +25,13 @@ IMPORT
   URI, ParserURI := URI:Parser,
   OOC:Scanner:InputBuffer, SB := OOC:Scanner:Builder, OOC:Doc;
 
+TYPE
+  TempNode* = POINTER TO TempNodeDesc;
+  TempNodeDesc* = RECORD [ABSTRACT]
+    (* this is a temporary workaround to avoid cyclic imports between
+       SymbolTable and AST... FIXME *)
+  END;
+  
 TYPE
   NameString* = InputBuffer.CharArray;
   (**This type is used to store names as character arrays.  The string is
@@ -390,6 +397,16 @@ TYPE
     (**Similar to @ofield{elementType}, but if this is initially a type name,
        it is not changed to a reference to the true type after
        @oproc{*OOC:SymbolTable:CreateNamespace.CreateNamespace}.  *)
+    length-: LONGINT;
+    (**The length of of the array, unless @ofield{isOpenArray} is @code{TRUE}.
+       Please note that this failed is set fairly late in the translation
+       process, just before the statements of procedure and bodies are
+       translated to IR.  Until then, this field holds a negative value.
+       (It's probably a good idea to change this field to `Integer' at
+       some later time.)  *)
+    lengthExpr-: TempNode;
+    (**The part of the abstract syntax tree that defines the length of the
+       array.  For an open array type, this field is @code{NIL}.  *)
   END;
 
 TYPE
@@ -1431,12 +1448,15 @@ PROCEDURE (pointer: Pointer) Load* (r: Object.Reader);
 
 
 PROCEDURE InitArray* (array: Array; parent: Item; position: Position; 
-                      isOpenArray: BOOLEAN; elementType: Type);
+                      isOpenArray: BOOLEAN; elementType: Type;
+                      lengthExpr: TempNode);
   BEGIN
     InitType (array, parent, position);
     array. isOpenArray := isOpenArray;
     array. elementType := elementType;
-    array. srcCodeElementType := elementType
+    array. srcCodeElementType := elementType;
+    array. length := -1;
+    array. lengthExpr := lengthExpr;
   END InitArray;
 
 PROCEDURE (array: Array) Store* (w: Object.Writer);
@@ -1444,7 +1464,8 @@ PROCEDURE (array: Array) Store* (w: Object.Writer);
     array. Store^ (w);
     w. WriteBool (array. isOpenArray);
     (*w. WriteObject (array. elementType);*)
-    w. WriteObject (array. srcCodeElementType)
+    w. WriteObject (array. srcCodeElementType);
+    w. WriteNum (array. length);
   END Store;
 
 PROCEDURE (array: Array) Load* (r: Object.Reader);
@@ -1456,7 +1477,14 @@ PROCEDURE (array: Array) Load* (r: Object.Reader);
     r. ReadObject (obj);
     array. srcCodeElementType := obj(Type);
     array. elementType := array. srcCodeElementType;
+    r. ReadNum (array. length);
+    array. lengthExpr := NIL;
   END Load;
+
+PROCEDURE (array: Array) SetLength* (length: LONGINT);
+  BEGIN
+    array. length := length;
+  END SetLength;
 
 PROCEDURE (array: Array) GetOpenDimensions* (): LONGINT;
 (**Returns the number of open dimensions for the type @oparam{array}.  Result
