@@ -1,4 +1,4 @@
-(* 	$Id: IRtoSSA.Mod,v 1.63 2002/05/26 17:30:55 mva Exp $	 *)
+(* 	$Id: IRtoSSA.Mod,v 1.64 2002/05/28 19:49:06 mva Exp $	 *)
 MODULE OOC:SSA:IRtoSSA;
 (*  Converts the IR of a procedure into its SSA representation.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -847,6 +847,19 @@ PROCEDURE StatmSeq* (pb: SSA.ProcBlock; s: SSA.Result;
       instr: SSA.Instr;
       source, dest, maxLength: SSA.Result;
       opnd: SSA.Opnd;
+
+    PROCEDURE TypeOf (type: Sym.Type): Sym.Type;
+      BEGIN
+        WITH type: Sym.Array DO
+          RETURN type. elementType;
+        | type: Sym.PredefType DO
+          CASE type. id OF
+          | Predef.charString: RETURN Predef.GetType (Predef.char);
+          | Predef.longcharString: RETURN Predef.GetType (Predef.longchar);
+          END;
+        END;
+      END TypeOf;
+    
     BEGIN
       instr := pb. AddInstr (Opcode.copyString, Opcode.scNone);
 
@@ -855,6 +868,8 @@ PROCEDURE StatmSeq* (pb: SSA.ProcBlock; s: SSA.Result;
       maxLength := Expression (cp. maxLength);
 
       instr. AddOpnd (s, Opnd.store);
+      instr. AddOpnd (pb. GetTypeRef (TypeOf (cp. source. type)), Opnd.type);
+      instr. AddOpnd (pb. GetTypeRef (TypeOf (cp. dest. type)), Opnd.type);
       IF (cp. source IS IR.Const) THEN
         (* copying a string constant *)
         instr. AddOpnd (source, Opnd.readAdr);

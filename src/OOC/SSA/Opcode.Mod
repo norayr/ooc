@@ -1,4 +1,4 @@
-(* 	$Id: Opcode.Mod,v 1.45 2002/05/26 20:31:27 mva Exp $	 *)
+(* 	$Id: Opcode.Mod,v 1.46 2002/05/28 19:49:05 mva Exp $	 *)
 MODULE OOC:SSA:Opcode;
 (*  This modules defines opcodes for SSA instructions.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -282,16 +282,25 @@ CONST
      @item *OOC:SSA:Opnd.store
      The current value of the @var{store}.
 
+     @item *OOC:SSA:Opnd.type
+     The element type of the source value of the copy.  This is either a
+     @otype{*OOC:SSA:TypeRef} to @oconst{Predef.char} or
+     @oconst{Predef.longchar}.
+
+     @item *OOC:SSA:Opnd.type
+     The element type of the destination variable of the copy.  This is either
+     a @otype{*OOC:SSA:TypeRef} to @oconst{Predef.char} or
+     @oconst{Predef.longchar}.
+
      @item *OOC:SSA:Opnd.readAdr
-     Like the corresponding argument of @oconst{get}.  If the source of
-     the copy operation is a string constant, then this operand refers
-     to the constant.
+     Like the corresponding argument of @oconst{get}.  If the source of the
+     copy operation is a string constant, then this operand refers to the
+     constant.
 
      @item *OOC:SSA:Opnd.readDesign
-     Like the corresponding argument of @oconst{get}.  If the source of
-     the copy operation is a string constant, then no argument of this
-     type exists.
-     
+     Like the corresponding argument of @oconst{get}.  If the source of the
+     copy operation is a string constant, then no argument of this type exists.
+
      @item *OOC:SSA:Opnd.writeAdr
      Like the corresponding argument of @oconst{set}.
 

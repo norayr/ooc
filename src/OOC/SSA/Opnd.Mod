@@ -1,4 +1,4 @@
-(* 	$Id: Opnd.Mod,v 1.17 2002/05/05 22:28:35 mva Exp $	 *)
+(* 	$Id: Opnd.Mod,v 1.18 2002/05/28 19:49:05 mva Exp $	 *)
 MODULE OOC:SSA:Opnd;
 (*  Symbolic names for operand classes.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -89,9 +89,9 @@ CONST
      within a loop at the place of an @code{EXIT}.  *)
 
   type* = 12;
-  (**Type operand of a @oconst{*OOC:SSA:Opcode.newArray} instruction.  Like
-     constants and declarations, this is an immutable value as far as SSA is
-     concerned.  *)
+  (**Type operand of a @oconst{*OOC:SSA:Opcode.newArray} or
+     @oconst{*OOC:SSA:Opcode.copyString} instruction.  Like constants and
+     declarations, this is an immutable value as far as SSA is concerned.  *)
 
   backwardFeed* = 13;
   (**Operand holds the value of @var{store} that is fed back to the beginning

@@ -1,4 +1,4 @@
-(* 	$Id: WriteC.Mod,v 1.73 2002/05/26 17:30:55 mva Exp $	 *)
+(* 	$Id: WriteC.Mod,v 1.74 2002/05/28 19:49:04 mva Exp $	 *)
 MODULE OOC:SSA:WriteC [OOC_EXTENSIONS];
 (*  Translates a set of scheduled SSA instructions to plain C.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -23,7 +23,8 @@ MODULE OOC:SSA:WriteC [OOC_EXTENSIONS];
 IMPORT
   IntStr, Out, StdChannels, Strings, StringSearch,
   ADT:Object, ADT:String, ADT:Dictionary, OOC:Auxiliary:Config,
-  Sym := OOC:SymbolTable, OOC:IR, OOC:SSA:Opcode, OOC:SSA:Opnd,
+  Sym := OOC:SymbolTable, OOC:SymbolTable:Predef,
+  OOC:IR, OOC:SSA:Opcode, OOC:SSA:Opnd,
   OOC:SSA, OOC:SSA:IRtoSSA, OOC:SSA:Schedule, OOC:SSA:XML, OOC:SSA:Inspector,
   OOC:SSA:DeadCodeElimination, OOC:SSA:Destore, OOC:SSA:Allocator,
   OOC:SSA:Blocker,
@@ -623,9 +624,26 @@ PROCEDURE (w: Writer) WriteInstrList (b: Schedule.Block;
     END CopyParameter;
 
   PROCEDURE CopyString (instr: SSA.Instr);
+    VAR
+      source, dest: LONGINT;
+      
+    PROCEDURE TypeId (res: SSA.Result): LONGINT;
+      BEGIN
+        RETURN res(SSA.TypeRef). type(Sym.PredefType). id;
+      END TypeId;
+    
     BEGIN
       w. Newline;
-      w. WriteString ("_copy(");
+      source := TypeId (instr. NthArg (1));
+      dest := TypeId (instr. NthArg (2));
+
+      IF (source = Predef.char) & (dest = Predef.char) THEN
+        w. WriteString ("_copy_8(");
+      ELSIF (source = Predef.longchar) & (dest = Predef.longchar) THEN
+        w. WriteString ("_copy_16(");
+      ELSE (* (source = Predef.char) & (dest = Predef.longchar) *)
+        w. WriteString ("_copy_8to16(");
+      END;
       w. Ref (instr. GetOpndClass (Opnd.readAdr));
       w. WriteChar (",");
       w. Ref (instr. GetOpndClass (Opnd.writeAdr));
