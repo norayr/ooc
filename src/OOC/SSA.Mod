@@ -1,4 +1,4 @@
-(* 	$Id: SSA.Mod,v 1.59 2002/08/18 17:39:45 mva Exp $	 *)
+(* 	$Id: SSA.Mod,v 1.60 2002/08/24 10:49:25 mva Exp $	 *)
 MODULE OOC:SSA;
 (*  Data structures for SSA code representation.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -925,7 +925,7 @@ PROCEDURE (instr: Instr) UniqueResult*(): BOOLEAN;
    of a volatile variable, or a call to the predefined procedure @code{NEW}. *)
   BEGIN
     CASE instr. opcode OF
-    | Opcode.newObject, Opcode.exit, Opcode.return:
+    | Opcode.newObject, Opcode.exit, Opcode.return, Opcode.indexed:
       RETURN TRUE;
     ELSE
       RETURN FALSE;
