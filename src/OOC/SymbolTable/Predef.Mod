@@ -1,4 +1,4 @@
-(* 	$Id: Predef.Mod,v 1.55 2003/05/31 16:48:34 mva Exp $	 *)
+(* 	$Id: Predef.Mod,v 1.56 2003/07/04 08:50:25 mva Exp $	 *)
 MODULE OOC:SymbolTable:Predef;
 (*  Defines symbol table of pseudo module with predefined entities.
     Copyright (C) 2000-2003  Michael van Acken
@@ -240,8 +240,8 @@ PROCEDURE CreatePredef* (stb: Builder.Builder): Sym.Module;
                          BigInt.NewInt(MAX (LONGINT)));
     IF (Autoconf.bitsTargetInteger > 32) THEN
       ptype := PredefType (stb, module, hugeint, "HUGEINT", 8, 8,
-                           BigInt.NewString("-9223372036854775808", 10),
-                           BigInt.NewString("9223372036854775807", 10));
+                           BigInt.NewLatin1("-9223372036854775808", 10),
+                           BigInt.NewLatin1("9223372036854775807", 10));
     END;
     ptype := PredefType (stb, module, real, "REAL", 4, 4,
                          Boxed.NewLongReal(MIN (REAL)),
