@@ -1,4 +1,4 @@
-(* 	$Id: IR.Mod,v 1.220 2003/04/28 21:38:37 mva Exp $	 *)
+(* 	$Id: IR.Mod,v 1.221 2003/04/28 21:58:31 mva Exp $	 *)
 MODULE OOC:IR [OOC_EXTENSIONS];
 (*  High-level intermediate code representation.
     Copyright (C) 2001-2003  Michael van Acken, Stewart Greenhill
@@ -416,7 +416,6 @@ TYPE
     (**The deref operator takes a pointer value and returns the referenced
        value.  *)
     pointer-: Expression;
-    derefType-: Sym.Type;
     checkPointer-: BOOLEAN;
     (**If @code{TRUE}, then a run-time error should be reported if the
        pointer value is @code{NIL}.  *)
@@ -2296,7 +2295,6 @@ PROCEDURE InitDeref (d: Deref; sym: Symbol; pointer: Expression;
     
     InitOperator (d, sym, pointer.type.Closure(baseType));
     d. pointer := pointer;
-    d. derefType := baseType;
     d. checkPointer := checkPointer;
   END InitDeref;
 
@@ -4811,7 +4809,6 @@ PROCEDURE (m: Module) Destroy*;
             E(n.element);
           | n: Deref DO
             E(n.pointer);
-            n.derefType := NIL;
           | n: Entier DO
             E(n.operand);
           | n: Index DO
