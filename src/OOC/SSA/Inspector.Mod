@@ -1,4 +1,4 @@
-(* 	$Id: Inspector.Mod,v 1.9 2002/05/10 14:38:39 mva Exp $	 *)
+(* 	$Id: Inspector.Mod,v 1.10 2002/05/31 19:02:14 mva Exp $	 *)
 MODULE OOC:SSA:Inspector;
 (*  Renders SSA code as HTML and serves it through a HTTP server.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -23,7 +23,7 @@ MODULE OOC:SSA:Inspector;
 IMPORT
   Ascii, Channel, Files, IntStr, Log, Msg, Strings,
   ADT:Object, ADT:String, ADT:Dictionary,
-  Language, Language:Boolean, Language:String8,
+  Language, Language:Boolean, Language:String8, Language:String16,
   Language:Integer, Language:Set,
   URI, URI:Scheme:File, XML:Writer, XML:UnicodeCodec:Latin1,
   OOC:Config:Repositories, OOC:IR, OOC:SSA, OOC:SSA:Schedule,
@@ -96,6 +96,10 @@ PROCEDURE WriteBlock (s: Servlet; b: Schedule.Block);
           | value: String8.Value DO
             w. Write ('"');
             w. WriteLatin1 (value. value. array^);
+            w. Write ('"');
+          | value: String16.Value DO
+            w. Write ('"');
+            w. Write (value. array^);
             w. Write ('"');
           | value: Integer.Value DO
             str := value.ToString();
