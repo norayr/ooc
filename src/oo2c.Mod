@@ -1,4 +1,4 @@
-(* 	$Id: oo2c.Mod,v 1.71 2004/03/01 22:12:12 mva Exp $	 *)
+(* 	$Id: oo2c.Mod,v 1.72 2004/04/01 20:36:12 mva Exp $	 *)
 MODULE oo2c;
 (*  Main module for the Oberon-2 to C translator.
     Copyright (C) 2002-2004  Michael van Acken
@@ -21,7 +21,7 @@ MODULE oo2c;
 *)
 
 IMPORT
-  StdChannels, Out, Err, Object, URI, URI:Scheme:File, CfgData := Config,
+  IO:StdChannels, Out, Err, Object, URI, URI:Scheme:File, CfgData := Config,
   ADT:StringBuffer, IO, OS:ProcessManagement, OS:Path, OS:Files,
   Config:Section:Options,
   OOC:Logger, OOC:Config, OOC:Config:CCompiler, OOC:Package,

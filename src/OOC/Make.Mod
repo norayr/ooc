@@ -1,4 +1,4 @@
-(* 	$Id: Make.Mod,v 1.68 2004/03/25 20:44:54 mva Exp $	 *)
+(* 	$Id: Make.Mod,v 1.69 2004/04/01 20:36:12 mva Exp $	 *)
 MODULE OOC:Make;
 (*  Builds object files, libraries, binaries, and the like.
     Copyright (C) 2002, 2003, 2004  Michael van Acken
@@ -21,7 +21,7 @@ MODULE OOC:Make;
 *)
 
 IMPORT
-  Channel, Msg, Out, StdChannels, Time, IO,
+  Msg, Out, Time, IO, IO:StdChannels, 
 
   Object, ADT:ArrayList, ADT:Dictionary, ADT:StringBuffer, StringSearch,
   StringSearch:NoMatch, OS:Path,
@@ -73,7 +73,7 @@ TYPE
        @oproc{CreateNamespace.CreateNamespace} immediately after if has
        read in the symbol file.  *)
     
-    errout: Channel.Channel;
+    errout: IO.ByteChannel;
     (**Error messages are written to this channel.  *)
 
     forceUpdate: BOOLEAN;
@@ -186,7 +186,7 @@ PROCEDURE (r: Rules) SetAllImportsModule*(module: Rep.Module);
     r.checkAllImportsModule := module;
   END SetAllImportsModule;
 
-PROCEDURE (r: Rules) SetErrOut* (ch: Channel.Channel);
+PROCEDURE (r: Rules) SetErrOut* (ch: IO.ByteChannel);
   BEGIN
     r.errout := ch;
   END SetErrOut;
