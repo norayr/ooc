@@ -1,4 +1,4 @@
-(* 	$Id: TypeRules.Mod,v 1.58 2003/05/07 22:24:02 mva Exp $	 *)
+(* 	$Id: TypeRules.Mod,v 1.59 2003/05/08 23:19:15 mva Exp $	 *)
 MODULE OOC:SymbolTable:TypeRules;
 (*  Defines the type rules of the language.
     Copyright (C) 2000-2003  Michael van Acken
@@ -715,10 +715,11 @@ PROCEDURE IsValidForwardDecl* (forward, proc: Sym.FormalPars): BOOLEAN;
 
 
 PROCEDURE IsArrayType* (type: Sym.Type): BOOLEAN;
-(**Returns @code{TRUE}, iff @oparam{type} is an array type. *)
+(**Returns @code{TRUE}, iff @oparam{type} is an array type.
+   FIXME... duplicate of IsArray() *)
   BEGIN
     ASSERT (~(type IS Sym.TypeName));
-    RETURN (type IS Sym.Array)
+    RETURN (type.Deparam() IS Sym.Array)
   END IsArrayType;
 
 PROCEDURE IsArrayCompatible* (argType, fparType: Sym.Type): BOOLEAN;
