@@ -1,3 +1,4 @@
+(* 	$Id: oob.Mod,v 1.11 2003/01/30 23:38:31 mva Exp $	 *)
 MODULE oob;
 (*  Symbol file browser.
     Copyright (C) 2002, 2003  Michael van Acken

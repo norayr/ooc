@@ -1,4 +1,4 @@
-(*      $Id: Canonical.Mod,v 1.1 2002/07/17 17:36:33 mva Exp $   *)
+(*      $Id: Canonical.Mod,v 1.2 2003/01/30 23:36:01 mva Exp $   *)
 MODULE XML:Builder:Canonical [OOC_EXTENSIONS];
 (*  Translates XML document to canonical XML.
     Copyright (C) 2000, 2001  Michael van Acken
@@ -20,7 +20,7 @@ MODULE XML:Builder:Canonical [OOC_EXTENSIONS];
 
 
 IMPORT
-  LongStrings, Channel, URI, Ascii,
+  LongStrings, IO, URI, Ascii,
   Codec := XML:UnicodeCodec, XML:DTD, B := XML:Builder, XML:UnicodeBuffer;
 
 CONST
@@ -272,7 +272,7 @@ PROCEDURE (b: Builder) Characters* (VAR chars: DTD.StringVar;
   END Characters;
 
 
-PROCEDURE New* (outputChannel: Channel.Channel;
+PROCEDURE New* (outputChannel: IO.ByteChannel;
                 codecFactory: Codec.Factory;
                 format: SHORTINT): Builder;
 (**Creates a new writer.  The output is directory to @oparam{outputChannel},
@@ -283,7 +283,7 @@ PROCEDURE New* (outputChannel: Channel.Channel;
   BEGIN
     NEW (b);
     B.Init (b);
-    b. out := UnicodeBuffer.NewOutput (outputChannel. NewWriter(),
+    b. out := UnicodeBuffer.NewOutput (outputChannel,
                                        codecFactory, TRUE);
     b. format := format;
     

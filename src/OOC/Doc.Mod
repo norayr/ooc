@@ -1,7 +1,7 @@
-(* 	$Id: Doc.Mod,v 1.11 2002/12/27 11:42:19 mva Exp $	 *)
+(* 	$Id: Doc.Mod,v 1.12 2003/01/30 23:38:29 mva Exp $	 *)
 MODULE OOC:Doc [OOC_EXTENSIONS];
 (*  Defines the data structure used to store documentation strings.
-    Copyright (C) 2002  Michael van Acken
+    Copyright (C) 2002, 2003  Michael van Acken
 
     This file is part of OOC.
 

@@ -1,4 +1,4 @@
-(* 	$Id: SymbolTable.Mod,v 1.59 2003/01/01 14:00:51 mva Exp $	 *)
+(* 	$Id: SymbolTable.Mod,v 1.60 2003/01/30 23:38:27 mva Exp $	 *)
 MODULE OOC:SymbolTable [OOC_EXTENSIONS];
 (*  Defines structure and entries of the symbol table.
     Copyright (C) 2000-2003  Michael van Acken
@@ -21,7 +21,7 @@ MODULE OOC:SymbolTable [OOC_EXTENSIONS];
 *)
 
 IMPORT
-  Object, Object:Boxed, Msg, Strings,
+  Object, Object:Boxed, Msg, Strings, 
   ADT:Storable, ADT:Dictionary, ADT:ArrayList,
   URI, ParserURI := URI:Parser, URI:Scheme:File,
   OOC:Scanner:InputBuffer, SB := OOC:Scanner:Builder, OOC:Doc, OOC:AST;
