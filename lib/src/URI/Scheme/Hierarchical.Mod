@@ -1,4 +1,4 @@
-(* 	$Id: Hierarchical.Mod,v 1.4 2003/05/20 20:10:33 mva Exp $	 *)
+(* 	$Id: Hierarchical.Mod,v 1.5 2003/05/22 20:20:33 mva Exp $	 *)
 MODULE URI:Scheme:Hierarchical;
 (*  Implementation of the generic hierarchical URI.
     Copyright (C) 2000-2003  Michael van Acken
@@ -579,7 +579,9 @@ PROCEDURE (uri: Generic) ToString*(): Object.String8;
     sb := StringBuffer.New("");
     uri. AppendScheme (sb);
     IF (uri. authority # NIL) THEN
-      uri. authority. Append (sb)
+      uri. authority. Append (sb);
+    ELSIF (uri.schemeId # NIL) & uri.AuthorityMandatory() THEN
+      sb.Append("//");
     END;
     uri. AppendPath (sb);
     IF (uri. query # NIL) THEN

@@ -1,4 +1,4 @@
-(* 	$Id: Error.Mod,v 1.3 2003/05/20 20:10:33 mva Exp $	 *)
+(* 	$Id: Error.Mod,v 1.4 2003/05/22 20:20:33 mva Exp $	 *)
 MODULE XML:Error;
 (*  Creates lists of error messages and converts them to text.
     Copyright (C) 2000, 2001, 2003  Michael van Acken
@@ -241,7 +241,7 @@ PROCEDURE (errList: List) Write* (ch: Channel.Channel);
           uri := uriAttr(M.StringAttribute).string;
           COPY(uriAttr(M.StringAttribute).string^, text);
           TRY
-            cwd := "file:"+ProcessParameters.GetCwd()+"/";
+            cwd := "file://"+ProcessParameters.GetCwd()+"/";
             len := Strings.Length(text);
             IF (cwd.length < len) &
                cwd.Equals(Object.NewLatin1Region(text, 0, cwd.length)) THEN

@@ -1,4 +1,4 @@
-(* 	$Id: Parser.Mod,v 1.2 2003/05/19 22:55:38 mva Exp $	 *)
+(* 	$Id: Parser.Mod,v 1.3 2003/05/22 20:20:34 mva Exp $	 *)
 MODULE URI:Parser;
 (*  Implements the URI parser.
     Copyright (C) 2000, 2003  Michael van Acken
@@ -143,6 +143,10 @@ RAISES Exception.ParseError;
           END
         END
       ELSE
+        IF (schemeId # NIL) & hierURI.AuthorityMandatory() THEN
+          RAISE(NEW(Exception.ParseError,
+                    "The URI does must include an authority component", i));
+        END;
         hierURI. SetAuthority (NIL);
         IF (str[i] = "/") THEN
           Path (TRUE)
