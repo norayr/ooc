@@ -1,4 +1,4 @@
-(*	$Id: Dictionary.Mod,v 1.12 2003/07/04 21:55:38 mva Exp $	*)
+(*	$Id: Dictionary.Mod,v 1.13 2003/07/06 09:09:05 mva Exp $	*)
 MODULE ADT:Dictionary;
 (*  A dictionary implementation using objects' HashCode() as keys.
     Copyright (C) 2000, 2001, 2003  Michael van Acken
@@ -480,7 +480,7 @@ PROCEDURE (dict: Dictionary(K, V)) Store* (w: Storable.Writer) RAISES IO.Error;
 PROCEDURE (dict: Dictionary(K, V)) Load* (r: Storable.Reader) RAISES IO.Error;
   VAR
     i: LONGINT;
-    obj: Storable.Object;
+    obj: Object.Object;
   BEGIN
     dict.INIT();
     r. ReadNum (dict. size);

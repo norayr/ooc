@@ -1,4 +1,4 @@
-(*	$Id: AddressKey.Mod,v 1.10 2003/06/12 20:07:29 mva Exp $	*)
+(*	$Id: AddressKey.Mod,v 1.11 2003/07/06 09:09:05 mva Exp $	*)
 MODULE ADT:Dictionary:AddressKey;
 (*  A dictionary implementation using objects' addresses as keys.
     Copyright (C) 2000-2003  Michael van Acken
@@ -480,7 +480,7 @@ PROCEDURE (dict: Dictionary) Store* (w: Storable.Writer) RAISES IO.Error;
 PROCEDURE (dict: Dictionary) Load* (r: Storable.Reader) RAISES IO.Error;
   VAR
     i: LONGINT;
-    obj: Storable.Object;
+    obj: Object.Object;
   BEGIN
     Init (dict);
     r. ReadNum (dict. size);

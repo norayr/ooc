@@ -1,4 +1,4 @@
-(*	$Id: IntValue.Mod,v 1.7 2003/06/12 20:07:28 mva Exp $	*)
+(*	$Id: IntValue.Mod,v 1.8 2003/07/06 09:09:05 mva Exp $	*)
 MODULE ADT:Dictionary:IntValue;
 (*  A dictionary implementation using objects' addresses as keys.
     Copyright (C) 2000, 2001, 2003  Michael van Acken
@@ -458,7 +458,7 @@ PROCEDURE (dict: Dictionary) Store* (w: Storable.Writer) RAISES IO.Error;
 PROCEDURE (dict: Dictionary) Load* (r: Storable.Reader) RAISES IO.Error;
   VAR
     i: LONGINT;
-    obj: Storable.Object;
+    obj: Object.Object;
   BEGIN
     Init (dict);
     r. ReadNum (dict. size);

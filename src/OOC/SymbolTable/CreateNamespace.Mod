@@ -1,4 +1,4 @@
-(* 	$Id: CreateNamespace.Mod,v 1.57 2003/07/04 21:21:12 mva Exp $	 *)
+(* 	$Id: CreateNamespace.Mod,v 1.58 2003/07/06 09:09:04 mva Exp $	 *)
 MODULE OOC:SymbolTable:CreateNamespace [OOC_EXTENSIONS];
 (*  Creates namespaces for module, and resolves type names in declarations.
     Copyright (C) 2000-2003  Michael van Acken
@@ -659,7 +659,6 @@ RAISES IO.Error;
                   ptr.type := receiver.type;
                   ptr.srcCodeType := receiver.srcCodeType;
                 END;
-                INC(count);
               ELSE
                 (* ignore *)
               END;
