@@ -1,4 +1,4 @@
-(* 	$Id: IRtoSSA.Mod,v 1.33 2002/03/11 21:33:22 mva Exp $	 *)
+(* 	$Id: IRtoSSA.Mod,v 1.34 2002/03/20 22:16:54 mva Exp $	 *)
 MODULE OOC:SSA:IRtoSSA;
 (*  Converts the IR of a procedure into its SSA representation.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -500,6 +500,16 @@ PROCEDURE StatmSeq* (pb: SSA.ProcBlock; s: SSA.Result;
       s := select. AddResult (Result.store);
     END ForStatm;
   
+  PROCEDURE LoopStatm (loopStatm: IR.LoopStatm);
+    BEGIN
+      (* ... *)
+    END LoopStatm;
+
+  PROCEDURE Exit (exit: IR.Exit);
+    BEGIN
+      (* ... *)
+    END Exit;
+  
   PROCEDURE CopyParameter (cp: IR.CopyParameter);
     VAR
       instr: SSA.Instr;
@@ -542,6 +552,12 @@ PROCEDURE StatmSeq* (pb: SSA.ProcBlock; s: SSA.Result;
 
       | statm: IR.ForStatm DO
         ForStatm (statm);
+
+      | statm: IR.LoopStatm DO
+        LoopStatm (statm);
+
+      | statm: IR.Exit DO
+        Exit (statm);
         
       | statm: IR.CopyParameter DO
         CopyParameter (statm)

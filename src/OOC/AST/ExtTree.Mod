@@ -1,4 +1,4 @@
-(* 	$Id: ExtTree.Mod,v 1.20 2002/02/03 20:51:24 mva Exp $	 *)
+(* 	$Id: ExtTree.Mod,v 1.21 2002/03/20 22:16:54 mva Exp $	 *)
 MODULE OOC:AST:ExtTree [OOC_EXTENSIONS];
 (*  Creates extended abstract syntax tree from the parser output.
     Copyright (C) 2000-2002  Michael van Acken
@@ -403,9 +403,9 @@ TYPE
   LoopStatm* = POINTER TO LoopStatmDesc;
   LoopStatmDesc = RECORD
     (NodeDesc)
-    loop-: AST.Node;
-    statmSeq-: AST.NodeList;
-    end-: AST.Node;
+    loop-: Terminal;
+    statmSeq-: NodeList;
+    end-: Terminal;
   END;
 
 TYPE
@@ -422,7 +422,7 @@ TYPE
   ExitStatm* = POINTER TO ExitStatmDesc;
   ExitStatmDesc = RECORD
     (NodeDesc)
-    exit-: AST.Node;
+    exit-: Terminal;
   END;
 
 TYPE
@@ -1366,9 +1366,9 @@ PROCEDURE (b: Builder) LoopStatm* (loop: AST.Node; statmSeq: AST.NodeList; end: 
     l: LoopStatm;
   BEGIN
     NEW (l);
-    l. loop := loop;
-    l. statmSeq := statmSeq;
-    l. end := end;
+    l. loop := loop(Terminal);
+    l. statmSeq := statmSeq(NodeList);
+    l. end := end(Terminal);
     RETURN l
   END LoopStatm;
 
@@ -1401,7 +1401,7 @@ PROCEDURE (b: Builder) ExitStatm* (exit: AST.Node): Node;
     e: ExitStatm;
   BEGIN
     NEW (e);
-    e. exit := exit;
+    e. exit := exit(Terminal);
     RETURN e
   END ExitStatm;
 

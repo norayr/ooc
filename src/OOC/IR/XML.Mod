@@ -1,4 +1,4 @@
-(* 	$Id: XML.Mod,v 1.34 2002/03/11 21:33:22 mva Exp $	 *)
+(* 	$Id: XML.Mod,v 1.35 2002/03/20 22:16:54 mva Exp $	 *)
 MODULE OOC:IR:XML;
 (*  Write an IR data structure as an XML document.
     Copyright (C) 2001, 2002  Michael van Acken, Stewart Greenhill
@@ -308,6 +308,12 @@ PROCEDURE (v: Visitor) VisitAssignOp* (assignOp: IR.AssignOp);
     assignOp. value. Accept (v);
     v. w. EndTag;  (* assign-operation *)
   END VisitAssignOp;
+
+PROCEDURE (v: Visitor) VisitExit* (exit: IR.Exit);
+  BEGIN
+    v. w. StartTag ("exit", FALSE);
+    v. w. EndTag;  (* exit *)
+  END VisitExit;
 
 PROCEDURE (v: Visitor) VisitForStatm* (whileStatm: IR.ForStatm);
   BEGIN
