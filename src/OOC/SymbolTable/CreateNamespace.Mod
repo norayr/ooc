@@ -1,4 +1,4 @@
-(* 	$Id: CreateNamespace.Mod,v 1.56 2003/06/20 23:11:36 mva Exp $	 *)
+(* 	$Id: CreateNamespace.Mod,v 1.57 2003/07/04 21:21:12 mva Exp $	 *)
 MODULE OOC:SymbolTable:CreateNamespace [OOC_EXTENSIONS];
 (*  Creates namespaces for module, and resolves type names in declarations.
     Copyright (C) 2000-2003  Michael van Acken
@@ -648,6 +648,23 @@ RAISES IO.Error;
         IF (class.typePars = NIL) THEN
           IF receiver.hasAliasList THEN
             ErrType(cannotDefineTypeAliases, receiver.srcCodeType);
+
+            (* finish the type alias declarations by assigning them the type
+               of the receiver; this gets rid of a NIL pointer that may trip
+               up later stages *)
+            ptr := procDecl.formalPars.nestedItems;
+            WHILE (ptr # NIL) DO
+              WITH ptr: Sym.TypeDecl DO
+                IF (ptr.type = NIL) THEN
+                  ptr.type := receiver.type;
+                  ptr.srcCodeType := receiver.srcCodeType;
+                END;
+                INC(count);
+              ELSE
+                (* ignore *)
+              END;
+              ptr := ptr.nextNested;
+            END;
           END;
         ELSE
           count := 0;
