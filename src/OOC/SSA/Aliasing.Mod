@@ -1,4 +1,4 @@
-(* 	$Id: Aliasing.Mod,v 1.3 2002/01/28 21:51:03 mva Exp $	 *)
+(* 	$Id: Aliasing.Mod,v 1.4 2002/05/30 20:00:37 mva Exp $	 *)
 MODULE OOC:SSA:Aliasing;
 (*  Calculates aliasing between instructions.
     Copyright (C) 2002  Michael van Acken
@@ -245,7 +245,7 @@ PROCEDURE DesignatorAlias* (tr: TypeRules.Rules;
            the other variable; because of the strict type rules of Oberon-2,
            a static type analysis can rule out many potential aliases *)
         typeInstr := instr. arg(SSA.DeclRef). decl(Sym.VarDecl). type;
-        IF (instr. arg IS (SSA.DeclRef)) THEN
+        IF (reference. arg IS SSA.DeclRef) THEN
           typeRef := reference. arg(SSA.DeclRef). decl(Sym.VarDecl). type;
         ELSE
           typeRef := NIL; ASSERT (FALSE);
