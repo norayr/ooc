@@ -1,4 +1,4 @@
-(* 	$Id: Predef.Mod,v 1.19 2002/05/10 22:18:50 mva Exp $	 *)
+(* 	$Id: Predef.Mod,v 1.20 2002/05/11 11:32:30 mva Exp $	 *)
 MODULE OOC:SymbolTable:Predef;
 (*  Defines symbol table of pseudo module with predefined entities.
     Copyright (C) 2000, 2001, 2002  Michael van Acken
@@ -145,11 +145,12 @@ PROCEDURE CreatePredef* (stb: Builder.Builder): Sym.Module;
     module: Sym.Module;
     ptype: Sym.PredefType;
     
-  PROCEDURE PredefProc (id: Sym.PredefId; name: ARRAY OF CHAR);
+  PROCEDURE PredefProc (id: Sym.PredefId; name: ARRAY OF CHAR;
+                        minArgs, maxArgs: INTEGER);
     VAR
       pproc: Sym.PredefProc;
     BEGIN
-      pproc := stb. NewPredefProc (module, GetName (name), id);
+      pproc := stb. NewPredefProc (module, GetName (name), id, minArgs, maxArgs);
     END PredefProc;
   
   PROCEDURE PredefConst (name: ARRAY OF CHAR; value: Language.Value;
@@ -200,18 +201,18 @@ PROCEDURE CreatePredef* (stb: Builder.Builder): Sym.Module;
     ptype := PredefType (stb, module, void, "", 0, 1,
                          NIL, NIL);
     
-    PredefProc (assert, "ASSERT");
-    PredefProc (len, "LEN");
-    PredefProc (size, "SIZE");
-    PredefProc (inc, "INC");
-    PredefProc (dec, "DEC");
-    PredefProc (cap, "CAP");
-    PredefProc (long, "LONG");
-    PredefProc (short, "SHORT");
-    PredefProc (ord, "ORD");
-    PredefProc (max, "MAX");
-    PredefProc (min, "MIN");
-    PredefProc (new, "NEW");
+    PredefProc (assert, "ASSERT", 1, 2);
+    PredefProc (len, "LEN", 1, 2);
+    PredefProc (size, "SIZE", 1, 1);
+    PredefProc (inc, "INC", 1, 2);
+    PredefProc (dec, "DEC", 1, 2);
+    PredefProc (cap, "CAP", 1, 1);
+    PredefProc (long, "LONG", 1, 1);
+    PredefProc (short, "SHORT", 1, 1);
+    PredefProc (ord, "ORD", 1, 1);
+    PredefProc (max, "MAX", 1, 1);
+    PredefProc (min, "MIN", 1, 1);
+    PredefProc (new, "NEW", 1, Sym.unlimitedArgs);
     
     stb. Finalize (module);
     RETURN module
