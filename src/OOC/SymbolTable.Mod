@@ -1,4 +1,4 @@
-(* 	$Id: SymbolTable.Mod,v 1.81 2003/05/03 10:48:39 mva Exp $	 *)
+(* 	$Id: SymbolTable.Mod,v 1.82 2003/05/04 07:50:34 mva Exp $	 *)
 MODULE OOC:SymbolTable [OOC_EXTENSIONS];
 (*  Defines structure and entries of the symbol table.
     Copyright (C) 2000-2003  Michael van Acken
@@ -2302,6 +2302,16 @@ PROCEDURE InitQualType* (qualType: QualType; parent: Item;
     qualType.srcCodeBaseType := baseType;
     qualType.arguments := arguments;
   END InitQualType;
+
+PROCEDURE NewQualType*(parent: Item; position: Position; baseType: Type;
+                       arguments: TypeRefArray): QualType;
+  VAR
+    qualType: QualType;
+  BEGIN
+    NEW(qualType);
+    InitQualType(qualType, parent, position, baseType, arguments);
+    RETURN qualType;
+  END NewQualType;
 
 PROCEDURE (qualType: QualType) Store* (w: Storable.Writer) RAISES IO.Error;
   VAR

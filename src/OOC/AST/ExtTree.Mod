@@ -1,4 +1,4 @@
-(* 	$Id: ExtTree.Mod,v 1.35 2003/05/03 10:48:39 mva Exp $	 *)
+(* 	$Id: ExtTree.Mod,v 1.36 2003/05/04 07:50:34 mva Exp $	 *)
 MODULE OOC:AST:ExtTree [OOC_EXTENSIONS];
 (*  Creates extended abstract syntax tree from the parser output.
     Copyright (C) 2000-2003  Michael van Acken
@@ -191,10 +191,10 @@ TYPE
   QualType* = POINTER TO QualTypeDesc;
   QualTypeDesc = RECORD
     (NodeDesc)
-    qualident-: AST.Node;
-    lParen-: AST.Node;
+    qualident-: Node;
+    lParen-: Terminal;
     arguments-: AST.NodeList;
-    rParen-: AST.Node;
+    rParen-: Terminal;
   END;
 
 
@@ -1026,10 +1026,10 @@ PROCEDURE (b: Builder) QualType*(qualident: AST.Node;
     qt: QualType;
   BEGIN
     NEW (qt);
-    qt.qualident := qualident;
-    qt.lParen := lParen;
+    qt.qualident := qualident(Node);
+    qt.lParen := lParen(Terminal);
     qt.arguments := arguments;
-    qt.rParen := rParen;
+    qt.rParen := rParen(Terminal);
     RETURN qt;
   END QualType;
   
