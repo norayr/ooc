@@ -1,4 +1,4 @@
-(* 	$Id: Allocator.Mod,v 1.1 2001/12/28 09:13:10 mva Exp $	 *)
+(* 	$Id: Allocator.Mod,v 1.2 2001/12/28 20:49:39 mva Exp $	 *)
 MODULE OOC:SSA:Allocator;
 (*  A register allocator for the C back-end.
     Copyright (C) 2001  Michael van Acken
@@ -101,9 +101,12 @@ PROCEDURE GetBlockList (enterBlock, exitBlock: Schedule.Block): BlockList;
         IF (b # exitBlock) THEN
           WITH b: Schedule.BranchBlock DO
             ScanBlock (Schedule.FollowJump (b. branchTo));
-          ELSE  (* nothing to do *)
+            ScanBlock (Schedule.FollowJump (b. jump));
+          | b: Schedule.JumpBlock DO
+            ScanBlock (Schedule.FollowJump (b. jump));
+          | b: Schedule.DeadEndBlock DO
+            (* nowhere to go *)
           END;
-          ScanBlock (Schedule.FollowJump (b. jump));
         END;
       END;
     END ScanBlock;
@@ -410,7 +413,8 @@ PROCEDURE AssignRegisterFile (rf: RegisterFile;
           END;
           b. info := NIL;                (* clean up when done *)
         END;
-      ELSE
+        
+      ELSE  (* JumpBlock and DeadEndBlock *)
         SweepLiveSet (rf, b, live);
         IF (b # enterBlock) THEN
           Propagate (b. targetUseList)
