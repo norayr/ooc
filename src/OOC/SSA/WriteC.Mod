@@ -1,4 +1,4 @@
-(* 	$Id: WriteC.Mod,v 1.99 2002/07/12 18:56:40 mva Exp $	 *)
+(* 	$Id: WriteC.Mod,v 1.100 2002/07/12 20:44:05 mva Exp $	 *)
 MODULE OOC:SSA:WriteC [OOC_EXTENSIONS];
 (*  Translates a set of scheduled SSA instructions to plain C.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -671,7 +671,7 @@ PROCEDURE (w: Writer) WriteInstrList (b: Schedule.Block;
       destType, sourceType: Opcode.Subclass;
     BEGIN
       destType := Allocator.SubclassToBasicType (instr. subclass);
-      sourceType := Allocator.SubclassToBasicType (instr. opndList. arg. instr. subclass);
+      sourceType := Allocator.SubclassToBasicType (instr. opndList. arg. subclass);
       IF Opcode.ConvDiffersFromCast (sourceType, destType) THEN
         w. WriteString ("_type_cast(");
       ELSE
@@ -833,6 +833,20 @@ PROCEDURE (w: Writer) WriteInstrList (b: Schedule.Block;
       w. Ref (opnd);
       w. WriteString (");");
     END CmpString;
+  
+  PROCEDURE MoveBlock (instr: SSA.Instr);
+    VAR
+      source, dest: LONGINT;
+    BEGIN
+      w. Newline;
+      w. WriteString ("_move_block(");
+      w. Ref (instr. GetOpndClass (Opnd.readAdr));
+      w. WriteChar (",");
+      w. Ref (instr. GetOpndClass (Opnd.writeAdr));
+      w. WriteChar (",");
+      w. Ref (instr. GetOpndClass (Opnd.arg));
+      w. WriteString (");");
+    END MoveBlock;
   
   PROCEDURE Shift (instr: SSA.Instr);
     BEGIN
@@ -1051,6 +1065,8 @@ PROCEDURE (w: Writer) WriteInstrList (b: Schedule.Block;
         CopyString (instr);
       | Opcode.cmpString:
         CmpString (instr);
+      | Opcode.moveBlock:
+        MoveBlock (instr);
         
       | Opcode.getLength:
         IF ~instr. IsConst() THEN
