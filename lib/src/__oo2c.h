@@ -1,4 +1,4 @@
-/*      $Id: __oo2c.h,v 1.35 2002/08/25 00:57:20 mva Exp $        */
+/*      $Id: __oo2c.h,v 1.36 2002/10/19 22:14:48 mva Exp $        */
 /*  Run-time system for C back-ends of OOC2
     Copyright (C) 2001, 2002  Michael van Acken
 
@@ -112,8 +112,8 @@ extern OOC_INT32 _cmp16(const OOC_CHAR16* l, const OOC_CHAR16* r);
 #define _ash(_x,_n) (_n >= 0) ? _ashl(_x,_n) : _ashr(_x,- _n)
 
 /* SYSTEM.LSH(x,n) */
-#define _lshl(_x,_n,_type) ((_type) _x << _n)
-#define _lshr(_x,_n,_type) ((_type) _x >> _n)
+#define _lshl(_x,_n,_type) ((_type)(_x << _n))
+#define _lshr(_x,_n,_type) ((_type)(_x >> _n))
 #define _lsh(_type,_x,_n) ((_n >= 0) ? _lshl(_x,_n,_type) : _lshr(_x,- _n,_type))
 
 /* SYSTEM.ROT(x,n) */

@@ -1,4 +1,4 @@
-(* 	$Id: ConstProp.Mod,v 1.5 2002/10/19 14:00:35 mva Exp $	 *)
+(* 	$Id: ConstProp.Mod,v 1.6 2002/10/19 22:14:48 mva Exp $	 *)
 MODULE OOC:SSA:ConstProp;
 (*  Constant propagation and unreachable code elimination.
     Copyright (C) 2002  Michael van Acken
@@ -50,7 +50,9 @@ PROCEDURE ComputeConst (pb: SSA.ProcBlock; instr: SSA.Instr): SSA.Const;
     IF (instr. SizeOpndList() >= 2) &
        (instr. opcode # Opcode.preloadedVar) &
        (instr. opcode # Opcode.setBit) &
-       (instr. opcode # Opcode.clearBit) THEN
+       (instr. opcode # Opcode.clearBit) &
+       (instr. opcode # Opcode.lsh) &
+       (instr. opcode # Opcode.rot) THEN
       (* FIXME... add clearBit, setBit, logical and/or/not/etc. *)
       arg1 := instr. opndList. arg. info(SSA.Const);
       arg2 := instr. opndList. nextOpnd. arg. info(SSA.Const);
