@@ -1,4 +1,4 @@
-(* 	$Id: RT0.Mod,v 1.43 2003/09/12 08:06:10 sgreenhill Exp $	 *)
+(* 	$Id: RT0.Mod,v 1.44 2003/09/13 20:14:51 mva Exp $	 *)
 MODULE RT0 [
   FOREIGN "C";
   LINK
@@ -80,13 +80,13 @@ CONST
 
 CONST
   flagAtomic* = 0;
-  (**Inidicates that this record type does not contain any references that
-     need to be considered by the garbage collector. It may be allocated inside
+  (**Indicates that this record type does not contain any references that
+     need to be considered by the garbage collector.  It may be allocated as
      an atomic object. *)
 
   flagVTable* = 1;
-  (**Indicates that this record type has a vtable entry which should be
-     initialised when objects are created. *)
+  (**Indicates that this record type has a vtable entry which must be
+     initialised by @oproc{NewObject}. *)
 
 TYPE
   Name* = POINTER TO ARRAY [NO_LENGTH_INFO, NO_DESCRIPTOR] OF CHAR;
