@@ -1,4 +1,4 @@
-(* 	$Id: CreateNamespace.Mod,v 1.17 2002/11/29 23:17:18 mva Exp $	 *)
+(* 	$Id: CreateNamespace.Mod,v 1.18 2002/12/14 13:18:18 mva Exp $	 *)
 MODULE OOC:SymbolTable:CreateNamespace [OOC_EXTENSIONS];
 (*  Creates namespaces for module, and resolves type names in declarations.
     Copyright (C) 2000-2002  Michael van Acken
@@ -63,7 +63,7 @@ TYPE
 VAR
   createNamespaceContext: ErrorContext;
   predefModule: Sym.Module;
-  systemModule: Sym.Module;
+  systemModule-: Sym.Module;
 
 PROCEDURE (context: ErrorContext) GetTemplate* (msg: Error.Msg; VAR templ: Error.LString);
   VAR
