@@ -1,4 +1,4 @@
-(*	$Id: Err.Mod,v 1.3 2002/12/17 19:33:50 mva Exp $	*)
+(*	$Id: Err.Mod,v 1.4 2002/12/30 07:58:35 mva Exp $	*)
 MODULE Err;
 
 (*
@@ -72,9 +72,9 @@ PROCEDURE String* (s: ARRAY OF CHAR);
     writer. WriteString (s)
   END String;
   
-PROCEDURE Str* (s: Object.String);
+PROCEDURE Str* (obj: Object.String);
   BEGIN
-    writer. WriteStr (s)
+    writer. WriteStr (obj)
   END Str;
   
 PROCEDURE Bool* (bool: BOOLEAN);

@@ -1,4 +1,4 @@
-(*	$Id: TextRider.Mod,v 1.6 2002/12/17 19:33:49 mva Exp $	*)
+(*	$Id: TextRider.Mod,v 1.7 2002/12/30 07:58:30 mva Exp $	*)
 MODULE TextRider [OOC_EXTENSIONS];
 
 (*
@@ -1339,13 +1339,15 @@ PROCEDURE (w: Writer) WriteString*(s[NO_COPY]: ARRAY OF CHAR);
     END
   END WriteString;
 
-PROCEDURE (w: Writer) WriteStr*(s: Object.String);
+PROCEDURE (w: Writer) WriteStr*(obj: Object.Object);
   VAR
     chars: Object.CharsLatin1;
-  BEGIN  (* FIXME... add codec to writer, and use it for output *)
-    IF (s = NIL) THEN
+    s: Object.String;
+  BEGIN
+    IF (obj = NIL) THEN
       w.WriteString("<NIL>");
     ELSIF (w. res = done) THEN
+      s := obj.ToString();
       WITH s: Object.String8 DO
         chars := s.CharsLatin1();
         w. byteWriter. WriteBytes (chars^, 0, s.length);

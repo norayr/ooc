@@ -1,4 +1,4 @@
-(*	$Id: Log.Mod,v 1.6 2002/12/17 19:33:50 mva Exp $	*)
+(*	$Id: Log.Mod,v 1.7 2002/12/30 07:58:34 mva Exp $	*)
 MODULE Log [OOC_EXTENSIONS];
 (*  Simple logging facility to stderr.
     Copyright (C) 1998-2000 Michael van Acken
@@ -99,11 +99,11 @@ PROCEDURE LString* (msg[NO_COPY]: ARRAY OF CHAR; s[NO_COPY]: ARRAY OF LONGCHAR);
     writer. WriteLn
   END LString;
 
-PROCEDURE Str* (msg[NO_COPY]: ARRAY OF CHAR; s: Object.String);
+PROCEDURE Str* (msg[NO_COPY]: ARRAY OF CHAR; obj: Object.String);
   BEGIN
     writer. WriteString (msg);
     writer. WriteString (": ");
-    writer. WriteStr (s);
+    writer. WriteStr (obj);
     writer. WriteLn
   END Str;
 

@@ -1,4 +1,4 @@
-(*	$Id: Out.Mod,v 1.4 2002/12/17 19:33:50 mva Exp $	*)
+(*	$Id: Out.Mod,v 1.5 2002/12/30 07:58:34 mva Exp $	*)
 MODULE Out [OOC_EXTENSIONS];
 
 (*
@@ -72,9 +72,9 @@ PROCEDURE String* (s[NO_COPY]: ARRAY OF CHAR);
     writer. WriteString (s)
   END String;
   
-PROCEDURE Str* (s: Object.String);
+PROCEDURE Str* (obj: Object.String);
   BEGIN
-    writer. WriteStr (s)
+    writer. WriteStr (obj)
   END Str;
   
 PROCEDURE Bool* (bool: BOOLEAN);
