@@ -1,4 +1,4 @@
-(* 	$Id: RT0.Mod,v 1.25 2002/07/15 21:00:54 mva Exp $	 *)
+(* 	$Id: RT0.Mod,v 1.26 2002/07/18 16:31:02 mva Exp $	 *)
 MODULE RT0 [FOREIGN "C"; LINK FILE "RT0.c"; LIB "m" END];
 (*  Proxy module for the run-time system of C back-ends of OOC2
     Copyright (C) 2001, 2002  Michael van Acken
@@ -234,5 +234,9 @@ PROCEDURE ThisModule* (name: ARRAY OF CHAR): Module;
 PROCEDURE ThisType* (mid: Module; name: ARRAY OF CHAR): Struct;
 (**Returns the type descriptor for the type @oparam{name} of module
    @oparam{mid}.  Result is @code{NIL} if there is not such type descriptor.  *)
+
+PROCEDURE GetEnv* (name: ARRAY OF CHAR; VAR value: ARRAY OF CHAR): BOOLEAN;
+(**If an environment variable @oparam{name} exists, copy its value into
+   @oparam{value} and return @code{TRUE}.  Otherwise, return @code{FALSE}.  *)
 
 END RT0.
