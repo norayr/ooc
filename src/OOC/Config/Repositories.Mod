@@ -1,4 +1,4 @@
-(* 	$Id: Repositories.Mod,v 1.16 2002/12/10 12:40:51 mva Exp $	 *)
+(* 	$Id: Repositories.Mod,v 1.17 2002/12/11 06:18:00 mva Exp $	 *)
 MODULE OOC:Config:Repositories [OOC_EXTENSIONS];
 (*  Management of a hierarchy of configured repositories.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -332,7 +332,6 @@ PROCEDURE (s: Section) GetIncludePaths*(): String.StringArrayPtr;
     WHILE (rep # NIL) DO
       IF Select (rep) THEN
         rep(FileSystem.Repository).relativeBaseURI(File.URI).GetPath(str);
-        Strings.Append("/", str);
         rep. GetDefaultSubdir(Repository.modHeaderFileC, subdir);
         Strings.Append(subdir, str);
         
