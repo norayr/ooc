@@ -1,4 +1,4 @@
-(* 	$Id: Make.Mod,v 1.5 2001/10/20 21:10:10 mva Exp $	 *)
+(* 	$Id: Make.Mod,v 1.6 2002/07/07 08:52:54 mva Exp $	 *)
 MODULE Make [OOC_EXTENSIONS];
 (*  Framework for discovering and building interdependend resources.
     Copyright (C) 2001  Michael van Acken
@@ -296,6 +296,8 @@ PROCEDURE (edge: Edge) IsInvalid* (): BOOLEAN;
   END IsInvalid;
 
 PROCEDURE AddDependence (edge: Edge);
+(*  VAR
+    str: String.String;*)
   BEGIN
     ASSERT (edge. ancestor. context # NIL);
     ASSERT (edge. descendant. context # NIL);
@@ -304,7 +306,11 @@ PROCEDURE AddDependence (edge: Edge);
     edge. nextAncestor := edge. descendant. ancestorList;
     edge. ancestor. descendantList := edge;
     edge. descendant. ancestorList := edge;
-    
+
+(*    str := edge. ancestor. Id();
+    Log.String ("ancestor", str. array^);
+    str := edge. descendant. Id();
+    Log.String ("descendant", str. array^);*)
     (* if the edge connects an ancestor of `target' with a node that
        is no ancestor yet, then mark transitively mark ancestor as
        `ancestorOfTarget' *)
