@@ -1,4 +1,4 @@
-(* 	$Id: Real0.Mod,v 1.1 2002/05/26 12:15:17 mva Exp $	 *)
+(* 	$Id: Real0.Mod,v 1.2 2002/06/22 21:45:45 mva Exp $	 *)
 MODULE Real0;
 (*  Helper functions used by the real conversion modules.
     Copyright (C) 2002  Michael van Acken
@@ -301,7 +301,7 @@ PROCEDURE NormalizeFloat* (VAR s: ARRAY OF CHAR);
     WHILE (s[i] # 0X) DO
       IF (s[i] = ".") & (s[i+1] = expChar) THEN
         INC (d);             (* eliminate "." if no digits follow *)
-      ELSIF (s[i] = "0") & IsSign (s[i-d-1]) THEN
+      ELSIF (s[i] = "0") & (i-d-1 >= 0) & IsSign (s[i-d-1]) THEN
         INC (d);           (* eliminate zeros after exponent sign *)
       ELSE
         s[i-d] := s[i];
