@@ -1,4 +1,4 @@
-(* 	$Id: WriteC.Mod,v 1.53 2002/04/28 21:55:41 mva Exp $	 *)
+(* 	$Id: WriteC.Mod,v 1.54 2002/04/29 22:27:03 mva Exp $	 *)
 MODULE OOC:SSA:WriteC [OOC_EXTENSIONS];
 (*  Translates a set of scheduled SSA instructions to plain C.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -438,16 +438,23 @@ PROCEDURE (w: Writer) WriteInstrList (b: Schedule.Block;
   
   PROCEDURE GetLength (instr: SSA.Instr);
     VAR
-      varDecl: SSA.Result;
+      design: SSA.Result;
       name: String.String;
     BEGIN
-      (* FIXME... handle length of arrays on heap *)
-      varDecl := instr. GetArgClass (Opnd.readDesign);
-      name := Naming.NameOfLengthParam
-          (varDecl(SSA.DeclRef). decl(Sym.VarDecl),
-           instr. opndList. GetIntConst());
-      w. WriteString (name. array^);
-      w. WriteChar (";");
+      design := instr. GetArgClass (Opnd.readDesign);
+      WITH design: SSA.DeclRef DO        (* length parameter *)
+        name := Naming.NameOfLengthParam
+            (design(SSA.DeclRef). decl(Sym.VarDecl),
+             instr. opndList. GetIntConst());
+        w. WriteString (name. array^);
+        w. WriteChar (";");
+
+      ELSE                               (* length from type tag *)
+        w. WriteString ("OOC_ARRAY_LENGTH(");
+        w.Ref (instr. opndList. nextOpnd);
+        w. WriteString (", ");
+        w.Ref (instr. opndList);
+        w. WriteString (");");      END;
     END GetLength;
 
   PROCEDURE CastFromPtr (res: SSA.Result);
@@ -467,10 +474,14 @@ PROCEDURE (w: Writer) WriteInstrList (b: Schedule.Block;
       IF (var # NIL) THEN
         type := var(SSA.DeclRef). decl(Sym.VarDecl). type;
         IF (type IS Sym.Pointer) THEN
-          name := Naming.NameOfType (type);
-          w. WriteString ("(");
-          w. WriteString (name. array^);
-          w. WriteString (")");
+          IF (type. namingDecl = NIL) THEN
+            w. WriteString ("(OOC_PTR)");
+          ELSE
+            name := Naming.NameOfType (type);
+            w. WriteString ("(");
+            w. WriteString (name. array^);
+            w. WriteString (")");
+          END;
         END;
       END;
     END CastToPtr;
@@ -491,6 +502,7 @@ PROCEDURE (w: Writer) WriteInstrList (b: Schedule.Block;
       WHILE (opnd # NIL) & (opnd. class = Opnd.arg) DO
         w. WriteString (", ");
         w. Ref (opnd);
+        opnd := opnd. nextOpnd;
       END;
       w. WriteString (");");
     END NewArray;
@@ -960,6 +972,7 @@ PROCEDURE (t: Translator) WriteProcBody* (proc: IR.Procedure);
     END Write;
   
   BEGIN
+    (*Log.String ("procedure",proc. decl. name. str^);*)
     pb := SSA.NewProcBlock (proc. decl);
     writeProc := (t. inspectProc. MatchChars (proc. decl. name. str^, 0, -1) # NIL);
     enter := pb. selectReturn. opndList. arg. instr;

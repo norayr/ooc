@@ -1,4 +1,4 @@
-/*      $Id: __dynvar.h,v 1.2 2002/04/27 13:16:56 mva Exp $        */
+/*      $Id: __dynvar.h,v 1.3 2002/04/29 22:27:03 mva Exp $        */
 /*  Handling of dynamic variables and value parameters.
     Copyright (C) 2002  Michael van Acken
 
@@ -18,6 +18,8 @@
 */
 #ifndef __dynvar__
 #define __dynvar__
+
+#include "__typemap.h"
 
 /* Note: all libc functions used here must be prototyped in __libc.h */
 
@@ -41,5 +43,8 @@ extern void* _ooc_end_vs;  /* end of value stack; defined in __oo2c.c */
 
 #define OOC_INITIALIZE_VPAR(_source,_dest,_basetype,_size) \
   memcpy((_dest),(_source),(_size));
+
+
+#define OOC_ARRAY_LENGTH(adr,dim) (((OOC_LEN*)(adr))[-dim-1])
 
 #endif  /* __dynvar__ */
