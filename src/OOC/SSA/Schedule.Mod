@@ -1,4 +1,4 @@
-(* 	$Id: Schedule.Mod,v 1.4 2001/12/16 01:26:12 mva Exp $	 *)
+(* 	$Id: Schedule.Mod,v 1.5 2001/12/16 13:10:20 mva Exp $	 *)
 MODULE OOC:SSA:Schedule;
 (*  Generates basic block representation and schedules instructions.
     Copyright (C) 2001  Michael van Acken
@@ -21,7 +21,6 @@ MODULE OOC:SSA:Schedule;
 *)
 
 IMPORT
-  Log,
   ADT:Object, OOC:SSA, OOC:SSA:Opcode, OOC:SSA:Result, OOC:SSA:Opnd;
 
 TYPE
@@ -304,7 +303,6 @@ PROCEDURE DebranchBlock (VAR enter: Block): Block;
         use: SSA.Opnd;
         res: SSA.Result;
         proxy: InstrProxy;
-        str: ARRAY 32 OF CHAR;
       BEGIN
         proxy := instr. info(InstrProxy);
         IF (proxy. block = source) & (instr # loopEnd) THEN
@@ -319,8 +317,6 @@ PROCEDURE DebranchBlock (VAR enter: Block): Block;
             END;
             res := res. nextResult
           END;
-          instr. GetOpcodeName (str);
-          Log.String ("moving use", str);
           MoveProxy (proxy, target);
         END;
       END MoveUses;
