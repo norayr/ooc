@@ -1,4 +1,4 @@
-(* 	$Id: Predef.Mod,v 1.18 2002/05/10 13:26:15 mva Exp $	 *)
+(* 	$Id: Predef.Mod,v 1.19 2002/05/10 22:18:50 mva Exp $	 *)
 MODULE OOC:SymbolTable:Predef;
 (*  Defines symbol table of pseudo module with predefined entities.
     Copyright (C) 2000, 2001, 2002  Michael van Acken
@@ -251,7 +251,7 @@ PROCEDURE GetMin* (type: Sym.Type): Language.Value;
 PROCEDURE GetMax* (type: Sym.Type): Language.Value;
   BEGIN
     WITH type: Sym.PredefType DO
-      RETURN minConst[type. id];
+      RETURN maxConst[type. id];
     ELSE
       RETURN NIL;
     END;
