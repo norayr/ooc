@@ -1,7 +1,7 @@
-(* 	$Id: AST.Mod,v 1.6 2001/12/20 17:27:52 mva Exp $	 *)
+(* 	$Id: AST.Mod,v 1.7 2002/01/18 18:04:02 mva Exp $	 *)
 MODULE OOC:AST [OOC_EXTENSIONS];
 (*  Abstract builder class for parser output.
-    Copyright (C) 2000, 2001  Michael van Acken
+    Copyright (C) 2000-2002  Michael van Acken
 
     This file is part of OOC.
 
@@ -31,6 +31,7 @@ TYPE
   Node* = POINTER TO NodeDesc;
   NodeDesc* = RECORD [ABSTRACT]
     (**Base type of all nodes that make up the abstract syntax tree.  *)
+    (Sym.TempNodeDesc)
   END;
 
 TYPE
