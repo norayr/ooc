@@ -1,4 +1,4 @@
-(* 	$Id: Allocator.Mod,v 1.9 2002/05/11 08:36:14 mva Exp $	 *)
+(* 	$Id: Allocator.Mod,v 1.10 2002/06/03 21:57:46 mva Exp $	 *)
 MODULE OOC:SSA:Allocator;
 (*  A register allocator for the C back-end.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -619,8 +619,8 @@ PROCEDURE AssignRegisters* (pb: SSA.ProcBlock; domRoot: Schedule.Block;
       i: LONGINT;
     BEGIN
       IF (LEN (names^) # 0) THEN
-        w. WriteLn;
-        w. WriteString ("  register ");
+        w. Newline;
+        w. WriteString ("register ");
         w. WriteString (w. basicType[registerType]. repr);
         w. WriteChar (" ");
 
