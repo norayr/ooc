@@ -1,4 +1,4 @@
-(* 	$Id: HTTP.Mod,v 1.4 2003/06/01 19:44:56 mva Exp $	 *)
+(* 	$Id: HTTP.Mod,v 1.5 2003/06/03 21:05:31 mva Exp $	 *)
 MODULE URI:Scheme:HTTP;
 (*  Implementation of the "file" URI scheme.
     Copyright (C) 2000, 2003  Michael van Acken
@@ -178,7 +178,7 @@ RAISES IO.Error;
         IF (i = -1) THEN
           RAISE(NEW(IO.FormatError, "Malformed status line in response"));
         ELSIF (resp[i-4] # "2") THEN  (* non-success response *)
-          RAISE(NEW(IO.NegativeReply,
+          RAISE(NEW(IO.ErrorResponse,
                     "HTTP request failed: "+str8.Substring(i-4, str8.length)));
         END;
       END;
