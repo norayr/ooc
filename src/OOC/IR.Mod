@@ -1,4 +1,4 @@
-(* 	$Id: IR.Mod,v 1.283 2004/11/04 19:59:19 mva Exp $	 *)
+(* 	$Id: IR.Mod,v 1.284 2004/11/14 20:03:53 mva Exp $	 *)
 MODULE OOC:IR [OOC_EXTENSIONS];
 (*  High-level intermediate code representation.
     Copyright (C) 2001-2004  Michael van Acken, Stewart Greenhill
@@ -4215,22 +4215,24 @@ PROCEDURE (b: Builder) NewIterateStatm* (sym: Symbol; context: Sym.Item;
     elem, pseudoDesign, expr: Expression;
     stepperCall: Call;
     stepper: Sym.ProcDecl;
-    class: Sym.Record;
+    class: Sym.Type;
     arguments: ExpressionList;
     
-  PROCEDURE GetStepper(type: Sym.Type; VAR class: Sym.Record): Sym.ProcDecl;
+  PROCEDURE GetStepper(type: Sym.Type; VAR class: Sym.Type): Sym.ProcDecl;
     VAR
       decl: Sym.Declaration;
       n: Sym.Name;
       fp: Sym.FormalPars;
+      record: Sym.Record;
     BEGIN
       IF TR.IsPointer(type) THEN
         type := TR.PointerBaseType(type);
       END;
+      class := type;
       type := type.Deparam();
-      class := type(Sym.Record);
+      record := type(Sym.Record);
       n := b.GetName2(sequence.sym, "Next");
-      decl := class.ns.Identify(context, n, FALSE);
+      decl := record.ns.Identify(context, n, FALSE);
       IF (decl # NIL) THEN
         WITH decl: Sym.ProcDecl DO
           fp := decl.formalPars;
