@@ -1,4 +1,4 @@
-(* 	$Id: Scanner.Mod,v 1.2 2001/05/08 21:22:02 mva Exp $	 *)
+(* 	$Id: Scanner.Mod,v 1.3 2001/05/14 23:01:19 mva Exp $	 *)
 MODULE OOC:Scanner;
 (*  Convert a character sequence into a stream of Oberon-2 symbols.
     Copyright (C) 2000, 2001  Michael van Acken
@@ -48,7 +48,7 @@ CONST
      as @oconst{Symbol.pragma}.  Like comments, such a symbol can span 
      multiple lines and must be treated as whitespace.  *)
   enableCharPosAdjust* = 4;
-  (**If set, then change the @otype{Error.ErrList} instance so that it 
+  (**If set, then change the @otype{Error.List} instance so that it 
      reports a character position that is decremented by the line number of
      the error.  This fixes CR/LF reporting for editors that count this as a
      single end of line character.  *)
