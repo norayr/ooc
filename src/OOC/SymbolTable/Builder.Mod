@@ -1,4 +1,4 @@
-(* 	$Id: Builder.Mod,v 1.31 2003/01/30 23:38:20 mva Exp $	 *)
+(* 	$Id: Builder.Mod,v 1.32 2003/02/02 19:07:59 mva Exp $	 *)
 MODULE OOC:SymbolTable:Builder [OOC_EXTENSIONS];
 (*  Defines a builder class with factory methods for symbol table entries.
     Copyright (C) 2000-2003  Michael van Acken
@@ -615,16 +615,25 @@ BEGIN
   doAutoImport := noAutoImport;
   magicNumber := "OOC4";
   
-  NEW(autoImport, 2);
+  NEW(autoImport, 3);
   NEW(autoImport[0]);
   autoImport[0].module := N("RT0");
   NEW (autoImport[0].exclude, 2);
   autoImport[0].exclude[0] := autoImport[0].module;
   autoImport[0].exclude[1] := N("Out0");
+  
   NEW(autoImport[1]);
   autoImport[1].module := N(stringModule);
   NEW (autoImport[1].exclude, 3);
   autoImport[1].exclude[0] := autoImport[0].module;
   autoImport[1].exclude[1] := autoImport[1].module;
   autoImport[1].exclude[2] := N("Out0");
+  
+  NEW(autoImport[2]);
+  autoImport[2].module := N("Exception");
+  NEW (autoImport[2].exclude, 4);
+  autoImport[2].exclude[0] := autoImport[0].module;
+  autoImport[2].exclude[1] := autoImport[1].module;
+  autoImport[2].exclude[2] := autoImport[2].module;
+  autoImport[2].exclude[3] := N("Out0");
 END OOC:SymbolTable:Builder.
