@@ -1,4 +1,4 @@
-(* 	$Id: Builder.Mod,v 1.27 2002/12/17 01:23:13 mva Exp $	 *)
+(* 	$Id: Builder.Mod,v 1.28 2002/12/19 00:05:15 mva Exp $	 *)
 MODULE OOC:SymbolTable:Builder [OOC_EXTENSIONS];
 (*  Defines a builder class with factory methods for symbol table entries.
     Copyright (C) 2000-2002  Michael van Acken
@@ -607,7 +607,7 @@ PROCEDURE N (str: ARRAY OF CHAR): Name;
 
 BEGIN
   doAutoImport := noAutoImport;
-  magicNumber := "OOC2";
+  magicNumber := "OOC3";
   
   NEW(autoImport, 2);
   NEW(autoImport[0]);
