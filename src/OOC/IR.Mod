@@ -1,4 +1,4 @@
-(* 	$Id: IR.Mod,v 1.234 2003/05/04 21:00:53 mva Exp $	 *)
+(* 	$Id: IR.Mod,v 1.235 2003/05/05 20:48:07 mva Exp $	 *)
 MODULE OOC:IR [OOC_EXTENSIONS];
 (*  High-level intermediate code representation.
     Copyright (C) 2001-2003  Michael van Acken, Stewart Greenhill
@@ -5878,6 +5878,18 @@ PROCEDURE (b: Builder) NewCall* (design: Expression;
         RETURN TRUE;
       END;
     END CheckNumberOfArguments;
+
+  PROCEDURE StripFirst(exprList: ExpressionList): ExpressionList;
+    VAR
+      newList: ExpressionList;
+      i: LONGINT;
+    BEGIN
+      NEW(newList, LEN(exprList^)-1);
+      FOR i := 1 TO LEN(exprList^)-1 DO
+        newList[i-1] := exprList[i];
+      END;
+      RETURN newList;
+    END StripFirst;
   
   BEGIN
     WITH design: PredefProc DO
@@ -5910,7 +5922,11 @@ PROCEDURE (b: Builder) NewCall* (design: Expression;
         
       | Predef.new:
         type := arguments[0].type.Deparam();
-        IF (type IS Sym.Pointer) THEN
+        IF (type = b.typeType) THEN
+          RETURN b.NewConstructor(design.sym, arguments[0],
+                                  StripFirst(arguments),
+                                  context, endOfArgsSym);
+        ELSIF (type IS Sym.Pointer) THEN
           b.AssertVar(arguments[0]);
           type := type(Sym.Pointer).baseType;
           IF (type IS Sym.Array) THEN
@@ -6149,9 +6165,6 @@ PROCEDURE (b: Builder) NewCall* (design: Expression;
             (LEN(arguments^) = 1) & (arguments[0] IS TypeRef) THEN
         RETURN b.NewTypeGuard(arguments[0]. sym, design,
                               arguments[0](TypeRef));
-      ELSIF (design.type = b.typeType) THEN
-        RETURN b.NewConstructor(design.sym, design, arguments, context,
-                                endOfArgsSym);
       ELSIF ~(design.type.Deparam() IS Sym.FormalPars) THEN
         RETURN b. ErrExpr (notProcedure, design. sym);
       ELSE
