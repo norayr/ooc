@@ -1,4 +1,4 @@
-(* 	$Id: XML.Mod,v 1.2 2002/01/25 19:06:38 mva Exp $	 *)
+(* 	$Id: XML.Mod,v 1.3 2002/05/12 10:45:14 mva Exp $	 *)
 MODULE OOC:SymbolTable:XML;
 (*  Converts symbol table to XML document.
     Copyright (C) 2000, 2001, 2002  Michael van Acken
@@ -215,6 +215,8 @@ PROCEDURE Write* (cw: Channel.Writer; module: Sym.Module);
             element := "var_decl"
           | item: Sym.FieldDecl DO
             element := "field_decl"
+          | item: Sym.PredefProc DO
+            element := "predef_proc"
           END;
           
           StartTag (element, Id (item));
@@ -258,6 +260,8 @@ PROCEDURE Write* (cw: Channel.Writer; module: Sym.Module);
             AttribTypeId ("", "type_id", item. type)
           | item: Sym.FieldDecl DO
             AttribTypeId ("", "type_id", item. type)
+          | item: Sym.PredefProc DO
+            (* FIXME... what to write here? *)
           END;
           
           IF (item. docString # NIL) THEN
@@ -277,10 +281,14 @@ PROCEDURE Write* (cw: Channel.Writer; module: Sym.Module);
             element := "array_type"
           | item: Sym.FormalPars DO
             element := "procedure_type"
+          | item: Sym.PredefType DO
+            element := "predef_type"
           END;
           StartTag (element, Id (item));
-          
-          PositionAttributes (item. position, "");
+
+          IF ~(item IS Sym.PredefType) THEN
+            PositionAttributes (item. position, "");
+          END;
           ClassAttributes (item);
           WITH item: Sym.TypeName DO
             IF (item. module # NIL) THEN
@@ -311,6 +319,8 @@ PROCEDURE Write* (cw: Channel.Writer; module: Sym.Module);
             IF item. anyRestParameters THEN
               AttribBool ("", "any_rest_parameters", TRUE)
             END
+          | item: Sym.PredefType DO
+            (* FIXME... what to write here? *)
           END;
           
           WriteNested (item);
