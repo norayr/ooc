@@ -1,4 +1,4 @@
-(* 	$Id: WriteC.Mod,v 1.102 2002/07/13 15:47:05 mva Exp $	 *)
+(* 	$Id: WriteC.Mod,v 1.103 2002/07/15 11:22:32 mva Exp $	 *)
 MODULE OOC:SSA:WriteC [OOC_EXTENSIONS];
 (*  Translates a set of scheduled SSA instructions to plain C.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -670,6 +670,7 @@ PROCEDURE (w: Writer) WriteInstrList (b: Schedule.Block;
     VAR
       destType, sourceType: Opcode.Subclass;
     BEGIN
+      CastFromPtr (instr);
       destType := Allocator.SubclassToBasicType (instr. subclass);
       sourceType := Allocator.SubclassToBasicType (instr. opndList. arg. subclass);
       IF Opcode.ConvDiffersFromCast (sourceType, destType) THEN
