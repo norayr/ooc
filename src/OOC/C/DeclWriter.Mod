@@ -1,4 +1,4 @@
-(* 	$Id: DeclWriter.Mod,v 1.31 2002/05/31 14:04:09 mva Exp $	 *)
+(* 	$Id: DeclWriter.Mod,v 1.32 2002/05/31 20:26:03 mva Exp $	 *)
 MODULE OOC:C:DeclWriter [OOC_EXTENSIONS];
 (*  Defines classes to handle C declarations, types, and include statements.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -993,7 +993,11 @@ PROCEDURE (d: Define) Write (w: Writer);
     w. WriteString ("#define ");
     w. WriteString (d. name. array^);
     w. WriteString (" ");
-    w. WriteConst (d. const, Predef.GetType (Predef.charString));
+    IF (d. const = NIL) THEN
+      w. WriteString (" 0");             (* NULL *)
+    ELSE
+      w. WriteConst (d. const, Predef.GetType (Predef.charString));
+    END;
   END Write;
 
 
