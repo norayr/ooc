@@ -1,7 +1,7 @@
-(* 	$Id: Parser.Mod,v 1.3 2001/10/21 17:25:58 mva Exp $	 *)
+(* 	$Id: Parser.Mod,v 1.4 2002/05/25 18:56:40 mva Exp $	 *)
 MODULE OOC:Parser;
 (*  Parses an Oberon-2 module and creates an abstract syntax tree.
-    Copyright (C) 1999-2001  Michael van Acken
+    Copyright (C) 1999-2002  Michael van Acken
 
     This file is part of OOC.
 
@@ -508,7 +508,7 @@ PROCEDURE Module* (sym: BasicList.Symbol; ast: AST.Builder;
       END ModuleFlags;
     
     BEGIN
-      (*S: Flags = [ "[" ModuleFlags | Flag {";" Flag} "]" ].  *)
+      (*S: Flags = [ "[" ( ModuleFlags | Flag {";" Flag} ) "]" ].  *)
       IF (sym. id = Symbol.lBrak) THEN
         IF ~(enableFlags IN parseOptions) THEN
           Err (noFlags, sym);
