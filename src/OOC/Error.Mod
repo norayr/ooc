@@ -1,4 +1,4 @@
-(* 	$Id: Error.Mod,v 1.5 2002/11/16 01:53:49 mva Exp $	 *)
+(* 	$Id: Error.Mod,v 1.6 2002/11/16 02:15:24 mva Exp $	 *)
 MODULE OOC:Error;
 (*  Creates lists of error messages and converts them to text.
     Copyright (C) 1999, 2000, 2001, 2002  Michael van Acken
@@ -96,31 +96,39 @@ PROCEDURE NewList* (fileName: ARRAY OF CHAR): List;
     RETURN list
   END NewList;
 
-PROCEDURE (l: List) Append* (msg: Msg);
+PROCEDURE IsWarning (msg: Msg): BOOLEAN;
   VAR
-    ptr: M.Msg;
-    msgPos, ptrPos: M.Attribute;
     found: BOOLEAN;
     pos: INTEGER;
     template: ARRAY 128 OF LONGCHAR;
   BEGIN
-    IF l.noError THEN
-      msg.context.GetTemplate(msg, template);
-      LongStrings.FindNext("100 "+warningPrefix, template, 0, found, pos);
-      IF ~found THEN
-        l.noError := FALSE;
-      END;
+    msg.context.GetTemplate(msg, template);
+    LongStrings.FindNext("100 "+warningPrefix, template, 0, found, pos);
+    RETURN found;
+  END IsWarning;
+
+PROCEDURE (l: List) Append* (msg: Msg);
+  VAR
+    ptr: M.Msg;
+    msgPos, ptrPos: M.Attribute;
+    isError: BOOLEAN;
+  BEGIN
+    isError := ~IsWarning(msg);
+    IF l.noError & isError THEN
+      l.noError := FALSE;
     END;
     
     msgPos := msg.GetAttribute(posAttr);
-    ptr := l.msgList;
-    WHILE (ptr # NIL) DO
-      ptrPos := ptr.GetAttribute(posAttr);
-      IF (ABS(ptrPos(M.IntAttribute).int - msgPos(M.IntAttribute).int) < 
-          minErrorDistance) THEN
-        RETURN;
+    IF isError THEN
+      ptr := l.msgList;
+      WHILE (ptr # NIL) DO
+        ptrPos := ptr.GetAttribute(posAttr);
+        IF (ABS(ptrPos(M.IntAttribute).int - msgPos(M.IntAttribute).int) < 
+            minErrorDistance) THEN
+          RETURN;
+        END;
+        ptr := ptr.nextMsg;
       END;
-      ptr := ptr.nextMsg;
     END;
     l.Append^(msg);
   END Append;
