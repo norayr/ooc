@@ -1,4 +1,4 @@
-(* 	$Id: WriteMainFileC.Mod,v 1.11 2004/12/15 11:27:00 mva Exp $	 *)
+(* 	$Id: WriteMainFileC.Mod,v 1.12 2004/12/15 13:07:20 mva Exp $	 *)
 MODULE OOC:Make:WriteMainFileC;
 (*  Generates the main file of a program.
     Copyright (C) 2001, 2002, 2003, 2004  Michael van Acken
@@ -61,7 +61,7 @@ RAISES IO.Error;
     w. WriteLn; w. WriteString ("  RT0__argc = (OOC_INT32)argc;");
     w. WriteLn; w. WriteString ("  RT0__argv = (OOC_CHAR8**)argv;");
     w. WriteLn;
-    WriteModuleName (w, "  OOC_", module, "_init0(NULL);");
+    WriteModuleName (w, "  OOC_", module, "_open(NULL);");
     w. WriteString ("  return 0;  /* _program_exit_code */");
     w. WriteLn;
     w. WriteString ("}");
