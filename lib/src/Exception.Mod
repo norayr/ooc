@@ -1,4 +1,4 @@
-(* 	$Id: Exception.Mod,v 1.16 2003/07/15 19:42:52 mva Exp $	 *)
+(* 	$Id: Exception.Mod,v 1.17 2003/08/01 07:58:00 mva Exp $	 *)
 MODULE Exception [FOREIGN "C"; LINK FILE "Exception.c" END];
 (*  Implements the run-time part of the exceptions mechanism.
     Copyright (C) 2002,2003  Michael van Acken
@@ -227,10 +227,8 @@ PROCEDURE (e: ParseError) INIT*(msg: STRING; offset: LONGINT);
   
 PROCEDURE Abort*[NO_RETURN](e: Exception);
 (**Write data of exception @oparam{e} to @var{stderr} and abort program.  *)
-PROCEDURE FatalError*[NO_RETURN]();
-(**Write data of current exception to @var{stderr} and abort program.  It is
-   an error to call this procedure outside a @code{CATCH} block of a @code{TRY}
-   statement.  *)
+PROCEDURE FatalError*[NO_RETURN](msg: STRING);
+(**Raise an exception with message @oparam{msg} and abort program.  *)
 
 PROCEDURE InitThreadState*(VAR ts: ThreadState);
   
