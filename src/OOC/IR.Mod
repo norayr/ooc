@@ -1,4 +1,4 @@
-(* 	$Id: IR.Mod,v 1.280 2004/06/15 19:17:45 mva Exp $	 *)
+(* 	$Id: IR.Mod,v 1.281 2004/06/28 19:17:36 mva Exp $	 *)
 MODULE OOC:IR [OOC_EXTENSIONS];
 (*  High-level intermediate code representation.
     Copyright (C) 2001-2004  Michael van Acken, Stewart Greenhill
@@ -4141,6 +4141,11 @@ PROCEDURE (forStatm: ForStatm) Accept* (v: Visitor);
   BEGIN
     v. VisitForStatm (forStatm)
   END Accept;
+
+PROCEDURE (forStatm: ForStatm) PositiveStep*(): BOOLEAN;
+  BEGIN
+    RETURN (forStatm.step(Const).value(BigInt.BigInt).Sign() >= 0);
+  END PositiveStep;
 
 (* Statement Class: IterateArrayStatm
    ------------------------------------------------------------------------ *)
