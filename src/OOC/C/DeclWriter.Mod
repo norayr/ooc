@@ -1,4 +1,4 @@
-(* 	$Id: DeclWriter.Mod,v 1.7 2002/01/10 03:39:01 sgreenhill Exp $	 *)
+(* 	$Id: DeclWriter.Mod,v 1.8 2002/01/13 09:39:33 mva Exp $	 *)
 MODULE OOC:C:DeclWriter [OOC_EXTENSIONS];
 (*  Defines classes to handle C declarations, types, and include statements.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -150,7 +150,9 @@ TYPE
   StorageClass* = SHORTINT;
   (**Storage class of a declaration.  One of @oconst{scMember},
      @oconst{scTypedef}, @oconst{scExtern}, @oconst{scStatic}, @oconst{scAuto},
-     or @oconst{scRegister}.  *)
+     or @oconst{scRegister}.  Please note that there are also specializations
+     of @otype{Declaration}, like @otype{IncludeModule} or @otype{Define},
+     that have no storage class.  In this case, @oconst{scAuto} is used.  *)
   
 CONST
   scMember* = 0;
@@ -189,6 +191,15 @@ TYPE
        included.  *)
     (DeclarationDesc)
     module: Repository.Module;
+  END;
+  
+TYPE
+  Define* = POINTER TO DefineDesc;
+  DefineDesc = RECORD
+    (**A special declaration that is translated into a @code{#define} statement
+       declaring a symbolic name for a constant.  *)
+    (DeclarationDesc)
+    const: Language.Value;
   END;
   
 TYPE
@@ -413,15 +424,6 @@ PROCEDURE (w: Writer) WriteConst* (value: Language.Value);
       w. WriteString(str.array^);
     END
   END WriteConst;
-
-PROCEDURE (w : Writer) DeclareConst* (name : String.String; value : Language.Value);
-BEGIN
-  w.WriteString("#define ");
-  w.WriteString(name.array^);
-  w.WriteString(" ");
-  w.WriteConst(value);
-  w.WriteLn;
-END DeclareConst;
 
 PROCEDURE (w: Writer) WriteDeclaration* (d: Declaration);
 (**Writes the declaration @oparam{d} to @oparam{w}.  *)
@@ -742,6 +744,32 @@ PROCEDURE (w: Writer) NewIncludeModule* (module: Repository.Module): IncludeModu
 PROCEDURE (d: IncludeModule) Write (w: Writer);
   BEGIN
     w. WriteInclude (d. module. GetURI (Repository.modHeaderFileC))
+  END Write;
+
+
+PROCEDURE InitDefine (d: Define; name: String.String;
+                      const: Language.Value);
+  BEGIN
+    InitDeclaration (d, name, tqNone, scAuto, NIL);
+    d. const := const;
+  END InitDefine;
+
+PROCEDURE (w: Writer) NewDefine* (name: String.String;
+                                  const: Language.Value): Define;
+  VAR
+    d: Define;
+  BEGIN
+    NEW (d);
+    InitDefine (d, name, const);
+    RETURN d
+  END NewDefine;
+
+PROCEDURE (d: Define) Write (w: Writer);
+  BEGIN
+    w. WriteString ("#define ");
+    w. WriteString (d. name. array^);
+    w. WriteString (" ");
+    w. WriteConst (d. const);
   END Write;
 
 
