@@ -1,4 +1,4 @@
-(* 	$Id: RealMath.Mod,v 1.3 2002/11/29 23:17:19 mva Exp $	 *)
+(* 	$Id: RealMath.Mod,v 1.4 2003/01/08 07:43:47 mva Exp $	 *)
 MODULE RealMath [INTERFACE "C"; LINK LIB "m" END];
 (*  Math functions for REAL.
     Copyright (C) 2002  Michael van Acken
@@ -61,7 +61,7 @@ PROCEDURE ["(float)pow"] power*(base, exponent: REAL): REAL;
 (**Returns the value of the number base raised to the power exponent 
      for base > 0.  *)
 
-PROCEDURE ["(float)lrint"] round*(x: REAL): LONGINT;
+PROCEDURE ["lrint"] round*(x: REAL): LONGINT;
 (**Returns the value of x rounded to the nearest integer.  *)
 
 PROCEDURE ["(float)sincos"] sincos* (x: REAL; VAR sin, cos: REAL);
