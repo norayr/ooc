@@ -1,4 +1,4 @@
-(*	$Id: AddressKey.Mod,v 1.2 2002/12/03 15:56:29 mva Exp $	*)
+(*	$Id: AddressKey.Mod,v 1.3 2002/12/13 16:52:18 mva Exp $	*)
 MODULE ADT:Dictionary:AddressKey;
 (*  A dictionary implementation using objects' addresses as keys.
     Copyright (C) 2000-2002  Michael van Acken
@@ -39,7 +39,7 @@ MODULE ADT:Dictionary:AddressKey;
    @end itemize  *)
 
 IMPORT
-  S := SYSTEM, ADT:Object;
+  S := SYSTEM, ADT:Object, Language:=LanguageNew;
 
 
 TYPE
@@ -453,7 +453,7 @@ PROCEDURE (dict: Dictionary) Values* (): Object.ObjectArrayPtr;
   END Values;
 
 
-PROCEDURE (dict: Dictionary) Equals* (obj: Object.Object): BOOLEAN;
+PROCEDURE (dict: Dictionary) Equals* (obj: Language.Object): BOOLEAN;
   BEGIN
     <*PUSH; Assertions:=TRUE*>ASSERT(FALSE)<*POP*>
   END Equals;

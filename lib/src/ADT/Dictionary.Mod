@@ -1,4 +1,4 @@
-(*	$Id: Dictionary.Mod,v 1.1 2002/07/13 09:55:01 mva Exp $	*)
+(*	$Id: Dictionary.Mod,v 1.2 2002/12/13 16:52:26 mva Exp $	*)
 MODULE ADT:Dictionary;
 (*  A dictionary implementation using objects' HashCode() as keys.
     Copyright (C) 2000, 2001  Michael van Acken
@@ -39,7 +39,7 @@ MODULE ADT:Dictionary;
    @end itemize  *)
 
 IMPORT
-  S := SYSTEM, ADT:Object;
+  S := SYSTEM, ADT:Object, Language:=LanguageNew;
 
 
 TYPE
@@ -442,7 +442,7 @@ PROCEDURE (dict: Dictionary) Values* (): Object.ObjectArrayPtr;
   END Values;
 
 
-PROCEDURE (dict: Dictionary) Equals* (obj: Object.Object): BOOLEAN;
+PROCEDURE (dict: Dictionary) Equals* (obj: Language.Object): BOOLEAN;
   BEGIN
     <*PUSH; Assertions:=TRUE*>ASSERT(FALSE)<*POP*>
   END Equals;

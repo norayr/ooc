@@ -1,4 +1,4 @@
-(*	$Id: ArrayList.Mod,v 1.1 2002/07/14 19:49:40 mva Exp $	*)
+(*	$Id: ArrayList.Mod,v 1.2 2002/12/13 16:52:27 mva Exp $	*)
 MODULE ADT:ArrayList;
 (*  Implements a resizable list of objects.
     Copyright (C) 2000  Michael van Acken
@@ -19,7 +19,7 @@ MODULE ADT:ArrayList;
 *)
 
 IMPORT
-  ADT:Object;
+  ADT:Object, Language:=LanguageNew;
 
 
 TYPE
@@ -297,7 +297,7 @@ PROCEDURE (l: ArrayList) IsEmpty* (): BOOLEAN;
 
 
 
-PROCEDURE (l: ArrayList) Equals* (obj: Object.Object): BOOLEAN;
+PROCEDURE (l: ArrayList) Equals* (obj: Language.Object): BOOLEAN;
   BEGIN
     <*PUSH; Assertions:=TRUE*>ASSERT(FALSE)<*POP*>
   END Equals;
