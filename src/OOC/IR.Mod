@@ -1,4 +1,4 @@
-(* 	$Id: IR.Mod,v 1.83 2002/05/26 17:30:55 mva Exp $	 *)
+(* 	$Id: IR.Mod,v 1.84 2002/05/26 20:31:27 mva Exp $	 *)
 MODULE OOC:IR [OOC_EXTENSIONS];
 (*  High-level intermediate code representation.
     Copyright (C) 2001, 2002  Michael van Acken, Stewart Greenhill
@@ -3182,6 +3182,7 @@ PROCEDURE (b: Builder) NewCall* (design: Expression; arguments: ExpressionList):
         CASE arguments[0]. type(Sym.PredefType). id OF
         | Predef.shortint: targetType := Predef.integer;
         | Predef.integer : targetType := Predef.longint;
+        | Predef.char    : targetType := Predef.longchar;
         END;
         RETURN NewTypeConv (Predef.GetType (targetType), arguments[0]);
         
@@ -3189,6 +3190,7 @@ PROCEDURE (b: Builder) NewCall* (design: Expression; arguments: ExpressionList):
         CASE arguments[0]. type(Sym.PredefType). id OF
         | Predef.integer: targetType := Predef.shortint;
         | Predef.longint: targetType := Predef.integer;
+        | Predef.longchar: targetType := Predef.char;
         END;
         RETURN NewTypeConv (Predef.GetType (targetType), arguments[0]);
         
