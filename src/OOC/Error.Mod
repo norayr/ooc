@@ -1,4 +1,4 @@
-(* 	$Id: Error.Mod,v 1.7 2002/11/16 10:20:33 mva Exp $	 *)
+(* 	$Id: Error.Mod,v 1.8 2002/11/17 13:52:08 mva Exp $	 *)
 MODULE OOC:Error;
 (*  Creates lists of error messages and converts them to text.
     Copyright (C) 1999, 2000, 2001, 2002  Michael van Acken
@@ -124,6 +124,7 @@ PROCEDURE (l: List) Append* (msg: Msg);
       WHILE (ptr # NIL) DO
         ptrPos := ptr.GetAttribute(posAttr);
         IF ~IsWarning(ptr) &
+           (ptrPos # NIL) &
            (ABS(ptrPos(M.IntAttribute).int - msgPos(M.IntAttribute).int) < 
             minErrorDistance) THEN
           RETURN;
