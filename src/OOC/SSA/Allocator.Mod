@@ -1,4 +1,4 @@
-(* 	$Id: Allocator.Mod,v 1.34 2003/02/23 02:32:34 mva Exp $	 *)
+(* 	$Id: Allocator.Mod,v 1.35 2003/02/24 04:33:53 mva Exp $	 *)
 MODULE OOC:SSA:Allocator;
 (*  A register allocator for the C back-end.
     Copyright (C) 2001-2003  Michael van Acken
@@ -278,7 +278,9 @@ PROCEDURE IdentifyResults (blockList: BlockList;
        a register to all uses of this value.  Note: Non-instruction results
        that produce tangible values are _always_ passed through registers.  *)
       BEGIN
-        RETURN ~instr. IsConst() & (instr.opcode # Opcode.tryStart);
+        RETURN ~instr. IsConst() &
+            (instr.opcode # Opcode.set) &
+            (instr.opcode # Opcode.tryStart);
       END PassedThroughRegister;
 
     PROCEDURE RegisterResult (result: SSA.Result;
