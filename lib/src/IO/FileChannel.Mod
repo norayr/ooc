@@ -1,4 +1,4 @@
-(*	$Id: FileChannel.Mod,v 1.4 2003/05/18 11:28:34 mva Exp $	*)
+(*	$Id: FileChannel.Mod,v 1.5 2003/05/18 15:58:10 mva Exp $	*)
 MODULE IO:FileChannel [FOREIGN "C"; LINK FILE "FileChannel.c" END];
 (*  Access to files through channel objects.
     Copyright (C) 2003  Michael van Acken
@@ -30,7 +30,8 @@ TYPE
        by itself.  *)
     (IO.ByteChannelDesc)
     fd: IO.FileDescriptor;
-    origName, tmpName: Object.String8;
+    origName: STRING;
+    tmpName: Object.String8;
     tmpIndex: LONGINT;
     (* For a temporary file, this is an index into an array of all open
        temporary files.  For all other files, this is @samp{-1}.  *)

@@ -1,4 +1,4 @@
-(* 	$Id: Error.Mod,v 1.14 2003/05/18 14:11:15 mva Exp $	 *)
+(* 	$Id: Error.Mod,v 1.15 2003/05/18 15:58:10 mva Exp $	 *)
 MODULE OOC:Error;
 (*  Creates lists of error messages and converts them to text.
     Copyright (C) 1999, 2000-2003  Michael van Acken
@@ -95,8 +95,7 @@ PROCEDURE NewList* (fileName: STRING): List;
     list: List;
     chars: Object.CharsLatin1;
   BEGIN
-    fileName := Path.Encode(fileName);
-    chars := fileName(Object.String8).CharsLatin1();
+    chars := Path.Encode(fileName);
     
     NEW (list);
     M.InitMsgList (list);
