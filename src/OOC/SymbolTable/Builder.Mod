@@ -1,4 +1,4 @@
-(* 	$Id: Builder.Mod,v 1.16 2002/09/28 14:15:15 mva Exp $	 *)
+(* 	$Id: Builder.Mod,v 1.17 2002/09/29 11:38:10 mva Exp $	 *)
 MODULE OOC:SymbolTable:Builder [OOC_EXTENSIONS];
 (*  Defines a builder class with factory methods for symbol table entries.
     Copyright (C) 2000-2002  Michael van Acken
@@ -132,6 +132,16 @@ PROCEDURE (b: Builder) NewTypeDecl* (parent: Sym.Item; name: Sym.Name;
     END;
     RETURN t
   END NewTypeDecl;
+
+PROCEDURE (b: Builder) NewRedirect* (parent: Sym.Item; name: Sym.Name;
+                                     module, ident: Sym.Name): Sym.Redirect;
+  VAR
+    redir: Sym.Redirect;
+  BEGIN
+    NEW (redir);
+    Sym.InitRedirect (redir, parent, name, module, ident);
+    RETURN redir
+  END NewRedirect;
 
 PROCEDURE (b: Builder) NewVarDecl* (parent: Sym.Item; name: Sym.Name;
                                  visibleFrom: Sym.ModulePos;
