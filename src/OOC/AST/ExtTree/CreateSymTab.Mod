@@ -1,4 +1,4 @@
-(* 	$Id: CreateSymTab.Mod,v 1.19 2002/11/11 21:44:16 mva Exp $	 *)
+(* 	$Id: CreateSymTab.Mod,v 1.20 2002/11/14 20:54:54 mva Exp $	 *)
 MODULE OOC:AST:ExtTree:CreateSymTab;
 (*  Creates symbol table from abstract syntax tree of module `ExtTree'.
     Copyright (C) 2000, 2001, 2002  Michael van Acken
@@ -270,7 +270,7 @@ PROCEDURE (v: Visitor) VisitModule* (module: ExtTree.Module);
           ELSE
             NEW (depList, n. dependencies. len DIV 2+1);
             FOR i := 0 TO n. dependencies. len-1 BY 2 DO
-              depList[i DIV 2] := n. dependencies. n[i](ExtTree.Terminal). GetString (FALSE);
+              depList[i DIV 2] := n. dependencies. n[i](ExtTree.Terminal). GetString (TRUE);
             END;
           END;
           moduleDecl. AddLinkLib (str, depList, prefixOption, suffixOption);
