@@ -1,4 +1,4 @@
-(* 	$Id: WriteC.Mod,v 1.108 2002/07/18 14:28:01 mva Exp $	 *)
+(* 	$Id: WriteC.Mod,v 1.109 2002/07/18 17:02:03 mva Exp $	 *)
 MODULE OOC:SSA:WriteC [OOC_EXTENSIONS];
 (*  Translates a set of scheduled SSA instructions to plain C.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -1139,8 +1139,10 @@ PROCEDURE (w: Writer) WriteInstrList (b: Schedule.Block;
         WriteDyadicOp (instr, "|");
       | Opcode.logicalXor:
         WriteDyadicOp (instr, "^");
+      | Opcode.logicalSubtr:
+        WriteDyadicFct (instr, "_logical_subtr");
       | Opcode.logicalComplement:
-        WriteMonadicOp (instr, "!", ";");
+        WriteMonadicOp (instr, "~", ";");
       | Opcode.setBit:
         WriteDyadicFct (instr, "_set_bit");
       | Opcode.clearBit:

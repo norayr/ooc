@@ -1,4 +1,4 @@
-(* 	$Id: IRtoSSA.Mod,v 1.87 2002/07/16 18:36:44 mva Exp $	 *)
+(* 	$Id: IRtoSSA.Mod,v 1.88 2002/07/18 17:02:03 mva Exp $	 *)
 MODULE OOC:SSA:IRtoSSA;
 (*  Converts the IR of a procedure into its SSA representation.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -742,7 +742,7 @@ PROCEDURE StatmSeq* (pb: SSA.ProcBlock; s: SSA.Result;
       | expr: IR.SetOp DO
         CASE expr.variant OF
         | IR.setUnion : opcode := Opcode.logicalOr;
-(*        | IR.setDiff  : opcode := Opcode.subtract;*)
+        | IR.setDiff  : opcode := Opcode.logicalSubtr;
         | IR.setIntersect : opcode := Opcode.logicalAnd;
         | IR.setSymDiff : opcode := Opcode.logicalXor;
         ELSE
