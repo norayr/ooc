@@ -1,4 +1,4 @@
-(* 	$Id: Opcode.Mod,v 1.25 2002/04/10 21:45:43 mva Exp $	 *)
+(* 	$Id: Opcode.Mod,v 1.26 2002/04/26 19:26:39 mva Exp $	 *)
 MODULE OOC:SSA:Opcode;
 (*  This modules defines opcodes for SSA instructions.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -262,6 +262,10 @@ CONST
   subtract* = 16;
   negate* = 17;
   multiply* = 18;
+  (**Multiplication.  The two operands must be of the same type, which is
+     also the result of the operation.  There is one exception: when
+     multiplying an index with the size of the element, then the result is
+     a value of type @oconst{scAddress}.  *)
   divide* = 19;
 
   eql* = 20;

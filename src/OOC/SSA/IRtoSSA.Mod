@@ -1,4 +1,4 @@
-(* 	$Id: IRtoSSA.Mod,v 1.39 2002/04/10 21:45:43 mva Exp $	 *)
+(* 	$Id: IRtoSSA.Mod,v 1.40 2002/04/26 19:26:39 mva Exp $	 *)
 MODULE OOC:SSA:IRtoSSA;
 (*  Converts the IR of a procedure into its SSA representation.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -69,13 +69,11 @@ PROCEDURE StatmSeq* (pb: SSA.ProcBlock; s: SSA.Result;
 
     PROCEDURE Index (indexOp: IR.Index): SSA.Result;
       VAR
-        instr, elementAdr: SSA.Instr;
+        instr, elementAdr, scaledIndex: SSA.Instr;
         baseResult, index: SSA.Result;
         adrOpnd: SSA.Opnd;
+        elementType: Sym.Type;
       BEGIN
-        (* doesn't calculate size yet... FIXME *)
-        ASSERT (indexOp. type(Sym.PredefType). id = Predef.char);
-
         (* take the "get" instruction of the array's designator and
            change it into a "get" for the array element *)
         baseResult := Expression (indexOp. array);
@@ -83,10 +81,15 @@ PROCEDURE StatmSeq* (pb: SSA.ProcBlock; s: SSA.Result;
         instr := baseResult. instr;
         index := Expression (indexOp. index);
 
+        elementType := indexOp. type;
+        scaledIndex := pb. AddInstr (Opcode.multiply, Opcode.scAddress);
+        scaledIndex. AddOpnd (index, Opnd.arg);
+        scaledIndex. AddOpnd (pb. GetConstInt (elementType. size), Opnd.arg);
+        
         adrOpnd := instr. opndList. nextOpnd;
         elementAdr := pb. AddInstr (Opcode.add, Opcode.scAddress);
         elementAdr. AddOpnd (adrOpnd. arg, Opnd.arg);
-        elementAdr. AddOpnd (index, Opnd. arg);
+        elementAdr. AddOpnd (scaledIndex, Opnd. arg);
         adrOpnd. ReplaceArg (elementAdr);
         instr. AddOpnd (index, Opnd.readDesign);
         instr. SetSubclass (Opcode.TypeToSubclass (indexOp. type));
