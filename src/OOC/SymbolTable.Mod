@@ -1,4 +1,4 @@
-(* 	$Id: SymbolTable.Mod,v 1.109 2003/08/01 08:59:10 mva Exp $	 *)
+(* 	$Id: SymbolTable.Mod,v 1.110 2003/08/11 22:20:46 mva Exp $	 *)
 MODULE OOC:SymbolTable [OOC_EXTENSIONS];
 (*  Defines structure and entries of the symbol table.
     Copyright (C) 2000-2003  Michael van Acken
@@ -763,7 +763,7 @@ TYPE
     (TypeDesc)
     baseType-: Type;
     params: TypeVarArray;
-    arguments: TypeRefArray;
+    arguments-: TypeRefArray;
   END;
 
 VAR
