@@ -1,4 +1,4 @@
-(* 	$Id: Allocator.Mod,v 1.25 2002/12/03 14:23:10 mva Exp $	 *)
+(* 	$Id: Allocator.Mod,v 1.26 2002/12/06 12:10:33 mva Exp $	 *)
 MODULE OOC:SSA:Allocator;
 (*  A register allocator for the C back-end.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -234,8 +234,14 @@ PROCEDURE GetRegisterFiles (): RegisterFiles;
     FOR i := 0 TO LEN (rfs^)-1 DO
       rfs[i] := NIL;
     END;
-    rfs[DeclWriter.int32] := NewRegisterFile (DeclWriter.int32);
-    rfs[DeclWriter.int64] := NewRegisterFile (DeclWriter.int64);
+    CASE Predef.address OF
+    | Predef.longint:
+      rfs[DeclWriter.int32] := NewRegisterFile (DeclWriter.int32);
+      rfs[DeclWriter.int64] := NewRegisterFile (DeclWriter.int64);
+    | Predef.hugeint:
+      (* 32 bit register variables are not used on 64 bit targets *)
+      rfs[DeclWriter.int64] := NewRegisterFile (DeclWriter.int64);
+    END;
     rfs[DeclWriter.real32] := NewRegisterFile (DeclWriter.real32);
     rfs[DeclWriter.real64] := NewRegisterFile (DeclWriter.real64);
     RETURN rfs
@@ -548,7 +554,12 @@ PROCEDURE AssignRegisterFile (rf: RegisterFile;
         | DeclWriter.int32:
           Strings.Insert ("i", 0, str);
         | DeclWriter.int64:
-          Strings.Insert ("w", 0, str);
+          CASE Predef.address OF
+          | Predef.longint:
+            Strings.Insert ("w", 0, str);
+          | Predef.hugeint:
+            Strings.Insert ("i", 0, str);
+          END;
         | DeclWriter.real32:
           Strings.Insert ("f", 0, str);
         | DeclWriter.real64:
