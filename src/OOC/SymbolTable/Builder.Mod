@@ -1,4 +1,4 @@
-(* 	$Id: Builder.Mod,v 1.39 2003/04/20 23:41:18 mva Exp $	 *)
+(* 	$Id: Builder.Mod,v 1.40 2003/04/24 20:26:20 mva Exp $	 *)
 MODULE OOC:SymbolTable:Builder [OOC_EXTENSIONS];
 (*  Defines a builder class with factory methods for symbol table entries.
     Copyright (C) 2000-2003  Michael van Acken
@@ -402,27 +402,6 @@ PROCEDURE (b: Builder) Finalize* (module: Sym.Module);
                ptr(Sym.VarDecl). isParameter &
                ~ptr(Sym.VarDecl). isReceiver THEN
               item. params[c] := ptr(Sym.VarDecl);
-              INC (c)
-            END;
-            ptr := ptr. nextNested
-          END;
-
-        | item: Sym.TypePars DO
-          c := 0;
-          ptr := item. nestedItems;
-          WHILE (ptr # NIL) DO
-            IF (ptr IS Sym.TypeDecl) THEN
-              INC (c)
-            END;
-            ptr := ptr. nextNested
-          END;
-          
-          NEW (item. params, c);
-          c := 0;
-          ptr := item. nestedItems;
-          WHILE (ptr # NIL) DO
-            IF (ptr IS Sym.TypeDecl) THEN
-              item. params[c] := ptr(Sym.TypeDecl);
               INC (c)
             END;
             ptr := ptr. nextNested
