@@ -1,4 +1,4 @@
-(* 	$Id: IR.Mod,v 1.72 2002/05/11 11:32:29 mva Exp $	 *)
+(* 	$Id: IR.Mod,v 1.73 2002/05/12 10:52:03 mva Exp $	 *)
 MODULE OOC:IR [OOC_EXTENSIONS];
 (*  High-level intermediate code representation.
     Copyright (C) 2001, 2002  Michael van Acken, Stewart Greenhill
@@ -2920,6 +2920,9 @@ PROCEDURE (b: Builder) NewCall* (design: Expression; arguments: ExpressionList):
         RETURN b. NewAssert (design. sym, arguments,
                   ~GetPragmaValue(b, StdPragmas.assertions, design. sym. pos));
 
+      | Predef.copy:
+        ASSERT (FALSE);
+        
       | Predef.new:
         ASSERT (arguments[0]. type IS Sym.Pointer);
         type := arguments[0]. type(Sym.Pointer). baseType;
@@ -2999,6 +3002,9 @@ PROCEDURE (b: Builder) NewCall* (design: Expression; arguments: ExpressionList):
         | Predef.longint: targetType := Predef.integer;
         END;
         RETURN NewTypeConv (Predef.GetType (targetType), arguments[0]);
+        
+      | Predef.chr:
+        RETURN NewTypeConv (Predef.GetType (Predef.char), arguments[0]);
         
       | Predef.ord:
         CASE arguments[0]. type(Sym.PredefType). id OF
