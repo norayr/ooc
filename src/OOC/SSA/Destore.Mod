@@ -1,4 +1,4 @@
-(* 	$Id: Destore.Mod,v 1.62 2003/01/04 09:03:13 mva Exp $	 *)
+(* 	$Id: Destore.Mod,v 1.63 2003/01/05 14:11:41 mva Exp $	 *)
 MODULE OOC:SSA:Destore;
 (*  Converts reads from/writes to memory into local values.
     Copyright (C) 2001-2003  Michael van Acken
@@ -273,7 +273,7 @@ PROCEDURE (s: State) ClobberedBy* (readDesign: SSA.Opnd; instr: SSA.Instr): BOOL
       Opcode.copyParameter, Opcode.exit, Opcode.return,
       Opcode.halt, Opcode.assert, Opcode.checkIndex, Opcode.checkPointer,
       Opcode.typeGuard, Opcode.failedTypeAssert,
-      Opcode.failedWith, Opcode.failedCase,
+      Opcode.failedWith, Opcode.failedCase, Opcode.raiseException,
       Opcode.tryStart, Opcode.tryEnd, Opcode.activateContext,
       Opcode.pushExceptionContext, Opcode.popExceptionContext:
       RETURN FALSE;
@@ -491,7 +491,7 @@ PROCEDURE (s: State) Transform*;
         Opcode.copyParameter, Opcode.exit, Opcode.return,
         Opcode.halt, Opcode.assert, Opcode.checkIndex, Opcode.checkPointer,
         Opcode.typeGuard, Opcode.failedTypeAssert,
-        Opcode.failedWith, Opcode.failedCase,
+        Opcode.failedWith, Opcode.failedCase, Opcode.raiseException,
         Opcode.clearException, Opcode.activateContext,
         Opcode.pushExceptionContext, Opcode.popExceptionContext:
         RETURN GetValue (instr. GetArgClass (Opnd.store), get);
