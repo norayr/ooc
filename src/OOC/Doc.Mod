@@ -1,4 +1,4 @@
-(* 	$Id: Doc.Mod,v 1.7 2002/12/05 13:12:22 mva Exp $	 *)
+(* 	$Id: Doc.Mod,v 1.8 2002/12/07 17:12:28 mva Exp $	 *)
 MODULE OOC:Doc [OOC_EXTENSIONS];
 (*  Defines the data structure used to store documentation strings.
     Copyright (C) 2002  Michael van Acken
@@ -164,7 +164,7 @@ TYPE
   OberonRef* = POINTER TO OberonRefDesc;
   OberonRefDesc = RECORD
     (MarkedInlineDesc)
-    target-: Object.Object;    (* is Sym := OOC:SymbolTable.Declaration *)
+    target-: Object.Object;    (* is Sym.Declaration *)
     externalModule-,
     externalId-: InputBuffer.CharArray;
     (* either target or (externalModule, externalId) are NIL; these fields
