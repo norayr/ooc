@@ -1,4 +1,4 @@
-(*	$Id: IntConv.Mod,v 1.5 2002/05/20 18:07:12 mva Exp $	*)
+(*	$Id: IntConv.Mod,v 1.6 2002/05/26 12:15:17 mva Exp $	*)
 MODULE IntConv;
 (*
     IntConv -  Low-level integer/string conversions.       
@@ -38,20 +38,6 @@ CONST
   (**The string is in the wrong format for the conversion.  *)
   strEmpty*=Conv.strEmpty;
   (**The given string is empty.  *)
-
-CONST
-  padding*=Conv.padding;
-  (**A leading or padding character at this point in the scan---ignore it. *)
-  valid*=Conv.valid;
-  (**A valid character at this point in the scan---accept it.  *)
-  invalid*=Conv.invalid;
-  (*An invalid character at this point in the scan---reject it *)
-  terminator*=Conv.terminator;
-  (**A terminating character at this point in the scan (not part of token).  *)
-
-TYPE
-  ScanClass* = Conv.ScanClass;
-  ScanState* = Conv.ScanState;
 
 
 VAR
