@@ -1,4 +1,4 @@
-(* 	$Id: CSE.Mod,v 1.6 2003/02/09 21:39:47 mva Exp $	 *)
+(* 	$Id: CSE.Mod,v 1.7 2003/02/11 22:09:02 mva Exp $	 *)
 MODULE OOC:SSA:CSE;
 (*  Common subexpression elimination using value numbering.
     Copyright (C) 2002, 2003  Michael van Acken
@@ -60,8 +60,7 @@ TYPE
 
   (*
      FIXME... get rid of empty partitions as soon as possible;
-     see how the O(n log n) improvement can
-     be incorporated; speed up the DependenceData predicates
+     speed up the DependenceData predicates
      *)
   
 PROCEDURE InitPartition (p: Partition);
