@@ -1,4 +1,4 @@
-(* 	$Id: XML.Mod,v 1.60 2002/07/13 12:47:31 mva Exp $	 *)
+(* 	$Id: XML.Mod,v 1.61 2002/07/13 15:47:05 mva Exp $	 *)
 MODULE OOC:IR:XML;
 (*  Write an IR data structure as an XML document.
     Copyright (C) 2001, 2002  Michael van Acken, Stewart Greenhill
@@ -368,7 +368,9 @@ PROCEDURE (v: Visitor) VisitAssert* (assert: IR.Assert);
     v. w. StartTag ("assert", FALSE);
     v. w. AttrBool ("disabled", assert. disabled);
     v. w. AttrInt ("code", assert. code);
-    assert. predicate. Accept (v);
+    IF (assert. predicate # NIL) THEN
+      assert. predicate. Accept (v);
+    END;
     v. w. EndTag;  (* assert *)
   END VisitAssert;
 

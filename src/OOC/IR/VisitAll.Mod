@@ -1,4 +1,4 @@
-(* 	$Id: VisitAll.Mod,v 1.6 2002/07/13 12:47:31 mva Exp $	 *)
+(* 	$Id: VisitAll.Mod,v 1.7 2002/07/13 15:47:05 mva Exp $	 *)
 MODULE OOC:IR:VisitAll;
 (*  A visitor traversing the whole IR data structure.
     Copyright (C) 2002  Michael van Acken
@@ -221,7 +221,9 @@ PROCEDURE VisitStatementSeq (v: Visitor; statmSeq: IR.StatementSeq);
 
 PROCEDURE (v: Visitor) VisitAssert* (assert: IR.Assert);
   BEGIN
-    assert. predicate. Accept (v);
+    IF (assert. predicate # NIL) THEN
+      assert. predicate. Accept (v);
+    END;
   END VisitAssert;
 
 PROCEDURE (v: Visitor) VisitAssignment* (assignment: IR.Assignment);

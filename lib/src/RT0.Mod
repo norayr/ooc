@@ -1,4 +1,4 @@
-(* 	$Id: RT0.Mod,v 1.22 2002/07/13 12:47:32 mva Exp $	 *)
+(* 	$Id: RT0.Mod,v 1.23 2002/07/13 15:47:05 mva Exp $	 *)
 MODULE RT0 [FOREIGN "C"; LINK FILE "RT0.c"; LIB "m" END];
 (*  Proxy module for the run-time system of C back-ends of OOC2
     Copyright (C) 2001, 2002  Michael van Acken
@@ -215,5 +215,6 @@ PROCEDURE ErrorFailedWith* (mid: Module; pos: LONGINT; typeTag: Struct);
 PROCEDURE ErrorFailedTypeAssert* (mid: Module; pos: LONGINT);
 PROCEDURE ErrorFailedFunction* (mid: Module; pos: LONGINT);
 PROCEDURE ErrorAssertionFailed* (mid: Module; pos: LONGINT; code: LONGINT);
+PROCEDURE Halt* (code: LONGINT);
 
 END RT0.

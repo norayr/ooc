@@ -1,4 +1,4 @@
-/*      $Id: __oo2c.h,v 1.29 2002/07/13 12:47:32 mva Exp $        */
+/*      $Id: __oo2c.h,v 1.30 2002/07/13 15:47:05 mva Exp $        */
 /*  Run-time system for C back-ends of OOC2
     Copyright (C) 2001, 2002  Michael van Acken
 
@@ -54,9 +54,10 @@
 #define _failed_function(pos) RT0__ErrorFailedFunction(&_mid,pos)
 
 
-/* ASSERT(p) and ASSERT(p,code) */
+/* ASSERT(p), ASSERT(p,code), and HALT(code) */
 #define _assert(p,code,pos) \
   if (!(p)) { RT0__ErrorAssertionFailed(&_mid,pos,code); }
+#define _halt(code) RT0__Halt(code);
 
 /* COPY(s,d) */
 #define _copy_8(_src,_dest,_max_len) {          \

@@ -1,4 +1,4 @@
-(* 	$Id: Opcode.Mod,v 1.62 2002/07/13 12:47:31 mva Exp $	 *)
+(* 	$Id: Opcode.Mod,v 1.63 2002/07/13 15:47:05 mva Exp $	 *)
 MODULE OOC:SSA:Opcode;
 (*  This modules defines opcodes for SSA instructions.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -558,8 +558,9 @@ CONST
      Result of the instruction is the address of the procedure.  *)
 
   assert* = 57;
+  halt* = 58;
   
-  checkIndex* = 58;
+  checkIndex* = 59;
   (**Ensures that an index is value with respect to a given array length.  An
      exception is raised if the index is negative, or less or equal to the
      array's length.
@@ -578,7 +579,7 @@ CONST
      The result of the instruction is the checked index.  One additional result
      is the new value of @var{store}, another one is of class
      @oconst{*OOC:SSA:Result.exception}.  *)
-  checkPointer* = 59;
+  checkPointer* = 60;
   (**Raise an exception if the pointer value is @code{NIL}.
 
      @table @oconst
@@ -593,15 +594,15 @@ CONST
      result is the new value of @var{store}, another one is of class
      @oconst{*OOC:SSA:Result.exception}.  *)
 
-  failedCase* = 60;
-  failedWith* = 61;
-  failedTypeAssert* = 62;
+  failedCase* = 61;
+  failedWith* = 62;
+  failedTypeAssert* = 63;
   
-  selectException* = 63;
+  selectException* = 64;
   (**Joins all possible exception paths within the procedure body.  Note:
      This instruction is not implemented yet.  *)
   
-  labels* = 64;
+  labels* = 65;
   (**Pseudo instruction listing all labels of a @code{CASE} branch.  *)
   
   
@@ -751,6 +752,7 @@ PROCEDURE GetName* (class: Class; subclass: Subclass; VAR name: ARRAY OF CHAR);
     | call: cstr := "call";
 
     | assert: cstr := "assert";
+    | halt: cstr := "halt";
     | checkIndex: cstr := "check-index";
     | checkPointer: cstr := "check-pointer";
     | failedCase: cstr := "failed-case";
