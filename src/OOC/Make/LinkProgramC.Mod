@@ -1,4 +1,4 @@
-(* 	$Id: LinkProgramC.Mod,v 1.25 2003/05/19 22:56:49 mva Exp $	 *)
+(* 	$Id: LinkProgramC.Mod,v 1.26 2003/05/29 16:59:04 mva Exp $	 *)
 MODULE OOC:Make:LinkProgramC;
 (*  Links object files and libraries to create an executable file.
     Copyright (C) 2001, 2002, 2003  Michael van Acken
@@ -78,17 +78,22 @@ PROCEDURE GetExternalLibs (moduleList: ARRAY OF Repository.Module;
           module.ifData.libraryName.Equals(thisLibrary);
     END IncludeModule;
 
-  PROCEDURE Option(libraryName: STRING): STRING;
+  PROCEDURE Option(lib: Sym.LinkLib): STRING;
     VAR
       obj: Object.Object;
       str: STRING;
     BEGIN
-      IF option.HasKey(libraryName) THEN
-        obj := option.Get(libraryName);
+      IF option.HasKey(lib.libraryName) THEN
+        obj := option.Get(lib.libraryName);
         RETURN obj(STRING);
       ELSE
-        str := " -l"+libraryName;
-        option.Set(libraryName, str);
+        CASE lib.type OF
+        | Sym.libTypeStandard:
+          str := " -l"+lib.libraryName;
+        | Sym.libTypeFramework:
+          str := " -framework "+lib.libraryName;
+        END;
+        option.Set(lib.libraryName, str);
         RETURN str;
       END;
     END Option;
@@ -122,11 +127,11 @@ PROCEDURE GetExternalLibs (moduleList: ARRAY OF Repository.Module;
             FOR j := 0 TO LEN(linkDirective.dependencies^)-1 DO
               depArray.Append(linkDirective.dependencies[j]);
             END;
-            prev := Option(linkDirective.libraryName);
+            prev := Option(linkDirective);
             IF (linkDirective.prefixOption # NIL) THEN
               new := space.Concat(LookupValue(linkDirective.prefixOption));
               option.Set(linkDirective.libraryName, new.Concat(prev));
-              prev := Option(linkDirective.libraryName); (* refresh *)
+              prev := Option(linkDirective); (* refresh *)
             END;
             IF (linkDirective.suffixOption # NIL) THEN
               new := space.Concat(LookupValue(linkDirective.suffixOption));
