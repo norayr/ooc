@@ -1,4 +1,4 @@
-(* 	$Id: ConstFold.Mod,v 1.23 2002/04/28 21:55:41 mva Exp $	 *)
+(* 	$Id: ConstFold.Mod,v 1.24 2002/05/01 15:32:03 mva Exp $	 *)
 MODULE OOC:IR:ConstFold;
 (*  Constant folding on IR expressions.
     Copyright (C) 2002  Stewart Greenhill, Michael van Acken
@@ -264,6 +264,10 @@ END VisitNegate;
 PROCEDURE (c: ConstFold) VisitNewArray* (new: IR.NewArray);
   BEGIN
   END VisitNewArray;
+
+PROCEDURE (c: ConstFold) VisitNewRecord* (new: IR.NewRecord);
+  BEGIN
+  END VisitNewRecord;
 
 PROCEDURE (c: ConstFold) VisitCap* (op: IR.Cap);
 VAR 

@@ -1,4 +1,4 @@
-(* 	$Id: WriteC.Mod,v 1.54 2002/04/29 22:27:03 mva Exp $	 *)
+(* 	$Id: WriteC.Mod,v 1.55 2002/05/01 15:32:03 mva Exp $	 *)
 MODULE OOC:SSA:WriteC [OOC_EXTENSIONS];
 (*  Translates a set of scheduled SSA instructions to plain C.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -507,6 +507,19 @@ PROCEDURE (w: Writer) WriteInstrList (b: Schedule.Block;
       w. WriteString (");");
     END NewArray;
   
+  PROCEDURE NewRecord (instr: SSA.Instr);
+    VAR
+      name: String.String;
+      opnd: SSA.Opnd;
+    BEGIN
+      CastFromPtr (instr);
+      w. WriteString ("RT0__NewRecord(");
+      opnd := instr. GetOpndClass (Opnd.type);
+      name := Naming.NameOfTypeDescriptor (opnd. arg(SSA.TypeRef). type);
+      w. WriteString (name. array^);
+      w. WriteString (".base);");
+    END NewRecord;
+  
   PROCEDURE CopyParameter (instr: SSA.Address);
     VAR
       varDecl: Sym.VarDecl;
@@ -751,6 +764,8 @@ PROCEDURE (w: Writer) WriteInstrList (b: Schedule.Block;
 
       | Opcode.newArray:
         NewArray (instr);
+      | Opcode.newRecord:
+        NewRecord (instr);
         
       | Opcode.add:
         WriteDyadicOp (instr, "+");

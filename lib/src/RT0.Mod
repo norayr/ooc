@@ -1,4 +1,4 @@
-(* 	$Id: RT0.Mod,v 1.4 2002/04/28 17:14:50 mva Exp $	 *)
+(* 	$Id: RT0.Mod,v 1.5 2002/05/01 15:32:03 mva Exp $	 *)
 MODULE RT0 [FOREIGN "C"; LINK FILE "RT0.c" END];
 (*  Proxy module for the run-time system of C back-ends of OOC2
     Copyright (C) 2001, 2002  Michael van Acken
@@ -52,7 +52,10 @@ CONST
   (**An array definition with an unspecified length, as in @samp{ARRAY OF
      CHAR}.  *)
 
-  strPointer* = -3;
+  strRecord* = -3;
+  (**A record, either in its C @code{struct} or @code{union} variant.  *)
+  
+  strPointer* = -4;
   (**A pointer definition of the form @samp{POINTER TO T}.  *)
   
 TYPE
@@ -64,26 +67,47 @@ TYPE
        @item ARRAY n OF @dots{}
        @itemize @bullet
        @item @ofield{form} equals @oconst{strArray}.
-       @item @ofield{len} holds the length of the array, for example
-       @samp{123} for an @samp{ARRAY 123 OF CHAR}.
-       @item @ofield{base} is the type descriptor of the array's element type, for
-       example @ovar{char} for @samp{ARRAY 123 OF CHAR}.
+
+       @item @ofield{len} holds the length of the array, for example @samp{123}
+       for an @samp{ARRAY 123 OF CHAR}.
+
+       @item @ofield{base} is the type descriptor of the array's
+       element type, for example @ovar{char} for @samp{ARRAY 123 OF CHAR}.
        @end itemize
+
 
        @item ARRAY OF @dots{}
        @itemize @bullet
-       @item @ofield{form} equals @oconst{strOpenArray}.
-       @item @ofield{len} holds the number of open dimensions, for example
-       @samp{1} for an @samp{ARRAY OF CHAR}.
+       @item @ofield{form}
+       equals @oconst{strOpenArray}.
+
+       @item @ofield{len} holds the number of
+       open dimensions, for example @samp{1} for an @samp{ARRAY OF CHAR}.
+
        @item @ofield{base} is the type descriptor of the array's base type, for
        example @ovar{char} for @samp{ARRAY OF CHAR} or @samp{ARRAY OF ARRAY OF
        CHAR}.  The base type always has a known size, that is, it is neven an
        open array type.
        @end itemize
 
+
+       @item RECORD @dots{} END
+       @itemize @bullet
+       @item @ofield{form} equals @oconst{strRecord}.
+
+       @item @ofield{len} is the extension level of the record.  A record
+       without a base type has a level of @samp{0}.  Every extension level
+       increments this level by one.
+
+       @item @ofield{base} is the type descriptor of the record's base type, or
+       @code{NIL} if the record has no base type.
+       @end itemize
+
+
        @item POINTER TO @dots{}
        @itemize @bullet
        @item @ofield{form} equals @oconst{strPointer}.
+
        @item @ofield{base} is the base type of the pointer.
        @end itemize
 
@@ -97,8 +121,8 @@ TYPE
        @samp{-1}.  *)
     
     len-: LONGINT;
-    (**Holds the length of an array, or the number of open dimensions
-       of an open array.  *)
+    (**Holds the length of an array, the number of open dimensions
+       of an open array, or the extension level of a record.  *)
     
     form-: SHORTINT;
     (**Identifies which kind of type constructor variant is used.  *)
@@ -119,9 +143,13 @@ VAR
   longint-: StructDesc;
 
 PROCEDURE NewArray* (td: Struct; ...): SYSTEM.PTR;
-(**Allocates a new array object on the heap, using the type descriptor
+(**Allocates a new array variable on the heap, using the type descriptor
    @oparam{td}.  For an open array object, the lengths of the array's
    dimensions are passed as second, third, and so on, parameter.  They must be
    of type @code{LONGINT}.  *)
+   
+PROCEDURE NewRecord* (td: Struct): SYSTEM.PTR;
+(**Allocates a new record variable on the heap, using the type descriptor
+   @oparam{td}.  *)
    
 END RT0.
