@@ -1,4 +1,4 @@
-(* 	$Id: ConstFold.Mod,v 1.60 2002/07/15 14:35:08 sgreenhill Exp $	 *)
+(* 	$Id: ConstFold.Mod,v 1.61 2002/07/17 17:25:12 mva Exp $	 *)
 MODULE OOC:IR:ConstFold;
 (*  Constant folding on IR expressions.
     Copyright (C) 2002  Stewart Greenhill, Michael van Acken
@@ -598,8 +598,13 @@ PROCEDURE (c: ConstFold) VisitTypeConv* (op : IR.TypeConv);
         
       ELSIF TR.IsCharType (op. type) &
             TR.IsIntegerType (op. expr. type) THEN
-        (* type conversion from integer to character value (CHR) *)
-        value := String8.NewChar (CHR (value(Integer.Value). ToInt()));
+        (* type conversion from integer to character value (CHR, LONGCHR) *)
+        CASE op. type(Sym.PredefType). id OF
+        | Predef.char:
+          value := String8.NewChar (CHR (value(Integer.Value). ToInt()));
+        | Predef.longchar:
+          value := String16.NewChar (LONGCHR (value(Integer.Value). ToInt()));
+        END;
         c.result := c. builder. NewConst (op. sym, op. type, value);
         
       ELSIF TR.IsRealType (op. type) &
