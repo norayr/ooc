@@ -1,0 +1,18 @@
+(*	$Id: Out0.Mod,v 1.1 2002/12/17 01:21:21 mva Exp $	*)
+MODULE Out0 [FOREIGN "C"; LINK FILE "Out0.c" END];
+<* Warnings := FALSE *>
+
+IMPORT RT0;
+
+PROCEDURE Open*;
+PROCEDURE Char* (ch: CHAR);
+PROCEDURE String* (s: ARRAY OF CHAR);
+PROCEDURE LString* (s: ARRAY OF LONGCHAR);
+PROCEDURE Int* (i, n: LONGINT);
+PROCEDURE Bool* (b : BOOLEAN);
+PROCEDURE Set* (s : SET);
+PROCEDURE Real* (x: REAL; n: LONGINT);
+PROCEDURE LongReal* (x: LONGREAL; n: LONGINT);
+PROCEDURE Ln*;
+
+END Out0.
