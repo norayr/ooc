@@ -1,4 +1,4 @@
-(* 	$Id: IR.Mod,v 1.92 2002/05/31 14:06:20 mva Exp $	 *)
+(* 	$Id: IR.Mod,v 1.93 2002/06/01 20:32:54 mva Exp $	 *)
 MODULE OOC:IR [OOC_EXTENSIONS];
 (*  High-level intermediate code representation.
     Copyright (C) 2001, 2002  Michael van Acken, Stewart Greenhill
@@ -22,7 +22,7 @@ MODULE OOC:IR [OOC_EXTENSIONS];
 
 IMPORT
 Log,
-  Language, Language:Boolean, Language:Char, LString := Language:String,
+  Language, Language:Boolean, Language:Char, 
   Language:String8, Language:String16, Language:Integer, Language:Real,
   ADT:Object, ADT:ArrayList, ADT:String,
   Config:Value, BooleanValue := Config:Value:Boolean, 
@@ -1124,14 +1124,15 @@ PROCEDURE (b: Builder) NewStringConst* (sym: Symbol): Expression;
 
 PROCEDURE (b: Builder) NewIntConst10* (sym: Symbol): Expression;
   VAR
-    v: Language.Value;
+    v: Integer.Value;
   BEGIN
     v := Integer.type. ValueOf (sym. str^);
     IF (v = NIL) THEN
       b. ErrSym (numberOutOfRange, sym);
       RETURN b. errorExpr
     ELSE
-      RETURN NewConst (sym, Predef.GetType (Predef.integer), v)
+(*      RETURN NewConst (sym, Predef.GetType (Predef.integer), v)*)
+      RETURN NewConst (sym, Predef.SmallestIntType (v), v)
     END
   END NewIntConst10;
 
