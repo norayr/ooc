@@ -1,4 +1,4 @@
-(* 	$Id: Testcases.Mod,v 1.8 2001/11/12 23:46:36 mva Exp $	 *)
+(* 	$Id: Testcases.Mod,v 1.9 2001/11/16 12:40:34 mva Exp $	 *)
 MODULE OOC:TestFramework:Testcases;
 (*  Parser for XML testsuite and testcases elements.
     Copyright (C) 2001  Michael van Acken
@@ -715,4 +715,5 @@ PROCEDURE Write* (writer: Writer.Writer; testSuite: TestSuite);
 BEGIN
   suiteRoot := Element.NewRootFactory();
   suiteRoot. AddFactory ("testsuite", NewTestSuite);
+  suiteRoot. AddFactory ("testsuite-ext", NewTestSuite);
 END OOC:TestFramework:Testcases.
