@@ -1,4 +1,4 @@
-(* 	$Id: Repository.Mod,v 1.26 2002/11/26 22:14:20 mva Exp $	 *)
+(* 	$Id: Repository.Mod,v 1.27 2002/11/27 21:49:47 mva Exp $	 *)
 MODULE OOC:Repository [OOC_EXTENSIONS];
 (*  Abstraction of storage of source, intermediate, and target code.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -34,7 +34,7 @@ TYPE
   RepositoryDesc* = RECORD [ABSTRACT]
     baseRep-: Repository;
     baseURI-: URI.HierarchicalURI;
-    packageInfo-: Package.Package;
+    packageInfo-: Package.PkgInfo;
   END;
 
 TYPE
@@ -248,7 +248,7 @@ PROCEDURE InitModule* (m: Module; origin: Repository; name: ModuleName;
   END InitModule;
 
 
-PROCEDURE (rep: Repository) SetPackageInfo* (packageInfo: Package.Package);
+PROCEDURE (rep: Repository) SetPackageInfo* (packageInfo: Package.PkgInfo);
   BEGIN
     rep.packageInfo := packageInfo;
   END SetPackageInfo;
