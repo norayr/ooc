@@ -1,4 +1,4 @@
-(* 	$Id: SymbolTable.Mod,v 1.64 2003/04/15 22:59:25 mva Exp $	 *)
+(* 	$Id: SymbolTable.Mod,v 1.65 2003/04/16 00:55:18 mva Exp $	 *)
 MODULE OOC:SymbolTable [OOC_EXTENSIONS];
 (*  Defines structure and entries of the symbol table.
     Copyright (C) 2000-2003  Michael van Acken
@@ -863,6 +863,13 @@ PROCEDURE (ns: Namespace) Identify* (sourceContext: Item;
     baseNotExported := FALSE;
     RETURN ns.Identify2(sourceContext, name, ignorePosition, baseNotExported);
   END Identify;
+
+PROCEDURE (ns: Namespace) GetSuperProcByIndex* (index: LONGINT): ProcDecl;
+(**Forward declaration of
+   @oproc{*OOC:SymbolTable:Namespace.Extended.GetSuperProcByIndex}.  *)
+  BEGIN
+    ASSERT(FALSE);
+  END GetSuperProcByIndex;
 
 
 

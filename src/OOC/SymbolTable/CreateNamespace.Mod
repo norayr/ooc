@@ -1,4 +1,4 @@
-(* 	$Id: CreateNamespace.Mod,v 1.28 2003/04/15 22:59:22 mva Exp $	 *)
+(* 	$Id: CreateNamespace.Mod,v 1.29 2003/04/16 00:54:07 mva Exp $	 *)
 MODULE OOC:SymbolTable:CreateNamespace [OOC_EXTENSIONS];
 (*  Creates namespaces for module, and resolves type names in declarations.
     Copyright (C) 2000-2003  Michael van Acken
@@ -769,7 +769,8 @@ RAISES IO.Error;
             CheckRecord (record. baseType(Sym.Record));
             record. tbProcCount := record. baseType(Sym.Record). tbProcCount
           END;
-          record.ns(Namespace.Extended).CheckRestrictions (record, errList);
+          record.ns(Namespace.Extended).CheckRestrictions (record, uses,
+                                                           errList);
 
           IF errList.NoErrors() & ~record.isAbstract THEN
             (* Check that no abstract procedure remain.  Only do this if the
