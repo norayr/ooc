@@ -1,4 +1,4 @@
-(* 	$Id: Repositories.Mod,v 1.7 2002/11/21 22:24:29 mva Exp $	 *)
+(* 	$Id: Repositories.Mod,v 1.8 2002/11/23 12:58:13 mva Exp $	 *)
 MODULE OOC:Config:Repositories [OOC_EXTENSIONS];
 (*  Management of a hierarchy of configured repositories.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -300,7 +300,7 @@ PROCEDURE (s: Section) GetPackage* (pkgName: ARRAY OF CHAR): Package.Package;
     (* module not found in cache: traverse repositories *)
     rep := s. topLevelRep;
     WHILE (rep # NIL) DO
-      IF (rep.packageInfo # NIL) & (rep.packageInfo.name^ = pkgName) THEN
+      IF (rep.packageInfo # NIL) & (rep.packageInfo.name.array^ = pkgName) THEN
         RETURN rep.packageInfo;
       END;
       rep := rep.baseRep;
