@@ -1,4 +1,4 @@
-(* 	$Id: TranslateToC.Mod,v 1.42 2002/07/18 14:29:04 mva Exp $	 *)
+(* 	$Id: TranslateToC.Mod,v 1.43 2002/07/20 16:50:03 mva Exp $	 *)
 MODULE OOC:Make:Command:TranslateToC [OOC_EXTENSIONS];
 (*  Translates a module file into a bunch of C code files.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -21,6 +21,7 @@ MODULE OOC:Make:Command:TranslateToC [OOC_EXTENSIONS];
 *)
 
 IMPORT
+  Log,
   Channel, Make, StdChannels, ADT:String, ADT:Dictionary, 
   OOC:Config, OOC:Make:Entity:ModuleFile,
   OOC:Config:Pragmas, OOC:Auxiliary:ParseModule,
@@ -331,6 +332,7 @@ PROCEDURE (cmd: Command) Run*(): BOOLEAN;
   
   BEGIN
     m := cmd. module;
+    Log.String ("module", m. name^);
     ParseModule.ParseModule (m, TRUE, TRUE, FALSE,
                              ast, symTab, pragmaHistory, errList);
     (* note: don't let `ParseModule' write the symbol file; this reduces the
