@@ -1,4 +1,4 @@
-(* 	$Id: GetImports.Mod,v 1.11 2002/10/20 11:56:57 mva Exp $	 *)
+(* 	$Id: GetImports.Mod,v 1.12 2002/10/20 15:09:33 mva Exp $	 *)
 MODULE OOC:Repository:GetImports;
 (*  Determine the list of modules imported by a given module.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -163,7 +163,8 @@ PROCEDURE GetImports* (m: Rep.Module; VAR errList: Error.List);
           astBuilder := ExtTree.New();
           ast := Parser.Module (scannerBuilder. head, 
                                 astBuilder, errList,
-                                Parser.enableAll+{Parser.onlyParseImport})
+                                Parser.enableAll+{Parser.onlyParseImport}-
+                                {Parser.enableDocComment})
         END;
         IF (errList. msgCount = 0) &
            (ast(ExtTree.Module). importList # NIL) THEN
