@@ -1,7 +1,7 @@
-(* 	$Id: SSA.Mod,v 1.72 2002/12/18 11:18:07 mva Exp $	 *)
+(* 	$Id: SSA.Mod,v 1.73 2003/02/17 20:20:47 mva Exp $	 *)
 MODULE OOC:SSA;
 (*  Data structures for SSA code representation.
-    Copyright (C) 2001, 2002  Michael van Acken
+    Copyright (C) 2001-2003  Michael van Acken
 
     This file is part of OOC.
 
@@ -1546,5 +1546,6 @@ PROCEDURE (pb: ProcBlock) Destroy*;
   END Destroy;
 
 BEGIN
-  nil := BigInt.NewInt(0);
+  nil := BigInt.zero.Add(BigInt.zero);  (* force unique instance *)
+  ASSERT(nil # BigInt.zero);
 END OOC:SSA.
