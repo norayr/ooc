@@ -1,4 +1,4 @@
-(* 	$Id: SymbolTable.Mod,v 1.63 2003/04/13 13:43:59 mva Exp $	 *)
+(* 	$Id: SymbolTable.Mod,v 1.64 2003/04/15 22:59:25 mva Exp $	 *)
 MODULE OOC:SymbolTable [OOC_EXTENSIONS];
 (*  Defines structure and entries of the symbol table.
     Copyright (C) 2000-2003  Michael van Acken
@@ -1131,10 +1131,10 @@ PROCEDURE (decl: Declaration) Load* (r: Storable.Reader) RAISES IO.Error;
     decl. usageCount := 0;
   END Load;
 
-PROCEDURE (decl: Declaration) IncrUsageCount*;
+PROCEDURE (decl: Declaration) IncrUsageCounter*;
   BEGIN
     INC(decl.usageCount);
-  END IncrUsageCount;
+  END IncrUsageCounter;
 
 
 PROCEDURE ExportTypePosition (type: Type): BOOLEAN;

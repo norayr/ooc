@@ -1,4 +1,4 @@
-(* 	$Id: oo2c.Mod,v 1.50 2003/04/15 13:20:01 mva Exp $	 *)
+(* 	$Id: oo2c.Mod,v 1.51 2003/04/15 22:59:26 mva Exp $	 *)
 MODULE oo2c;
 (*  Main module for the Oberon-2 to C translator.
     Copyright (C) 2002,2003  Michael van Acken
@@ -43,7 +43,7 @@ VAR
   i: LONGINT;
   arg: Arguments.Argument;
   mode: SHORTINT;
-  command, forceUpdate, useStderr, writeStats,
+  command, forceUpdate, listUses, useStderr, writeStats,
       errorStyle, showHelp, showVersion: Options.Option;
   makeRules: Make.Rules;
   rep: Rep.Repository;
@@ -56,6 +56,7 @@ PROCEDURE NewConfig;
   BEGIN
     command := Config.AddOption("command", Integer.New(0));
     forceUpdate := Config.AddOption("forceUpdate", Boolean.New(FALSE));
+    listUses := Config.AddOption("listUses", StringValue.New(""));
     useStderr := Config.AddOption("useStderr", Boolean.New(FALSE));
     writeStats := Config.AddOption("writeStats", Boolean.New(FALSE));
     errorStyle := Config.AddOption("errorStyle",
@@ -99,6 +100,12 @@ PROCEDURE NewConfig;
     
     Config.AddCmdLine ("-A,--all",
                        "<options><set name='forceUpdate'>TRUE</set></options>");
+    Config.AddCmdLine ("--uses",
+                       "<options>"+
+                       "  <set name='listUses'>$1</set>"+
+                       "  <set name='command'>1</set>"+  (* --make *)
+                       "  <set name='forceUpdate'>TRUE</set>"+  (* --all *)
+                       "</options>");
     Config.AddCmdLine ("--error-style",
                        "<options><set name='errorStyle'>$1</set></options>");
     Config.AddCmdLine ("--use-stderr",
@@ -557,6 +564,13 @@ BEGIN  <*Warnings:=FALSE*>
     makeRules.SetErrOut(StdChannels.stderr);
   END;
   makeRules.SetForceUpdate(forceUpdate.value(Boolean.Value).boolean);
+  IF (listUses.value(StringValue.Value).string^ # "") THEN
+    IF ~makeRules.ListUsesOf(listUses.value(StringValue.Value).string^) THEN
+      Err.String ("Error: Invalid selector string for `--uses'");
+      Err.Ln;
+      HALT (1)
+    END;
+  END;
   Make.writeStats := writeStats.value(Boolean.Value).boolean;
       
   CASE command.value(Integer.Value).integer OF
