@@ -1,4 +1,4 @@
-(* 	$Id: Decoration.Mod,v 1.2 2001/05/08 21:23:55 mva Exp $	 *)
+(* 	$Id: Decoration.Mod,v 1.3 2001/05/14 23:02:43 mva Exp $	 *)
 MODULE OOC:Doc:Decoration;
 (*  Abstraction layer dealing with comment decorations.
     Copyright (C) 1999, 2000, 2001  Michael van Acken
@@ -201,7 +201,7 @@ PROCEDURE Remove* (sym: BasicList.Symbol; VAR deco: Decoration): String;
       WHILE (str[i] # 0X) DO
         IF (str[i] = CharClass.eol) THEN
           INC (i);
-          WHILE (str[i] <= " ") DO
+          WHILE (str[i] # 0X) & (str[i] <= " ") DO
             INC (i)
           END;
           WHILE (str[i] = "*") DO
