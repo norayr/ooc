@@ -1,4 +1,4 @@
-(* 	$Id: CreateNamespace.Mod,v 1.36 2003/04/21 18:40:00 mva Exp $	 *)
+(* 	$Id: CreateNamespace.Mod,v 1.37 2003/04/23 21:20:27 mva Exp $	 *)
 MODULE OOC:SymbolTable:CreateNamespace [OOC_EXTENSIONS];
 (*  Creates namespaces for module, and resolves type names in declarations.
     Copyright (C) 2000-2003  Michael van Acken
@@ -660,7 +660,6 @@ RAISES IO.Error;
              (typePars.params[i].type(Sym.TypeVar).bound) THEN
             ErrType(invalidTypeBound, typePars.params[i].srcCodeType);
           END;
-          typePars.params[i].type(Sym.TypeVar).SetIndex(i);
         END;
       END CheckTypePars;
     
