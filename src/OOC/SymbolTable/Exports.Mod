@@ -1,4 +1,4 @@
-(* 	$Id: Exports.Mod,v 1.9 2002/07/19 01:58:05 mva Exp $	 *)
+(* 	$Id: Exports.Mod,v 1.10 2002/09/29 22:45:14 mva Exp $	 *)
 MODULE OOC:SymbolTable:Exports;
 (*  Marks declarations that are part of the module's symbol file.
     Copyright (C) 2000, 2001, 2002  Michael van Acken
@@ -117,6 +117,8 @@ PROCEDURE GetExports* (module: Sym.Module; forSymbolFile: BOOLEAN): Dictionary.D
             MarkType (item. srcCodeType)
           | item: Sym.TypeDecl DO
             MarkType (item. srcCodeType)
+          | item: Sym.Redirect DO
+            (* nothing -- for now *)
           ELSE
             Log.Type ("-- [OOC:SymbolTable:Exports]: Unknown type of `item'",
                       item);
