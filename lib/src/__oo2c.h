@@ -1,4 +1,4 @@
-/*      $Id: __oo2c.h,v 1.1 2001/10/17 22:16:20 mva Exp $        */
+/*      $Id: __oo2c.h,v 1.2 2001/10/18 19:48:17 mva Exp $        */
 /*  Run-time system for C back-ends of OOC2
     Copyright (C) 1997-2001  Michael van Acken
 
@@ -37,6 +37,6 @@
 /* ASSERT(p) and ASSERT(p,code) */
 extern void NORETURN _assertion_failed(OOC_INT32 code, OOC_CHARPOS pos) NORETURN2;
 #define _assert(p,code,pos) \
-  if (!(p)) { _assertion_failed(code, pos) NORETURN2; }
+  if (!(p)) { _assertion_failed(code, pos); }
 
 #endif /* __oo2c__ */
