@@ -1,4 +1,4 @@
-(* 	$Id: Exception.Mod,v 1.12 2003/07/12 21:01:00 mva Exp $	 *)
+(* 	$Id: Exception.Mod,v 1.13 2003/07/13 13:30:31 mva Exp $	 *)
 MODULE Exception [FOREIGN "C"; LINK FILE "Exception.c" END];
 (*  Implements the run-time part of the exceptions mechanism.
     Copyright (C) 2002,2003  Michael van Acken
@@ -215,7 +215,10 @@ PROCEDURE (e: Exception) WriteBacktrace*;
    its output.  Please see the documentation of GNU libc for more information
    on how to make function names available to the program.  The tool
    @samp{oobacktrace} may also be able to add function names to the output.  *)
-
+PROCEDURE (e: Exception) Name*(): Object.String8;
+(**Return the name of the execption's type as
+   @samp{@var{module}.@var{typename}}.  *)
+   
 PROCEDURE (e: ParseError) INIT*(msg: STRING; offset: LONGINT);
   
 PROCEDURE Abort*[NO_RETURN](e: Exception);
