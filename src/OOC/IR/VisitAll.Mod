@@ -1,4 +1,4 @@
-(* 	$Id: VisitAll.Mod,v 1.15 2004/03/21 22:33:00 mva Exp $	 *)
+(* 	$Id: VisitAll.Mod,v 1.16 2004/03/22 21:14:50 mva Exp $	 *)
 MODULE OOC:IR:VisitAll;
 (*  A visitor traversing the whole IR data structure.
     Copyright (C) 2002, 2003, 2004  Michael van Acken
@@ -319,6 +319,7 @@ PROCEDURE (v: Visitor) VisitIterateObjectStatm* (iterStatm: IR.IterateObjectStat
   BEGIN
     iterStatm. var. Accept (v);
     iterStatm. iteratorFactory. Accept (v);
+    iterStatm. stepperCall. Accept (v);
     VisitStatementSeq (v, iterStatm. body);
   END VisitIterateObjectStatm;
 
