@@ -1,4 +1,4 @@
-(* 	$Id: Opcode.Mod,v 1.69 2002/07/30 02:59:37 mva Exp $	 *)
+(* 	$Id: Opcode.Mod,v 1.70 2002/07/30 03:27:58 mva Exp $	 *)
 MODULE OOC:SSA:Opcode;
 (*  This modules defines opcodes for SSA instructions.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -226,23 +226,6 @@ CONST
      @table @oconst
      @item *OOC:SSA:Opnd.arg
      Reference to the corresponding @oconst{loopStart} instruction.
-
-     @item *OOC:SSA:Opnd.store
-     Value of @var{store} once evaluation of the loop is done.  If the loop has
-     been completed, the instructions after the loop see the global state
-     represented by this value.  Note: In the variant with @oconst{selectExit},
-     this is the @var{store} at the end of the loop body, but instructions
-     after the loop see only the @var{store} produced by the
-     @oconst{selectExit}.
-
-     @item *OOC:SSA:Opnd.arg
-     The exit predicate of the loop.  A boolean value.
-
-     @item *OOC:SSA:Opnd.arg
-     The exit conditional of the loop, a boolean constant.  If the value of the
-     preceding argument equals this value, then the loop is exited.  Otherwise,
-     its body is evaluted again, using the second argument of
-     @oconst{loopStart} as its current @var{store}.
 
      @item *OOC:SSA:Opnd.backwardFeed
      The input value of @var{store} for the second, third, and so on, iteration
