@@ -1,4 +1,4 @@
-(* 	$Id: RuntimeData.Mod,v 1.1 2002/07/07 08:58:35 mva Exp $	 *)
+(* 	$Id: RuntimeData.Mod,v 1.2 2002/07/08 21:59:11 mva Exp $	 *)
 MODULE OOC:IA32:RuntimeData;
 (*  Writes assembler code for run-time data like type descriptors.
     Copyright (C) 2002  Michael van Acken
@@ -22,8 +22,8 @@ MODULE OOC:IA32:RuntimeData;
 
 
 IMPORT
-  TextRider, ADT:String, Sym := OOC:SymbolTable, OOC:SymbolTable:Namespace,
-  OOC:Auxiliary:Config, OOC:C:Naming, OOC:IA32:Writer;
+  TextRider, ADT:String, OOC:Config, Sym := OOC:SymbolTable,
+  OOC:SymbolTable:Namespace, OOC:C:Naming, OOC:IA32:Writer;
 
 CONST
   structTypeDesc = Config.runtimeModule+"__StructDesc";

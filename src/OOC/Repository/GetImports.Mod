@@ -1,4 +1,4 @@
-(* 	$Id: GetImports.Mod,v 1.6 2002/06/01 19:07:17 mva Exp $	 *)
+(* 	$Id: GetImports.Mod,v 1.7 2002/07/08 21:59:11 mva Exp $	 *)
 MODULE OOC:Repository:GetImports;
 (*  Determine the list of modules imported by a given module.
     Copyright (C) 2001  Michael van Acken
@@ -22,8 +22,8 @@ MODULE OOC:Repository:GetImports;
 
 
 IMPORT
-  Msg, URI, Rep := OOC:Repository,
-  OOC:Config:Repositories, OOC:Config:Pragmas, OOC:Auxiliary:Config,
+  Msg, URI, OOC:Config, Rep := OOC:Repository,
+  OOC:Config:Repositories, OOC:Config:Pragmas,
   
   OOC:Error, OOC:Scanner:InputBuffer, 
   OOC:Scanner, OOC:Scanner:Builder:BasicList,

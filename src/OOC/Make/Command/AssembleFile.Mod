@@ -1,4 +1,4 @@
-(* 	$Id: AssembleFile.Mod,v 1.2 2002/07/07 08:58:35 mva Exp $	 *)
+(* 	$Id: AssembleFile.Mod,v 1.3 2002/07/08 21:59:11 mva Exp $	 *)
 MODULE OOC:Make:Command:AssembleFile;
 (*  Translates an assembler file into an object file.
     Copyright (C) 2002  Michael van Acken
@@ -23,7 +23,7 @@ MODULE OOC:Make:Command:AssembleFile;
 IMPORT
   Channel, Make, Msg, Out, ADT:String, OS:ProcessManagment, URI,
   OOC:Make:Entity:ModuleFile, OOC:Error, OOC:Repository, 
-  Sym := OOC:SymbolTable, OOC:Config:Assembler, OOC:Auxiliary:Config;
+  Sym := OOC:SymbolTable, OOC:Config:Assembler;
 
 TYPE
   Command* = POINTER TO CommandDesc;
@@ -108,16 +108,13 @@ PROCEDURE (cmd: Command) Run*(): BOOLEAN;
     str: ARRAY 4*1024 OF CHAR;
     exit: LONGINT;
     res: Error.Msg;
-    config: Config.Config;
   BEGIN
     exit := 0;
-    
     m := cmd. module;
-    config := cmd. context. config(Config.Config);
     
     cmd. module. CreateOutputDir (cmd. fileId, res);
     IF (res = NIL) THEN
-      Assembler.AssembleFileCmd (config, cmd. sourceURI,
+      Assembler.AssembleFileCmd (cmd. sourceURI,
                                  cmd. module. GetURI (cmd. fileId), str);
       Out.String (str);
       Out.Ln;

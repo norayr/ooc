@@ -1,4 +1,4 @@
-(* 	$Id: CompileFileC.Mod,v 1.6 2002/04/25 21:18:38 mva Exp $	 *)
+(* 	$Id: CompileFileC.Mod,v 1.7 2002/07/08 21:59:11 mva Exp $	 *)
 MODULE OOC:Make:Command:CompileFileC;
 (*  Translates a C file into an object file.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -23,7 +23,7 @@ MODULE OOC:Make:Command:CompileFileC;
 IMPORT
   Channel, Make, Msg, Out, ADT:String, OS:ProcessManagment, URI,
   OOC:Make:Entity:ModuleFile, OOC:Error, OOC:Repository, 
-  Sym := OOC:SymbolTable, OOC:Config:CCompiler, OOC:Auxiliary:Config;
+  Sym := OOC:SymbolTable, OOC:Config:CCompiler;
 
 TYPE
   Command* = POINTER TO CommandDesc;
@@ -107,16 +107,13 @@ PROCEDURE (cmd: Command) Run*(): BOOLEAN;
     str: ARRAY 4*1024 OF CHAR;
     exit: LONGINT;
     res: Error.Msg;
-    config: Config.Config;
   BEGIN
     exit := 0;
-    
     m := cmd. module;
-    config := cmd. context. config(Config.Config);
     
     cmd. module. CreateOutputDir (cmd. fileId, res);
     IF (res = NIL) THEN
-      CCompiler.CompileFileCmd (config, cmd. sourceURI,
+      CCompiler.CompileFileCmd (cmd. sourceURI,
                                 cmd. module. GetURI (cmd. fileId), str);
       Out.String (str);
       Out.Ln;

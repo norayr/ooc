@@ -1,4 +1,4 @@
-(* 	$Id: WriteAssembler.Mod,v 1.2 2002/07/08 20:13:21 mva Exp $	 *)
+(* 	$Id: WriteAssembler.Mod,v 1.3 2002/07/08 21:59:11 mva Exp $	 *)
 MODULE OOC:IA32:WriteAssembler [OOC_EXTENSIONS];
 (*  Translates a set of scheduled SSA instructions to IA32 assembler.
     Copyright (C) 2002  Michael van Acken
@@ -31,7 +31,7 @@ MODULE OOC:IA32:WriteAssembler [OOC_EXTENSIONS];
 IMPORT
   Ascii, IntStr, Log, Out, StdChannels, Strings, StringSearch, 
   ADT:String,
-  OOC:Auxiliary:Config, Rep := OOC:Repository, OOC:IR, Sym := OOC:SymbolTable,
+  OOC:Config, Rep := OOC:Repository, OOC:IR, Sym := OOC:SymbolTable,
   OOC:SymbolTable:Predef,
   OOC:SSA, OOC:SSA:Opcode, OOC:SSA:Opnd, OOC:SSA:Schedule, 
   OOC:C:Naming, OOC:IA32:Writer, OOC:Make:Command:TranslateToIA32,
@@ -45,7 +45,6 @@ TYPE
   Translator = POINTER TO TranslatorDesc;
   TranslatorDesc = RECORD
     (TranslateToIA32.TranslatorDesc)
-    config: Config.Config;
     inspectProc: StringSearch.Matcher;
     inspectStage: StringSearch.Matcher;
     lfeCount: LONGINT;
@@ -278,7 +277,7 @@ PROCEDURE (t: Translator) WriteProcBody* (proc: IR.Procedure);
       END;
       IF (t. inspectStage. MatchChars ("schedule-html", 0, -1) # NIL) THEN
         (* create a temporary web server displaying the SSA code *)
-        Inspector.Show (t. config. repositories, proc, domRoot);
+        Inspector.Show (Config.repositories, proc, domRoot);
       END;
     END;
     
@@ -314,23 +313,21 @@ PROCEDURE (t: Translator) WriteProcBody* (proc: IR.Procedure);
 
 
 PROCEDURE InitTranslator* (t: Translator; module: Rep.Module;
-                           config: Config.Config;
                            inspectProc, inspectStage: StringSearch.Matcher);
   BEGIN
     TranslateToIA32.InitTranslator (t, module);
-    t. config := config;
     t. inspectProc := inspectProc;
     t. inspectStage := inspectStage;
     t. lfeCount := 1;
   END InitTranslator;
 
-PROCEDURE NewTranslator* (module: Rep.Module; config: Config.Config;
+PROCEDURE NewTranslator* (module: Rep.Module;
                           inspectProc, inspectStage: StringSearch.Matcher): Translator;
   VAR
     t: Translator;
   BEGIN
     NEW (t);
-    InitTranslator (t, module, config, inspectProc, inspectStage);
+    InitTranslator (t, module, inspectProc, inspectStage);
     RETURN t
   END NewTranslator;
 

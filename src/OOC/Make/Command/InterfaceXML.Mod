@@ -1,4 +1,4 @@
-(* 	$Id: InterfaceXML.Mod,v 1.6 2001/12/20 17:27:51 mva Exp $	 *)
+(* 	$Id: InterfaceXML.Mod,v 1.7 2002/07/08 21:59:11 mva Exp $	 *)
 MODULE OOC:Make:Command:InterfaceXML;
 (*  Writes a module's exported interface as XML document.
     Copyright (C) 2001  Michael van Acken
@@ -23,7 +23,7 @@ MODULE OOC:Make:Command:InterfaceXML;
 
 IMPORT
   Channel, Files, Msg, URI, Make, ADT:String,
-  OOC:Make:Entity:ModuleFile, OOC:Auxiliary:ParseModule, OOC:Auxiliary:Config,
+  OOC:Make:Entity:ModuleFile, OOC:Auxiliary:ParseModule, OOC:Config,
   OOC:Error, OOC:Config:Pragmas, OOC:Repository, OOC:AST, 
   Sym := OOC:SymbolTable, OOC:SymbolTable:InterfaceXML;
 
@@ -69,12 +69,10 @@ PROCEDURE (cmd: Command) Run*(): BOOLEAN;
     outputChannel: Channel.Channel;
     outputURI: URI.HierarchicalURI;
     m: Repository.Module;
-    config: Config.Config;
     pragmaHistory: Pragmas.History;
   BEGIN
     m := cmd. module;
-    config := cmd. context. config(Config.Config);
-    ParseModule.ParseModule (m, config, FALSE, TRUE, FALSE,
+    ParseModule.ParseModule (m, FALSE, TRUE, FALSE,
                              ast, symTab, pragmaHistory, errList);
     IF (errList. msgCount = 0) THEN
       outputURI := m. GetURI (Repository.modInterfaceXML);
@@ -83,7 +81,7 @@ PROCEDURE (cmd: Command) Run*(): BOOLEAN;
         errList. Append (res)
       ELSE
         InterfaceXML.Write (outputChannel.NewWriter(), outputURI, symTab,
-                            config. repositories);
+                            Config.repositories);
         outputChannel(Files.File). Register;
         outputChannel. Close;
         IF (outputChannel. res # Channel.done) THEN

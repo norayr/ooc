@@ -1,4 +1,4 @@
-(* 	$Id: CompileModule.Mod,v 1.6 2001/12/20 17:27:51 mva Exp $	 *)
+(* 	$Id: CompileModule.Mod,v 1.7 2002/07/08 21:59:11 mva Exp $	 *)
 MODULE OOC:Make:Command:CompileModule;
 (*  Parses a module file, no further translation.  A misnomer...
     Copyright (C) 2001  Michael van Acken
@@ -22,7 +22,7 @@ MODULE OOC:Make:Command:CompileModule;
 
 IMPORT
   Channel, Make, ADT:String, OOC:Make:Entity:ModuleFile,
-  OOC:Auxiliary:Config, OOC:Auxiliary:ParseModule,
+  OOC:Config, OOC:Auxiliary:ParseModule,
   OOC:Error, OOC:Config:Pragmas, OOC:Repository, OOC:AST, 
   Sym := OOC:SymbolTable;
 
@@ -91,12 +91,10 @@ PROCEDURE (cmd: Command) Run*(): BOOLEAN;
     symTab: Sym.Module;
     errList: Error.List;
     m: Repository.Module;
-    config: Config.Config;
     pragmaHistory: Pragmas.History;
   BEGIN
     m := cmd. module;
-    config := cmd. context. config(Config.Config);
-    ParseModule.ParseModule (m, config, FALSE, TRUE, TRUE,
+    ParseModule.ParseModule (m, FALSE, TRUE, TRUE,
                              ast, symTab, pragmaHistory, errList);
     (* symbol file is written by the `ParseModule' function *)
     (* ... no more to do right now *)
