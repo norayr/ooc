@@ -1,4 +1,4 @@
-(* 	$Id: oob.Mod,v 1.15 2003/04/16 01:09:43 mva Exp $	 *)
+(* 	$Id: oob.Mod,v 1.16 2003/05/05 21:10:59 mva Exp $	 *)
 MODULE oob;
 (*  Symbol file browser.
     Copyright (C) 2002, 2003  Michael van Acken
@@ -358,7 +358,7 @@ PROCEDURE WriteSymTab(symTab: Sym.Module);
     BEGIN
       Newline;
       Out.String("PROCEDURE ");
-      IF procDecl.isTypeBound THEN
+      IF procDecl.IsTypeBound() THEN
         Out.String("(");
         VarDecl(procDecl.formalPars.receiver);
         Out.String(") ");
@@ -372,7 +372,7 @@ PROCEDURE WriteSymTab(symTab: Sym.Module);
       (* non-declarations are skipped on the top level, and type-bound
          procedures are written as part of their records *)
       RETURN (item IS Sym.Declaration) &
-          (~(item IS Sym.ProcDecl) OR ~item(Sym.ProcDecl).isTypeBound);
+          (~(item IS Sym.ProcDecl) OR ~item(Sym.ProcDecl).IsTypeBound());
     END WriteTopLevel;
   
   BEGIN
