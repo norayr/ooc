@@ -1,4 +1,4 @@
-(* 	$Id: IR.Mod,v 1.229 2003/05/04 10:14:43 mva Exp $	 *)
+(* 	$Id: IR.Mod,v 1.230 2003/05/04 10:25:49 mva Exp $	 *)
 MODULE OOC:IR [OOC_EXTENSIONS];
 (*  High-level intermediate code representation.
     Copyright (C) 2001-2003  Michael van Acken, Stewart Greenhill
@@ -3264,7 +3264,7 @@ PROCEDURE (b: Builder) NewTypeTest* (sym: Symbol; expr, referenceType: Expressio
          a dynamic type that can differ from its static one.  *)
       RETURN b. ErrExpr (noDynamicType, expr.sym);
     ELSE
-      IF TR.SameType(refType, expr.type) THEN
+      IF TR.SameType(TR.Expand(refType), expr.type) THEN
         b.WarnSym(redundantTypeTest, referenceType.sym);
       END;
       
