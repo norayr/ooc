@@ -1,4 +1,4 @@
-(* 	$Id: InterfaceDescr.Mod,v 1.8 2001/05/01 20:36:26 mva Exp $	 *)
+(* 	$Id: InterfaceDescr.Mod,v 1.9 2001/06/30 21:42:19 mva Exp $	 *)
 MODULE OOC:SymbolTable:Item:InterfaceDescr;
 (*  Writes a description of a module's interface as XML.
     Copyright (C) 2000, 2001  Michael van Acken
@@ -385,15 +385,15 @@ PROCEDURE Write* (cw: Channel.Writer; baseURI: URI.HierarchicalURI;
       res: Msg.Msg;
       remoteURI, relativeURI: URI.URI;
       baseURI: URI.HierarchicalURI;
-      keys: ArrayList.ArrayList;
+      keys: Object.ObjectArrayPtr;
     BEGIN
       thisModule := repositories. GetModule (module. name. str^);
       baseURI := thisModule. GetURI (Repository.modInterfaceHTML, res);
       ASSERT (res = NIL);
       
       keys := modList. Keys();
-      FOR i := 0 TO keys. size-1 DO
-        remoteMod := keys. array[i](Repository.Module);
+      FOR i := 0 TO LEN (keys^)-1 DO
+        remoteMod := keys[i](Repository.Module);
 
         w. StartTag ("module-ref", FALSE);
         w. AttrStringLatin1 ("name", remoteMod. name^);
