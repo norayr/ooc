@@ -1,4 +1,4 @@
-(* 	$Id: IR.Mod,v 1.108 2002/06/18 14:12:52 sgreenhill Exp $	 *)
+(* 	$Id: IR.Mod,v 1.109 2002/06/19 04:43:18 sgreenhill Exp $	 *)
 MODULE OOC:IR [OOC_EXTENSIONS];
 (*  High-level intermediate code representation.
     Copyright (C) 2001, 2002  Michael van Acken, Stewart Greenhill
@@ -2029,10 +2029,10 @@ BEGIN
     CASE base.id OF
     | Predef.char:
       RETURN b.NewConst(sym, left.type, 
-        String8.New(l(String8.Value).value.Concat(r(String8.Value).value)));
+        l(String8.Value).Concat(r(String8.Value)));
     | Predef.longchar:
-      (* FIXME! Implement longstring concatenation *)
-      ASSERT(FALSE);
+      RETURN b.NewConst(sym, left.type, 
+        l(String16.Value).Concat(r(String16.Value)));
     END
   END
 END NewStringAppend;
