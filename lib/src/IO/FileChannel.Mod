@@ -1,4 +1,4 @@
-(*	$Id: FileChannel.Mod,v 1.5 2003/05/18 15:58:10 mva Exp $	*)
+(*	$Id: FileChannel.Mod,v 1.6 2003/06/09 17:49:16 mva Exp $	*)
 MODULE IO:FileChannel [FOREIGN "C"; LINK FILE "FileChannel.c" END];
 (*  Access to files through channel objects.
     Copyright (C) 2003  Michael van Acken
@@ -99,6 +99,7 @@ PROCEDURE (ch: Channel) CloseAndRegister*() RAISES IO.Error;
 
 PROCEDURE (ch: Channel) SetPos*(pos: LONGINT) RAISES IO.Error;
 
+PROCEDURE (ch: Channel) Length*(): LONGINT RAISES IO.Error;
 
 PROCEDURE (ch: Channel) FileDescriptor*(): IO.FileDescriptor;
 
