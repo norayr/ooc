@@ -1,4 +1,4 @@
-/*      $Id: __oo2c.c,v 1.3 2002/01/03 12:59:52 mva Exp $        */
+/*      $Id: __oo2c.c,v 1.4 2002/01/04 16:04:12 mva Exp $        */
 /*  Run-time system for C back-ends of OOC2
     Copyright (C) 2001, 2002  Michael van Acken
 
@@ -19,6 +19,10 @@
 
 #include "__oo2c.h"
 #include <stdio.h>
+
+/* --- stack for copies of array value parameters (see __dynvar.h): */
+void* _ooc_top_vs;
+void* _ooc_end_vs;
 
 /* --- functions to handle exceptions and failed run-time checks: */
 #define PREFIX "## "
