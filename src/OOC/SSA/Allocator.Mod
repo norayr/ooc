@@ -1,4 +1,4 @@
-(* 	$Id: Allocator.Mod,v 1.22 2002/08/26 09:54:10 mva Exp $	 *)
+(* 	$Id: Allocator.Mod,v 1.23 2002/09/22 15:46:20 mva Exp $	 *)
 MODULE OOC:SSA:Allocator;
 (*  A register allocator for the C back-end.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -1105,7 +1105,8 @@ PROCEDURE AssignRegisters* (pb: SSA.ProcBlock; domRoot: Schedule.Block;
       BEGIN
        CASE opcode OF
         | Opcode.call, Opcode.get, Opcode.copyParameter,
-          Opcode.const, Opcode.address, Opcode.getLength:
+          Opcode.const, Opcode.address,
+          Opcode.getLengthHeap, Opcode.getLengthParam:
           RETURN FALSE;
         ELSE
           RETURN TRUE;
