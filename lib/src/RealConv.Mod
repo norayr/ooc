@@ -1,4 +1,4 @@
-(* 	$Id: RealConv.Mod,v 1.1 2002/05/26 12:15:17 mva Exp $	 *)
+(* 	$Id: RealConv.Mod,v 1.2 2002/06/01 12:10:23 mva Exp $	 *)
 MODULE RealConv;
 (*  String to REAL conversion functions.
     Copyright (C) 2002  Michael van Acken
@@ -19,7 +19,7 @@ MODULE RealConv;
 *)
 
 IMPORT
-  SYSTEM, C, CharClass, ConvTypes, Real0;
+  SYSTEM, libc, C, CharClass, ConvTypes, Real0;
 
 (**
 
@@ -74,7 +74,7 @@ PROCEDURE ValueReal*(str: ARRAY OF CHAR): REAL;
       (* skip our definition of whitespace *)
       INC (i);
     END;
-    value := C.strtof (SYSTEM.ADR (str[i]), tail);
+    value := libc.strtof (SYSTEM.ADR (str[i]), tail);
     IF (tail[0] = 0X) THEN
       RETURN value                       (* syntax is ok *)
     ELSE

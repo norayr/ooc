@@ -1,4 +1,4 @@
-(* 	$Id: LRealConv.Mod,v 1.7 2002/05/26 12:15:17 mva Exp $	 *)
+(* 	$Id: LRealConv.Mod,v 1.8 2002/06/01 12:10:23 mva Exp $	 *)
 MODULE LRealConv;
 (*  String to LONGREAL conversion functions.
     Copyright (C) 2002  Michael van Acken
@@ -19,7 +19,7 @@ MODULE LRealConv;
 *)
 
 IMPORT
-  SYSTEM, C, CharClass, ConvTypes, Real0;
+  SYSTEM, libc, C, CharClass, ConvTypes, Real0;
 
 (**
 
@@ -74,7 +74,7 @@ PROCEDURE ValueReal*(str: ARRAY OF CHAR): LONGREAL;
       (* skip our definition of whitespace *)
       INC (i);
     END;
-    value := C.strtod (SYSTEM.ADR (str[i]), tail);
+    value := libc.strtod (SYSTEM.ADR (str[i]), tail);
     IF (tail[0] = 0X) THEN
       RETURN value                       (* syntax is ok *)
     ELSE

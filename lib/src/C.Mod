@@ -1,4 +1,4 @@
-(* 	$Id: C.Mod,v 1.5 2002/05/26 12:15:17 mva Exp $	 *)
+(* 	$Id: C.Mod,v 1.6 2002/06/01 12:10:23 mva Exp $	 *)
 MODULE C [INTERFACE "C"; LINK FILE "C.c" END];
 (*  Basic data types for interfacing to C code.
     Copyright (C) 1997-1998  Michael van Acken
@@ -21,11 +21,9 @@ MODULE C [INTERFACE "C"; LINK FILE "C.c" END];
 IMPORT
   SYSTEM;
   
-(*
-These types are intended to be equivalent to their C counterparts.
-They may vary depending on your system, but as long as you stick to a 32 Bit
-Unix they should be fairly safe.
-*)  
+(**The types from this module are intended to be equivalent to their C
+   counterparts.  They may vary depending on your system, but as long as you
+   stick to a 32 Bit Unix they should be fairly safe.  *)  
 
 TYPE
   char* = CHAR;
@@ -68,14 +66,4 @@ TYPE  (* C string type, assignment compatible with character arrays and
 TYPE
   Proc* = PROCEDURE;
 
-(* Note: All C function declared here are provided for the convenience
-   of modules of the standard library.  They may be changed, moved, or
-   removed without prior notice.  *)
-   
-PROCEDURE strtod* (string: address;
-                   VAR tailptr: charPtr1d): double;
-PROCEDURE strtof* (string: address;
-                   VAR tailptr: charPtr1d): float;
-PROCEDURE sprintf* (VAR s: ARRAY OF CHAR; template: ARRAY OF CHAR; ...);
-                        
 END C.
