@@ -1,4 +1,4 @@
-(* 	$Id: CCompiler.Mod,v 1.9 2002/08/31 15:34:10 mva Exp $	 *)
+(* 	$Id: CCompiler.Mod,v 1.10 2002/08/31 21:24:49 mva Exp $	 *)
 MODULE OOC:Config:CCompiler;
 (*  Generates command lines for the C compiler and linker.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -98,6 +98,15 @@ PROCEDURE RegisterConfig*;
     cflags := Config.AddOption ("cflags", StringValue.New ("-O2 -g"));
     ldflags := Config.AddOption ("ldflags", StringValue.New (""));
     libs := Config.AddOption ("libs", StringValue.New ("-lgc"));
+
+    Config.AddCmdLine ("--cc",
+                       "<options><set name='cc'>$1</set></options>");
+    Config.AddCmdLine ("--cflags",
+                       "<options><set name='cflags'>$1</set></options>");
+    Config.AddCmdLine ("--ldflags",
+                       "<options><set name='ldflags'>$1</set></options>");
+    Config.AddCmdLine ("--libs",
+                       "<options><set name='libs'>$1</set></options>");
   END RegisterConfig;
 
 END OOC:Config:CCompiler.
