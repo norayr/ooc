@@ -1,4 +1,4 @@
-(* 	$Id: CreateNamespace.Mod,v 1.52 2003/05/16 19:37:08 mva Exp $	 *)
+(* 	$Id: CreateNamespace.Mod,v 1.53 2003/05/27 21:53:03 mva Exp $	 *)
 MODULE OOC:SymbolTable:CreateNamespace [OOC_EXTENSIONS];
 (*  Creates namespaces for module, and resolves type names in declarations.
     Copyright (C) 2000-2003  Michael van Acken
@@ -1196,6 +1196,8 @@ RAISES IO.Error;
                 SetFlag(item.hasDescriptor, FALSE);
               | Sym.flagNotExtensible:
                 SetFlag(item.isExtensible, FALSE);
+              | Sym.flagExtensible:
+                SetFlag(item.isExtensible, TRUE);
               | Sym.flagUnion:
                 SetFlag(item.isUnion, TRUE);
               ELSE

@@ -1,4 +1,4 @@
-(* 	$Id: SymbolTable.Mod,v 1.93 2003/05/20 20:10:30 mva Exp $	 *)
+(* 	$Id: SymbolTable.Mod,v 1.94 2003/05/27 21:53:03 mva Exp $	 *)
 MODULE OOC:SymbolTable [OOC_EXTENSIONS];
 (*  Defines structure and entries of the symbol table.
     Copyright (C) 2000-2003  Michael van Acken
@@ -101,6 +101,7 @@ CONST
   flagNoReturn* = 9;
   flagDeprecated* = 10;
   flagOOCExtensions* = 11;
+  flagExtensible* = 12;
   
 CONST
   nameNotExported* = 0;
@@ -1215,6 +1216,8 @@ PROCEDURE (item: Item) AddFlag* (name: Name);
       id := flagNoDescriptor;
     ELSIF (name.str^ = "NOT_EXTENSIBLE") THEN
       id := flagNotExtensible;
+    ELSIF (name.str^ = "EXTENSIBLE") THEN
+      id := flagExtensible;
     ELSIF (name.str^ = "CSTRING") THEN
       id := flagCString;
     ELSIF (name.str^ = "NIL_COMPAT") THEN
