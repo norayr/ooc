@@ -1,4 +1,4 @@
-(* 	$Id: Scanner.Mod,v 1.3 2001/05/14 23:01:19 mva Exp $	 *)
+(* 	$Id: Scanner.Mod,v 1.4 2001/10/17 22:10:38 mva Exp $	 *)
 MODULE OOC:Scanner;
 (*  Convert a character sequence into a stream of Oberon-2 symbols.
     Copyright (C) 2000, 2001  Michael van Acken
@@ -632,6 +632,8 @@ PROCEDURE ScanInput* (builder: Builder.Builder;
       builder. AddSymbol (Symbol.endOfFile, cpos, cpos,
                           currLine, cpos-currLinePos+currLineTab)
     END;
+    builder. SetPragmaHistory (pragma. variableHistory);
+    
     IF (enableCharPosAdjust IN scanOptions) & eolIsCRLF THEN
       b. errList. SetAdjustCharPos (TRUE)
     END

@@ -1,4 +1,4 @@
-(* 	$Id: AST.Mod,v 1.2 2001/08/30 09:08:53 mva Exp $	 *)
+(* 	$Id: AST.Mod,v 1.3 2001/10/17 22:10:38 mva Exp $	 *)
 MODULE OOC:AST [OOC_EXTENSIONS];
 (*  Abstract builder class for parser output.
     Copyright (C) 2000, 2001  Michael van Acken
@@ -22,7 +22,7 @@ MODULE OOC:AST [OOC_EXTENSIONS];
 
 IMPORT
   OOC:Scanner:InputBuffer, OOC:Doc, OOC:Scanner:Builder:BasicList,
-  OOC:Scanner:Symbol;
+  OOC:SymbolTable:Item;
 
 TYPE
   Name* = InputBuffer.CharArray;
@@ -217,6 +217,14 @@ PROCEDURE (n: Node) AttachDocString* (docComment: Doc.Document);
    
    Note: This procedure can be called more than once for a given node.  *)
   END AttachDocString;
+
+PROCEDURE (n: Node) SetSymTabEntry* (item: Item.Item);
+(**Sets a reference from the node @oparam{n} of the abstract syntax tree to
+   the corresponding item in the symbol table.  Currently, this method is
+   only defined for procedure declarations.  *)
+  BEGIN
+    ASSERT (FALSE);
+  END SetSymTabEntry;
 
 
 PROCEDURE (b: Builder) [ABSTRACT] Terminal* (sym: BasicList.Symbol): Node;
