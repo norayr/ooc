@@ -1,4 +1,4 @@
-(* 	$Id: CheckUses.Mod,v 1.8 2003/04/10 23:46:10 mva Exp $	 *)
+(* 	$Id: CheckUses.Mod,v 1.9 2003/04/11 00:22:22 mva Exp $	 *)
 MODULE OOC:IR:CheckUses;
 (*  Warn about uninitialized variables and unreachable code, 
     Copyright (C) 2003  Michael van Acken, Stewart Greenhill
@@ -27,6 +27,12 @@ IMPORT
   Sym := OOC:SymbolTable, TR := OOC:SymbolTable:TypeRules, OOC:Error,
   OOC:Scanner:Builder:BasicList, OOC:IR, OOC:IR:VisitAll;
 
+(* Possible enhancements:
+   
+   For simple MOVE where source or target is an ADR(), evaluate this
+   instruction like an assignment.  See LRealConv, RealConv, Object:Boxed for
+   examples.  *)
+   
 CONST
   undefined = 0;
   maybeUndefined = 1;

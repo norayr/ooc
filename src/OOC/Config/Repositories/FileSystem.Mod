@@ -1,4 +1,4 @@
-(* 	$Id: FileSystem.Mod,v 1.3 2003/04/05 18:45:34 mva Exp $	 *)
+(* 	$Id: FileSystem.Mod,v 1.4 2003/04/11 00:22:22 mva Exp $	 *)
 MODULE OOC:Config:Repositories:FileSystem;
 (*  Implements "file-system" element of XML repository configuration.
     Copyright (C) 2001  Michael van Acken
@@ -94,7 +94,6 @@ PROCEDURE (re: RepositoryEntry) ProcessElement* (
     END Err;
   
   BEGIN
-    lastError := NIL;  (* silence wrong warning *)
     FOR i := 0 TO node. attrList. len-1 DO
       att := node. attrList. attr[i];
       Err (invalidAttribute, node);

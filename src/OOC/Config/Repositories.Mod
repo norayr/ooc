@@ -1,4 +1,4 @@
-(* 	$Id: Repositories.Mod,v 1.19 2003/04/05 18:45:34 mva Exp $	 *)
+(* 	$Id: Repositories.Mod,v 1.20 2003/04/11 00:22:22 mva Exp $	 *)
 MODULE OOC:Config:Repositories [OOC_EXTENSIONS];
 (*  Management of a hierarchy of configured repositories.
     Copyright (C) 2001-2003  Michael van Acken
@@ -130,7 +130,6 @@ PROCEDURE (s: Section) ProcessElements* (sectionRoot: Parser.Element;
     END Err;
   
   BEGIN
-    lastError := NIL;  (* silence wrong warning *)
     node := sectionRoot. content;
     WHILE (node # NIL) DO
       WITH node: Parser.Element DO

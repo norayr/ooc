@@ -1,4 +1,4 @@
-(*      $Id: Parser.Mod,v 1.7 2003/04/05 18:45:44 mva Exp $   *)
+(*      $Id: Parser.Mod,v 1.8 2003/04/11 00:22:24 mva Exp $   *)
 MODULE XML:Parser;
 (*  Implements the XML parser.
     Copyright (C) 2000, 2001, 2003  Michael van Acken
@@ -3104,7 +3104,6 @@ PROCEDURE (p: Parser) ParseDocument*() RAISES IO.Error;
   
   BEGIN
     SetFileEntity (p. documentEntity);
-    cpos := 0;  (* prevent wrong warning for reference below *)
     ResetLocator;
     chars := p. in. chars;
     dtd := p. dtd;
