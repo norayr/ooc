@@ -1,4 +1,4 @@
-(* 	$Id: Blocker.Mod,v 1.27 2002/08/10 17:47:27 mva Exp $	 *)
+(* 	$Id: Blocker.Mod,v 1.28 2002/08/11 06:39:07 mva Exp $	 *)
 MODULE OOC:SSA:Blocker;
 (*  Imposes a block structure on a flat list of SSA instructions.
     Copyright (C) 2002  Michael van Acken
@@ -1451,7 +1451,7 @@ PROCEDURE ArrangeInstructions* (pb: SSA.ProcBlock;
             END;
             opnd := proxy. instr. opndList;
             WHILE (opnd # NIL) DO
-              IF opnd. IsValueOpnd() & CountAsRegister (opnd. arg) THEN
+              IF opnd. IsValueOpndHere() & CountAsRegister (opnd. arg) THEN
                 DEC (degreeDiff);
               END;
               opnd := opnd. nextOpnd;
