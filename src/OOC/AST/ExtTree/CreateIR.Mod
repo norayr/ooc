@@ -1,4 +1,4 @@
-(* 	$Id: CreateIR.Mod,v 1.28 2002/01/30 21:45:33 mva Exp $	 *)
+(* 	$Id: CreateIR.Mod,v 1.29 2002/02/03 20:51:24 mva Exp $	 *)
 MODULE OOC:AST:ExtTree:CreateIR;
 (*  Creates an IR representation from the abstract syntax tree.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -236,6 +236,30 @@ PROCEDURE CreateIR* (module: ExtTree.Module;
                                  StatementSeq (whileStatm. statmSeq));
       END WhileStatm;
   
+    PROCEDURE ForStatm (forStatm: ExtTree.ForStatm): IR.Statement;
+      PROCEDURE Step (): IR.Expression;
+        BEGIN
+          IF (forStatm. step # NIL) THEN
+            RETURN Expr (forStatm. step);
+          ELSE
+            RETURN NIL;
+          END;
+        END Step;
+      
+      BEGIN
+        RETURN b. NewForStatm (forStatm. for. sym,
+                               Designator (forStatm. ident),
+                               Expr (forStatm. startValue),
+                               Expr (forStatm. endValue),
+                               Step(),
+                               StatementSeq (forStatm. statmSeq));
+      END ForStatm;
+  
+    PROCEDURE LoopStatm (loopStatm: ExtTree.LoopStatm): IR.Statement;
+      BEGIN
+        RETURN NIL;  (* FIXME... *)
+      END LoopStatm;
+  
     BEGIN
       (* count number of statements, allocate array to hold IR of sequence *)
       count := 0;
@@ -268,7 +292,13 @@ PROCEDURE CreateIR* (module: ExtTree.Module;
               
           | n: ExtTree.WhileStatm DO
             statm := WhileStatm (n)
-              
+
+          | n: ExtTree.ForStatm DO
+            statm := ForStatm (n);
+
+          | n: ExtTree.LoopStatm DO
+            statm := LoopStatm (n);
+            
           ELSE
             Log.Type("++ Unknown type in StatementSeq", n);
             ASSERT (FALSE)
