@@ -1,4 +1,4 @@
-(* 	$Id: Destore.Mod,v 1.42 2002/07/08 20:13:20 mva Exp $	 *)
+(* 	$Id: Destore.Mod,v 1.43 2002/07/12 20:44:49 mva Exp $	 *)
 MODULE OOC:SSA:Destore;
 (*  Converts reads from/writes to memory into local values.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -447,6 +447,10 @@ PROCEDURE Transform* (pb: SSA.ProcBlock);
       | Opcode.call:
         (* FIXME... detect when a call can modify our variable; for now
            be pessimistic: the call rewrites our variable *)
+        RETURN unknownValue;
+        
+      | Opcode.moveBlock:
+        (* assume that a SYSTEM.MOVE can interact with anything *)
         RETURN unknownValue;
       END;
     END GetValue;

@@ -1,4 +1,4 @@
-/*      $Id: __oo2c.h,v 1.27 2002/06/27 19:45:41 mva Exp $        */
+/*      $Id: __oo2c.h,v 1.28 2002/07/12 20:44:49 mva Exp $        */
 /*  Run-time system for C back-ends of OOC2
     Copyright (C) 2001, 2002  Michael van Acken
 
@@ -88,6 +88,10 @@
   char* _max=_d+_len;                           \
   while (_d != _max) { *(_d++) = *(_s++); }     \
 }
+
+/* copy memory block (SYSTEM.MOVE) */
+#define _move_block(_source,_dest,_size) \
+  memcpy((void*)_dest,(void*)_source,_size)
 
 /* string compare */
 extern OOC_INT32 _cmp8(const OOC_CHAR8* l, const OOC_CHAR8* r);

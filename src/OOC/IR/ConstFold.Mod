@@ -1,4 +1,4 @@
-(* 	$Id: ConstFold.Mod,v 1.57 2002/07/08 20:13:20 mva Exp $	 *)
+(* 	$Id: ConstFold.Mod,v 1.58 2002/07/12 20:44:49 mva Exp $	 *)
 MODULE OOC:IR:ConstFold;
 (*  Constant folding on IR expressions.
     Copyright (C) 2002  Stewart Greenhill, Michael van Acken
@@ -24,8 +24,7 @@ IMPORT
   Sym := OOC:SymbolTable, OOC:IR, OOC:SymbolTable:Predef,
   TR := OOC:SymbolTable:TypeRules, Language, 
   Language:Integer, Language:Boolean, LString := Language:String,
-  Language:String8, Language:String16, Language:Set, Language:Real,
-  ADT:String;
+  Language:String8, Language:String16, Language:Set, Language:Real;
 
 TYPE
   ConstFold = POINTER TO ConstFoldDesc;
@@ -681,6 +680,10 @@ PROCEDURE (c: ConstFold) VisitCaseStatm* (caseStatm: IR.CaseStatm);
 PROCEDURE (c: ConstFold) VisitLoopStatm* (loopStatm: IR.LoopStatm);
   BEGIN
   END VisitLoopStatm;
+
+PROCEDURE (c: ConstFold) VisitMoveBlock* (move: IR.MoveBlock);
+  BEGIN
+  END VisitMoveBlock;
 
 PROCEDURE (c: ConstFold) VisitRepeatStatm* (repeatStatm: IR.RepeatStatm);
   BEGIN

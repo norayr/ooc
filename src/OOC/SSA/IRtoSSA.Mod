@@ -1,4 +1,4 @@
-(* 	$Id: IRtoSSA.Mod,v 1.80 2002/06/30 15:17:10 mva Exp $	 *)
+(* 	$Id: IRtoSSA.Mod,v 1.81 2002/07/12 20:44:49 mva Exp $	 *)
 MODULE OOC:SSA:IRtoSSA;
 (*  Converts the IR of a procedure into its SSA representation.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -1131,6 +1131,24 @@ PROCEDURE StatmSeq* (pb: SSA.ProcBlock; s: SSA.Result;
       s := instr. AddResult (Result.store);
     END CopyParameter;
   
+  PROCEDURE MoveBlock (move: IR.MoveBlock): SSA.Instr;
+    VAR
+      instr: SSA.Instr;
+      source, dest, size: SSA.Result;
+    BEGIN
+      source := Expression (move. source);
+      dest := Expression (move. dest);
+      size := Expression (move. size);
+
+      instr := pb. AddInstr (Opcode.moveBlock, Opcode.scNone);
+      instr. AddOpnd (s, Opnd.store);
+      instr. AddOpnd (source, Opnd.readAdr);
+      instr. AddOpnd (dest, Opnd.writeAdr);
+      instr. AddOpnd (size, Opnd.arg);
+      
+      RETURN instr;
+    END MoveBlock;
+  
   BEGIN
     FOR i := 0 TO LEN (statmSeq^)-1 DO
       statm := statmSeq[i];
@@ -1144,8 +1162,6 @@ PROCEDURE StatmSeq* (pb: SSA.ProcBlock; s: SSA.Result;
         Chain (Call (statm));
         
       | statm: IR.Return DO
-        (* lets pretend for a moment that a RETURN is not a control flow
-           construct... FIXME *)
         Return (statm);
 
       | statm: IR.IfStatm DO
@@ -1180,7 +1196,9 @@ PROCEDURE StatmSeq* (pb: SSA.ProcBlock; s: SSA.Result;
             
       | statm: IR.CopyString DO
         Chain (CopyString (statm));
-            
+
+      | statm: IR.MoveBlock DO
+        Chain (MoveBlock (statm));
       ELSE
         Log.Type("++ Unknown statement class in StatmSeq", statm);
         ASSERT (FALSE)
