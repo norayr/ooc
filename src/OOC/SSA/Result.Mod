@@ -1,4 +1,4 @@
-(* 	$Id: Result.Mod,v 1.1 2001/12/02 18:41:48 mva Exp $	 *)
+(* 	$Id: Result.Mod,v 1.2 2001/12/03 19:48:46 mva Exp $	 *)
 MODULE OOC:SSA:Result;
 (*  Symbolic names for result classes.
     Copyright (C) 2001  Michael van Acken
@@ -54,11 +54,11 @@ CONST
      produce a new value for it.  An instruction can have at most one result
      marked as @oconst{store}.  If it produces a new @var{store}, then it must
      have a corresponding operand of the same type (the exception being a
-     procedure block's @code{enter} instruction; also see @oproc{Opnd.store}).
-     If the instruction has no @oconst{store} result, then it has no
-     side-effects.  This means it only returns a function result, but does not
-     modify any nonlocal variables, nor does it initiate any I/O, nor can it
-     throw an exception.  *)
+     procedure block's @code{enter} instruction; also see
+     @oproc{*OOC:SSA:Opnd.store}).  If the instruction has no @oconst{store}
+     result, then it has no side-effects.  This means it only returns a
+     function result, but does not modify any nonlocal variables, nor does it
+     initiate any I/O, nor can it throw an exception.  *)
   
 PROCEDURE GetName* (id: Id; VAR name: ARRAY OF CHAR);
 (**Retrieves the symbolic name of a result id.  *)
