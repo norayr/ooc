@@ -1,4 +1,4 @@
-(*	$Id: IO.Mod,v 1.4 2003/02/05 21:32:03 mva Exp $	*)
+(*	$Id: IO.Mod,v 1.5 2003/05/16 20:34:16 mva Exp $	*)
 MODULE IO;
 (*  Defines common behaviour of I/O channel and selector.
     Copyright (C) 2003  Michael van Acken
@@ -155,7 +155,7 @@ TYPE
 
 PROCEDURE InitError*(e: Error; msg: STRING);
   BEGIN
-    Exception.Init(e, msg);
+    e.INIT(msg);
   END InitError;
 
 PROCEDURE NewFormatError*(msg: STRING): FormatError;
