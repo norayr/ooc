@@ -1,4 +1,4 @@
-/*      $Id: __oo2c.c,v 1.13 2002/12/28 13:21:27 mva Exp $        */
+/*      $Id: __oo2c.c,v 1.14 2003/01/08 11:44:57 mva Exp $        */
 /*  Run-time system for C back-ends of OOC2
     Copyright (C) 2001, 2002  Michael van Acken
 
@@ -73,3 +73,20 @@ void _copy_32(const OOC_CHAR32* src, OOC_CHAR32* dest, OOC_LEN max_len) {
   while ((dest != max) && (*(dest++) = *(src++)));
   if (dest == max) *dest = '\000';
 }
+
+#ifndef HAVE_LRINT
+void ooc_round_real32(OOC_REAL32 x) {
+  if (x >= 0.0f) {
+    return (int)(x+0.5f);
+  } else {
+    return (int)(x-0.5f);
+  }
+}
+void ooc_round_real32(OOC_REAL64 x) {
+  if (x >= 0.0) {
+    return (int)(x+0.5);
+  } else {
+    return (int)(x-0.5);
+  }
+}
+#endif
