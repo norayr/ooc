@@ -1,4 +1,4 @@
-(* 	$Id: Opnd.Mod,v 1.5 2001/12/10 18:17:22 mva Exp $	 *)
+(* 	$Id: Opnd.Mod,v 1.6 2001/12/12 17:47:07 mva Exp $	 *)
 MODULE OOC:SSA:Opnd;
 (*  Symbolic names for operand classes.
     Copyright (C) 2001  Michael van Acken
@@ -79,6 +79,16 @@ CONST
      defined either directly or indirectly by the expression of a @code{RETURN}
      statement.  *)
 
+  storeEnter* = 10;
+  (**Operand of @oconst{*OOC:SSA:Opcode.selectReturn} taking the initial value
+     of @var{store} within the procedure.  *)
+  storeExit* = 11;
+  (**Operand of @oconst{*OOC:SSA:Opcode.selectReturn} taking the final value
+     of @var{store} within the procedure.  *)
+  storeReturn* = 12;
+  (**Operand of @oconst{*OOC:SSA:Opcode.selectReturn} taking the value
+     of @var{store} after a @code{RETURN} statement.  *)
+     
   
 PROCEDURE GetName* (class: Class; VAR name: ARRAY OF CHAR);
 (**Retrieves the symbolic name of an operand class.  *)
