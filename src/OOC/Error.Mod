@@ -1,4 +1,4 @@
-(* 	$Id: Error.Mod,v 1.16 2004/04/01 20:36:12 mva Exp $	 *)
+(* 	$Id: Error.Mod,v 1.17 2004/04/03 14:40:32 mva Exp $	 *)
 MODULE OOC:Error;
 (*  Creates lists of error messages and converts them to text.
     Copyright (C) 1999, 2000-2004  Michael van Acken
@@ -112,7 +112,7 @@ PROCEDURE IsWarning (msg: Msg): BOOLEAN;
     template: ARRAY 128 OF LONGCHAR;
   BEGIN
     msg.context.GetTemplate(msg, template);
-    LongStrings.FindNext(": "+warningPrefix, template, 0, found, pos);
+    LongStrings.FindNext(warningPrefix, template, 0, found, pos);
     RETURN found;
   END IsWarning;
 
