@@ -1,4 +1,4 @@
-(* 	$Id: CreateNamespace.Mod,v 1.67 2003/10/05 13:30:03 mva Exp $	 *)
+(* 	$Id: CreateNamespace.Mod,v 1.68 2003/10/06 17:59:23 mva Exp $	 *)
 MODULE OOC:SymbolTable:CreateNamespace [OOC_EXTENSIONS];
 (*  Creates namespaces for module, and resolves type names in declarations.
     Copyright (C) 2000-2003  Michael van Acken
@@ -650,12 +650,32 @@ RAISES IO.Error;
         class: Sym.Record;
         ptr: Sym.Item;
         count: LONGINT;
+
+      PROCEDURE FixupAliasDecl(formalPars: Sym.FormalPars);
+        VAR
+          ptr: Sym.Item;
+        BEGIN
+          ptr := formalPars.nestedItems;
+          WHILE (ptr # NIL) DO
+            WITH ptr: Sym.TypeDecl DO
+              IF (ptr.type = NIL) THEN
+                ptr.type := receiver.type;
+                ptr.srcCodeType := receiver.srcCodeType;
+              END;
+            ELSE
+              (* ignore *)
+            END;
+            ptr := ptr.nextNested;
+          END;
+        END FixupAliasDecl;
+      
       BEGIN
         receiver.SetType(GetTypeByName(receiver.type, contextOfUse, FALSE,
                                        FALSE, errList));
         class := procDecl.Class();
         IF (class = NIL) THEN
           (* some previous error prevents the class lookup: bail out *)
+          FixupAliasDecl(procDecl.formalPars);
           RETURN;
         END;
         procDecl.formalPars.SetTypePars(class.typePars);
@@ -668,18 +688,7 @@ RAISES IO.Error;
             (* finish the type alias declarations by assigning them the type
                of the receiver; this gets rid of a NIL pointer that may trip
                up later stages *)
-            ptr := procDecl.formalPars.nestedItems;
-            WHILE (ptr # NIL) DO
-              WITH ptr: Sym.TypeDecl DO
-                IF (ptr.type = NIL) THEN
-                  ptr.type := receiver.type;
-                  ptr.srcCodeType := receiver.srcCodeType;
-                END;
-              ELSE
-                (* ignore *)
-              END;
-              ptr := ptr.nextNested;
-            END;
+            FixupAliasDecl(procDecl.formalPars);
           END;
         ELSE
           count := 0;
