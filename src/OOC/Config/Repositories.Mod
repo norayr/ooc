@@ -1,4 +1,4 @@
-(* 	$Id: Repositories.Mod,v 1.4 2001/09/04 20:29:47 mva Exp $	 *)
+(* 	$Id: Repositories.Mod,v 1.5 2002/11/13 21:40:57 mva Exp $	 *)
 MODULE OOC:Config:Repositories [OOC_EXTENSIONS];
 (*  Management of a hierarchy of configured repositories.
     Copyright (C) 2001  Michael van Acken
@@ -332,7 +332,7 @@ PROCEDURE (s: Section) GetIncludePaths*(): String.StringArrayPtr;
     NEW (result, c);
     c := 0;
     rep := s. topLevelRep;
-    WHILE (rep # NIL) & Select (rep) DO
+    WHILE (rep # NIL) DO
       IF Select (rep) THEN
         rep. GetDefaultSubdir (Repository.modHeaderFileC, subdir);
         uri := URIParser.NewURI (subdir, rep. baseURI, res);

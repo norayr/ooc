@@ -1,4 +1,4 @@
-(* 	$Id: TranslateToC.Mod,v 1.2 2002/11/11 21:44:15 mva Exp $	 *)
+(* 	$Id: TranslateToC.Mod,v 1.3 2002/11/13 21:40:57 mva Exp $	 *)
 MODULE OOC:Make:TranslateToC [OOC_EXTENSIONS];
 (*  Translates a module file into a bunch of C code files.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -172,7 +172,7 @@ PROCEDURE WriteHeaderFile (w: DeclWriter.Writer; m: Repository.Module;
 PROCEDURE WriteDeclFile (w: DeclWriter.Writer; m: Repository.Module;
                          symTab: Sym.Module; exports: Dictionary.Dictionary);
   BEGIN
-    w. WriteInclude (m. GetURI (Repository.modHeaderFileC));
+    w. WriteInclude (m. GetURI (Repository.modHeaderFileC, FALSE));
 
     ConvertDecl.ConvertSymTab (w, m, symTab, exports, FALSE);
     w. WriteDeclarationList;
@@ -184,7 +184,7 @@ PROCEDURE WriteCodeFile (w, wd: DeclWriter.Writer; m: Repository.Module;
   VAR
     i: LONGINT;
   BEGIN
-    w. WriteInclude (m. GetURI (Repository.modDeclFileC));
+    w. WriteInclude (m. GetURI (Repository.modDeclFileC, FALSE));
     translator. SetWriter (w);
     
     (* include full __oo2c.h only in generated C code files; this way,
@@ -229,7 +229,7 @@ PROCEDURE Run*(m: Repository.Module; libraryName: String.String;
       w: DeclWriter.Writer;
     BEGIN
       w := DeclWriter.NewWriter (m. GetOutputChannel (fileId, TRUE, res),
-                                 m. GetURI (fileId));
+                                 m. GetURI (fileId, FALSE));
       IF (res = Channel.done) THEN
         CASE fileId OF
         | Repository.modHeaderFileC:

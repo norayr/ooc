@@ -1,4 +1,4 @@
-(* 	$Id: CCompiler.Mod,v 1.14 2002/11/13 19:35:06 mva Exp $	 *)
+(* 	$Id: CCompiler.Mod,v 1.15 2002/11/13 21:40:57 mva Exp $	 *)
 MODULE OOC:Config:CCompiler;
 (*  Generates command lines for the C compiler and linker.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -44,11 +44,10 @@ PROCEDURE CompileFileCmd* (in, out: URI.URI; forLibrary: BOOLEAN;
     BEGIN
       m := Config.repositories. GetModule (Config.runtimeModule);
       ASSERT (m # NIL);  (* ... if this fails, then we have no __oo2c.h *)
-      uri := m. GetURI (Repository.modModuleSource);
+      uri := m. GetURI (Repository.modModuleSource, TRUE);
       f := uri(File.URI);
       f. StripSegments (1);
-      uri := f. MakeRelative (File.GetCwd());
-      RETURN uri(File.URI)
+      RETURN f;
     END GetURIofRT;
   
   BEGIN

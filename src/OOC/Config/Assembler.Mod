@@ -1,4 +1,4 @@
-(* 	$Id: Assembler.Mod,v 1.4 2002/11/13 19:48:23 mva Exp $	 *)
+(* 	$Id: Assembler.Mod,v 1.5 2002/11/13 21:40:57 mva Exp $	 *)
 MODULE OOC:Config:Assembler;
 (*  Generates command lines for the assembler.
     Copyright (C) 2002  Michael van Acken
@@ -40,11 +40,10 @@ PROCEDURE AssembleFileCmd* (in, out: URI.URI; VAR cmd: ARRAY OF CHAR);
     BEGIN
       m := Config.repositories. GetModule (Config.runtimeModule);
       ASSERT (m # NIL);  (* ... if this fails, then we have no __oo2c.h *)
-      uri := m. GetURI (Repository.modModuleSource);
+      uri := m. GetURI (Repository.modModuleSource, TRUE);
       f := uri(File.URI);
       f. StripSegments (1);
-      uri := f. MakeRelative (File.GetCwd());
-      RETURN uri(File.URI)
+      RETURN f;
     END GetURIofRT;
   
   BEGIN

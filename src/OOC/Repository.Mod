@@ -1,4 +1,4 @@
-(* 	$Id: Repository.Mod,v 1.21 2002/11/13 19:31:22 mva Exp $	 *)
+(* 	$Id: Repository.Mod,v 1.22 2002/11/13 21:40:58 mva Exp $	 *)
 MODULE OOC:Repository [OOC_EXTENSIONS];
 (*  Abstraction of storage of source, intermediate, and target code.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -343,7 +343,11 @@ PROCEDURE (m: Module) [ABSTRACT] GetInputBuffer* (VAR msg: Msg.Msg): InputBuffer
 (* result is NIL in case of error, with msg holding the error message *)
   END GetInputBuffer;
 
-PROCEDURE (m: Module) GetURI* (fileId: FileId): URI.HierarchicalURI;
+PROCEDURE (m: Module) GetURI* (fileId: FileId;
+                               allowRelative: BOOLEAN): URI.HierarchicalURI;
+(**Return an URI for the file @oparam{fileId} of the module @oparam{m}.
+   If @oparam{allowRelative} is @code{TRUE}, then the answer may be an
+   URI that is relative to the current working directory.  *)
   BEGIN
     (* check if the module provides its own .c file; in this case, return
        the given name, instead of the automatically generated one *)
@@ -362,7 +366,7 @@ PROCEDURE (m: Module) MatchesURI* (fileId: FileId; uri: URI.URI): BOOLEAN;
     a, b: URIBuffer;
     muri: URI.HierarchicalURI;
   BEGIN
-    muri := m. GetURI (fileId);
+    muri := m. GetURI (fileId, FALSE);
     muri. GetString (a);
     uri. GetString (b);
     RETURN (a = b)
@@ -557,7 +561,7 @@ PROCEDURE (m: Module) ReadSymbolFile*(VAR res: Msg.Msg): Sym.Module;
       res := NIL;
       RETURN m.ifData;
     ELSE
-      uri := m. GetURI (modSymbolFile);
+      uri := m. GetURI (modSymbolFile, TRUE);
       ch := uri. GetChannel (URI.channelOld, res);
       IF (res = NIL) THEN
         Logger.ReadFile(uri);
