@@ -1,4 +1,4 @@
-(* 	$Id: ooef.Mod,v 1.1 2002/12/01 17:24:31 mva Exp $	 *)
+(* 	$Id: ooef.Mod,v 1.2 2002/12/02 21:14:47 mva Exp $	 *)
 MODULE ooef;  
 (*  Filter to convert error messages emitted by oo2c into other formats.
     Copyright (C) 1995-1999, 2002  Michael van Acken
@@ -545,13 +545,10 @@ PROCEDURE NewConfig;
                       "<options><set name='errorFormat'>1</set></options>");
     Config.AddCmdLine("--linecol,-L",
                       "<options><set name='errorFormat'>2</set></options>");
-  
     
     Config.AddCmdLine("--repository,-r",
                  "<repositories><file-system>$1</file-system></repositories>");
-    Config.AddCmdLine("--make,-M",
-                 "<options><set name='command'>1</set></options>");
-
+    
     help := Config.AddOption("help", Boolean.New(FALSE));
     Config.AddCmdLine("-h,--help",
                       "<options><set name='help'>TRUE</set></options>");
