@@ -1,4 +1,4 @@
-(* 	$Id: CreateIR.Mod,v 1.16 2001/12/16 13:10:41 mva Exp $	 *)
+(* 	$Id: CreateIR.Mod,v 1.17 2001/12/20 17:27:52 mva Exp $	 *)
 MODULE OOC:AST:ExtTree:CreateIR;
 (*  Creates an IR representation from the abstract syntax tree.
     Copyright (C) 2001  Michael van Acken
@@ -23,16 +23,16 @@ MODULE OOC:AST:ExtTree:CreateIR;
 IMPORT
 Log,
   OOC:Scanner:Symbol, OOC:Scanner:Builder:BasicList,
-  OOC:AST:ExtTree, OOC:SymbolTable:Item, OOC:IR, OOC:IR:Operator;
+  OOC:AST:ExtTree, Sym := OOC:SymbolTable, OOC:IR, OOC:IR:Operator;
 
 
 
 PROCEDURE CreateIR* (module: ExtTree.Module;
-                     symTab: Item.Module;
+                     symTab: Sym.Module;
                      b: Operator.Builder): IR.Module;
   VAR
-    currentNamespace: Item.Namespace;
-    currentSourceContext: Item.Item;
+    currentNamespace: Sym.Namespace;
+    currentSourceContext: Sym.Item;
     
   PROCEDURE ^ Expr (expr: ExtTree.Node): IR.Expression;
     
@@ -275,8 +275,8 @@ PROCEDURE CreateIR* (module: ExtTree.Module;
   PROCEDURE ProcDecl (procDecl: ExtTree.ProcDecl): IR.Procedure;
     VAR
       statmSeq: IR.StatementSeq;
-      oldNamespace: Item.Namespace;
-      oldSourceContext: Item.Item;
+      oldNamespace: Sym.Namespace;
+      oldSourceContext: Sym.Item;
     BEGIN
       oldNamespace := currentNamespace;
       oldSourceContext := currentSourceContext;

@@ -1,4 +1,4 @@
-(* 	$Id: UsageData.Mod,v 1.3 2001/05/22 21:28:57 mva Exp $	 *)
+(* 	$Id: UsageData.Mod,v 1.4 2001/12/20 17:27:51 mva Exp $	 *)
 MODULE OOC:Make:Entity:UsageData;
 (*  Implements pseudo `Make' entity to collect usage date of declarations.
     Copyright (C) 2001  Michael van Acken
@@ -23,7 +23,7 @@ MODULE OOC:Make:Entity:UsageData;
 IMPORT
   Channel, Msg, ADT:Object, ADT:String, ADT:Dictionary, ADT:ArrayList,
   Make, OOC:Make:Entity:ModuleFile, 
-  Rep := OOC:Repository, OOC:SymbolTable:Item,
+  Rep := OOC:Repository, Sym := OOC:SymbolTable,
   OOC:Auxiliary:Config, OOC:Auxiliary:GetSymbolTable;
 
 
@@ -70,8 +70,8 @@ PROCEDURE (cmd: Command) Discover*(): Make.CommandState;
 PROCEDURE (cmd: Command) Run*(): BOOLEAN;
   VAR
     edge: Make.Edge;
-    module: Item.Module;
-    ptr, base: Item.Item;
+    module: Sym.Module;
+    ptr, base: Sym.Item;
     extensionDict: Dictionary.Dictionary;
     list: ArrayList.ArrayList;
     obj: Object.Object;
@@ -88,8 +88,8 @@ PROCEDURE (cmd: Command) Run*(): BOOLEAN;
                       edge. ancestor(ModuleFile.Entity). module, config, res);
         ptr := module. nestedItems;
         WHILE (ptr # NIL) DO
-          IF (ptr IS Item.Record) & (ptr(Item.Record). baseType # NIL) THEN
-            base := ptr(Item.Record). baseType;
+          IF (ptr IS Sym.Record) & (ptr(Sym.Record). baseType # NIL) THEN
+            base := ptr(Sym.Record). baseType;
             IF extensionDict. HasKey (base) THEN
               obj := extensionDict. Get (base);
               list := obj(ArrayList.ArrayList)

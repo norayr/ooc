@@ -1,4 +1,4 @@
-(* 	$Id: ImportModules.Mod,v 1.2 2001/10/18 21:20:06 mva Exp $	 *)
+(* 	$Id: ImportModules.Mod,v 1.3 2001/12/20 17:27:51 mva Exp $	 *)
 MODULE OOC:SymbolTable:ImportModules;
 (*  Retrieve exported symbol data for imported modules.
     Copyright (C) 2000, 2001  Michael van Acken
@@ -21,7 +21,7 @@ MODULE OOC:SymbolTable:ImportModules;
 *)
 
 IMPORT
-  Msg, OOC:Error, OOC:SymbolTable:Item,
+  Msg, OOC:Error, Sym := OOC:SymbolTable,
   OOC:Repository, OOC:Config:Repositories;
 
 
@@ -53,15 +53,15 @@ PROCEDURE (context: ErrorContext) GetTemplate* (msg: Error.Msg; VAR templ: Error
   END GetTemplate;
 
 
-PROCEDURE ImportModules* (systemModule: Item.Module;
+PROCEDURE ImportModules* (systemModule: Sym.Module;
                           repositories: Repositories.Section;
-                          symTab: Item.Module;
+                          symTab: Sym.Module;
                           errList: Error.List);
   VAR
-    ptr: Item.Item;
+    ptr: Sym.Item;
     lastError: Error.Msg;
     
-  PROCEDURE Err (code: Error.Code; name: Item.Name);
+  PROCEDURE Err (code: Error.Code; name: Sym.Name);
     BEGIN
       lastError := Error.New (importModulesContext, code);
       lastError. SetIntAttrib ("pos", name. pos);
@@ -71,7 +71,7 @@ PROCEDURE ImportModules* (systemModule: Item.Module;
       errList. Append (lastError)
     END Err;
   
-  PROCEDURE ReadSymbolFile (import: Item.Import);
+  PROCEDURE ReadSymbolFile (import: Sym.Import);
     VAR
       m: Repository.Module;
       res: Msg.Msg;
@@ -98,7 +98,7 @@ PROCEDURE ImportModules* (systemModule: Item.Module;
     lastError := NIL;
     ptr := symTab. nestedItems;
     WHILE (ptr # NIL) DO
-      WITH ptr: Item.Import DO
+      WITH ptr: Sym.Import DO
         ReadSymbolFile (ptr)
       ELSE
       END;

@@ -1,4 +1,4 @@
-(* 	$Id: TranslateToC.Mod,v 1.14 2001/12/18 02:40:17 mva Exp $	 *)
+(* 	$Id: TranslateToC.Mod,v 1.15 2001/12/20 17:27:51 mva Exp $	 *)
 MODULE OOC:Make:Command:TranslateToC;
 (*  Translates a module file into a bunch of C code files.
     Copyright (C) 2001  Michael van Acken
@@ -28,7 +28,7 @@ IMPORT
   OOC:Auxiliary:WriteSymbolFile, OOC:Error, OOC:Repository, OOC:AST,
   OOC:AST:ExtTree, OOC:AST:ExtTree:CreateIR, ASTtoXML := OOC:AST:ExtTree:XML, 
   OOC:IR, OOC:IR:Operator, IRtoXML := OOC:IR:XML,
-  OOC:SymbolTable:Item, OOC:SymbolTable:Exports,
+  Sym := OOC:SymbolTable, OOC:SymbolTable:Exports,
   OOC:C:WriteConst, OOC:C:WriteDecl, OOC:C:ConvertDecl, OOC:C:Naming,
   WriteSSA := OOC:SSA:WriteC;
 
@@ -370,7 +370,7 @@ PROCEDURE (cmd: Command) Run*(): BOOLEAN;
 (**Compiles a module, creating the symbol file and all relevant C files.  *)
   VAR
     ast: AST.Node;
-    symTab: Item.Module;
+    symTab: Sym.Module;
     errList: Error.List;
     m: Repository.Module;
     config: Config.Config;
@@ -404,7 +404,7 @@ PROCEDURE (cmd: Command) Run*(): BOOLEAN;
                  NIL, cmd. useSSA);
       WriteFile (m, Repository.modDeclFileC, errList, converter,
                  NIL, cmd. useSSA);
-      IF (symTab. class = Item.mcStandard) THEN
+      IF (symTab. class = Sym.mcStandard) THEN
         WriteFile (m, Repository.modCodeFileC, errList, converter,
                    module, cmd. useSSA)
       END;

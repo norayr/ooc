@@ -1,4 +1,4 @@
-(* 	$Id: InterfaceXML.Mod,v 1.5 2001/10/21 17:26:23 mva Exp $	 *)
+(* 	$Id: InterfaceXML.Mod,v 1.6 2001/12/20 17:27:51 mva Exp $	 *)
 MODULE OOC:Make:Command:InterfaceXML;
 (*  Writes a module's exported interface as XML document.
     Copyright (C) 2001  Michael van Acken
@@ -25,7 +25,7 @@ IMPORT
   Channel, Files, Msg, URI, Make, ADT:String,
   OOC:Make:Entity:ModuleFile, OOC:Auxiliary:ParseModule, OOC:Auxiliary:Config,
   OOC:Error, OOC:Config:Pragmas, OOC:Repository, OOC:AST, 
-  OOC:SymbolTable:Item, OOC:SymbolTable:Item:InterfaceXML;
+  Sym := OOC:SymbolTable, OOC:SymbolTable:InterfaceXML;
 
 TYPE
   Command* = POINTER TO CommandDesc;
@@ -63,7 +63,7 @@ PROCEDURE (cmd: Command) Run*(): BOOLEAN;
    *)
   VAR
     ast: AST.Node;
-    symTab: Item.Module;
+    symTab: Sym.Module;
     errList: Error.List;
     res: Msg.Msg;
     outputChannel: Channel.Channel;
