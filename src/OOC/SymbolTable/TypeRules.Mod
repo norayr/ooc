@@ -1,4 +1,4 @@
-(* 	$Id: TypeRules.Mod,v 1.60 2003/05/10 20:39:20 mva Exp $	 *)
+(* 	$Id: TypeRules.Mod,v 1.61 2003/05/10 20:46:29 mva Exp $	 *)
 MODULE OOC:SymbolTable:TypeRules;
 (*  Defines the type rules of the language.
     Copyright (C) 2000-2003  Michael van Acken
@@ -739,7 +739,7 @@ PROCEDURE IsArrayCompatible* (argType, fparType: Sym.Type): BOOLEAN;
   END IsArrayCompatible;
 
 PROCEDURE IsComponentOf* (subType, superType: Sym.Type;
-                                      arrayCompat: BOOLEAN): BOOLEAN;
+                          arrayCompat: BOOLEAN): BOOLEAN;
 (**Returns @code{TRUE} iff type @oparam{superType} is equal to or contains a
    subtype of type @oparam{subType}.  If @oparam{arrayCompat} is @code{TRUE}
    also returns @code{TRUE} if a subtype of @oparam{superType} is array
@@ -752,12 +752,12 @@ PROCEDURE IsComponentOf* (subType, superType: Sym.Type;
       RETURN TRUE
     ELSIF arrayCompat & IsArrayCompatible (subType, superType) THEN
       RETURN TRUE
-    ELSIF (superType IS Sym.Array) THEN
-      RETURN IsComponentOf (subType, superType(Sym.Array). elementType,
-                            arrayCompat)
-    ELSIF (superType IS Sym.Record) THEN
+    ELSIF IsArray(superType) THEN
+      RETURN IsComponentOf (subType, ArrayElementType(superType), arrayCompat);
+    ELSIF IsRecord(superType) THEN
       (* inspect types of all fields of all base types *)
       WHILE (superType # NIL) DO
+        superType := superType.Deparam();
         field := superType. nestedItems;
         WHILE (field # NIL) DO
           WITH field: Sym.FieldDecl DO
