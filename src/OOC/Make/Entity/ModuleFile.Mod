@@ -1,4 +1,4 @@
-(* 	$Id: ModuleFile.Mod,v 1.16 2002/10/20 11:58:25 mva Exp $	 *)
+(* 	$Id: ModuleFile.Mod,v 1.17 2002/11/04 19:28:36 mva Exp $	 *)
 MODULE OOC:Make:Entity:ModuleFile;
 (*  Implements `Make' entities for various files associated with modules.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -664,14 +664,6 @@ PROCEDURE (entity: Entity) Discover*(): Make.EntityState;
           srcEntity := GetEntity (entity. context, entity. module,
                                   Repository.modMainObjectFile);
           AddTimeDep (entity. context, entity, srcEntity);
-          
-          (* add run-time module RT0 to dependencies; note: this may 
-             not the right place to do this if other back-ends are 
-             supported ... *)
-          srcEntity := GetEntity (entity. context, 
-            Config.repositories. GetModule (Config.runtimeModule),
-            Repository.modObjectFile);
-          entity. AddAncestor (srcEntity);
           
           AncestorClosure (entity, GetEntity (entity. context, entity. module,
                           Repository.modObjectFile), Repository.modObjectFile);
