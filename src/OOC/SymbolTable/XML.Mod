@@ -1,4 +1,4 @@
-(* 	$Id: XML.Mod,v 1.12 2003/04/20 12:46:58 mva Exp $	 *)
+(* 	$Id: XML.Mod,v 1.13 2003/04/26 21:12:50 mva Exp $	 *)
 MODULE OOC:SymbolTable:XML;
 (*  Converts symbol table to XML document.
     Copyright (C) 2000, 2001, 2002, 2003  Michael van Acken
@@ -219,6 +219,7 @@ RAISES IO.Error;
             element := "field_decl"
           | item: Sym.PredefProc DO
             element := "predef_proc"
+          | item: Sym.Redirect DO
           END;
           
           StartTag (element, Id (item));
@@ -273,6 +274,9 @@ RAISES IO.Error;
             AttribTypeId ("", "type_id", item. type)
           | item: Sym.PredefProc DO
             (* FIXME... what to write here? *)
+          | item: Sym.Redirect DO
+            AttribString ("", "module", item.module.str^);
+            AttribString ("", "name", item.name.str^);
           END;
           
           IF (item. docString # NIL) THEN
