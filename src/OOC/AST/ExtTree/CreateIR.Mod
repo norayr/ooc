@@ -1,4 +1,4 @@
-(* 	$Id: CreateIR.Mod,v 1.25 2002/01/22 20:24:53 mva Exp $	 *)
+(* 	$Id: CreateIR.Mod,v 1.26 2002/01/27 15:27:06 mva Exp $	 *)
 MODULE OOC:AST:ExtTree:CreateIR;
 (*  Creates an IR representation from the abstract syntax tree.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -70,8 +70,8 @@ PROCEDURE CreateIR* (module: ExtTree.Module;
                                   design. right(ExtTree.Terminal). sym);
           
         | left: IR.Const DO
-          ASSERT (left = IR.errorExpr);
-          RETURN IR.errorExpr;           (* left side has errors *)
+          ASSERT (left = b. errorExpr);
+          RETURN b. errorExpr;           (* left side has errors *)
 
         ELSE                             (* field or tb procedure selector *)
           RETURN b. NewSelect (design. op. sym, left, currentSourceContext,
@@ -282,7 +282,7 @@ PROCEDURE CreateIR* (module: ExtTree.Module;
     expr : IR.Expression;
   BEGIN
     expr := Expr(constExpr);
-    IF expr = IR.errorExpr THEN RETURN END;
+    IF expr = b. errorExpr THEN RETURN END;
     WITH expr : IR.Const DO
       constDecl.SetValueType(expr.value, expr.type(Sym.PredefType));
     ELSE
