@@ -1,4 +1,4 @@
-(* 	$Id: LoopRewrite.Mod,v 1.15 2003/02/27 04:23:56 mva Exp $	 *)
+(* 	$Id: LoopRewrite.Mod,v 1.16 2003/02/27 22:08:28 mva Exp $	 *)
 MODULE OOC:SSA:LoopRewrite;
 (*  Reassociation and strength reduction within loops.
     Copyright (C) 2003  Michael van Acken
@@ -1126,7 +1126,7 @@ PROCEDURE Rewrite(pb: SSA.ProcBlock; sum: Sum);
 
 PROCEDURE RewriteUses(pb: SSA.ProcBlock; rc: RewrittenCycle; ce: CycleElement);
   VAR
-    use: SSA.Opnd;
+    use, nextUse: SSA.Opnd;
     instr, new: SSA.Instr;
     other, res: SSA.Result;
     newOpcode: Opcode.Class;
@@ -1214,6 +1214,8 @@ PROCEDURE RewriteUses(pb: SSA.ProcBlock; rc: RewrittenCycle; ce: CycleElement);
   BEGIN
     use := ce.res.useList;
     WHILE (use # NIL) DO
+      nextUse := use.nextUse;
+      
       instr := use.instr;
       IF (Opcode.eql <= instr.opcode) & (instr.opcode <= Opcode.geq) THEN
         newOpcode := instr.opcode;
@@ -1280,7 +1282,7 @@ PROCEDURE RewriteUses(pb: SSA.ProcBlock; rc: RewrittenCycle; ce: CycleElement);
         use.ReplaceArg(pb.FixSubclass(res, ce.res.subclass));
       END;
       
-      use := use.nextUse;
+      use := nextUse;
     END;
   END RewriteUses;
 
