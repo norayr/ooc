@@ -1,4 +1,4 @@
-(* 	$Id: IR.Mod,v 1.96 2002/06/03 21:54:19 mva Exp $	 *)
+(* 	$Id: IR.Mod,v 1.97 2002/06/05 22:02:30 mva Exp $	 *)
 MODULE OOC:IR [OOC_EXTENSIONS];
 (*  High-level intermediate code representation.
     Copyright (C) 2001, 2002  Michael van Acken, Stewart Greenhill
@@ -3475,6 +3475,8 @@ BEGIN
     (* same types *)
     result := expr
   ELSIF IsPredefType (type, Predef.byte) & tr.IsByteCompatible (exprType) THEN
+    result := expr;
+  ELSIF IsPredefType (exprType, Predef.nil) & tr.IsNilCompatible (type) THEN
     result := expr;
   ELSIF tr.IncludesType(type, exprType) THEN
     result := NewTypeConv(type, expr)
