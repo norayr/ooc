@@ -1,4 +1,4 @@
-(* 	$Id: IRtoSSA.Mod,v 1.52 2002/05/04 17:58:22 mva Exp $	 *)
+(* 	$Id: IRtoSSA.Mod,v 1.53 2002/05/04 20:47:40 mva Exp $	 *)
 MODULE OOC:SSA:IRtoSSA;
 (*  Converts the IR of a procedure into its SSA representation.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -315,9 +315,9 @@ PROCEDURE StatmSeq* (pb: SSA.ProcBlock; s: SSA.Result;
     
     PROCEDURE SelectProc (selectOp: IR.SelectProc): SSA.Result;
       BEGIN
-        IF FALSE THEN                    (* static address *)
+        IF selectOp. isStaticCall THEN   (* use static address *)
           RETURN pb. GetAddress (selectOp. tbProc);
-        ELSE
+        ELSE                             (* use dynamic address *)
           instr := pb. AddInstr (Opcode.tbProcAddress, Opcode.scAddress);
           instr. AddOpnd (TypeTag (selectOp. receiver), Opnd.arg);
           instr. AddOpnd (pb. GetDeclRef (selectOp. tbProc), Opnd.arg);

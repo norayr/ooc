@@ -1,4 +1,4 @@
-(* 	$Id: XML.Mod,v 1.43 2002/05/04 13:14:01 mva Exp $	 *)
+(* 	$Id: XML.Mod,v 1.44 2002/05/04 20:47:40 mva Exp $	 *)
 MODULE OOC:IR:XML;
 (*  Write an IR data structure as an XML document.
     Copyright (C) 2001, 2002  Michael van Acken, Stewart Greenhill
@@ -192,6 +192,7 @@ PROCEDURE (v: Visitor) VisitSelectField* (sf: IR.SelectField);
 PROCEDURE (v: Visitor) VisitSelectProc* (sp: IR.SelectProc);
   BEGIN
     v. w. StartTag ("select-tb-proc", FALSE);
+    v. w. AttrBool ("static-call", sp. isStaticCall);
     v. w. AttrStringLatin1 ("tb-proc", sp. tbProc. name. str^);
     sp. receiver. Accept (v);
     v. w. EndTag;  (* select-tb-proc *)

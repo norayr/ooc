@@ -1,4 +1,4 @@
-(* 	$Id: Namespace.Mod,v 1.3 2002/05/04 17:58:22 mva Exp $	 *)
+(* 	$Id: Namespace.Mod,v 1.4 2002/05/04 20:47:40 mva Exp $	 *)
 MODULE OOC:SymbolTable:Namespace;
 (*  Implements namespaces and semantic checks on them.
     Copyright (C) 2000-2002  Michael van Acken
@@ -370,6 +370,16 @@ PROCEDURE (ns: Extended) GetTBProcByIndex* (index: LONGINT): Sym.ProcDecl;
     END;
   END GetTBProcByIndex;
 
+PROCEDURE (ns: Extended) GetSuperProcByIndex* (index: LONGINT): Sym.ProcDecl;
+(**Like @oproc{Extended.GetTBProcByIndex}, but return the procedure for
+   @oparam{index} from the base type of @oparam{ns}.  *)
+  BEGIN
+    IF (ns. extends = NIL) THEN
+      RETURN NIL;
+    ELSE
+      RETURN ns. extends(Extended). GetTBProcByIndex (index);
+    END;
+  END GetSuperProcByIndex;
 
 PROCEDURE (ns: Extended) CheckRestrictions* (record: Sym.Record;
                                              tr: TypeRules.Rules;
