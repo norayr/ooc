@@ -1,4 +1,4 @@
-(* 	$Id: TypeRules.Mod,v 1.24 2002/07/08 20:13:20 mva Exp $	 *)
+(* 	$Id: TypeRules.Mod,v 1.25 2002/07/12 18:56:17 mva Exp $	 *)
 MODULE OOC:SymbolTable:TypeRules;
 (*  Defines the type rules of the language.
     Copyright (C) 2000-2002  Michael van Acken
@@ -37,6 +37,13 @@ PROCEDURE IsNamedType* (type: Sym.Type): BOOLEAN;
     ASSERT (~(type IS Sym.TypeName));
     RETURN (type. namingDecl # NIL)
   END IsNamedType;
+
+PROCEDURE IsPredefType* (type: Sym.Type; id: Sym.PredefId): BOOLEAN;
+(**Returns @code{TRUE}, iff the type @oparam{type} is the predefined type
+   @oparam{id}.  *)
+  BEGIN
+    RETURN (type IS Sym.PredefType) & (type(Sym.PredefType). id = id);
+  END IsPredefType;
 
 PROCEDURE IsScalarType* (type: Sym.Type): BOOLEAN;
 (**Returns @code{TRUE}, iff the type @oparam{type} is a scalar type, that is,
