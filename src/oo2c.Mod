@@ -1,4 +1,4 @@
-(* 	$Id: oo2c.Mod,v 1.56 2003/05/15 20:53:59 mva Exp $	 *)
+(* 	$Id: oo2c.Mod,v 1.57 2003/05/15 20:54:44 mva Exp $	 *)
 MODULE oo2c;
 (*  Main module for the Oberon-2 to C translator.
     Copyright (C) 2002,2003  Michael van Acken
@@ -550,7 +550,7 @@ PROCEDURE WriteHelp();
     Out.String("  oo2c --install-package [options] <package>"); Out.Ln;
     Out.String("  oo2c --uninstall-package [options] <package>"); Out.Ln;
     Out.String("  oo2c --build-pkg-doc [options] <package>"); Out.Ln;
-    Out.String("  oo2c --installed-package [options] <package>"); Out.Ln;
+    Out.String("  oo2c --package-installed [options] <package>"); Out.Ln;
     Out.String("  oo2c --list-packages [options]"); Out.Ln;
     Out.String("Options:"); Out.Ln;
     Out.String("  --config <file>"); Out.Ln;
