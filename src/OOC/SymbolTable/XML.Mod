@@ -1,4 +1,4 @@
-(* 	$Id: XML.Mod,v 1.13 2003/04/26 21:12:50 mva Exp $	 *)
+(* 	$Id: XML.Mod,v 1.14 2003/05/04 12:02:57 mva Exp $	 *)
 MODULE OOC:SymbolTable:XML;
 (*  Converts symbol table to XML document.
     Copyright (C) 2000, 2001, 2002, 2003  Michael van Acken
@@ -254,9 +254,9 @@ RAISES IO.Error;
           | item: Sym.Import DO
             NameAttributes (item. moduleName, "imported_module_")
           | item: Sym.ProcDecl DO
-            AttribBool ("", "is_type_bound", item. isTypeBound);
+            AttribBool ("", "is_type_bound", item.IsTypeBound());
             AttribBool ("", "is_forward_decl", item. isForwardDecl);
-            IF item. isTypeBound THEN
+            IF item.IsTypeBound() THEN
               AttribInt ("", "tb_proc_index", item. tbProcIndex)
             END
           | item: Sym.ConstDecl DO

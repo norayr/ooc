@@ -1,4 +1,4 @@
-(* 	$Id: Uses.Mod,v 1.4 2003/05/03 10:51:07 mva Exp $	 *)
+(* 	$Id: Uses.Mod,v 1.5 2003/05/04 12:02:57 mva Exp $	 *)
 MODULE OOC:SymbolTable:Uses;
 (*  List uses of a given declaration.
     Copyright (C) 2003  Michael van Acken
@@ -205,8 +205,8 @@ PROCEDURE (u: Uses) Matches(decl: Sym.Declaration): BOOLEAN;
         RETURN TRUE;
       ELSIF (decl IS Sym.ProcDecl) & (u.pattern IS Sym.ProcDecl) &
             (decl.name.str^ = u.pattern.name.str^) &
-            decl(Sym.ProcDecl).isTypeBound &
-            u.pattern(Sym.ProcDecl).isTypeBound &
+            decl(Sym.ProcDecl).IsTypeBound() &
+            u.pattern(Sym.ProcDecl).IsTypeBound() &
             (decl(Sym.ProcDecl).tbProcIndex =
              u.pattern(Sym.ProcDecl).tbProcIndex) THEN
         (* two type-bound procedures with the same name and index; if the walk
