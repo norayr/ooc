@@ -1,4 +1,4 @@
-(*	$Id: StringBuffer.Mod,v 1.12 2002/12/20 09:10:48 mva Exp $	*)
+(*	$Id: StringBuffer.Mod,v 1.13 2003/05/18 14:07:54 mva Exp $	*)
 MODULE ADT:StringBuffer [OOC_EXTENSIONS];
 (*  String data type of dynamic length.
     Copyright (C) 1998-2002  Michael van Acken
@@ -213,6 +213,16 @@ PROCEDURE (b: StringBuffer) AppendUCS4Region*(data[NO_COPY]: ARRAY OF UCS4CHAR;
 <*POP*>
     INC(b.length, len);
   END AppendUCS4Region;
+
+PROCEDURE (b: StringBuffer) AppendChar*(ch: UCS4CHAR);
+  BEGIN
+    b.EnsureCapacity(b.length+1);
+    IF (b.data32 = NIL) THEN
+      b.ConvertTo32;
+    END;
+    b.data32[b.length] := ch;
+    INC(b.length);
+  END AppendChar;
 
 PROCEDURE (b: StringBuffer) Append*(obj: Object.Object);
   VAR
