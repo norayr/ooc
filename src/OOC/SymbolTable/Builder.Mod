@@ -1,4 +1,4 @@
-(* 	$Id: Builder.Mod,v 1.12 2002/04/16 21:11:57 mva Exp $	 *)
+(* 	$Id: Builder.Mod,v 1.13 2002/05/04 13:13:07 mva Exp $	 *)
 MODULE OOC:SymbolTable:Builder [OOC_EXTENSIONS];
 (*  Defines a builder class with factory methods for symbol table entries.
     Copyright (C) 2000-2002  Michael van Acken
@@ -252,7 +252,7 @@ PROCEDURE (b: Builder) NewModule* (name: Sym.Name; docString: Doc.Document;
 
 PROCEDURE (b: Builder) Finalize* (module: Sym.Module);
   PROCEDURE CollectFormalPars (item: Sym.Item);
-  (* Sets the field @ofield{Sym := OOC:SymbolTable.FormalPars.params} for
+  (* Sets the field @ofield{Sym.FormalPars.params} for
      all formal parameter definitions under @oparam{item}.  *)
     VAR
       ptr: Sym.Item;
