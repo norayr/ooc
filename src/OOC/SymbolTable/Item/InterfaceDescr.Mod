@@ -1,4 +1,4 @@
-(* 	$Id: InterfaceDescr.Mod,v 1.4 2000/09/10 16:33:53 mva Exp $	 *)
+(* 	$Id: InterfaceDescr.Mod,v 1.5 2000/10/09 19:47:15 mva Exp $	 *)
 MODULE OOC:SymbolTable:Item:InterfaceDescr;
 (*  Writes a description of a module's interface as XML.
     Copyright (C) 2000  Michael van Acken
@@ -369,16 +369,7 @@ PROCEDURE Write* (ch: Channel.Channel; baseURI: URI.HierarchicalURI;
       itemClass: Item.Name;
     BEGIN
       WHILE (list # NIL) DO
-        WITH list: Item.TypeDecl DO
-          IF (list. srcCodeType IS Item.TypeName) THEN
-            (* type aliases do not belong to any class *)
-            itemClass := NIL
-          ELSE
-            itemClass := GetClass.GetClass (list. type)
-          END
-        ELSE
-          itemClass := GetClass.GetClass (list)
-        END;
+        itemClass := GetClass.GetClass (list);
         IF (itemClass = className) THEN
           WriteItem (list)
         END;
