@@ -1,4 +1,4 @@
-(* 	$Id: WriteC.Mod,v 1.49 2002/04/08 22:05:22 mva Exp $	 *)
+(* 	$Id: WriteC.Mod,v 1.50 2002/04/16 21:12:20 mva Exp $	 *)
 MODULE OOC:SSA:WriteC [OOC_EXTENSIONS];
 (*  Translates a set of scheduled SSA instructions to plain C.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -951,11 +951,9 @@ PROCEDURE (t: Translator) WriteProcBody* (proc: IR.Procedure);
     w. Indent (-1);
   END WriteProcBody;
 
-PROCEDURE (t: Translator) WriteModuleBody* (statmSeq: IR.StatementSeq);
+PROCEDURE (t: Translator) WriteModuleBody* (body: IR.Procedure);
   BEGIN
-    IRtoC.WriteStatmSeq (t. w, statmSeq);
-    (* ... for now, we cheat by letting the other back-end do this
-       job for us FIXME *)
+    t. WriteProcBody (body);
   END WriteModuleBody;
 
 PROCEDURE InitTranslator* (t: Translator; 
