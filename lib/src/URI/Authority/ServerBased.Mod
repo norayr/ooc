@@ -1,4 +1,4 @@
-(* 	$Id: ServerBased.Mod,v 1.2 2003/05/19 22:55:38 mva Exp $	 *)
+(* 	$Id: ServerBased.Mod,v 1.3 2003/05/22 20:17:54 mva Exp $	 *)
 MODULE URI:Authority:ServerBased;
 (*  Implements class for registry-based authority components.
     Copyright (C) 2000, 2003  Michael van Acken
@@ -210,6 +210,11 @@ RAISES Exception.ParseError;
     host: Object.String8;
     port: LONGINT;
   BEGIN
+    CASE str[0] OF
+    | "/", "?", "#", 0X: RETURN;       (* "server" expands to empty *)
+    ELSE                               (* continue *)
+    END;
+    
     i := 0;
     WHILE (str[i] # 0X) & (str[i] # "@") DO
       INC (i)
