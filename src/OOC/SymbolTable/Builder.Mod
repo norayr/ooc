@@ -1,4 +1,4 @@
-(* 	$Id: Builder.Mod,v 1.14 2002/05/11 11:32:30 mva Exp $	 *)
+(* 	$Id: Builder.Mod,v 1.15 2002/05/22 22:07:24 mva Exp $	 *)
 MODULE OOC:SymbolTable:Builder [OOC_EXTENSIONS];
 (*  Defines a builder class with factory methods for symbol table entries.
     Copyright (C) 2000-2002  Michael van Acken
@@ -31,14 +31,21 @@ TYPE
     (**The builder defines a factory method for every item that can appear
        in a module's symbol table.  The arguments of the factory methods
        are passed directly to the initialization procedures of the
-       corresponding classes from @omodule{Sym}.
-       The arguments correspond directly to the record fields defined for
+       corresponding classes from @omodule{Sym}, which in turn
+       correspond directly to the record fields defined for
        the specializations of @otype{Sym.Item}.  *)
+    class: Sym.ModuleClass;
+    (**Toggle semantics of declarations.  This field identifies the class of
+       module being contructed.  For example, @oconst{Sym.mcInterface} means
+       that the symbol table of an @samp{INTERFACE} module is being build, and
+       that the semantics of some declaration and definitions need to be
+       adjusted for this.  *)
   END;
 
 
 PROCEDURE Init* (b: Builder);
   BEGIN
+    b. class := Sym.mcStandard;
   END Init;
 
 PROCEDURE New* (): Builder;
@@ -49,6 +56,11 @@ PROCEDURE New* (): Builder;
     Init (b);
     RETURN b
   END New;
+
+PROCEDURE (b: Builder) SetClass* (class: Sym.ModuleClass);
+  BEGIN
+    b. class := class;
+  END SetClass;
 
 
 PROCEDURE (b: Builder) NewImport* (parent: Sym.Item; name: Sym.Name;
@@ -112,6 +124,10 @@ PROCEDURE (b: Builder) NewVarDecl* (parent: Sym.Item; name: Sym.Name;
     NEW (var);
     Sym.InitVarDecl (var, parent, name, visibleFrom, exportMark, docString,
                       isParameter, isReceiver, isVarParam, type);
+
+    IF isParameter & (b. class = Sym.mcInterface) THEN
+      var. SetSupplementArgs (FALSE);
+    END;
     RETURN var
   END NewVarDecl;
 
