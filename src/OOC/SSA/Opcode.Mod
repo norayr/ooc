@@ -1,4 +1,4 @@
-(* 	$Id: Opcode.Mod,v 1.18 2002/01/04 16:14:52 mva Exp $	 *)
+(* 	$Id: Opcode.Mod,v 1.19 2002/01/22 20:24:17 mva Exp $	 *)
 MODULE OOC:SSA:Opcode;
 (*  This modules defines opcodes for SSA instructions.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -368,7 +368,10 @@ PROCEDURE TypeToSubclass* (type: Sym.Type): Subclass;
       END;
       
     | type: Sym.Array DO
-      RETURN scNone
+      RETURN scNone;
+
+    | type: Sym.Record DO
+      RETURN scNone;
     END;
   END TypeToSubclass;
 
