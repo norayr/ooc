@@ -1,4 +1,4 @@
-(* 	$Id: DeclWriter.Mod,v 1.26 2002/05/12 14:41:12 sgreenhill Exp $	 *)
+(* 	$Id: DeclWriter.Mod,v 1.27 2002/05/17 22:00:34 sgreenhill Exp $	 *)
 MODULE OOC:C:DeclWriter [OOC_EXTENSIONS];
 (*  Defines classes to handle C declarations, types, and include statements.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -472,7 +472,7 @@ PROCEDURE (w: Writer) WriteConst* (value: Language.Value; type: Sym.Type);
         str := value.ToString();
         w. WriteString(str.array^);
       | value: Integer.Value DO
-        IF (value. ToLInt() = MIN (LONGINT)) THEN
+        IF (value. ToInt() = MIN (LONGINT)) THEN
           (* this assumes that MIN(LONGINT) is also the smallest value of
              the C type "int"; to avoid overflow errors, we must rewrite
              the value slightly *)

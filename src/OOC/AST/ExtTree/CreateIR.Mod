@@ -1,4 +1,4 @@
-(* 	$Id: CreateIR.Mod,v 1.43 2002/05/12 14:41:12 sgreenhill Exp $	 *)
+(* 	$Id: CreateIR.Mod,v 1.44 2002/05/17 22:00:33 sgreenhill Exp $	 *)
 MODULE OOC:AST:ExtTree:CreateIR;
 (*  Creates an IR representation from the abstract syntax tree.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -595,7 +595,7 @@ PROCEDURE CreateIR* (module: ExtTree.Module;
           IF (expr = b. errorExpr) THEN  (* error in array length *)
             item. SetLength (1);
           ELSE
-            item. SetLength (expr(IR.Const). value(Integer.Value). ToLInt());
+            item. SetLength (expr(IR.Const). value(Integer.Value). ToInt());
           END;
         END;
 

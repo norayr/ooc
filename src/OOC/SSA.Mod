@@ -1,4 +1,4 @@
-(* 	$Id: SSA.Mod,v 1.37 2002/05/10 14:42:28 mva Exp $	 *)
+(* 	$Id: SSA.Mod,v 1.38 2002/05/17 22:00:33 sgreenhill Exp $	 *)
 MODULE OOC:SSA;
 (*  Data structures for SSA code representation.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -328,7 +328,7 @@ PROCEDURE (opnd: Opnd) GetIntConst*(): LONGINT;
    @ofield{opnd.arg} is an integer constant.
    @end precond*)
   BEGIN
-    RETURN opnd. arg(Const). value(Integer.Value). ToLInt();
+    RETURN opnd. arg(Const). value(Integer.Value). ToInt();
   END GetIntConst;
 
   (* ---------------------------------------------------------------------- *)
@@ -986,7 +986,7 @@ PROCEDURE (pb: ProcBlock) GetConst* (value: Language.Value;
 
 PROCEDURE (pb: ProcBlock) GetConstInt* (int: LONGINT): Const;
   BEGIN
-    RETURN pb. GetConst (Integer.NewLInt(int),  (* ...should be Longint *)
+    RETURN pb. GetConst (Integer.New(int),  (* ...should be Longint *)
                          Predef.GetType (Predef.integer))
   END GetConstInt;
 
