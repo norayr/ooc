@@ -1,4 +1,4 @@
-(* 	$Id: IR.Mod,v 1.217 2003/04/27 17:51:43 mva Exp $	 *)
+(* 	$Id: IR.Mod,v 1.218 2003/04/27 22:21:11 mva Exp $	 *)
 MODULE OOC:IR [OOC_EXTENSIONS];
 (*  High-level intermediate code representation.
     Copyright (C) 2001-2003  Michael van Acken, Stewart Greenhill
@@ -3367,9 +3367,28 @@ PROCEDURE InitVar (var: Var; name: Symbol; type: Sym.Type;
 PROCEDURE (b: Builder) NewVar* (name: Symbol; decl: Sym.VarDecl): Var;
   VAR
     var: Var;
+    type: Sym.Type;
+    args: Sym.TypeRefArray;
+    qualType: Sym.QualType;
+    i: LONGINT;
   BEGIN
     NEW (var);
-    InitVar (var, name, TR.Expand(decl.type), decl);
+    IF decl.isReceiver & (decl.type.typePars # NIL) THEN
+      (* when accessing the receiver variable of a type-bound procedure, then
+         this variable is implicitly qualified by the type parameters of the
+         class type, _not_ by the bounds of the type variables *)
+      NEW(args, LEN(decl.type.typePars.params^));
+      FOR i := 0 TO LEN(args^)-1 DO
+        Sym.InitTypeRef(args[i], decl.type.typePars.params[i]);
+      END;
+      
+      NEW(qualType);
+      Sym.InitQualType(qualType, NIL, decl.type.position, decl.type, args);
+      type := qualType;
+    ELSE
+      type := decl.type;
+    END;
+    InitVar (var, name, TR.Expand(type), decl);
     RETURN var
   END NewVar;
 
@@ -4465,7 +4484,7 @@ PROCEDURE (b: Builder) CheckExit (procDecl: Sym.ProcDecl;
               b. ErrSym (returnWithoutResult, statm. sym);
             ELSE
               MakeAssignmentCompatible (b, statm. result. sym, statm. result,
-                                        procDecl. formalPars. resultType);
+                                        TR.Expand(procDecl.formalPars.resultType));
             END;
           END;
           statm. popExceptionContext := enclosingTry;
