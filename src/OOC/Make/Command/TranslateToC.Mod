@@ -1,4 +1,4 @@
-(* 	$Id: TranslateToC.Mod,v 1.7 2001/10/20 21:14:49 mva Exp $	 *)
+(* 	$Id: TranslateToC.Mod,v 1.8 2001/10/21 15:52:36 mva Exp $	 *)
 MODULE OOC:Make:Command:TranslateToC;
 (*  Translates a module file into a bunch of C code files.
     Copyright (C) 2001  Michael van Acken
@@ -25,7 +25,8 @@ IMPORT
   URI, OOC:Make:Entity:ModuleFile,
   OOC:Config:Pragmas, OOC:Auxiliary:Config, OOC:Auxiliary:ParseModule,
   OOC:Error, OOC:Repository, OOC:AST,
-  OOC:AST:ExtTree, OOC:AST:ExtTree:CreateIR, OOC:IR, OOC:IR:XML,
+  OOC:AST:ExtTree, OOC:AST:ExtTree:CreateIR,
+  OOC:IR, OOC:IR:Operator, OOC:IR:XML,
   OOC:SymbolTable:Item, OOC:SymbolTable:Exports,
   OOC:C:WriteConst, OOC:C:WriteDecl, OOC:C:ConvertDecl, OOC:C:Naming;
 
@@ -166,9 +167,19 @@ PROCEDURE WriteFile (m: Repository.Module; fileId: Repository.FileId;
   PROCEDURE WriteExpr (w: TextRider.Writer;
                        converter: ConvertDecl.Converter;
                        expr: IR.Expression);
+    VAR
+      name: String.String;
     BEGIN
       WITH expr: IR.Const DO
         WriteConst.Write (w, expr. value)
+        
+      | expr: IR.Var DO
+        name := Naming.NameOfDeclaration (expr. decl);
+        w. WriteString (name. array^)
+        
+      | expr: Operator.Negate DO
+        w. WriteChar ("-");
+        WriteExpr (w, converter, expr. opnd1);
       END
     END WriteExpr;
     
@@ -210,6 +221,9 @@ PROCEDURE WriteFile (m: Repository.Module; fileId: Repository.FileId;
           (* FIXME... this may be incorrect if the argument list includes
              multiple occurences of expressions that should only be 
              evaluated once *)
+          IF (i # 0) THEN
+            w. WriteString (", ")
+          END;
           WriteExpr (w, converter, statm. arguments[i])
         END;
         w. WriteString (");");
@@ -334,7 +348,7 @@ PROCEDURE (cmd: Command) Run*(): BOOLEAN;
     
     IF (errList. msgCount = 0) THEN
       module := CreateIR.CreateIR (ast(ExtTree.Module), symTab, 
-                                   IR.NewBuilder (pragmaHistory, errList));
+                                 Operator.NewBuilder (pragmaHistory, errList));
       XML.Write (StdChannels.stdout. NewWriter(), module);
       
       exports := Exports.GetExports (symTab);
