@@ -1,4 +1,4 @@
-(* 	$Id: TranslateToC.Mod,v 1.22 2003/04/16 00:56:45 mva Exp $	 *)
+(* 	$Id: TranslateToC.Mod,v 1.23 2003/05/06 22:01:00 mva Exp $	 *)
 MODULE OOC:Make:TranslateToC [OOC_EXTENSIONS];
 (*  Translates a module file into a bunch of C code files.
     Copyright (C) 2001, 2002, 2003  Michael van Acken
@@ -21,7 +21,7 @@ MODULE OOC:Make:TranslateToC [OOC_EXTENSIONS];
 *)
 
 IMPORT
-  IO, IO:StdChannels, ADT:Dictionary, 
+  IO, IO:StdChannels,
   OOC:Config, OOC:Config:Pragmas, OOC:Auxiliary:ParseModule,
   OOC:Auxiliary:WriteSymbolFile, OOC:Error, OOC:Repository, OOC:AST,
   OOC:AST:ExtTree, OOC:AST:ExtTree:CreateIR, ASTtoXML := OOC:AST:ExtTree:XML, 
@@ -147,7 +147,7 @@ PROCEDURE WriteModuleName (w: DeclWriter.Writer;
   END WriteModuleName;
 
 PROCEDURE WriteHeaderFile (w: DeclWriter.Writer; m: Repository.Module;
-                           symTab: Sym.Module; exports: Dictionary.Dictionary);
+                           symTab: Sym.Module; exports: Sym.Exports);
   BEGIN
     WriteModuleName (w, "#ifndef _MODULE_", m, "_", TRUE);
     WriteModuleName (w, "#define _MODULE_", m, "_", TRUE);
@@ -171,7 +171,7 @@ PROCEDURE WriteHeaderFile (w: DeclWriter.Writer; m: Repository.Module;
   END WriteHeaderFile;
 
 PROCEDURE WriteDeclFile (w: DeclWriter.Writer; m: Repository.Module;
-                         symTab: Sym.Module; exports: Dictionary.Dictionary);
+                         symTab: Sym.Module; exports: Sym.Exports);
   BEGIN
     w.WriteModuleInclude(m, Repository.modHeaderFileC);
     
@@ -223,7 +223,7 @@ RAISES IO.Error;
     ast: AST.Node;
     symTab: Sym.Module;
     errList: Error.List;
-    exports: Dictionary.Dictionary;
+    exports: Sym.Exports;
     module: IR.Module;
     pragmaHistory: Pragmas.History;
     wh, wd, wc: DeclWriter.Writer;
