@@ -1,4 +1,4 @@
-(*	$Id: IntConv.Mod,v 1.4 2002/05/20 16:55:51 mva Exp $	*)
+(*	$Id: IntConv.Mod,v 1.5 2002/05/20 18:07:12 mva Exp $	*)
 MODULE IntConv;
 (*
     IntConv -  Low-level integer/string conversions.       
@@ -171,7 +171,7 @@ BEGIN
         END
       
     | Conv.invalid:
-      IF (prev = Conv.padding) THEN
+      IF (prev = Conv.padding) & (ch = 0X) THEN
         RETURN strEmpty;
       ELSE
         RETURN strWrongFormat;
