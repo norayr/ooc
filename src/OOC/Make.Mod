@@ -1,4 +1,4 @@
-(* 	$Id: Make.Mod,v 1.24 2002/12/07 21:22:30 mva Exp $	 *)
+(* 	$Id: Make.Mod,v 1.25 2002/12/07 22:49:46 mva Exp $	 *)
 MODULE OOC:Make;
 (*  Builds object files, libraries, binaries, and the like.
     Copyright (C) 2002  Michael van Acken
@@ -53,7 +53,7 @@ TYPE
   END;
   
 TYPE
-  ModuleList = POINTER TO ARRAY OF Rep.Module;
+  ModuleList* = POINTER TO ARRAY OF Rep.Module;
   Rules* = POINTER TO RulesDesc;
   RulesDesc* = RECORD
     backend: LONGINT;
@@ -1052,7 +1052,7 @@ PROCEDURE (r: Rules) UpdateMainObjectFile (module: Rep.Module): BOOLEAN;
     RETURN success;
   END UpdateMainObjectFile;
 
-PROCEDURE ModuleClosure (module: Rep.Module; restrictToLibrary: String.String): ModuleList;
+PROCEDURE ModuleClosure*(module: Rep.Module; restrictToLibrary: String.String): ModuleList;
   VAR
     i: LONGINT;
     dict: Dictionary.Dictionary;
