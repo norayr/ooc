@@ -1,4 +1,4 @@
-(* 	$Id: WriteC.Mod,v 1.83 2002/06/11 21:34:35 mva Exp $	 *)
+(* 	$Id: WriteC.Mod,v 1.84 2002/06/22 21:55:44 mva Exp $	 *)
 MODULE OOC:SSA:WriteC [OOC_EXTENSIONS];
 (*  Translates a set of scheduled SSA instructions to plain C.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -507,6 +507,18 @@ PROCEDURE (w: Writer) WriteInstrList (b: Schedule.Block;
       w. WriteString ("0");  (* ... file position missing *)
       w. WriteString (");")
     END Assert;
+  
+  PROCEDURE CheckIndex (checkIndex: SSA.Instr);
+    VAR
+      bt: DeclWriter.BasicTypeId;
+    BEGIN
+      w. WriteString ("_check_index(");
+      RefList (checkIndex. opndList, Opnd.arg);
+      w. WriteString (", ");
+      bt := SubclassToBasicType (instr)+(DeclWriter.uint8-DeclWriter.int8);
+      w. WriteString (w. basicType[bt]. repr);
+      w. WriteString (");")
+    END CheckIndex;
   
   PROCEDURE Call (call: SSA.Instr);
     VAR
@@ -1077,8 +1089,10 @@ PROCEDURE (w: Writer) WriteInstrList (b: Schedule.Block;
         WriteDyadicOp (instr, ">=");
         
       | Opcode.assert:
-        Assert (instr)
-            
+        Assert (instr);
+      | Opcode.checkIndex:
+        CheckIndex (instr);
+        
       | Opcode.call:
         IF ~w. registerMap. HasKey (instr) THEN
           w. Newline;
