@@ -1,4 +1,4 @@
-(*	$Id: StringBuffer.Mod,v 1.8 2002/12/19 05:09:03 mva Exp $	*)
+(*	$Id: StringBuffer.Mod,v 1.9 2002/12/19 07:44:14 mva Exp $	*)
 MODULE ADT:StringBuffer [OOC_EXTENSIONS];
 (*  String data type of dynamic length.
     Copyright (C) 1998-2001  Michael van Acken
@@ -23,6 +23,7 @@ IMPORT
   Object;
 
 TYPE
+  Buffer = POINTER TO ARRAY OF CHAR;
   StringBuffer* = POINTER TO StringBufferDesc;
   StringBufferDesc* = RECORD
   (**This type is an abstraction around the often used data type @code{POINTER
@@ -46,7 +47,7 @@ TYPE
     (Storable.ObjectDesc)
     length-: LONGINT;
     (**The length of the string.  *)
-    array-: Object.CharsLatin1;
+    array-: Buffer;
     (**The content of the string.  @samp{@ofield{array}[@ofield{length}]} is
        always @code{0X}.
 
@@ -82,7 +83,7 @@ PROCEDURE Extend (str: StringBuffer; len: LONGINT; copyOver: BOOLEAN);
    the current size of `str', then `str' is shrunk.  *)
   VAR
     newSize: LONGINT;
-    new: Object.CharsLatin1;
+    new: Buffer;
   BEGIN
     IF (len >= LEN (str. array^)) OR 
        ((LEN (str. array^) > minimumSize) &

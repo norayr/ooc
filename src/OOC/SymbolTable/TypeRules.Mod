@@ -1,4 +1,4 @@
-(* 	$Id: TypeRules.Mod,v 1.36 2002/12/19 03:18:22 mva Exp $	 *)
+(* 	$Id: TypeRules.Mod,v 1.37 2002/12/19 07:44:14 mva Exp $	 *)
 MODULE OOC:SymbolTable:TypeRules;
 (*  Defines the type rules of the language.
     Copyright (C) 2000-2002  Michael van Acken
@@ -534,6 +534,15 @@ PROCEDURE IsReadOnly* (usingModule: Sym.Module; decl: Sym.Declaration): BOOLEAN;
     RETURN (decl. exportMark = Sym.nameExportedRO) &
         (decl. Module() # usingModule);
   END IsReadOnly;
+
+PROCEDURE IsReadOnlyType* (usingModule: Sym.Module; type: Sym.Type): BOOLEAN;
+(**Returns @code{TRUE}, iff the type @oparam{type} is imported read-only
+   by module @oparam{usingModule}.  *)
+  BEGIN
+    RETURN (type IS Sym.Array) &
+        type(Sym.Array).readOnlyExport &
+        (type.Module() # usingModule);
+  END IsReadOnlyType;
 
 
 PROCEDURE AllocateType* (type: Sym.Type);
