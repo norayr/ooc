@@ -1,4 +1,4 @@
-/*	$Id: Select.c,v 1.1 2002/07/16 15:57:43 mva Exp $	*/
+/*	$Id: Select.c,v 1.2 2002/07/17 05:21:52 sgreenhill Exp $	*/
 /*  Wrapper around the select() function.
     Copyright (C) 2000  Michael van Acken
 
@@ -21,6 +21,7 @@
 #include <unistd.h>
 #include <stddef.h>
 #include <errno.h>
+#include <string.h>
 
 #include "__oo2c.h"
 #include "__config.h"
