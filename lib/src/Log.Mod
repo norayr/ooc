@@ -1,4 +1,4 @@
-(*	$Id: Log.Mod,v 1.4 2002/07/12 18:57:12 mva Exp $	*)
+(*	$Id: Log.Mod,v 1.5 2002/12/03 15:06:33 mva Exp $	*)
 MODULE Log [OOC_EXTENSIONS];
 (*  Simple logging facility to stderr.
     Copyright (C) 1998-2000 Michael van Acken
@@ -140,17 +140,12 @@ PROCEDURE Hex* (msg[NO_COPY]: ARRAY OF CHAR; lint: LONGINT);
   END Hex;
  
 PROCEDURE HexAdr (msg[NO_COPY]: ARRAY OF CHAR; adr: S.ADDRESS);
-<* IF TARGET_ADDRESS = 64 THEN *>
-  VAR
-    low: SET;
-<* END *>
   BEGIN
     writer. WriteString (msg);
     writer. WriteString (": ");
 <* IF TARGET_ADDRESS = 64 THEN *>
     writer. WriteHex (SHORT (S.LSH (adr, -32)), 8);
-    low := SHORT (S.VAL (S.SET64, adr)*S.SET64{0..31});
-    writer. WriteHex (S.VAL (LONGINT, low), 8);
+    writer. WriteHex (SHORT (S.LSH (S.LSH (adr, 32), -32)), 8);
 <* ELSE *>
     writer. WriteHex (adr, 8);
 <* END *>
