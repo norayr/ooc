@@ -1,4 +1,4 @@
-/*      $Id: __oo2c.h,v 1.23 2002/06/25 18:55:16 mva Exp $        */
+/*      $Id: __oo2c.h,v 1.24 2002/06/26 19:38:01 mva Exp $        */
 /*  Run-time system for C back-ends of OOC2
     Copyright (C) 2001, 2002  Michael van Acken
 
@@ -50,7 +50,7 @@
      adr; })
 #define _failed_case(select,pos) RT0__ErrorFailedCase(&_mid,pos,select)
 #define _failed_with(pos) RT0__ErrorFailedWith(&_mid,pos)
-
+#define _failed_function(pos) RT0__ErrorFailedFunction(&_mid,pos)
 
 
 /* ASSERT(p) and ASSERT(p,code) */
