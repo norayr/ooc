@@ -1,4 +1,4 @@
-(* 	$Id: PThread.Mod,v 1.2 2003/07/21 19:23:29 mva Exp $	 *)
+(* 	$Id: PThread.Mod,v 1.3 2003/08/02 07:27:06 mva Exp $	 *)
 MODULE Thread:PThread [FOREIGN "C"; LINK LIB "pthread"; FILE "PThread.c" END];
 (*  Interface for ths POSIX threads library.
     Copyright (C) 2003  Michael van Acken
@@ -93,6 +93,12 @@ PROCEDURE (m: Mutex) Unlock*();
 
 PROCEDURE (m: Mutex) Destroy*();
 
+PROCEDURE (m: Mutex) TryLock*(): BOOLEAN;
+(**Behaves identically to @oproc{Mutex.Lock}, except that it does not block
+   the calling thread if the mutex is already locked by another thread (or by
+   the calling thread in the case of a "fast" mutex).  Instead, this method
+   returns immediatly with @code{FALSE}.  *)
+  
 (* ------------------------------------------------------------------------ *)
 
 PROCEDURE (c: Condition) INIT*();
