@@ -1,4 +1,4 @@
-(* 	$Id: ConstFold.Mod,v 1.38 2002/05/17 22:00:34 sgreenhill Exp $	 *)
+(* 	$Id: ConstFold.Mod,v 1.39 2002/05/20 13:21:27 mva Exp $	 *)
 MODULE OOC:IR:ConstFold;
 (*  Constant folding on IR expressions.
     Copyright (C) 2002  Stewart Greenhill, Michael van Acken
@@ -255,8 +255,6 @@ BEGIN
   IF c.ValidEval(op.operand, value) THEN
     id := op.operand.type(Sym.PredefType).id;
     CASE id OF
-    | Predef.boolean:
-      c.result := c.BooleanConst(~value(Boolean.Value).value, op);
     | Predef.integer:
       c.result := c.ValueConst(value(Integer.Value).Negate(), op);
     | Predef.set:
@@ -279,6 +277,17 @@ END VisitNegate;
 PROCEDURE (c: ConstFold) VisitNewObject* (new: IR.NewObject);
   BEGIN
   END VisitNewObject;
+
+PROCEDURE (c: ConstFold) VisitNot* (op: IR.Not);
+VAR 
+  value : Language.Value;
+BEGIN
+  IF c.ValidEval(op.operand, value) THEN
+    c.result := c.BooleanConst(~value(Boolean.Value).value, op);
+  ELSE
+    c.result := NIL;
+  END;
+END VisitNot;
 
 PROCEDURE (c: ConstFold) VisitCap* (op: IR.Cap);
 VAR 
