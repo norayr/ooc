@@ -1,4 +1,4 @@
-(* 	$Id: WriteC.Mod,v 1.162 2003/03/11 22:47:49 mva Exp $	 *)
+(* 	$Id: WriteC.Mod,v 1.163 2003/04/20 12:42:26 mva Exp $	 *)
 MODULE OOC:SSA:WriteC [OOC_EXTENSIONS];
 (*  Translates a set of scheduled SSA instructions to plain C.
     Copyright (C) 2001, 2002, 2003  Michael van Acken
@@ -1299,6 +1299,7 @@ PROCEDURE (w: Writer) WriteInstrList (b: Schedule.Block);
     str: ARRAY 32 OF CHAR;
     opnd: SSA.Opnd;
     obj: Object.Object;
+    fpars: Sym.FormalPars;
     
   PROCEDURE WriteCollect (collect, targetInstr: SSA.Instr);
     VAR
@@ -1468,14 +1469,17 @@ PROCEDURE (w: Writer) WriteInstrList (b: Schedule.Block);
         | Opcode.selectReturn:
           IF ~AllPathsClosed (instr) THEN
             PrefixReturn;
-            IF (w. procBlock. procDecl. formalPars. resultType # NIL) THEN
+            fpars := w.procBlock.procDecl.formalPars;
+            IF (fpars.resultType # NIL) THEN
               IF w. procBlock. checkFunctionResult THEN
                 w. WriteString ("_failed_function(");
                 w. WriteLInt (w. procBlock. procDecl. name. pos, 0);
                 w. WriteString ("); ");
               END;
-              w. WriteString ("return 0;");
-            ELSE
+              IF ~fpars.noReturn THEN
+                w. WriteString ("return 0;");
+              END;
+            ELSIF ~fpars.noReturn THEN
               w. WriteString ("return;")
             END;
           END;
