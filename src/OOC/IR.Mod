@@ -1,4 +1,4 @@
-(* 	$Id: IR.Mod,v 1.240 2003/05/08 19:13:36 mva Exp $	 *)
+(* 	$Id: IR.Mod,v 1.241 2003/05/10 21:25:29 mva Exp $	 *)
 MODULE OOC:IR [OOC_EXTENSIONS];
 (*  High-level intermediate code representation.
     Copyright (C) 2001-2003  Michael van Acken, Stewart Greenhill
@@ -3149,8 +3149,7 @@ PROCEDURE (b: Builder) Widen (VAR expr: Expression; type: Sym.Type): BOOLEAN;
       (* Case 4: NIL < procedure value *)
       RETURN TRUE;
       
-    ELSIF (expr. type IS Sym.Pointer) &
-          TR.IsPredefType (type, Predef.ptr) THEN
+    ELSIF TR.IsPointer(expr.type) & TR.IsPredefType(type, Predef.ptr) THEN
       (* Case 5: pointer value < SYSTEM.PTR *)
       RETURN TRUE;
       
