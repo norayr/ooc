@@ -1,4 +1,4 @@
-(* 	$Id: LinkProgramC.Mod,v 1.2 2001/08/27 05:21:02 mva Exp $	 *)
+(* 	$Id: LinkProgramC.Mod,v 1.3 2001/08/30 09:03:58 mva Exp $	 *)
 MODULE OOC:Make:Command:LinkProgramC;
 (*  Links object files and libraries to create an executable file.
     Copyright (C) 2001  Michael van Acken
@@ -79,8 +79,8 @@ PROCEDURE (cmd: Command) Run*(): BOOLEAN;
     
     cmd. module. CreateOutputDir (Repository.modExecutable, res);
     IF (res = NIL) THEN
-      CCompiler.LinkProgramCmd (config. options, 
-                     cmd. module. GetURI (Repository.modExecutable), str);
+      CCompiler.LinkProgramCmd (config, 
+                          cmd. module. GetURI (Repository.modExecutable), str);
       aEdge := cmd. ancestorList;
       WHILE (aEdge # NIL) DO
         fileId := aEdge. ancestor(ModuleFile.Entity). fileId;

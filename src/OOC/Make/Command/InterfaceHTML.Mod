@@ -1,4 +1,4 @@
-(* 	$Id: InterfaceHTML.Mod,v 1.2 2001/05/15 21:13:19 mva Exp $	 *)
+(* 	$Id: InterfaceHTML.Mod,v 1.3 2001/08/30 09:03:58 mva Exp $	 *)
 MODULE OOC:Make:Command:InterfaceHTML;
 (*  Produces an HTML rendition of a module's interface.
     Copyright (C) 2001  Michael van Acken
@@ -101,22 +101,20 @@ PROCEDURE (cmd: Command) Run*(): BOOLEAN;
     config := cmd. context. config(Config.Config);
     uri := GetSystemId (config. repositories);
     uri(File.URI). GetPath (str);
-    uri := m. GetURI (Repository.modInterfaceDescr, res);
-    IF (res = NIL) THEN
-      uri(File.URI). GetPath (path);
-      Strings.Append (" '", str);
-      Strings.Append (path, str);
-      Strings.Append ("' '", str);
-      uri := m. GetURI (Repository.modInterfaceHTML, res);
-    END;
-    IF (res = NIL) THEN
-      uri(File.URI). GetPath (path);
-      Strings.Append (path, str);
-      Strings.Append ("'", str);
+    
+    uri := m. GetURI (Repository.modInterfaceDescr);
+    uri(File.URI). GetPath (path);
+    Strings.Append (" '", str);
+    Strings.Append (path, str);
+    Strings.Append ("' '", str);
+    
+    uri := m. GetURI (Repository.modInterfaceHTML);
+    uri(File.URI). GetPath (path);
+    Strings.Append (path, str);
+    Strings.Append ("'", str);
 
-      Path.dirname (path, path);
-      Files.makedirs (path, Files.defaultMode, res)
-    END;
+    Path.dirname (path, path);
+    Files.makedirs (path, Files.defaultMode, res);
     IF (res = NIL) THEN
       Out.String ("make: ");
       Out.String (str);

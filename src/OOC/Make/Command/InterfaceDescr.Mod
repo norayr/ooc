@@ -1,4 +1,4 @@
-(* 	$Id: InterfaceDescr.Mod,v 1.2 2001/05/15 21:13:19 mva Exp $	 *)
+(* 	$Id: InterfaceDescr.Mod,v 1.3 2001/08/30 09:03:58 mva Exp $	 *)
 MODULE OOC:Make:Command:InterfaceDescr;
 (*  Produces an XML document describing a module's interface.
     Copyright (C) 2001  Michael van Acken
@@ -94,7 +94,7 @@ PROCEDURE (cmd: Command) Run*(): BOOLEAN;
     ResolveRef.Resolve (symTab, config. repositories, errList);
     ASSERT (errList. msgCount = 0);
     
-    outputURI := m. GetURI (Repository.modInterfaceDescr, res);
+    outputURI := m. GetURI (Repository.modInterfaceDescr);
     outputChannel := m. GetOutputChannel (Repository.modInterfaceDescr, TRUE, res);
     IF (outputChannel = NIL) THEN
       errList. Append (res)
