@@ -1,4 +1,4 @@
-(* 	$Id: Processor.Mod,v 1.9 2001/10/18 21:22:52 mva Exp $	 *)
+(* 	$Id: Processor.Mod,v 1.10 2001/10/20 21:16:32 mva Exp $	 *)
 MODULE OOC:TestFramework:Processor;
 (*  Processes test cases using an OOC compiler.
     Copyright (C) 2001  Michael van Acken
@@ -53,7 +53,6 @@ TYPE
 PROCEDURE Init (proc: Processor; setup: TestSetup.TestSetup);
   VAR
     sb: StringBuffer.StringBuffer;
-    path: FilePath;
     
   PROCEDURE GetPath (subdir: ARRAY OF CHAR): String.String;
     VAR
@@ -278,6 +277,8 @@ PROCEDURE (proc: Processor) Process* (test: Testcases.Test;
         Out.String ("### compile command:"); Out.Ln
       END;
       Out.String (path); Out.Ln;
+      
+      Out.Flush;
       exit := ProcessManagment.system (path);
       status := ASH (exit, -8) MOD 256;
       signal := exit MOD 256;
