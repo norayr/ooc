@@ -1,4 +1,4 @@
-(* 	$Id: Object.Mod,v 1.14 2003/05/17 10:01:28 mva Exp $	 *)
+(* 	$Id: Object.Mod,v 1.15 2003/05/17 12:24:28 mva Exp $	 *)
 MODULE Object;
 (*  Low-level object and string implementation.
     Copyright (C) 2002  Michael van Acken
@@ -809,6 +809,45 @@ PROCEDURE (s: String32) IndexOf* (char: UCS4CHAR; pos: LONGINT): LONGINT;
     END;
     RETURN -1
   END IndexOf;
+
+
+PROCEDURE (s: String) EndsWith*(suffix: String): BOOLEAN;
+(**Return @code{TRUE} is the last characters in @oparam{s} equal
+   @oparam{suffix}.  Result is @code{FALSE} if @samp{@ofield{s.length} <
+   @ofield{suffix.length}}.
+
+   @precond
+   @samp{@oparam{suffix} # @code{NIL}}
+   @end precond  *)
+  VAR
+    e: String;
+  BEGIN
+    IF (s.length >= suffix.length) THEN
+      e := s.Substring(s.length-suffix.length, s.length);
+      RETURN e.Equals(suffix);
+    ELSE
+      RETURN FALSE;
+    END;
+  END EndsWith;
+
+PROCEDURE (s: String) StartsWith*(prefix: String): BOOLEAN;
+(**Return @code{TRUE} is the first characters in @oparam{s} equal
+   @oparam{prefix}.  Result is @code{FALSE} if @samp{@ofield{s.length} <
+   @ofield{prefix.length}}.
+
+   @precond
+   @samp{@oparam{prefix} # @code{NIL}}
+   @end precond  *)
+  VAR
+    e: String;
+  BEGIN
+    IF (s.length >= prefix.length) THEN
+      e := s.Substring(0, prefix.length);
+      RETURN e.Equals(prefix);
+    ELSE
+      RETURN FALSE;
+    END;
+  END StartsWith;
 
 BEGIN
   emptyString := NewLatin1("");
