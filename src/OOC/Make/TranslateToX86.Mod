@@ -1,4 +1,4 @@
-(* 	$Id: TranslateToX86.Mod,v 1.1 2004/06/02 08:55:42 mva Exp $	 *)
+(* 	$Id: TranslateToX86.Mod,v 1.2 2004/06/03 22:26:32 mva Exp $	 *)
 MODULE OOC:Make:TranslateToX86;
 (*  Translates a module file into an x86 assembler file.
     Copyright (C) 2004  Michael van Acken
@@ -24,7 +24,7 @@ MODULE OOC:Make:TranslateToX86;
 IMPORT
   IO, IO:StdChannels,
   OOC:Config:Pragmas, OOC:Auxiliary:ParseModule,
-  OOC:Error, Rep := OOC:Repository, OOC:AST,
+  OOC:Auxiliary:WriteSymbolFile, OOC:Error, Rep := OOC:Repository, OOC:AST,
   OOC:AST:CreateIR, ASTtoXML := OOC:AST:XML, 
   OOC:IR, IRtoXML := OOC:IR:XML, OOC:IR:ConstFold, OOC:IR:CheckUses,
   Sym := OOC:SymbolTable, OOC:SymbolTable:Exports, OOC:SymbolTable:Uses,
@@ -71,7 +71,12 @@ RAISES IO.Error;
       IF errList.NoErrors() & ~analysisOnly THEN
         (* only attempt to produce output if program compiled without errors *)
         ch := m.GetOutputChannel(Rep.modAssemblerFile, TRUE);
-        Translate.Translate(m, module, ch);
+        Translate.Translate(m, symTab, module, ch);
+
+        IF errList.NoErrors() THEN
+          WriteSymbolFile.WriteSymbolFile (m, symTab, errList);
+        END;
+        
         ch.CloseAndRegister();
       END;
       module.Destroy;                    (* cleanup for the sake of the gc *)
