@@ -1,4 +1,4 @@
-(* 	$Id: IR.Mod,v 1.106 2002/06/16 11:02:24 mva Exp $	 *)
+(* 	$Id: IR.Mod,v 1.107 2002/06/16 11:24:13 mva Exp $	 *)
 MODULE OOC:IR [OOC_EXTENSIONS];
 (*  High-level intermediate code representation.
     Copyright (C) 2001, 2002  Michael van Acken, Stewart Greenhill
@@ -3291,7 +3291,7 @@ PROCEDURE (b: Builder) NewOperator* (sym: Symbol; left, right: Expression): Expr
     leftType, rightType, real, nil : Sym.Type;
     result : Expression;
     variant : Variant;
-    isNumeric, isSet, isInteger, isBoolean, isChar : BOOLEAN;
+    isNumeric, isSet, isInteger, isBoolean, isChar, dummy : BOOLEAN;
 
   PROCEDURE IsString(type : Sym.Type) : BOOLEAN;
   BEGIN
@@ -3330,9 +3330,9 @@ PROCEDURE (b: Builder) NewOperator* (sym: Symbol; left, right: Expression): Expr
         
       ELSIF (id IN {Id.slash }) & isNumeric THEN
         (* ---- arithmetic real division ---- *)
-        IF isInteger & b.Widen(left, real) & b.Widen(right, real) THEN
-          (* the guard above does all the work: it promotes integers
-             operands to REAL *)
+        IF isInteger THEN
+          dummy := b.Widen(left, real);
+          dummy := b.Widen(right, real);
         END;
         result := b.NewBinaryArith(sym, arithDivR, left, right);
         
