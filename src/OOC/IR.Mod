@@ -1,4 +1,4 @@
-(* 	$Id: IR.Mod,v 1.239 2003/05/07 22:24:04 mva Exp $	 *)
+(* 	$Id: IR.Mod,v 1.240 2003/05/08 19:13:36 mva Exp $	 *)
 MODULE OOC:IR [OOC_EXTENSIONS];
 (*  High-level intermediate code representation.
     Copyright (C) 2001-2003  Michael van Acken, Stewart Greenhill
@@ -3802,7 +3802,7 @@ PROCEDURE InitCall (call: Call; design: Expression; arguments: ExpressionList;
     resultType: Sym.Type;
   BEGIN
     InitStatement (call, design. sym);
-    resultType := TR.FunctionResultType(design.type);
+    resultType := Sym.Expand(TR.FunctionResultType(design.type));
     IF (resultType # NIL) THEN (* fix result type for function calls *)
       call.type := resultType;
     END;
