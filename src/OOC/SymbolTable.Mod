@@ -1,4 +1,4 @@
-(* 	$Id: SymbolTable.Mod,v 1.51 2002/12/14 13:16:22 mva Exp $	 *)
+(* 	$Id: SymbolTable.Mod,v 1.52 2002/12/16 15:05:39 mva Exp $	 *)
 MODULE OOC:SymbolTable [OOC_EXTENSIONS];
 (*  Defines structure and entries of the symbol table.
     Copyright (C) 2000-2002  Michael van Acken
@@ -839,7 +839,6 @@ PROCEDURE InitPosition* (position: Position; pos: ModulePos;
 PROCEDURE (position: Position) Store* (w: Storable.Writer);
   BEGIN
     (* note: extension Name does not call this Store *)
-    position. Store^ (w);
     w. WriteNum (position. pos);
     w. WriteNum (position. line);
     w. WriteNum (position. column);
@@ -848,7 +847,6 @@ PROCEDURE (position: Position) Store* (w: Storable.Writer);
 PROCEDURE (position: Position) Load* (r: Storable.Reader);
   BEGIN
     (* note: extension Name does not call this Load *)
-    position. Load^ (r);
     r. ReadNum (position. pos);
     r. ReadNum (position. line);
     r. ReadNum (position. column);
@@ -915,7 +913,6 @@ PROCEDURE InitItem* (item: Item; parent: Item);
 
 PROCEDURE (item: Item) Store* (w: Storable.Writer);
   BEGIN
-    item. Store^ (w);
     w. WriteObject (item. nextNested);
     w. WriteObject (item. parent);
     w. WriteObject (item. nestedItems);
@@ -926,7 +923,6 @@ PROCEDURE (item: Item) Load* (r: Storable.Reader);
   VAR
     obj: Storable.Object;
   BEGIN
-    item. Load^ (r);
     r. ReadObject (obj);
     IF (obj = NIL) THEN
       item. nextNested := NIL
@@ -1166,7 +1162,6 @@ PROCEDURE InitLinkDirective (l: LinkDirective);
 
 PROCEDURE (l: LinkDirective) Store* (w: Storable.Writer);
   BEGIN
-    l. Store^ (w);
     w. WriteObject (l. next)
   END Store;
 
@@ -1174,7 +1169,6 @@ PROCEDURE (l: LinkDirective) Load* (r: Storable.Reader);
   VAR
     obj: Storable.Object;
   BEGIN
-    l. Load^ (r);
     r. ReadObject (obj);
     IF (obj = NIL) THEN
       l. next := NIL

@@ -1,4 +1,4 @@
-(* 	$Id: Schedule.Mod,v 1.35 2002/12/13 23:50:46 mva Exp $	 *)
+(* 	$Id: Schedule.Mod,v 1.36 2002/12/16 15:05:29 mva Exp $	 *)
 MODULE OOC:SSA:Schedule [OOC_EXTENSIONS];
 (*  Generates basic block representation and schedules instructions.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -21,7 +21,8 @@ MODULE OOC:SSA:Schedule [OOC_EXTENSIONS];
 *)
 
 IMPORT
-  ADT:Storable, OOC:SSA, OOC:SSA:Opcode, OOC:SSA:Opnd, OOC:SSA:Blocker;
+  Language:=LanguageNew,
+  OOC:SSA, OOC:SSA:Opcode, OOC:SSA:Opnd, OOC:SSA:Blocker;
 
 TYPE
   Block* = POINTER TO BlockDesc;
@@ -64,7 +65,7 @@ TYPE
   
 TYPE
   BlockDesc = RECORD [ABSTRACT]
-    (Storable.ObjectDesc)
+    (Language.ObjectDesc)
     (**A basic block contains a sequence of instructions, with control flow
        entering at the beginning of the block, and leaving at the end of the
        block.  There are no jumps into the block, nor are there any jump or
@@ -169,7 +170,6 @@ PROCEDURE InitInfo* (info: Info);
 
 PROCEDURE InitBlock (b: Block; dominator: Block);
   BEGIN
-    Storable.Init (b);
     b. proxyList := NIL;
     b. proxyTail := NIL;
     b. parent := dominator;

@@ -1,4 +1,4 @@
-(*	$Id: String.Mod,v 1.3 2002/12/13 23:50:49 mva Exp $	*)
+(*	$Id: String.Mod,v 1.4 2002/12/16 15:06:37 mva Exp $	*)
 MODULE ADT:String [OOC_EXTENSIONS];
 (*  Immutable string data type.
     Copyright (C) 2001  Stewart Greenhill
@@ -476,7 +476,6 @@ PROCEDURE (str : String) Equals* (y: Language.Object): BOOLEAN;
 PROCEDURE (str: String) Load* (r: Storable.Reader);
   VAR length : LONGINT;
   BEGIN
-    str. Load^ (r);
     r. ReadNum (length);
     InitString(str, length);
     r. ReadBytes (str. array^, 0, str. length * SIZE(CHAR));
@@ -485,7 +484,6 @@ PROCEDURE (str: String) Load* (r: Storable.Reader);
 
 PROCEDURE (str: String) Store* (w: Storable.Writer);
   BEGIN
-    str. Store^ (w);
     w. WriteNum (str. length);
     w. WriteBytes (str. array^, 0, str. length * SIZE(CHAR))
   END Store;

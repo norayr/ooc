@@ -1,4 +1,4 @@
-(* 	$Id: Repository.Mod,v 1.34 2002/12/13 23:50:47 mva Exp $	 *)
+(* 	$Id: Repository.Mod,v 1.35 2002/12/16 15:05:50 mva Exp $	 *)
 MODULE OOC:Repository [OOC_EXTENSIONS];
 (*  Abstraction of storage of source, intermediate, and target code.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -21,7 +21,8 @@ MODULE OOC:Repository [OOC_EXTENSIONS];
 *)
 
 IMPORT
-  Msg, Channel, TextRider, Strings, Time, ADT:Storable, ADT:ArrayList,
+  Msg, Channel, TextRider, Strings, Time,
+  Language := LanguageNew, ADT:ArrayList,
   URI, OS:Path, OOC:Logger,
   OOC:Scanner:InputBuffer, Sym := OOC:SymbolTable, OOC:SymbolTable:Builder;
 
@@ -63,7 +64,7 @@ TYPE
     fingerprint-: LONGINT;
   END;
   ModuleDesc* = RECORD [ABSTRACT]
-    (Storable.ObjectDesc)
+    (Language.ObjectDesc)
     (**Note: The function @oproc{*OOC:Config:Repositories.Section.GetModule} is
        used to retrieve module instances from repositories.  It ensures that
        for a given module name only one instance of @otype{Module} is created
@@ -245,7 +246,6 @@ PROCEDURE Init* (rep: Repository; baseRep: Repository; baseURI: URI.Hierarchical
 PROCEDURE InitModule* (m: Module; origin: Repository; name: ModuleName;
                        srcFileOverride: URI.HierarchicalURI);
   BEGIN
-    Storable.Init (m);
     m. origin := origin;
     m. name := Msg.GetStringPtr (name);
     m. srcFileOverride := srcFileOverride;

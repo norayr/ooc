@@ -1,4 +1,4 @@
-(* 	$Id: Doc.Mod,v 1.9 2002/12/13 23:50:47 mva Exp $	 *)
+(* 	$Id: Doc.Mod,v 1.10 2002/12/16 15:06:08 mva Exp $	 *)
 MODULE OOC:Doc [OOC_EXTENSIONS];
 (*  Defines the data structure used to store documentation strings.
     Copyright (C) 2002  Michael van Acken
@@ -285,14 +285,12 @@ PROCEDURE (e: Element) [ABSTRACT] Normalize*;
 
 PROCEDURE (e: Element) Store* (w: Storable.Writer);
   BEGIN
-    e. Store^ (w);
     (* field `pos' is not stored, and set to the default value on import *)
   END Store;
 
 PROCEDURE (e: Element) Load* (r: Storable.Reader);
   BEGIN
     InitElement (e);                     (* set `pos' to default value *)
-    e. Load^ (r)
   END Load;
 
 
@@ -1472,7 +1470,6 @@ PROCEDURE (d: Document) AddUsedImport* (importDecl: Storable.Object);
 
 PROCEDURE (d: Document) Store* (w: Storable.Writer);
   BEGIN
-    d. Store^ (w);
     w. WriteObject (d. blockList);
     w. WriteObject (d. summary);
     (* don't store decoration, firstColumn, or usedImportsList *)
@@ -1482,7 +1479,6 @@ PROCEDURE (d: Document) Load* (r: Storable.Reader);
   VAR
     obj: Storable.Object;
   BEGIN
-    d. Load^ (r);
     r. ReadObject (obj);
     IF (obj = NIL) THEN
       d. blockList := NIL
