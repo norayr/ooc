@@ -1,4 +1,4 @@
-(* 	$Id: SSA.Mod,v 1.71 2002/12/17 01:23:14 mva Exp $	 *)
+(* 	$Id: SSA.Mod,v 1.72 2002/12/18 11:18:07 mva Exp $	 *)
 MODULE OOC:SSA;
 (*  Data structures for SSA code representation.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -215,6 +215,8 @@ TYPE
 
 VAR
   nil-: BigInt.BigInt;
+  (**A unique value representing @code{NIL}.  Note: Strange things may
+     happen if the same object is also used with a different meaning.  *)
 
   
 PROCEDURE InitNode* (n: Node);

@@ -1,4 +1,4 @@
-(* 	$Id: ConstFold.Mod,v 1.68 2002/12/17 22:16:32 mva Exp $	 *)
+(* 	$Id: ConstFold.Mod,v 1.69 2002/12/18 11:18:07 mva Exp $	 *)
 MODULE OOC:IR:ConstFold;
 (*  Constant folding on IR expressions.
     Copyright (C) 2002  Stewart Greenhill, Michael van Acken
@@ -547,7 +547,7 @@ PROCEDURE (c: ConstFold) VisitCompare* (op : IR.Compare);
         END;
       | Predef.char:
         result := CharOp();
-      | Predef.charString, Predef.longcharString:
+      | Predef.charString, Predef.longCharString:
         result := StringOp(); 
       | Predef.boolean:
         result := BooleanOp();
