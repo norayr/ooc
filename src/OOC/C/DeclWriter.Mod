@@ -1,4 +1,4 @@
-(* 	$Id: DeclWriter.Mod,v 1.6 2002/01/04 16:14:52 mva Exp $	 *)
+(* 	$Id: DeclWriter.Mod,v 1.7 2002/01/10 03:39:01 sgreenhill Exp $	 *)
 MODULE OOC:C:DeclWriter [OOC_EXTENSIONS];
 (*  Defines classes to handle C declarations, types, and include statements.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -414,6 +414,14 @@ PROCEDURE (w: Writer) WriteConst* (value: Language.Value);
     END
   END WriteConst;
 
+PROCEDURE (w : Writer) DeclareConst* (name : String.String; value : Language.Value);
+BEGIN
+  w.WriteString("#define ");
+  w.WriteString(name.array^);
+  w.WriteString(" ");
+  w.WriteConst(value);
+  w.WriteLn;
+END DeclareConst;
 
 PROCEDURE (w: Writer) WriteDeclaration* (d: Declaration);
 (**Writes the declaration @oparam{d} to @oparam{w}.  *)
