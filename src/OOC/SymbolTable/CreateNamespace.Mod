@@ -1,4 +1,4 @@
-(* 	$Id: CreateNamespace.Mod,v 1.13 2002/11/16 01:53:49 mva Exp $	 *)
+(* 	$Id: CreateNamespace.Mod,v 1.14 2002/11/17 13:56:21 mva Exp $	 *)
 MODULE OOC:SymbolTable:CreateNamespace [OOC_EXTENSIONS];
 (*  Creates namespaces for module, and resolves type names in declarations.
     Copyright (C) 2000-2002  Michael van Acken
@@ -787,7 +787,12 @@ PROCEDURE CreateNamespace* (root: Sym.Module;
               | Sym.flagNoDescriptor:
                 SetFlag(item.hasDescriptor, FALSE);
               | Sym.flagNoLengthInfo:
-                SetFlag(item.hasLengthInfo, FALSE);
+                IF ~item.isOpenArray OR
+                   TR.IsOpenArrayType(item.elementType) THEN
+                  InvalidFlag(flag, invalidModifierFlag);
+                ELSE
+                  SetFlag(item.hasLengthInfo, FALSE);
+                END;
               ELSE
                 InvalidFlag(flag, invalidModifierFlag);
               END;

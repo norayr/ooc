@@ -1,4 +1,4 @@
-(* 	$Id: CreateSymTab.Mod,v 1.20 2002/11/14 20:54:54 mva Exp $	 *)
+(* 	$Id: CreateSymTab.Mod,v 1.21 2002/11/17 13:56:21 mva Exp $	 *)
 MODULE OOC:AST:ExtTree:CreateSymTab;
 (*  Creates symbol table from abstract syntax tree of module `ExtTree'.
     Copyright (C) 2000, 2001, 2002  Michael van Acken
@@ -569,7 +569,8 @@ PROCEDURE (v: Visitor) VisitArrayType* (arrayType: ExtTree.ArrayType);
       array := baseType(Sym.Array)
     ELSE
       array := v. stb. NewArray (v. parent, GetPosition (arrayType. array),
-                                 TRUE, NIL, GetType (v, arrayType. type))
+                                 TRUE, NIL, GetType (v, arrayType. type));
+      AddFlags(array, arrayType.flags);
     END;
     v. type := array
   END VisitArrayType;
