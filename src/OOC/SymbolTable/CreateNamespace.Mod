@@ -1,4 +1,4 @@
-(* 	$Id: CreateNamespace.Mod,v 1.43 2003/05/01 17:27:57 mva Exp $	 *)
+(* 	$Id: CreateNamespace.Mod,v 1.44 2003/05/02 00:38:42 mva Exp $	 *)
 MODULE OOC:SymbolTable:CreateNamespace [OOC_EXTENSIONS];
 (*  Creates namespaces for module, and resolves type names in declarations.
     Copyright (C) 2000-2003  Michael van Acken
@@ -1410,7 +1410,12 @@ RAISES IO.Error;
     (* here holds: any namespace (module, procedure, or record) can be
        searched and is guaranteed to deliver the correct results *)
     
-    (* nineth pass: check namespace restrictions imposed on extended
+    (* nineth pass: propagate type variables upward in the tree of
+       constructors, so that every type that has a type variable somewhere has
+       a non-NIL field `type.typePars'  *)
+    PropagateTypeVars(root);
+    
+    (* tenth pass: check namespace restrictions imposed on extended
        records and assign indexes to type-bound procedures; fix notRedefined
        for type-bound procedures that are redefined in the local module *)
     IF errList.NoErrors() THEN
@@ -1419,11 +1424,6 @@ RAISES IO.Error;
       CheckExtendedRecords (root, errList);
     END;
 
-    (* tenth pass: propagate type variables upward in the tree of constructors,
-       so that every type that has a type variable somewhere has a non-NIL
-       field `type.typePars' *)
-    PropagateTypeVars(root);
-    
     ResolveRef.Resolve (root, errList);
     
     IF (uses # NIL) & errList.NoErrors() THEN
