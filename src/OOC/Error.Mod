@@ -1,4 +1,4 @@
-(* 	$Id: Error.Mod,v 1.9 2002/12/08 15:10:53 mva Exp $	 *)
+(* 	$Id: Error.Mod,v 1.10 2002/12/08 23:08:58 mva Exp $	 *)
 MODULE OOC:Error;
 (*  Creates lists of error messages and converts them to text.
     Copyright (C) 1999, 2000, 2001, 2002  Michael van Acken
@@ -232,7 +232,9 @@ PROCEDURE (errList: List) Write* (ch: Channel.Channel);
         END;
         msg. GetText (text);
 
-        writer. WriteString (errList. fileName);
+        IF (attrLine # NIL) & (attrColumn # NIL) THEN
+          writer. WriteString (errList. fileName);
+        END;
       END;
       writer. WriteString (text);
       writer. WriteLn;
