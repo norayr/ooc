@@ -1,4 +1,4 @@
-(* 	$Id: WriteC.Mod,v 1.133 2002/12/03 13:42:51 mva Exp $	 *)
+(* 	$Id: WriteC.Mod,v 1.134 2002/12/04 14:09:39 mva Exp $	 *)
 MODULE OOC:SSA:WriteC [OOC_EXTENSIONS];
 (*  Translates a set of scheduled SSA instructions to plain C.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -423,6 +423,7 @@ PROCEDURE (w: Writer) Ref (opnd: SSA.Opnd);
     obj: Object.Object;
     name: String.String;
     instr: SSA.Instr;
+    bt: DeclWriter.BasicTypeId;
   BEGIN
     arg := opnd. arg;
     WITH arg: SSA.DeclRef DO
@@ -442,7 +443,18 @@ PROCEDURE (w: Writer) Ref (opnd: SSA.Opnd);
       (* write constant values directly, without going through an
          intermediate register; the roundabout route is kind of unnatural
          for C code *)
-      w. WriteConst (arg. value, arg. type);
+      IF (arg.value = SSA.nil) THEN
+        CASE Predef.address OF
+        | Predef.hugeint: bt := DeclWriter.int64;
+        | Predef.longint: bt := DeclWriter.int32;
+        END;
+        w. WriteString ("(");
+        w. WriteString (w. basicType[bt]. repr);
+        w. WriteString (")");
+         w.WriteString("0");
+      ELSE
+        w. WriteConst (arg. value, arg. type);
+      END;
 
     | arg: SSA.Address DO
       name := Naming.NameOfDeclaration (arg. decl);
@@ -1028,6 +1040,7 @@ PROCEDURE WriteExpr (w: Writer; instr: SSA.Instr);
     VAR
       wd: DeclWriter.Writer;
     BEGIN
+      CastFromPtr(instr);
       w.WriteString(prefixPreloadVar);
       w.textWriter.WriteLInt(w.translator.preloadedVars.size, 0);
 
