@@ -1,4 +1,4 @@
-/* 	$Id: ProcessManagement.c,v 1.6 2003/04/17 15:10:00 mva Exp $	 */
+/* 	$Id: ProcessManagement.c,v 1.7 2003/05/12 03:57:16 sgreenhill Exp $	 */
 #include <stdlib.h>
 #include <stdio.h>
 #include <__oo2c.h>
@@ -86,6 +86,7 @@ static int new_system(const char * args) {
   return GetLastError();
 }
 
+#ifdef USE_SHELL
 char * prefix = "/bin/sh -c \"";
 
 int OS_ProcessManagement__system(const OOC_CHAR8* command, OOC_LEN command_0d) {
@@ -140,6 +141,12 @@ int OS_ProcessManagement__system(const OOC_CHAR8* command, OOC_LEN command_0d) {
   free(buffer);
   return result;
 }
+
+#else
+int OS_ProcessManagement__system(const OOC_CHAR8* command, OOC_LEN command_0d) {
+  return new_system((const char*)command);
+}
+#endif
 #else
 int OS_ProcessManagement__system(const OOC_CHAR8* command, OOC_LEN command_0d) {
   return system((const char*)command);
