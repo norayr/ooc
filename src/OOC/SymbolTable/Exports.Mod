@@ -1,4 +1,4 @@
-(* 	$Id: Exports.Mod,v 1.10 2002/09/29 22:45:14 mva Exp $	 *)
+(* 	$Id: Exports.Mod,v 1.11 2002/12/07 01:39:36 mva Exp $	 *)
 MODULE OOC:SymbolTable:Exports;
 (*  Marks declarations that are part of the module's symbol file.
     Copyright (C) 2000, 2001, 2002  Michael van Acken
@@ -71,7 +71,9 @@ PROCEDURE GetExports* (module: Sym.Module; forSymbolFile: BOOLEAN): Dictionary.D
                    predefined type; in this case, we are done *)
               ELSE
                 decl := module. ns. IdentifyLocal (root, type. module, TRUE);
-                ASSERT (decl # NIL)
+                (* if this is NIL, then the module has an unresolved
+                   reference; ignore this here, it has already triggered
+                   an error message *)
               END;
               IF (decl # NIL) THEN
                 MarkDecl (decl)
