@@ -1,4 +1,4 @@
-(* 	$Id: Object.Mod,v 1.27 2004/01/12 05:49:18 sgreenhill Exp $	 *)
+(* 	$Id: Object.Mod,v 1.28 2004/01/16 22:00:06 mva Exp $	 *)
 MODULE Object;
 (*  Low-level object and string implementation.
     Copyright (C) 2002,2003  Michael van Acken
@@ -764,7 +764,7 @@ PROCEDURE (s: String) [ABSTRACT] Compare*(y: Object): LONGINT;
    @item @oparam{s} < @oparam{y}
    @result{} < 0
    @item @oparam{s} = @oparam{y}
-   @result{} > 0
+   @result{} = 0
    @item @oparam{s} > @oparam{y}
    @result{} > 0
    @end table
