@@ -1,4 +1,4 @@
-(* 	$Id: Destore.Mod,v 1.57 2002/10/29 22:05:46 mva Exp $	 *)
+(* 	$Id: Destore.Mod,v 1.58 2002/11/16 10:23:03 mva Exp $	 *)
 MODULE OOC:SSA:Destore;
 (*  Converts reads from/writes to memory into local values.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -21,7 +21,6 @@ MODULE OOC:SSA:Destore;
 *)
 
 IMPORT
-  Log,
   ADT:Dictionary, Sym := OOC:SymbolTable, OOC:SSA, OOC:SSA:Opcode,
   OOC:SSA:Opnd, OOC:SSA:Result, OOC:SSA:Aliasing;
 

@@ -1,4 +1,4 @@
-(* 	$Id: Algebraic.Mod,v 1.5 2002/08/24 10:49:24 mva Exp $	 *)
+(* 	$Id: Algebraic.Mod,v 1.6 2002/11/16 10:23:03 mva Exp $	 *)
 MODULE OOC:SSA:Algebraic;
 (*  Algebraic transformations on SSA expressions.
     Copyright (C) 2002  Michael van Acken
@@ -23,7 +23,6 @@ MODULE OOC:SSA:Algebraic;
 (* FIXME... add more transformations *)
 
 IMPORT
-  Log,
   Language, Language:Integer, OOC:SSA, OOC:SSA:Opcode, OOC:SSA:Opnd;
 
 TYPE

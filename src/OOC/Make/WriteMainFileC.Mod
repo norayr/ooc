@@ -1,4 +1,4 @@
-(* 	$Id: WriteMainFileC.Mod,v 1.1 2002/11/10 00:06:48 mva Exp $	 *)
+(* 	$Id: WriteMainFileC.Mod,v 1.2 2002/11/16 10:23:03 mva Exp $	 *)
 MODULE OOC:Make:WriteMainFileC;
 (*  Generates the main file of a program.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -21,7 +21,7 @@ MODULE OOC:Make:WriteMainFileC;
 *)
 
 IMPORT
-  Channel, Files, TextRider, ADT:Dictionary, OOC:Error, OOC:Repository;
+  Channel, Files, TextRider, OOC:Error, OOC:Repository;
 
 CONST
   sizeVParStack* = 256*1024;

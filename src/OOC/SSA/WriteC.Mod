@@ -1,4 +1,4 @@
-(* 	$Id: WriteC.Mod,v 1.130 2002/11/10 11:15:36 mva Exp $	 *)
+(* 	$Id: WriteC.Mod,v 1.131 2002/11/16 10:23:03 mva Exp $	 *)
 MODULE OOC:SSA:WriteC [OOC_EXTENSIONS];
 (*  Translates a set of scheduled SSA instructions to plain C.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -21,7 +21,6 @@ MODULE OOC:SSA:WriteC [OOC_EXTENSIONS];
 *)
 
 IMPORT
-  Log,
   IntStr, Out, StdChannels, Strings, StringSearch,
   ADT:Object, ADT:String, ADT:Dictionary, ADT:ArrayList,
   LString := Language:String, Language:String8, Sym := OOC:SymbolTable,

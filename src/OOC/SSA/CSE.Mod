@@ -1,4 +1,4 @@
-(* 	$Id: CSE.Mod,v 1.1 2002/07/31 00:35:05 mva Exp $	 *)
+(* 	$Id: CSE.Mod,v 1.2 2002/11/16 10:23:03 mva Exp $	 *)
 MODULE OOC:SSA:CSE;
 (*  Common subexpression elimination using value numbering.
     Copyright (C) 2002  Michael van Acken
@@ -21,8 +21,7 @@ MODULE OOC:SSA:CSE;
 *)
 
 IMPORT
-  OOC:SSA:Blocker, Log, StdChannels,
-  OOC:SSA, OOC:SSA:Opcode;
+  OOC:SSA:Blocker, OOC:SSA, OOC:SSA:Opcode;
   
 TYPE
   ResultList = POINTER TO ARRAY OF SSA.Result;

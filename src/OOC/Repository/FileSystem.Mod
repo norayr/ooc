@@ -1,4 +1,4 @@
-(* 	$Id: FileSystem.Mod,v 1.12 2002/11/13 21:40:57 mva Exp $	 *)
+(* 	$Id: FileSystem.Mod,v 1.13 2002/11/16 10:23:03 mva Exp $	 *)
 MODULE OOC:Repository:FileSystem;
 (*  Implementation of a repository in the local file system.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -269,8 +269,6 @@ PROCEDURE (m: Module) GetInputBuffer* (VAR res: Msg.Msg): InputBuffer.Buffer;
     errList: Error.List;
     str: Rep.URIBuffer;
     modURI: URI.URI;
-    i: LONGINT;
-    scheme: ARRAY 6 OF CHAR;
   BEGIN
     (* create new error list for the source file *)
     modURI := m. GetURI (Rep.modModuleSource, TRUE);

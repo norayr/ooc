@@ -1,4 +1,4 @@
-(* 	$Id: RealConv.Mod,v 1.4 2002/11/16 02:18:47 mva Exp $	 *)
+(* 	$Id: RealConv.Mod,v 1.5 2002/11/16 10:23:04 mva Exp $	 *)
 MODULE RealConv;
 (*  String to REAL conversion functions.
     Copyright (C) 2002  Michael van Acken
@@ -19,7 +19,7 @@ MODULE RealConv;
 *)
 
 IMPORT
-  SYSTEM, libc, C, CharClass, ConvTypes, Real0;
+  SYSTEM, libc, CharClass, ConvTypes, Real0;
 
 (**
 

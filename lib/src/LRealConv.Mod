@@ -1,4 +1,4 @@
-(* 	$Id: LRealConv.Mod,v 1.10 2002/11/16 02:18:47 mva Exp $	 *)
+(* 	$Id: LRealConv.Mod,v 1.11 2002/11/16 10:23:04 mva Exp $	 *)
 MODULE LRealConv;
 (*  String to LONGREAL conversion functions.
     Copyright (C) 2002  Michael van Acken
@@ -19,7 +19,7 @@ MODULE LRealConv;
 *)
 
 IMPORT
-  SYSTEM, libc, C, CharClass, ConvTypes, Real0;
+  SYSTEM, libc, CharClass, ConvTypes, Real0;
 
 (**
 
