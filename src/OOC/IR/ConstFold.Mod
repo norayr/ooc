@@ -1,4 +1,4 @@
-(* 	$Id: ConstFold.Mod,v 1.27 2002/05/03 20:09:46 mva Exp $	 *)
+(* 	$Id: ConstFold.Mod,v 1.28 2002/05/04 13:14:01 mva Exp $	 *)
 MODULE OOC:IR:ConstFold;
 (*  Constant folding on IR expressions.
     Copyright (C) 2002  Stewart Greenhill, Michael van Acken
@@ -235,6 +235,10 @@ PROCEDURE (c: ConstFold) VisitSetOp* (op: IR.SetOp);
 PROCEDURE (c: ConstFold) VisitSelectField* (sf: IR.SelectField);
   BEGIN
   END VisitSelectField;
+
+PROCEDURE (c: ConstFold) VisitSelectProc* (sp: IR.SelectProc);
+  BEGIN
+  END VisitSelectProc;
 
 PROCEDURE (c: ConstFold) VisitNegate* (op: IR.Negate);
 VAR 
