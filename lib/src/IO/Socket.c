@@ -1,4 +1,4 @@
-/*	$Id: Socket.c,v 1.3 2002/12/01 09:55:10 mva Exp $	*/
+/*	$Id: Socket.c,v 1.4 2002/12/08 22:30:02 mva Exp $	*/
 /*  Interface to socket facilities.
     Copyright (C) 2000  Michael van Acken
 
@@ -399,7 +399,7 @@ void IO_Socket__SocketDesc_ConnectDone(IO_Socket__Socket s) {
 }
 
 
-void IO_Socket_init(void) {
+void OOC_IO_Socket_init(void) {
   IO_Socket__errorContext =
     RT0__NewObject(OOC_TYPE_DESCR(IO_Socket,ErrorContextDesc));
   Msg__InitContext((Msg__Context)IO_Socket__errorContext, 

@@ -1,4 +1,4 @@
-/* 	$Id: ProcessParameters.c,v 1.4 2002/12/03 09:55:42 mva Exp $	 */
+/* 	$Id: ProcessParameters.c,v 1.5 2002/12/08 22:30:01 mva Exp $	 */
 #include <unistd.h>
 #include <errno.h>
 #include <stddef.h>
@@ -78,7 +78,7 @@ void OS_ProcessParameters__getcwd(OS_ProcessParameters__Path buffer, OOC_LEN buf
 }
 
 
-void OS_ProcessParameters_init(void) {
+void OOC_OS_ProcessParameters_init(void) {
   OS_ProcessParameters__errorContext =
     RT0__NewObject(OOC_TYPE_DESCR(OS_ProcessParameters,ErrorContextDesc));
   Msg__InitContext((Msg__Context)OS_ProcessParameters__errorContext, 

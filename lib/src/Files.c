@@ -1,4 +1,4 @@
-/*	$Id: Files.c,v 1.3 2002/12/01 09:55:10 mva Exp $	*/
+/*	$Id: Files.c,v 1.4 2002/12/08 22:30:03 mva Exp $	*/
 /*  Access to files and file attributes.
     Copyright (C) 1997-2000, 2002  Michael van Acken
 
@@ -620,7 +620,7 @@ static void close_all_files (void) {
   }
 }
 
-void Files_init(void) {
+void OOC_Files_init(void) {
   Files__errorContext = RT0__NewObject(OOC_TYPE_DESCR(Files,ErrorContextDesc));
   Msg__InitContext((Msg__Context)Files__errorContext, 
 		   (const OOC_CHAR8*)"OOC:Core:Files", 15);

@@ -1,4 +1,4 @@
-/*	$Id: Termination.c,v 1.1 2002/05/26 16:27:10 mva Exp $	*/
+/*	$Id: Termination.c,v 1.2 2002/12/08 22:30:03 mva Exp $	*/
 /*  Provides procedures for program finalization.
     Copyright (C) 1997, 1999, 2000, 2002  Michael van Acken
 
@@ -124,7 +124,7 @@ static void catch_signal (int sig) {
   }
 }
 
-void Termination_init(void) {
+void OOC_Termination_init(void) {
   /* error signals */
   catch_signal(SIGFPE);
   catch_signal(SIGILL);

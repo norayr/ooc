@@ -1,4 +1,4 @@
-/*	$Id: Select.c,v 1.3 2002/07/17 12:55:25 sgreenhill Exp $	*/
+/*	$Id: Select.c,v 1.4 2002/12/08 22:30:02 mva Exp $	*/
 /*  Wrapper around the select() function.
     Copyright (C) 2000  Michael van Acken
 
@@ -88,5 +88,5 @@ OOC_INT32 IO_Select__Select(IO_Select__FileDescrSet read,
   return res;
 }
 
-void IO_Select_init(void) {
+void OOC_IO_Select_init(void) {
 }

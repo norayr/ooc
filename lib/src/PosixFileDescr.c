@@ -1,4 +1,4 @@
-/*	$Id: PosixFileDescr.c,v 1.2 2002/12/01 09:55:10 mva Exp $	*/
+/*	$Id: PosixFileDescr.c,v 1.3 2002/12/08 22:30:03 mva Exp $	*/
 /*  Generalized access to POSIX-style file descriptors.
     Copyright (C) 1997-2000, 2002  Michael van Acken
 
@@ -957,7 +957,7 @@ void PosixFileDescr__Truncate(PosixFileDescr__Writer w, int newLength) {
   }
 }
 
-void PosixFileDescr_init(void) {
+void OOC_PosixFileDescr_init(void) {
   PosixFileDescr__errorContext = RT0__NewObject(OOC_TYPE_DESCR(PosixFileDescr,ErrorContextDesc));
   Msg__InitContext((Msg__Context)PosixFileDescr__errorContext, 
 		   (const OOC_CHAR8*)"OOC:Core:PosixFileDescr", 24);

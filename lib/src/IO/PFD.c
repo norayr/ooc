@@ -1,4 +1,4 @@
-/*	$Id: PFD.c,v 1.2 2002/12/01 09:55:10 mva Exp $	*/
+/*	$Id: PFD.c,v 1.3 2002/12/08 22:30:02 mva Exp $	*/
 /*  Generalized access to POSIX-style file descriptors.
     Copyright (C) 1997-2000  Michael van Acken
 
@@ -522,7 +522,7 @@ void IO_PFD__Truncate(IO_PFD__Writer w, OOC_INT32 newLength) {
   }
 }
 
-void IO_PFD_init(void) {
+void OOC_IO_PFD_init(void) {
   IO_PFD__errorContext =
     RT0__NewObject(OOC_TYPE_DESCR(IO_PFD,ErrorContextDesc));
   Msg__InitContext((Msg__Context)IO_PFD__errorContext, 
