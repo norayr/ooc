@@ -1,4 +1,4 @@
-/*      $Id: __oo2c.h,v 1.12 2002/05/26 17:30:55 mva Exp $        */
+/*      $Id: __oo2c.h,v 1.13 2002/05/28 19:50:12 mva Exp $        */
 /*  Run-time system for C back-ends of OOC2
     Copyright (C) 2001, 2002  Michael van Acken
 
@@ -43,10 +43,24 @@ extern void NORETURN _assertion_failed(OOC_INT32 code, OOC_CHARPOS pos) NORETURN
   if (!(p)) { _assertion_failed(code, pos); }
 
 /* COPY(s,d) */
-#define _copy(_src,_dest,_max_len) {            \
+#define _copy_8(_src,_dest,_max_len) {          \
   char* _d=(char*)_dest;                        \
   const char* _s=(const char*)_src;             \
   char* _max=_d+_max_len-1;                     \
+  while ((_d != _max) && (*(_d++) = *(_s++)));  \
+  if (_d == _max) *_d = '\000';                 \
+}
+#define _copy_16(_src,_dest,_max_len) {         \
+  OOC_CHAR16* _d=(OOC_CHAR16*)_dest;            \
+  const OOC_CHAR16* _s=(const OOC_CHAR16*)_src; \
+  OOC_CHAR16* _max=_d+_max_len-1;               \
+  while ((_d != _max) && (*(_d++) = *(_s++)));  \
+  if (_d == _max) *_d = '\000';                 \
+}
+#define _copy_8to16(_src,_dest,_max_len) {      \
+  OOC_CHAR16* _d=(OOC_CHAR16*)_dest;            \
+  const OOC_CHAR8* _s=(const OOC_CHAR8*)_src;   \
+  OOC_CHAR16* _max=_d+_max_len-1;               \
   while ((_d != _max) && (*(_d++) = *(_s++)));  \
   if (_d == _max) *_d = '\000';                 \
 }
