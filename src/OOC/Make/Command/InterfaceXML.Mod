@@ -1,4 +1,4 @@
-(* 	$Id: InterfaceXML.Mod,v 1.3 2001/08/27 05:21:02 mva Exp $	 *)
+(* 	$Id: InterfaceXML.Mod,v 1.4 2001/10/17 23:11:28 mva Exp $	 *)
 MODULE OOC:Make:Command:InterfaceXML;
 (*  Writes a module's exported interface as XML document.
     Copyright (C) 2001  Michael van Acken
@@ -24,7 +24,7 @@ MODULE OOC:Make:Command:InterfaceXML;
 IMPORT
   Channel, Files, Msg, URI, Make, ADT:String,
   OOC:Make:Entity:ModuleFile, OOC:Auxiliary:ParseModule, OOC:Auxiliary:Config,
-  OOC:Error, OOC:Repository, OOC:AST, 
+  OOC:Error, OOC:Config:Pragmas, OOC:Repository, OOC:AST, 
   OOC:SymbolTable:Item, OOC:SymbolTable:Item:InterfaceXML;
 
 TYPE
@@ -70,10 +70,12 @@ PROCEDURE (cmd: Command) Run*(): BOOLEAN;
     outputURI: URI.HierarchicalURI;
     m: Repository.Module;
     config: Config.Config;
+    pragmaHistory: Pragmas.History;
   BEGIN
     m := cmd. module;
     config := cmd. context. config(Config.Config);
-    ParseModule.ParseModule (m, config, TRUE, FALSE, ast, symTab, errList);
+    ParseModule.ParseModule (m, config, TRUE, FALSE,
+                             ast, symTab, pragmaHistory, errList);
     IF (errList. msgCount = 0) THEN
       outputURI := m. GetURI (Repository.modInterfaceXML);
       outputChannel := m. GetOutputChannel (Repository.modInterfaceXML, TRUE, res);
