@@ -1,4 +1,4 @@
-(* 	$Id: Repository.Mod,v 1.23 2002/11/19 21:54:43 mva Exp $	 *)
+(* 	$Id: Repository.Mod,v 1.24 2002/11/21 22:25:23 mva Exp $	 *)
 MODULE OOC:Repository [OOC_EXTENSIONS];
 (*  Abstraction of storage of source, intermediate, and target code.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -22,7 +22,8 @@ MODULE OOC:Repository [OOC_EXTENSIONS];
 
 IMPORT
   Msg, Channel, TextRider, Strings, Time, ADT:Object, URI, OS:Path, OOC:Logger,
-  OOC:Scanner:InputBuffer, Sym := OOC:SymbolTable, OOC:SymbolTable:Builder;
+  OOC:Scanner:InputBuffer, Sym := OOC:SymbolTable, OOC:SymbolTable:Builder,
+  OOC:Package;
 
 
 TYPE
@@ -33,6 +34,7 @@ TYPE
   RepositoryDesc* = RECORD [ABSTRACT]
     baseRep-: Repository;
     baseURI-: URI.HierarchicalURI;
+    packageInfo-: Package.Package;
   END;
 
 TYPE
@@ -226,6 +228,7 @@ PROCEDURE Init* (rep: Repository; baseRep: Repository; baseURI: URI.Hierarchical
     ASSERT ((str # "") & (str[Strings.Length (str)-1] = "/"));
     rep. baseRep := baseRep;
     rep. baseURI := baseURI;
+    rep. packageInfo := NIL;
   END Init;
 
 PROCEDURE InitModule* (m: Module; origin: Repository; name: ModuleName;
@@ -245,6 +248,10 @@ PROCEDURE InitModule* (m: Module; origin: Repository; name: ModuleName;
   END InitModule;
 
 
+PROCEDURE (rep: Repository) SetPackageInfo* (packageInfo: Package.Package);
+  BEGIN
+    rep.packageInfo := packageInfo;
+  END SetPackageInfo;
 
 PROCEDURE (rep: Repository) [ABSTRACT] GetModule* (moduleName: ARRAY OF CHAR; 
                                  srcFileOverride: URI.HierarchicalURI): Module;
