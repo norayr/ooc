@@ -1,4 +1,4 @@
-(* 	$Id: Opcode.Mod,v 1.47 2002/05/30 19:51:27 mva Exp $	 *)
+(* 	$Id: Opcode.Mod,v 1.48 2002/05/30 23:10:52 mva Exp $	 *)
 MODULE OOC:SSA:Opcode;
 (*  This modules defines opcodes for SSA instructions.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -252,9 +252,9 @@ CONST
      The symbolic representation of the variable's designator.  Depending on
      the designator, several successive operands can share this class.  For
      non-heap variables, the first entry in the designator is a reference to
-     the declaration of the accessed variable.  For variables on the heap,
-     the designator begins with the address, that is, it duplicates the
-     second argument @oconst{*OOC:SSA:Opnd.readAdr}.
+     the declaration of the accessed variable.  For variables on the heap, the
+     designator begins with the a @otype{*OOC:SSA.TypeRef} of the pointer's
+     type, followed by the address of the heap object.
      @end table
 
      The instruction itself represents the result of the read operation.  If it
