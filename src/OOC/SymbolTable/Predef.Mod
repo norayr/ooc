@@ -1,4 +1,4 @@
-(* 	$Id: Predef.Mod,v 1.45 2002/12/02 15:50:38 mva Exp $	 *)
+(* 	$Id: Predef.Mod,v 1.46 2002/12/14 23:59:38 mva Exp $	 *)
 MODULE OOC:SymbolTable:Predef;
 (*  Defines symbol table of pseudo module with predefined entities.
     Copyright (C) 2000, 2001, 2002  Michael van Acken
@@ -355,7 +355,8 @@ PROCEDURE Init;
       minConst[i] := NIL; maxConst[i] := NIL;
     END;
     
-    nameStringModule := GetName("-Language:String0");
+    nameStringModule := GetName(Builder.prefixAutoImport+
+                                Builder.stringModule);
     nameStringType := GetName("String");
   END Init;
 

@@ -1,4 +1,4 @@
-(* 	$Id: Builder.Mod,v 1.24 2002/12/13 23:50:45 mva Exp $	 *)
+(* 	$Id: Builder.Mod,v 1.25 2002/12/14 23:59:38 mva Exp $	 *)
 MODULE OOC:SymbolTable:Builder [OOC_EXTENSIONS];
 (*  Defines a builder class with factory methods for symbol table entries.
     Copyright (C) 2000-2002  Michael van Acken
@@ -54,6 +54,11 @@ TYPE
        to be imported automatically.  This list is never empty, because it
        must include the value of @ofield{module}.  *)
   END;
+
+CONST
+  prefixAutoImport* = "-";
+  stringModule* = "LanguageNew";
+  stringModuleC* = "LanguageNew";
 
 CONST
   noAutoImport* = 0;
@@ -611,7 +616,7 @@ BEGIN
   autoImport[0].exclude[0] := autoImport[0].module;
   autoImport[0].exclude[1] := N("Out0");
   NEW(autoImport[1]);
-  autoImport[1].module := N("Language:String0");
+  autoImport[1].module := N(stringModule);
   NEW (autoImport[1].exclude, 3);
   autoImport[1].exclude[0] := autoImport[0].module;
   autoImport[1].exclude[1] := autoImport[1].module;
