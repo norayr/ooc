@@ -1,4 +1,4 @@
-(* 	$Id: IR.Mod,v 1.91 2002/05/31 10:20:24 mva Exp $	 *)
+(* 	$Id: IR.Mod,v 1.92 2002/05/31 14:06:20 mva Exp $	 *)
 MODULE OOC:IR [OOC_EXTENSIONS];
 (*  High-level intermediate code representation.
     Copyright (C) 2001, 2002  Michael van Acken, Stewart Greenhill
@@ -3390,7 +3390,6 @@ BEGIN
     END;
   ELSIF b. typeRules. IsCharType (exprType) & (expr IS Const) THEN
     (* expression is constant character *)
-    length := expr(Const). value(LString.Value). Length();
     WITH type : Sym.Array DO
       IF b. typeRules. IncludesType (type. elementType, exprType) &
          (type.isOpenArray OR (type.length > 1)) THEN
@@ -3399,8 +3398,10 @@ BEGIN
           result := b.NewConst(expr.sym, Predef.GetType (Predef.charString),
                                expr(Const). value);
         ELSE
-          result := b.NewConst(expr.sym, Predef.GetType (Predef.longcharString),
-                               expr(Const). value);
+          str8 := expr(Const). value(String8.Value);
+          result := b.NewConst(expr.sym,
+                               Predef.GetType (Predef.longcharString),
+                               String16.NewRegion8(str8. value. array^, 0, 1));
         END;
       END;
     ELSE
