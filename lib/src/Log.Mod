@@ -1,4 +1,4 @@
-(*	$Id: Log.Mod,v 1.3 2002/06/16 15:02:23 mva Exp $	*)
+(*	$Id: Log.Mod,v 1.4 2002/07/12 18:57:12 mva Exp $	*)
 MODULE Log [OOC_EXTENSIONS];
 (*  Simple logging facility to stderr.
     Copyright (C) 1998-2000 Michael van Acken
@@ -19,7 +19,7 @@ MODULE Log [OOC_EXTENSIONS];
 *)
    
 IMPORT
-  S := SYSTEM, StdChannels, TextRider(*, Types*);
+  S := SYSTEM, RT0, StdChannels, TextRider;
 
 VAR
   writer-: TextRider.Writer;
@@ -216,25 +216,28 @@ PROCEDURE Adr* (msg[NO_COPY]: ARRAY OF CHAR; VAR x: ARRAY OF S.BYTE);
     HexAdr (msg, S.ADR (x))
   END Adr;
 
-(*PROCEDURE Type* (msg[NO_COPY]: ARRAY OF CHAR; ptr: S.PTR);
+PROCEDURE Type* (msg[NO_COPY]: ARRAY OF CHAR; ptr: S.PTR);
 (* pre: `ptr' is a POINTER TO R, where R is a record type whose type is 
      declared in a normal module.  'o' must have a legal value, i.e., it is
      either NIL or was initialized through NEW.  *)
   VAR
-    type: Types.Type;
+    str: ARRAY 256 OF CHAR;
+    type: RT0.Struct;
   BEGIN
     IF (ptr = NIL) THEN
       String (msg, "NIL")
     ELSE
-      type := Types.TypeOf (ptr);
+      type := RT0.TypeOf (ptr);
       writer. WriteString (msg);
       writer. WriteString (": ");
-      writer. WriteString (type. module. name^);
+      COPY (type. module. name^, str);
+      writer. WriteString (str);
       writer. WriteString (".");
-      writer. WriteString (type. name^);
+      COPY (type. name^, str);
+      writer. WriteString (str);
       writer. WriteLn
     END
-  END Type;*)
+  END Type;
 
 BEGIN
   SetWriter(NIL) 
