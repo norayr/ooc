@@ -1,4 +1,4 @@
-(*	$Id: StringBuffer.Mod,v 1.15 2003/05/31 17:50:39 mva Exp $	*)
+(*	$Id: StringBuffer.Mod,v 1.16 2003/06/01 19:02:20 mva Exp $	*)
 MODULE ADT:StringBuffer [OOC_EXTENSIONS];
 (*  String data type of dynamic length.
     Copyright (C) 1998-2003  Michael van Acken
@@ -292,6 +292,16 @@ PROCEDURE NewLatin1*(str[NO_COPY]: ARRAY OF CHAR): StringBuffer;
     b.AppendLatin1(str);
     RETURN b;
   END NewLatin1;
+
+PROCEDURE NewLatin1Region*(str[NO_COPY]: ARRAY OF CHAR;
+                           start, end: LONGINT): StringBuffer;
+  VAR
+    b: StringBuffer;
+  BEGIN
+    b := NewCapacity(end-start);
+    b.AppendLatin1Region(str, start, end);
+    RETURN b;
+  END NewLatin1Region;
 
 PROCEDURE (b: StringBuffer) AppendInt* (val: LONGINT);
 (**Append the string representation of @code{LONGINT} @oparam{val} to the
