@@ -1,4 +1,4 @@
-(* 	$Id: SSA.Mod,v 1.35 2002/05/05 15:15:13 mva Exp $	 *)
+(* 	$Id: SSA.Mod,v 1.36 2002/05/05 22:28:35 mva Exp $	 *)
 MODULE OOC:SSA;
 (*  Data structures for SSA code representation.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -519,6 +519,24 @@ PROCEDURE (instr: Instr) SizeOpndList*(): LONGINT;
     END;
     RETURN num;
   END SizeOpndList;
+
+PROCEDURE (instr: Instr) CountOpndClass* (class: OpndClass.Class): LONGINT;
+(**Returns the number of operands of @oparam{instr} with a class of
+   @oparam{class}. *)
+  VAR
+    num: LONGINT;
+    opnd: Opnd;
+  BEGIN
+    num := 0;
+    opnd := instr. opndList;
+    WHILE (opnd # NIL) DO
+      IF (opnd. class = class) THEN
+        INC (num);
+      END;
+      opnd := opnd. nextOpnd;
+    END;
+    RETURN num;
+  END CountOpndClass;
 
 PROCEDURE (instr: Instr) SizeResultList*(): LONGINT;
 (**Returns the number of results of @oparam{instr}.  Because the instruction is

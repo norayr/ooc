@@ -1,4 +1,4 @@
-(* 	$Id: Opnd.Mod,v 1.16 2002/05/05 15:20:46 mva Exp $	 *)
+(* 	$Id: Opnd.Mod,v 1.17 2002/05/05 22:28:35 mva Exp $	 *)
 MODULE OOC:SSA:Opnd;
 (*  Symbolic names for operand classes.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -104,12 +104,9 @@ CONST
   (**Dimension identifier of a @oconst{*OOC:SSA:Opcode.getLength} instruction.
      This is an integer constant.  *)
 
-(*  argPointer* = 16;   ... currently unused
-  (**For @oconst{*OOC:SSA:Opcode.call}: Used instead of @oconst{arg} to
-     indicate that this operand is passed to a pointer variable, and must
-     therefore cast to void* by the C back-end.  This is a shortcut to
-     keep complexity out of the C back-end, I'm not sure if this makes it
-     a feature ;-)  *)*)
+  labels* = 16;
+  (**Used for a pseudo operand of a @oconst{*OOC:SSA:Opcode.select} that
+     lists the labels of a @code{CASE} branch.  *)
   
   loopExternalDef* = 17;
   (**An argument added to the back-edge collect instruction of a loop refering
@@ -141,7 +138,7 @@ PROCEDURE GetName* (class: Class; VAR name: ARRAY OF CHAR);
     | type: COPY("type", name)
     | backwardFeed: COPY ("backward-feed", name)
     | dimension: COPY ("dimension", name)
-    (*| argPointer: COPY ("arg-pointer", name)*)
+    | labels: COPY ("labels", name)
     | loopExternalDef: COPY ("loop-external-def", name);
     | antiDependency: COPY ("anti-dependency", name);
     END;

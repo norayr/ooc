@@ -1,4 +1,4 @@
-(* 	$Id: Opcode.Mod,v 1.35 2002/05/04 17:58:22 mva Exp $	 *)
+(* 	$Id: Opcode.Mod,v 1.36 2002/05/05 22:28:35 mva Exp $	 *)
 MODULE OOC:SSA:Opcode;
 (*  This modules defines opcodes for SSA instructions.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -390,6 +390,9 @@ CONST
 
      Result of the instruction is the address of the procedure.  *)
 
+  labels* = 39;
+  (**Pseudo instruction listing all labels of a @code{CASE} branch.  *)
+  
   
 CONST
   scNone* = 0;
@@ -469,6 +472,7 @@ PROCEDURE GetName* (class: Class; subclass: Subclass; VAR name: ARRAY OF CHAR);
     | enter: cstr := "enter";
     | select: cstr := "select";
     | collect: cstr := "collect";
+    | labels: cstr := "labels";
     | return: cstr := "return";
     | selectReturn: cstr := "select-return";
     | exit: cstr := "exit";
