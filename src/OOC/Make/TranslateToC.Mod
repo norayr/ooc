@@ -1,4 +1,4 @@
-(* 	$Id: TranslateToC.Mod,v 1.18 2003/04/05 18:53:58 mva Exp $	 *)
+(* 	$Id: TranslateToC.Mod,v 1.19 2003/04/10 23:41:46 mva Exp $	 *)
 MODULE OOC:Make:TranslateToC [OOC_EXTENSIONS];
 (*  Translates a module file into a bunch of C code files.
     Copyright (C) 2001, 2002, 2003  Michael van Acken
@@ -287,6 +287,7 @@ RAISES IO.Error;
       IF errList.NoErrors() THEN
         (* only attempt to produce output if program compiled without errors *)
 
+        wd := NIL;  (* prevent warning for call in next line *)
         wh := WriteFile (Repository.modHeaderFileC);
         IF errList.NoErrors() THEN
           wd := WriteFile (Repository.modDeclFileC);
