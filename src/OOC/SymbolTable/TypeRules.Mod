@@ -1,4 +1,4 @@
-(* 	$Id: TypeRules.Mod,v 1.53 2003/05/03 19:16:12 mva Exp $	 *)
+(* 	$Id: TypeRules.Mod,v 1.54 2003/05/04 10:12:50 mva Exp $	 *)
 MODULE OOC:SymbolTable:TypeRules;
 (*  Defines the type rules of the language.
     Copyright (C) 2000-2003  Michael van Acken
@@ -152,6 +152,9 @@ PROCEDURE (closure: TypeClosure) Closure*(type: Sym.Type): Sym.Type;
       Log.Ptr("  arg.adr", typeClosure.arguments[i].type);
       IF (typeClosure.arguments[i].type IS Sym.TypeVar) THEN
         Log.LongInt("  arg.pos", typeClosure.arguments[i].type.position.pos);
+      END;
+      IF (typeClosure.arguments[i].type.namingDecl # NIL) THEN
+        Log.String("  arg.name", typeClosure.arguments[i].type.namingDecl.name.str^);
       END;
     END;
   END Log;*)
