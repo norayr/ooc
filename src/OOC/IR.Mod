@@ -1,4 +1,4 @@
-(* 	$Id: IR.Mod,v 1.243 2003/05/13 20:11:21 mva Exp $	 *)
+(* 	$Id: IR.Mod,v 1.244 2003/05/17 08:48:54 mva Exp $	 *)
 MODULE OOC:IR [OOC_EXTENSIONS];
 (*  High-level intermediate code representation.
     Copyright (C) 2001-2003  Michael van Acken, Stewart Greenhill
@@ -1503,7 +1503,7 @@ PROCEDURE GetPragmaValue (b: Builder; pragma: Pragmas.Pragma; charPos: Pragmas.C
   VAR
     value: Value.Value;
   BEGIN
-    value := b. pragmaHistory. GetValue (pragma. name^, charPos);
+    value := b.pragmaHistory.GetValue (pragma.name, charPos);
     RETURN value(BooleanValue.Value). boolean
   END GetPragmaValue;
 

@@ -1,4 +1,4 @@
-(* 	$Id: LinkProgramC.Mod,v 1.18 2003/05/12 22:33:46 mva Exp $	 *)
+(* 	$Id: LinkProgramC.Mod,v 1.19 2003/05/17 08:48:53 mva Exp $	 *)
 MODULE OOC:Make:LinkProgramC;
 (*  Links object files and libraries to create an executable file.
     Copyright (C) 2001, 2002, 2003  Michael van Acken
@@ -96,10 +96,8 @@ PROCEDURE GetExternalLibs (moduleList: ARRAY OF Repository.Module;
   PROCEDURE LookupValue(optionName: STRING): STRING;
     VAR
       v: Value.Value;
-      chars: Object.CharsLatin1;
     BEGIN
-      chars := optionName(Object.String8).CharsLatin1();
-      v := Config.options.GetValue(chars^);
+      v := Config.options.GetValue(optionName);
       IF (v # NIL) & (v IS StringValue.Value) THEN
         RETURN Object.NewLatin1(v(StringValue.Value).string^);
       ELSE

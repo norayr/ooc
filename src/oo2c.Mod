@@ -1,4 +1,4 @@
-(* 	$Id: oo2c.Mod,v 1.57 2003/05/15 20:54:44 mva Exp $	 *)
+(* 	$Id: oo2c.Mod,v 1.58 2003/05/17 08:48:55 mva Exp $	 *)
 MODULE oo2c;
 (*  Main module for the Oberon-2 to C translator.
     Copyright (C) 2002,2003  Michael van Acken
@@ -684,7 +684,7 @@ BEGIN  <*Warnings:=FALSE*>
 
 
         | getOption:
-          option := Config.options.Get(arg^);
+          option := Config.options.Get(Object.NewLatin1(arg^));
           IF (option = NIL) THEN
             Out.String("(none)");
           ELSE

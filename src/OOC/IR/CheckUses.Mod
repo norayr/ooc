@@ -1,4 +1,4 @@
-(* 	$Id: CheckUses.Mod,v 1.18 2003/05/04 12:03:02 mva Exp $	 *)
+(* 	$Id: CheckUses.Mod,v 1.19 2003/05/17 08:48:54 mva Exp $	 *)
 MODULE OOC:IR:CheckUses;
 (*  Warn about uninitialized variables and unreachable code, 
     Copyright (C) 2003  Michael van Acken, Stewart Greenhill
@@ -319,7 +319,7 @@ PROCEDURE WarnSymE(errList: Error.List; pragmaHistory: Pragmas.History;
     e: Error.Msg;
     value: Value.Value;
   BEGIN
-    value := pragmaHistory. GetValue (StdPragmas.warnings.name^, sym.pos);
+    value := pragmaHistory.GetValue(StdPragmas.warnings.name, sym.pos);
     IF value(Boolean.Value).boolean THEN
       e := Error.New(checkUsesContext, code);
       e.SetIntAttrib("pos", sym.pos);
