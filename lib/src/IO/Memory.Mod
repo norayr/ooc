@@ -1,4 +1,4 @@
-(*	$Id: Memory.Mod,v 1.4 2003/02/05 21:32:01 mva Exp $	*)
+(*	$Id: Memory.Mod,v 1.5 2003/06/02 20:43:06 mva Exp $	*)
 MODULE IO:Memory;
 (*  Memory backed byte channel.
     Copyright (C) 2003  Michael van Acken
@@ -22,13 +22,13 @@ IMPORT
   SYSTEM, IO;
 
 TYPE
-  Data = POINTER TO ARRAY OF CHAR;
+  Data = POINTER TO ARRAY [READ_ONLY] OF CHAR;
   Channel* = POINTER TO ChannelDesc;
   ChannelDesc = RECORD
     (IO.ByteChannelDesc)
     pos: LONGINT;
     length-: LONGINT;
-    data: Data;
+    data-: Data;
   END;
 
 CONST
