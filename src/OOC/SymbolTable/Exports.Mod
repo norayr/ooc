@@ -1,4 +1,4 @@
-(* 	$Id: Exports.Mod,v 1.8 2002/07/13 09:47:00 mva Exp $	 *)
+(* 	$Id: Exports.Mod,v 1.9 2002/07/19 01:58:05 mva Exp $	 *)
 MODULE OOC:SymbolTable:Exports;
 (*  Marks declarations that are part of the module's symbol file.
     Copyright (C) 2000, 2001, 2002  Michael van Acken
@@ -132,7 +132,9 @@ PROCEDURE GetExports* (module: Sym.Module; forSymbolFile: BOOLEAN): Dictionary.D
           IF (ptr. exportMark # Sym.nameNotExported) OR 
              (ptr IS Sym.VarDecl) & ptr(Sym.VarDecl). isParameter OR
              (ptr IS Sym.Import) OR
-             forSymbolFile & (ptr IS Sym.FieldDecl) THEN
+             forSymbolFile &
+             ((ptr IS Sym.FieldDecl) OR
+              (ptr IS Sym.ProcDecl) & ptr(Sym.ProcDecl). isTypeBound) THEN
             MarkDecl (ptr)
           END
         ELSE                               (* ignore non-declarations *)
