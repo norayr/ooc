@@ -1,4 +1,4 @@
-(* 	$Id: IR.Mod,v 1.128 2002/07/02 19:29:16 mva Exp $	 *)
+(* 	$Id: IR.Mod,v 1.129 2002/07/03 21:27:41 mva Exp $	 *)
 MODULE OOC:IR [OOC_EXTENSIONS];
 (*  High-level intermediate code representation.
     Copyright (C) 2001, 2002  Michael van Acken, Stewart Greenhill
@@ -950,6 +950,9 @@ CONST
   returnWithResult = 32;
   returnWithoutResult = 33;
   importedReadOnly = 34;
+  notProcedure = 35;
+  isFunctionProcedure = 36;
+  notFunctionProcedure = 37;
   
 TYPE
   ErrorContext = POINTER TO ErrorContextDesc;
@@ -1034,6 +1037,12 @@ PROCEDURE (context: ErrorContext) GetTemplate* (msg: Error.Msg; VAR templ: Error
       t := "RETURN must provide a result value"
     | importedReadOnly:
       t := "This variable is read-only"
+    | notProcedure:
+      t := "This must be a procedure designator"
+    | isFunctionProcedure:
+      t := "This is a function procedure"
+    | notFunctionProcedure:
+      t := "This is not a function procedure"
     END;
     context. BaseTemplate (msg, t, templ)
   END GetTemplate;
@@ -3787,7 +3796,9 @@ PROCEDURE (b: Builder) NewOperator* (sym: Symbol; left, right: Expression): Expr
     END;
   END NewOperator;
 
- PROCEDURE (b: Builder) NewCall* (design: Expression; arguments: ExpressionList): Expression;
+ PROCEDURE (b: Builder) NewCall* (design: Expression;
+                                  arguments: ExpressionList;
+                                  isFunctionCall: BOOLEAN): Expression;
   VAR
     call: Call;
     targetType: Sym.PredefId;
@@ -4093,6 +4104,14 @@ PROCEDURE (b: Builder) NewOperator* (sym: Symbol; left, right: Expression): Expr
     ELSE
       IF (design = b. errorExpr) THEN
         RETURN b. errorExpr;        (* fall through for errors in designator *)
+      ELSIF ~(design. type IS Sym.FormalPars) THEN
+        RETURN b. ErrExpr (notProcedure, design. sym);
+      ELSIF isFunctionCall &
+            (design. type(Sym.FormalPars). resultType = NIL) THEN
+        RETURN b. ErrExpr (notFunctionProcedure, design. sym);
+      ELSIF ~isFunctionCall &
+            (design. type(Sym.FormalPars). resultType # NIL) THEN
+        RETURN b. ErrExpr (isFunctionProcedure, design. sym);
       ELSE
         NEW (call);
         IF (design IS SelectProc) THEN
