@@ -1,4 +1,4 @@
-(* 	$Id: TypeRules.Mod,v 1.7 2002/01/25 19:06:38 mva Exp $	 *)
+(* 	$Id: TypeRules.Mod,v 1.8 2002/01/28 21:51:02 mva Exp $	 *)
 MODULE OOC:SymbolTable:TypeRules;
 (*  Defines the type rules of the language.
     Copyright (C) 2000-2002  Michael van Acken
@@ -348,17 +348,17 @@ PROCEDURE (tr: Rules) IsComponentOf* (subType, superType: Sym.Type;
 
 
 PROCEDURE (tr: Rules) AllocateType* (type: Sym.Type);
-(**This maps a type @oparam{t} onto the size and alignment constrains of the
-   destination architecture.  That is, it sets size and aligment of @oparam{t},
-   and calculates offsets of record fields.  The exact mapping is usually a
-   function of the target architecture.  The default implementation assumes a
-   generic 32 bit architecture.  See @ofield{Sym.Type.size} and
-   @ofield{Sym.Type.align} for more information.
+(**This maps a type @oparam{type} onto the size and alignment constrains of the
+   destination architecture.  That is, it sets size and aligment of
+   @oparam{type}, and calculates offsets of record fields.  The exact mapping
+   is usually a function of the target architecture.  The default
+   implementation assumes a generic 32 bit architecture.  See
+   @ofield{Sym.Type.size} and @ofield{Sym.Type.align} for more information.
 
    @precond
-   @oparam{type} is not a @otype{Sym.TypeName}.  
-   There are no cyclic references between structured types (like records or
-   arrays) that are not broken by intermediate pointer types.
+   @oparam{type} is not a @otype{Sym.TypeName}.  There are no cyclic references
+   between structured types (like records or arrays) that are not broken by
+   intermediate pointer types.
    @end precond
 
    @postcond
