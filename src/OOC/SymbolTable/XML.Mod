@@ -1,4 +1,4 @@
-(* 	$Id: XML.Mod,v 1.10 2003/04/18 21:29:22 mva Exp $	 *)
+(* 	$Id: XML.Mod,v 1.11 2003/04/19 16:19:54 mva Exp $	 *)
 MODULE OOC:SymbolTable:XML;
 (*  Converts symbol table to XML document.
     Copyright (C) 2000, 2001, 2002, 2003  Michael van Acken
@@ -298,6 +298,8 @@ RAISES IO.Error;
             element := "parametric_type"
           | item: Sym.TypeVar DO
             element := "type_var"
+          | item: Sym.QualType DO
+            element := "qual_type"
           END;
           StartTag (element, Id (item));
 
@@ -340,6 +342,8 @@ RAISES IO.Error;
             AttribTypeId ("", "base_type_id", item. baseType)
           | item: Sym.TypeVar DO
             AttribTypeId ("", "bound_id", item. bound)
+          | item: Sym.QualType DO
+            AttribTypeId ("", "base_type_id", item. baseType);
           END;
           
           WriteNested (item);

@@ -1,4 +1,4 @@
-(* 	$Id: Parser.Mod,v 1.11 2003/04/19 12:21:14 mva Exp $	 *)
+(* 	$Id: Parser.Mod,v 1.12 2003/04/19 16:19:55 mva Exp $	 *)
 MODULE OOC:Parser;
 (*  Parses an Oberon-2 module and creates an abstract syntax tree.
     Copyright (C) 1999-2003  Michael van Acken
@@ -1088,8 +1088,7 @@ PROCEDURE Module* (sym: BasicList.Symbol; ast: AST.Builder;
             END
           END;
           right := CheckSym(Symbol.gtr);
-          RETURN type;
-          (*RETURN ast.QualType(type, left, list, right);*)
+          RETURN ast.QualType(type, left, list, right);
         ELSE
           RETURN type;
         END;

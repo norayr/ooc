@@ -1,4 +1,4 @@
-(* 	$Id: Exports.Mod,v 1.16 2003/04/18 21:29:22 mva Exp $	 *)
+(* 	$Id: Exports.Mod,v 1.17 2003/04/19 16:19:54 mva Exp $	 *)
 MODULE OOC:SymbolTable:Exports;
 (*  Marks declarations that are part of the module's symbol file.
     Copyright (C) 2000, 2001, 2002  Michael van Acken
@@ -107,6 +107,11 @@ PROCEDURE GetExports* (module: Sym.Module; forSymbolFile: BOOLEAN): Dictionary.D
               MarkList (type)
             | type: Sym.TypeVar DO
               (* ignore, the parameter TypeDecl already marks our type *)
+            | type: Sym.QualType DO
+              MarkType (type. srcCodeBaseType);
+              FOR i := 0 TO LEN(type.arguments^)-1  DO
+                MarkType(type.arguments[i].srcCodeType);
+              END;
             END
           END
         END MarkType;

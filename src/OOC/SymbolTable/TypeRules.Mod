@@ -1,4 +1,4 @@
-(* 	$Id: TypeRules.Mod,v 1.40 2003/04/18 21:29:22 mva Exp $	 *)
+(* 	$Id: TypeRules.Mod,v 1.41 2003/04/19 16:19:54 mva Exp $	 *)
 MODULE OOC:SymbolTable:TypeRules;
 (*  Defines the type rules of the language.
     Copyright (C) 2000-2003  Michael van Acken
@@ -301,6 +301,8 @@ PROCEDURE IsValidPointerBaseType* (type: Sym.Type): BOOLEAN;
    base type of a pointer type definition.  *)
   BEGIN
     WITH type: Sym.ParametricType DO
+      RETURN IsValidPointerBaseType(type.baseType);
+    | type: Sym.QualType DO
       RETURN IsValidPointerBaseType(type.baseType);
     ELSE
       RETURN (type IS Sym.Array) OR (type IS Sym.Record)
@@ -731,6 +733,10 @@ PROCEDURE AllocateType* (type: Sym.Type);
       | type: Sym.TypeVar DO
         AllocateType(type.bound);
         type.SetSize(type.bound.size, type.bound.align);
+
+      | type: Sym.QualType DO
+        AllocateType(type.baseType);
+        type.SetSize(type.baseType.size, type.baseType.align);
       END;
     END;
   END AllocateType;

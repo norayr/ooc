@@ -1,4 +1,4 @@
-(* 	$Id: Builder.Mod,v 1.35 2003/04/18 21:29:22 mva Exp $	 *)
+(* 	$Id: Builder.Mod,v 1.36 2003/04/19 16:19:54 mva Exp $	 *)
 MODULE OOC:SymbolTable:Builder [OOC_EXTENSIONS];
 (*  Defines a builder class with factory methods for symbol table entries.
     Copyright (C) 2000-2003  Michael van Acken
@@ -308,6 +308,19 @@ PROCEDURE (b: Builder) NewParametricType* (parent: Sym.Item;
     EvalContext(b, parType);
     RETURN parType
   END NewParametricType;
+
+PROCEDURE (b: Builder) NewQualType* (parent: Sym.Item;
+                                     position: Sym.Position;
+                                     baseType: Sym.Type;
+                                     arguments: Sym.TypeRefArray): Sym.QualType;
+  VAR
+    qualType: Sym.QualType;
+  BEGIN
+    NEW (qualType);
+    Sym.InitQualType(qualType, parent, position, baseType, arguments);
+    EvalContext(b, qualType);
+    RETURN qualType
+  END NewQualType;
 
 PROCEDURE (b: Builder) NewExceptionName*(parent: Sym.Item;
                                          type: Sym.Type): Sym.ExceptionName;
