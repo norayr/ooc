@@ -1,4 +1,4 @@
-(* 	$Id: WriteC.Mod,v 1.92 2002/06/27 18:02:56 mva Exp $	 *)
+(* 	$Id: WriteC.Mod,v 1.93 2002/06/27 19:45:40 mva Exp $	 *)
 MODULE OOC:SSA:WriteC [OOC_EXTENSIONS];
 (*  Translates a set of scheduled SSA instructions to plain C.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -1141,7 +1141,7 @@ PROCEDURE (w: Writer) WriteInstrList (b: Schedule.Block;
       | Opcode.failedCase:
         FailedCheck (instr, "_failed_case", instr. opndList. nextOpnd);
       | Opcode.failedWith:
-        FailedCheck (instr, "_failed_with", NIL);
+        FailedCheck (instr, "_failed_with", instr. opndList. nextOpnd);
       | Opcode.failedTypeAssert:
         FailedCheck (instr, "_failed_type_assert", NIL);
         
