@@ -1,4 +1,4 @@
-(* 	$Id: ConstFold.Mod,v 1.29 2002/05/05 18:23:14 mva Exp $	 *)
+(* 	$Id: ConstFold.Mod,v 1.30 2002/05/09 22:05:33 mva Exp $	 *)
 MODULE OOC:IR:ConstFold;
 (*  Constant folding on IR expressions.
     Copyright (C) 2002  Stewart Greenhill, Michael van Acken
@@ -306,6 +306,10 @@ VAR
       ELSE
         result := Integers.Quotient(left, right);
       END;
+    | IR.arithDivR:
+      (* FIXME... added this as a stop gap measure to get
+         RandomNumbers to compile (minus Random()) --mva *)
+      result := Integers.Long (1);
     | IR.arithMod:
       IF Integers.Compare(right, zero) = 0 THEN
         c.builder.ErrSym(IR.divideByZero, op.sym); RETURN NIL;
