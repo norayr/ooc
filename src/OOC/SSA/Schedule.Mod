@@ -1,4 +1,4 @@
-(* 	$Id: Schedule.Mod,v 1.23 2002/05/31 15:37:38 mva Exp $	 *)
+(* 	$Id: Schedule.Mod,v 1.24 2002/07/20 16:44:50 mva Exp $	 *)
 MODULE OOC:SSA:Schedule [OOC_EXTENSIONS];
 (*  Generates basic block representation and schedules instructions.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -572,6 +572,23 @@ PROCEDURE TopSort (b: Block): BOOLEAN;
         instr. nextProxy. prevProxy := instr. prevProxy
       END
     END Remove;
+
+  PROCEDURE NextInstr (ready: InstrProxy): InstrProxy;
+    VAR
+      best: InstrProxy;
+    BEGIN
+      best := ready;
+      WHILE (ready # NIL) DO
+        IF (ready. instr. opcode = Opcode.select) THEN
+          (* "select" instructions must be placed at the very beginning
+             of there block, because their effects in conjunction with
+             "collect" take effect at the beginning *)
+          RETURN ready;
+        END;
+        ready := ready. nextProxy;
+      END;
+      RETURN best;
+    END NextInstr;
   
   BEGIN
     ready := NIL;
@@ -602,7 +619,7 @@ PROCEDURE TopSort (b: Block): BOOLEAN;
 
     ClearProxyList (b);
     WHILE (ready # NIL) DO
-      proxy := ready;
+      proxy := NextInstr (ready);
       IF (proxy. instr. opcode = Opcode.collect) &
          (proxy. nextProxy # NIL) THEN
         (* postpone scheduling of collect instructions until the very end
