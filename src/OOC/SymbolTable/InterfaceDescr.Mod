@@ -1,4 +1,4 @@
-(* 	$Id: InterfaceDescr.Mod,v 1.10 2002/12/29 14:41:23 mva Exp $	 *)
+(* 	$Id: InterfaceDescr.Mod,v 1.11 2002/12/30 06:34:06 mva Exp $	 *)
 MODULE OOC:SymbolTable:InterfaceDescr;
 (*  Writes a description of a module's interface as XML.
     Copyright (C) 2000, 2001, 2002  Michael van Acken
@@ -271,8 +271,8 @@ PROCEDURE Write* (cw: Channel.Writer; baseURI: URI.HierarchicalURI;
           IF (LEN(type.raises^) # 0) THEN
             w.StartTag("exceptions", FALSE);
             FOR j := 0 TO LEN(type.raises^)-1 DO
-              WriteType("type-name", type.raises[j].srcCodeType,
-                        type.raises[j].type);
+              WriteTypeComponent(type.raises[j].srcCodeType,
+                                 type.raises[j].type);
             END;
             w.EndTag;
           END;
