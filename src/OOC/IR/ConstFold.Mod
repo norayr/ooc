@@ -1,4 +1,4 @@
-(* 	$Id: ConstFold.Mod,v 1.51 2002/06/13 22:52:34 sgreenhill Exp $	 *)
+(* 	$Id: ConstFold.Mod,v 1.52 2002/06/16 10:55:32 mva Exp $	 *)
 MODULE OOC:IR:ConstFold;
 (*  Constant folding on IR expressions.
     Copyright (C) 2002  Stewart Greenhill, Michael van Acken
@@ -132,7 +132,11 @@ PROCEDURE (c: ConstFold) VisitLen* (len: IR.Len);
   BEGIN
     CASE len. variant OF
     | IR.lenStringConst:
-      length := len.array(IR.Const).value(LString.Value). Length()+1;
+      IF (len.array(IR.Const).value IS LString.Value) THEN
+        length := len.array(IR.Const).value(LString.Value). Length()+1;
+      ELSE                               (* there was an error with LEN *)
+        length := 1;
+      END;
       
     | IR.lenFixedArray:
       type := len. arrayVariable. type(Sym.Array). GetNthElementType (len.dim);
