@@ -1,4 +1,4 @@
-(* 	$Id: XML.Mod,v 1.15 2002/04/09 20:10:40 mva Exp $	 *)
+(* 	$Id: XML.Mod,v 1.16 2002/05/10 14:38:39 mva Exp $	 *)
 MODULE OOC:SSA:XML;
 (*  Produces a canonical representation of SSA code in XML.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -110,7 +110,11 @@ PROCEDURE (w: Writer) AttrRef* (res: SSA.Result);
       w. AttrString ("argref", "NIL");
     ELSE
       WITH res: SSA.Const DO
-        value := res. value. ToString();
+        IF (res. value = NIL) THEN
+          value := String.New ("NIL");
+        ELSE
+          value := res. value. ToString();
+        END;
         w. AttrStringLatin1 ("const-value", value. array^);
       | res: SSA.DeclRef DO
         w. AttrStringLatin1 ("declref", res. decl. name. str^);
@@ -179,7 +183,11 @@ PROCEDURE (w: Writer) WriteInstr (instr: SSA.Instr);
     w. AttrInt ("id", w. GetId (instr));
     
     WITH instr: SSA.Const DO
-      value := instr. value. ToString();
+      IF (instr. value = NIL) THEN
+        value := String.New ("NIL");
+      ELSE
+        value := instr. value. ToString();        
+      END;
       w. AttrStringLatin1 ("value", value. array^);
 
     | instr: SSA.Address DO

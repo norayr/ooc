@@ -1,4 +1,4 @@
-(* 	$Id: Destore.Mod,v 1.27 2002/04/28 12:28:28 mva Exp $	 *)
+(* 	$Id: Destore.Mod,v 1.28 2002/05/10 14:38:39 mva Exp $	 *)
 MODULE OOC:SSA:Destore;
 (*  Converts reads from/writes to memory into local values.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -798,6 +798,11 @@ PROCEDURE Transform* (pb: SSA.ProcBlock; tr: TypeRules.Rules);
             
           | Opcode.enter:
             (* undefined value, nothing to do *)
+            
+          | Opcode.return:
+            (* when we get here from an instruction that is not a
+               select-return, then control never passes from the return to
+               this instruction *)
             
           | Opcode.select:
             TraceSelect (instr);

@@ -1,4 +1,4 @@
-(* 	$Id: Inspector.Mod,v 1.8 2002/03/11 21:33:22 mva Exp $	 *)
+(* 	$Id: Inspector.Mod,v 1.9 2002/05/10 14:38:39 mva Exp $	 *)
 MODULE OOC:SSA:Inspector;
 (*  Renders SSA code as HTML and serves it through a HTTP server.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -84,23 +84,27 @@ PROCEDURE WriteBlock (s: Servlet; b: Schedule.Block);
       VAR
         str: String.String;
       BEGIN
-        WITH value: Boolean.Value DO
-          IF value. value THEN
-            w. WriteLatin1("TRUE")
-          ELSE
-            w. WriteLatin1("FALSE")
+        IF (value = NIL) THEN
+          w. WriteLatin1 ("NIL");
+        ELSE
+          WITH value: Boolean.Value DO
+            IF value. value THEN
+              w. WriteLatin1("TRUE")
+            ELSE
+              w. WriteLatin1("FALSE")
+            END
+          | value: String8.Value DO
+            w. Write ('"');
+            w. WriteLatin1 (value. value. array^);
+            w. Write ('"');
+          | value: Integer.Value DO
+            str := value.ToString();
+            w. WriteLatin1(str.array^);
+          | value: Set.Value DO
+            (* FIXME *)
+            w. WriteLatin1("{set const}");
           END
-        | value: String8.Value DO
-          w. Write ('"');
-          w. WriteLatin1 (value. value. array^);
-          w. Write ('"');
-        | value: Integer.Value DO
-          str := value.ToString();
-          w. WriteLatin1(str.array^);
-        | value: Set.Value DO
-          (* FIXME *)
-          w. WriteLatin1("{set const}");
-        END
+        END;
       END WriteConst;
     
     BEGIN
