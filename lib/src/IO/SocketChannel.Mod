@@ -1,4 +1,4 @@
-(*	$Id: SocketChannel.Mod,v 1.3 2003/06/03 21:03:53 mva Exp $	*)
+(*	$Id: SocketChannel.Mod,v 1.4 2003/06/28 20:26:08 mva Exp $	*)
 MODULE IO:SocketChannel;
 (*  Access to TCP connections through channel objects.
     Copyright (C) 2003  Michael van Acken
@@ -27,6 +27,7 @@ TYPE
   ChannelDesc = RECORD
     (IO.ByteChannelDesc)
     socket-: Socket.Socket;
+    blocking: BOOLEAN;
     connected-: BOOLEAN;
     connectionPending-: BOOLEAN;
   END;
@@ -41,19 +42,25 @@ TYPE
 PROCEDURE (ch: Channel) SetBlocking*(block: BOOLEAN) RAISES IO.Error;
   BEGIN
     ch.socket.SetBlocking(block);
+    ch.blocking := block;
   END SetBlocking;
 
 PROCEDURE (ch: Channel) Connect*(endPoint: Address.Socket): BOOLEAN
 (**Note: Non-blocking connect is not supported yet.  *)
 RAISES IO.Error;
   BEGIN
-    ch.socket.Connect(endPoint);
-    ch.connected := TRUE;
-    RETURN TRUE;  (* no nonblocking for now *)
+    ch.connected := ch.socket.Connect(endPoint);
+    RETURN ch.connected;
   END Connect;
 
-PROCEDURE (ch: Channel) FinishConnect*(): BOOLEAN;
-  BEGIN  (* not implemented yet *)
+PROCEDURE (ch: Channel) FinishConnect*(): BOOLEAN
+RAISES IO.Error;
+  BEGIN
+    ch.connected := ch.socket.FinishConnect();
+    IF ch.connected THEN
+      EXCL(ch.readyOps, IO.opConnect);
+    END;
+    RETURN ch.connected;
   END FinishConnect;
 
 PROCEDURE (ch: Channel) Read*(VAR buffer: ARRAY OF SYSTEM.BYTE;
@@ -95,6 +102,7 @@ PROCEDURE Open*(): Channel RAISES IO.Error;
     NEW(ch);
     ch.socket := Socket.New();
     IO.InitByteChannel(ch);
+    ch.blocking := TRUE;
     ch.connected := FALSE;
     ch.connectionPending := FALSE;
     RETURN ch;
