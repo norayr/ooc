@@ -1,4 +1,4 @@
-(* 	$Id: Parser.Mod,v 1.6 2002/11/11 21:44:17 mva Exp $	 *)
+(* 	$Id: Parser.Mod,v 1.7 2002/11/28 19:28:18 mva Exp $	 *)
 MODULE OOC:Parser;
 (*  Parses an Oberon-2 module and creates an abstract syntax tree.
     Copyright (C) 1999-2002  Michael van Acken
@@ -441,17 +441,15 @@ PROCEDURE Module* (sym: BasicList.Symbol; ast: AST.Builder;
       
       BEGIN
         (*S: ModuleFlags = "OOC_EXTENSIONS" |
-          S:   [Library] ("INTERFACE"|"FOREIGN") string {"," ident}
+          S:   ("INTERFACE"|"FOREIGN") string {"," ident}
           S:   [";" "LINK" LinkSection {";" LinkSection} "END".  *)
         IF Ident ("OOC_EXTENSIONS") THEN
           RETURN CheckSym (Symbol.ident)
         ELSE
-          external := NIL;
-          IF Ident ("INTERFACE") OR Ident ("FOREIGN") THEN
-            external := CheckSym (Symbol.ident)
-          ELSE
+          IF ~Ident("INTERFACE") & ~Ident("FOREIGN") THEN
             Err (expectExternalKW, sym)
           END;
+          external := CheckSym(Symbol.ident);
           callConv := CheckString();
           
           moduleFlags := ast. NewNodeList();
