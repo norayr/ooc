@@ -1,4 +1,4 @@
-(* 	$Id: WriteC.Mod,v 1.164 2003/05/04 21:00:52 mva Exp $	 *)
+(* 	$Id: WriteC.Mod,v 1.165 2003/05/06 21:58:29 mva Exp $	 *)
 MODULE OOC:SSA:WriteC [OOC_EXTENSIONS];
 (*  Translates a set of scheduled SSA instructions to plain C.
     Copyright (C) 2001, 2002, 2003  Michael van Acken
@@ -612,6 +612,7 @@ PROCEDURE CastToPtr (w: Writer; var: SSA.Result; type: Sym.Type;
       w. WriteString ("(RT0__Struct)");
     ELSIF (type IS Sym.Pointer) OR
           (type IS Sym.FormalPars) OR
+          (type IS Sym.TypeVar) OR
           passByReference OR
           TR.IsPredefType (type, Predef.ptr) THEN
       IF (var IS SSA.Const) &
