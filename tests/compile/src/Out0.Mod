@@ -1,6 +1,8 @@
-(*	$Id: Out0.Mod,v 1.1 2002/06/04 22:03:51 mva Exp $	*)
+(*	$Id: Out0.Mod,v 1.2 2002/07/07 08:56:24 mva Exp $	*)
 MODULE Out0 [FOREIGN "C"; LINK FILE "Out0.c" END];
 <* Warnings := FALSE *>
+
+IMPORT RT0;
 
 PROCEDURE Open*;
 PROCEDURE Char* (ch: CHAR);
