@@ -1,4 +1,4 @@
-(* 	$Id: ExtTree.Mod,v 1.4 2001/10/17 22:09:15 mva Exp $	 *)
+(* 	$Id: ExtTree.Mod,v 1.5 2001/10/20 21:12:42 mva Exp $	 *)
 MODULE OOC:AST:ExtTree [OOC_EXTENSIONS];
 (*  Creates extended abstract syntax tree from the parser output.
     Copyright (C) 2000, 2001  Michael van Acken
@@ -281,9 +281,9 @@ TYPE
        always non-NIL.  For dyadic operators, both operands are non-NIL.
        For monadic operators, either the left (prefix, like "+a" or "~a") or 
        right (postfix, like "a^") operand is NIL.  *)
-    left-: AST.Node;
-    op-: AST.Node;
-    right-: AST.Node;
+    left-: Node;                         (* can be NIL *)
+    op-: Terminal;
+    right-: Node;                        (* can be NIL *)
   END;
 
 TYPE
@@ -338,7 +338,7 @@ TYPE
   ProcedureCall* = POINTER TO ProcedureCallDesc;
   ProcedureCallDesc = RECORD
     (NodeDesc)
-    call-: AST.Node;                (* see @oproc{AST.Builder.ProcedureCall} *)
+    call-: Node;                    (* see @oproc{AST.Builder.ProcedureCall} *)
   END;
 
 TYPE
@@ -1135,9 +1135,17 @@ PROCEDURE (b: Builder) Operator* (left, op, right: AST.Node): Node;
     o: Operator;
   BEGIN
     NEW (o);
-    o. left := left;
-    o. op := op;
-    o. right := right;
+    IF (left = NIL) THEN
+      o. left := NIL
+    ELSE
+      o. left := left(Node)
+    END;
+    o. op := op(Terminal);
+    IF (right = NIL) THEN
+      o. right := NIL
+    ELSE
+      o. right := right(Node)
+    END;
     RETURN o
   END Operator;
 
@@ -1238,7 +1246,7 @@ PROCEDURE (b: Builder) ProcedureCall* (call: AST.Node): Node;
     p: ProcedureCall;
   BEGIN
     NEW (p);
-    p. call := call;
+    p. call := call(Node);
     RETURN p
   END ProcedureCall;
 
