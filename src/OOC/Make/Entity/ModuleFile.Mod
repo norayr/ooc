@@ -1,4 +1,4 @@
-(* 	$Id: ModuleFile.Mod,v 1.5 2001/08/27 05:21:08 mva Exp $	 *)
+(* 	$Id: ModuleFile.Mod,v 1.6 2001/10/17 21:59:17 mva Exp $	 *)
 MODULE OOC:Make:Entity:ModuleFile;
 (*  Implements `Make' entities for various files associated with modules.
     Copyright (C) 2001  Michael van Acken
@@ -536,12 +536,21 @@ PROCEDURE (entity: Entity) Discover*(): Make.EntityState;
                                   Repository.modMainObjectFile);
           AddTimeDep (entity. context, entity, srcEntity);
           
+          (* add run-time module OO2CRT to dependencies; note: this is 
+             not the right place to do this if other back-ends are 
+             supported ... *)
+          srcEntity := GetEntity (entity. context, 
+            entity. context. config(ConfigOOC.Config).
+              repositories. GetModule (ConfigOOC.runtimeModule),
+            Repository.modObjectFile);
+          entity. AddAncestor (srcEntity);
+          
           AncestorClosure (entity, GetEntity (entity. context, entity. module,
                           Repository.modObjectFile), Repository.modObjectFile);
           RETURN entity. state+1
         END
       ELSE
-        RETURN AncestorState (entity, -1)  (* exlcude symbol file... *)
+        RETURN AncestorState (entity, -1)  (* exclude symbol file... *)
       END
     END
   END Discover;
