@@ -1,4 +1,4 @@
-(* 	$Id: ConstFold.Mod,v 1.41 2002/05/26 17:30:55 mva Exp $	 *)
+(* 	$Id: ConstFold.Mod,v 1.42 2002/05/29 23:13:24 mva Exp $	 *)
 MODULE OOC:IR:ConstFold;
 (*  Constant folding on IR expressions.
     Copyright (C) 2002  Stewart Greenhill, Michael van Acken
@@ -23,7 +23,8 @@ MODULE OOC:IR:ConstFold;
 IMPORT 
   Sym := OOC:SymbolTable, OOC:IR, OOC:SymbolTable:Predef,
   Language, 
-  Language:Integer, Language:Boolean, Language:String8, 
+  Language:Integer, Language:Boolean, LString := Language:String,
+  Language:String8, 
   Language:Set, Language:Real,
   ADT:String;
 
@@ -159,7 +160,7 @@ PROCEDURE (c: ConstFold) VisitLen* (len: IR.Len);
   BEGIN
     CASE len. variant OF
     | IR.lenStringConst:
-      length := len.array(IR.Const).value(String8.Value).value.length+1;
+      length := len.array(IR.Const).value(LString.Value). Length()+1;
       
     | IR.lenFixedArray:
       type := len. arrayVariable. type(Sym.Array). GetNthElementType (len.dim);
