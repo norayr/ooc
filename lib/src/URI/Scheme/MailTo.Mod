@@ -1,4 +1,4 @@
-(* 	$Id: MailTo.Mod,v 1.2 2003/05/19 22:55:36 mva Exp $	 *)
+(* 	$Id: MailTo.Mod,v 1.3 2003/06/01 19:44:56 mva Exp $	 *)
 MODULE URI:Scheme:MailTo;
 (*  Implementation of the "mailto" URI scheme.
     Copyright (C) 2000, 2003  Michael van Acken
@@ -60,6 +60,4 @@ PROCEDURE NewPrototype*(): URI;
     RETURN New("mailto", "");
   END NewPrototype;
 
-BEGIN
-  URI0.RegisterScheme (NewPrototype())
 END URI:Scheme:MailTo.

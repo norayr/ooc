@@ -1,4 +1,4 @@
-(* 	$Id: NNTP.Mod,v 1.1 2002/07/16 20:31:28 mva Exp $	 *)
+(* 	$Id: NNTP.Mod,v 1.2 2003/06/01 19:44:56 mva Exp $	 *)
 MODULE URI:Scheme:NNTP;
 (*  Implementation of the "file" URI scheme.
     Copyright (C) 2001  Michael van Acken
@@ -91,8 +91,4 @@ PROCEDURE NewPrototype* (scheme: ARRAY OF CHAR): URI;
     RETURN New (String.Copy (scheme), NIL, NIL)
   END NewPrototype;
 
-BEGIN
-  URI0.RegisterScheme (NewPrototype("nntp"));
-  URI0.RegisterScheme (NewPrototype("news"));
-  URI0.RegisterScheme (NewPrototype("snews"));
 END URI:Scheme:NNTP.

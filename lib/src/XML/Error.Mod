@@ -1,4 +1,4 @@
-(* 	$Id: Error.Mod,v 1.4 2003/05/22 20:20:33 mva Exp $	 *)
+(* 	$Id: Error.Mod,v 1.5 2003/06/01 19:44:56 mva Exp $	 *)
 MODULE XML:Error;
 (*  Creates lists of error messages and converts them to text.
     Copyright (C) 2000, 2001, 2003  Michael van Acken
@@ -270,5 +270,6 @@ PROCEDURE (errList: List) Write* (ch: Channel.Channel);
   END Write;
 
 BEGIN
+  URI.RegisterScheme(File.NewPrototype());
   errMsgLineBase := 0; errMsgColumnBase := 0; errMsgCharPosBase := 0;
 END XML:Error.

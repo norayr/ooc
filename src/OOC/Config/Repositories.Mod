@@ -1,4 +1,4 @@
-(* 	$Id: Repositories.Mod,v 1.21 2003/05/19 22:56:49 mva Exp $	 *)
+(* 	$Id: Repositories.Mod,v 1.22 2003/06/01 19:44:54 mva Exp $	 *)
 MODULE OOC:Config:Repositories [OOC_EXTENSIONS];
 (*  Management of a hierarchy of configured repositories.
     Copyright (C) 2001-2003  Michael van Acken
@@ -343,6 +343,7 @@ PROCEDURE (s: Section) GetIncludePaths*(): Object.StringArrayPtr;
   END GetIncludePaths;
 
 BEGIN
+  URI.RegisterScheme(File.NewPrototype());
   NEW (repositoriesContext);
   Msg.InitContext (repositoriesContext, "OOC:Config:Repositories");
   repositoryEntries := NIL

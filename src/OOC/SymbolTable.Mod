@@ -1,4 +1,4 @@
-(* 	$Id: SymbolTable.Mod,v 1.96 2003/05/29 16:59:05 mva Exp $	 *)
+(* 	$Id: SymbolTable.Mod,v 1.97 2003/06/01 19:44:55 mva Exp $	 *)
 MODULE OOC:SymbolTable [OOC_EXTENSIONS];
 (*  Defines structure and entries of the symbol table.
     Copyright (C) 2000-2003  Michael van Acken
@@ -3140,6 +3140,8 @@ PROCEDURE Init();
     params: TypeVarArray;
     arguments: TypeRefArray;
   BEGIN
+    URI.RegisterScheme(File.NewPrototype());
+    
     predefIdToType := NIL;
     emptyBaseURI := File.ToURI("/");
     NEW (importPosition);

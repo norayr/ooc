@@ -1,4 +1,4 @@
-(* 	$Id: File.Mod,v 1.10 2003/05/22 20:20:34 mva Exp $	 *)
+(* 	$Id: File.Mod,v 1.11 2003/06/01 19:44:57 mva Exp $	 *)
 MODULE URI:Scheme:File;
 (*  Implementation of the "file" URI scheme.
     Copyright (C) 2000, 2003  Michael van Acken
@@ -186,6 +186,4 @@ PROCEDURE ToURI* (filePath: ARRAY OF CHAR): URI;
     END;
   END ToURI;
 
-BEGIN
-  URI0.RegisterScheme (NewPrototype())
 END URI:Scheme:File.
