@@ -1,4 +1,4 @@
-(*	$Id: ProgramArgs.Mod,v 1.4 2002/08/15 06:30:11 sgreenhill Exp $	*)
+(*	$Id: ProgramArgs.Mod,v 1.5 2002/11/16 02:18:47 mva Exp $	*)
 MODULE ProgramArgs;
 (*  Provides access to a program invokation's command line arguments.
     Copyright (C) 1997-2000  Michael van Acken
@@ -44,7 +44,7 @@ MODULE ProgramArgs;
 <* IndexCheck := FALSE *>   
 
 IMPORT
-  SYSTEM, RT0, Ch := Channel, PosixFileDescr, CharClass, Time, Msg;
+  SYSTEM, RT0, Ch := Channel, CharClass, Time, Msg;
 
   
 CONST

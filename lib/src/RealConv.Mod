@@ -1,4 +1,4 @@
-(* 	$Id: RealConv.Mod,v 1.3 2002/07/08 12:05:14 mva Exp $	 *)
+(* 	$Id: RealConv.Mod,v 1.4 2002/11/16 02:18:47 mva Exp $	 *)
 MODULE RealConv;
 (*  String to REAL conversion functions.
     Copyright (C) 2002  Michael van Acken
@@ -65,7 +65,6 @@ PROCEDURE FormatReal* (str: ARRAY OF CHAR): ConvResults;
 PROCEDURE ValueReal*(str: ARRAY OF CHAR): REAL;
 (* result is undefined if FormatReal(str) # strAllRight *)
   VAR
-    tail: C.charPtr1d;
     i: LONGINT;
     value: REAL;
   BEGIN

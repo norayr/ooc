@@ -1,4 +1,4 @@
-(* 	$Id: LRealConv.Mod,v 1.9 2002/07/08 12:05:15 mva Exp $	 *)
+(* 	$Id: LRealConv.Mod,v 1.10 2002/11/16 02:18:47 mva Exp $	 *)
 MODULE LRealConv;
 (*  String to LONGREAL conversion functions.
     Copyright (C) 2002  Michael van Acken
@@ -65,7 +65,6 @@ PROCEDURE FormatReal* (str: ARRAY OF CHAR): ConvResults;
 PROCEDURE ValueReal*(str: ARRAY OF CHAR): LONGREAL;
 (* result is undefined if FormatReal(str) # strAllRight *)
   VAR
-    tail: C.charPtr1d;
     i: LONGINT;
     value: LONGREAL;
   BEGIN
