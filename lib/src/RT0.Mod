@@ -1,4 +1,4 @@
-(* 	$Id: RT0.Mod,v 1.36 2003/04/16 16:45:54 mva Exp $	 *)
+(* 	$Id: RT0.Mod,v 1.37 2003/05/09 22:47:22 mva Exp $	 *)
 MODULE RT0 [FOREIGN "C"; LINK FILE "RT0.c"
   <* IF HAVE_LIB_M THEN *> ; LIB "m" <* END *> END];
 (*  Proxy module for the run-time system of C back-ends of OOC2
@@ -99,8 +99,8 @@ TYPE
 
        @item @samp{@ofield{baseTypes}[0]} is the type descriptor of the array's
        base type, for example @ovar{char} for @samp{ARRAY OF CHAR} or
-       @samp{ARRAY OF ARRAY OF CHAR}.  The base type always has a known size,
-       that is, it is neven an open array type.
+       @samp{ARRAY OF ARRAY OF CHAR}.  The base type always has a known size;
+       that is, it is never an open array type.
        @end itemize
 
 
