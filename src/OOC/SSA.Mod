@@ -1,4 +1,4 @@
-(* 	$Id: SSA.Mod,v 1.38 2002/05/17 22:00:33 sgreenhill Exp $	 *)
+(* 	$Id: SSA.Mod,v 1.39 2002/05/20 02:09:15 mva Exp $	 *)
 MODULE OOC:SSA;
 (*  Data structures for SSA code representation.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -731,13 +731,20 @@ PROCEDURE (instr: Instr) GetLoopStart* (): Instr;
   END GetLoopStart;
 
 PROCEDURE (instr: Instr) GetSelectExit* (): Instr;
-(**Given a @oconst{Opcode.loopEnd} instruction, returns the corresponding
-   @oconst{Opcode.selectExit}, or @code{NIL} if no such thing exists.  *)
+(**Given a @oconst{Opcode.loopEnd} or @oconst{Opcode.exit} instruction, returns
+   the corresponding @oconst{Opcode.selectExit}, or @code{NIL} if no such thing
+   exists.  *)
   VAR
     use: Opnd;
+    res: Result;
   BEGIN
-    ASSERT (instr. opcode = Opcode.loopEnd);
-    use := instr. useList;
+    ASSERT ((instr. opcode = Opcode.loopEnd) OR (instr. opcode = Opcode.exit));
+    IF (instr. opcode = Opcode.exit) THEN
+      res := instr. GetResultStore();
+    ELSE
+      res := instr;
+    END;
+    use := res. useList;
     WHILE (use # NIL) & (use. instr. opcode # Opcode.selectExit) DO
       use := use. nextUse;
     END;
