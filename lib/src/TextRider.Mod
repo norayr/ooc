@@ -1,4 +1,4 @@
-(*	$Id: TextRider.Mod,v 1.7 2002/12/30 07:58:30 mva Exp $	*)
+(*	$Id: TextRider.Mod,v 1.8 2002/12/30 09:29:23 mva Exp $	*)
 MODULE TextRider [OOC_EXTENSIONS];
 
 (*
@@ -1339,7 +1339,7 @@ PROCEDURE (w: Writer) WriteString*(s[NO_COPY]: ARRAY OF CHAR);
     END
   END WriteString;
 
-PROCEDURE (w: Writer) WriteStr*(obj: Object.Object);
+PROCEDURE (w: Writer) WriteObject*(obj: Object.Object);
   VAR
     chars: Object.CharsLatin1;
     s: Object.String;
@@ -1357,10 +1357,10 @@ PROCEDURE (w: Writer) WriteStr*(obj: Object.Object);
           w. res := w. base. res
         END
       | s: Object.String32 DO
-        w.WriteString("[TextRider.WriteStr: String32 not implemented]");
+        w.WriteString("[TextRider.WriteObject: String32 not implemented]");
       END;
     END
-  END WriteStr;
+  END WriteObject;
 
 PROCEDURE (w: Writer) WriteBool*(bool: BOOLEAN);
   BEGIN

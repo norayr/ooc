@@ -1,4 +1,4 @@
-(*	$Id: Out.Mod,v 1.5 2002/12/30 07:58:34 mva Exp $	*)
+(*	$Id: Out.Mod,v 1.6 2002/12/30 09:29:23 mva Exp $	*)
 MODULE Out [OOC_EXTENSIONS];
 
 (*
@@ -22,7 +22,7 @@ MODULE Out [OOC_EXTENSIONS];
 *)
 
 IMPORT
-  StdChannels, TextRider, Object;
+  StdChannels, TextRider, Obj := Object;
 
 VAR
   writer-: TextRider.Writer;
@@ -72,10 +72,10 @@ PROCEDURE String* (s[NO_COPY]: ARRAY OF CHAR);
     writer. WriteString (s)
   END String;
   
-PROCEDURE Str* (obj: Object.String);
+PROCEDURE Object* (obj: Obj.Object);
   BEGIN
-    writer. WriteStr (obj)
-  END Str;
+    writer. WriteObject (obj)
+  END Object;
   
 PROCEDURE Bool* (bool: BOOLEAN);
   BEGIN
