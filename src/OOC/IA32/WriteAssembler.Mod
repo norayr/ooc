@@ -1,4 +1,4 @@
-(* 	$Id: WriteAssembler.Mod,v 1.19 2003/02/22 21:49:03 mva Exp $	 *)
+(* 	$Id: WriteAssembler.Mod,v 1.20 2003/02/23 02:41:52 mva Exp $	 *)
 MODULE OOC:IA32:WriteAssembler [OOC_EXTENSIONS];
 (*  Translates a set of scheduled SSA instructions to IA32 assembler.
     Copyright (C) 2002, 2003  Michael van Acken
@@ -237,6 +237,7 @@ PROCEDURE (t: Translator) WriteProcBody* (proc: IR.Procedure);
     domRoot: Schedule.Block;
     writeProc: BOOLEAN;
     destore: Destore.State;
+    instr, next: SSA.Instr;
 
   PROCEDURE Write (pre, post: ARRAY OF CHAR);
     BEGIN
@@ -281,6 +282,19 @@ PROCEDURE (t: Translator) WriteProcBody* (proc: IR.Procedure);
     DeadCodeElimination.Transform (pb);
     Write ("dce-post", "final");
 
+    (* type-conv is not supported yet ;-) *)
+    instr := pb. instrList;
+    WHILE (instr # NIL) DO
+      next := instr.nextInstr;
+      CASE instr. opcode OF
+      | Opcode.typeConv:
+        instr.ReplaceUses(instr.opndList.arg);
+        pb.DeleteInstr(instr);
+      ELSE (* nothing to do *)
+      END;
+      instr := next;
+    END;
+    
     domRoot := Schedule.Schedule (pb);
     IF writeProc THEN
       IF (t. inspectStage. MatchChars ("schedule", 0, -1) # NIL) THEN
