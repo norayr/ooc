@@ -1,4 +1,4 @@
-(* 	$Id: Object.Mod,v 1.18 2003/05/20 20:09:26 mva Exp $	 *)
+(* 	$Id: Object.Mod,v 1.19 2003/05/30 15:00:13 mva Exp $	 *)
 MODULE Object;
 (*  Low-level object and string implementation.
     Copyright (C) 2002,2003  Michael van Acken
@@ -27,7 +27,11 @@ MODULE Object;
 
 IMPORT
   S := SYSTEM, RT0;
-  
+  (* Because this module is implicitly imported by almost all other modules,
+     normal modules cannot be added to this import list.  Before a module can
+     be imported here, it must be added to the `exclude' list of the
+     `autoImport' entries of all modules importing `Object'.  *)
+     
 TYPE
   Hash* = LONGINT;
   (**The integer type used to store hash values.  *)
