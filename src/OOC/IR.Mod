@@ -1,4 +1,4 @@
-(* 	$Id: IR.Mod,v 1.211 2003/04/05 18:51:02 mva Exp $	 *)
+(* 	$Id: IR.Mod,v 1.212 2003/04/06 12:11:14 mva Exp $	 *)
 MODULE OOC:IR [OOC_EXTENSIONS];
 (*  High-level intermediate code representation.
     Copyright (C) 2001-2003  Michael van Acken, Stewart Greenhill
@@ -5082,7 +5082,7 @@ PROCEDURE (b: Builder) NewSelect* (sym: Symbol; var: Expression;
     ELSE
       RETURN b.ErrExpr(notRecord, varRef.sym);
     END
-    END NewSelect;
+  END NewSelect;
 
 PROCEDURE (b: Builder) NewOperator* (sym: Symbol; left, right: Expression): Expression;
 (**Return an IR expression for the given symbol and left/right expressions.

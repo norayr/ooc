@@ -1,4 +1,4 @@
-(* 	$Id: CheckUses.Mod,v 1.4 2003/04/06 11:41:32 mva Exp $	 *)
+(* 	$Id: CheckUses.Mod,v 1.5 2003/04/06 12:11:14 mva Exp $	 *)
 MODULE OOC:IR:CheckUses;
 (*  Warn about uninitialized variables and unreachable code, 
     Copyright (C) 2003  Michael van Acken, Stewart Greenhill
@@ -317,9 +317,9 @@ PROCEDURE CheckUses*(module: IR.Module; pragmaHistory: Pragmas.History;
       
       BEGIN
         WITH statm: IR.Assert DO
-          IF (statm.predicate = NIL) (*OR
+          IF (statm.predicate = NIL) OR
              ((statm.predicate IS IR.Const) & 
-              Boxed.false.Equals(statm.predicate(IR.Const).value))*) THEN
+              Boxed.false.Equals(statm.predicate(IR.Const).value)) THEN
             def.Unreachable();
           ELSE
             CheckExpr(statm.predicate);

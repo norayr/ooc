@@ -1,4 +1,4 @@
-(* 	$Id: LRealConv.Mod,v 1.12 2003/04/05 18:45:45 mva Exp $	 *)
+(* 	$Id: LRealConv.Mod,v 1.13 2003/04/06 12:11:15 mva Exp $	 *)
 MODULE LRealConv;
 (*  String to LONGREAL conversion functions.
     Copyright (C) 2002  Michael van Acken
@@ -84,17 +84,23 @@ PROCEDURE ValueReal*(str: ARRAY OF CHAR): LONGREAL;
 
 PROCEDURE LengthFloatReal*(real: LONGREAL; sigFigs: INTEGER): INTEGER;
   BEGIN
-    ASSERT (FALSE); RETURN -1;  (* FIXME... *)
+<*PUSH; Assertions:=TRUE*>
+    ASSERT (FALSE)
+<*POP*>
   END LengthFloatReal;
  
 PROCEDURE LengthEngReal*(real: LONGREAL; sigFigs: INTEGER): INTEGER;
   BEGIN
-    ASSERT (FALSE); RETURN -1;  (* FIXME... *)
+<*PUSH; Assertions:=TRUE*>
+    ASSERT (FALSE)
+<*POP*>
   END LengthEngReal;
  
 PROCEDURE LengthFixedReal*(real: LONGREAL; place: INTEGER): INTEGER;
   BEGIN
-    ASSERT (FALSE); RETURN -1;  (* FIXME... *)
+<*PUSH; Assertions:=TRUE*>
+    ASSERT (FALSE)
+<*POP*>
   END LengthFixedReal;
 
 END LRealConv.

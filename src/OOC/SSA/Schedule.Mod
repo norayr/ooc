@@ -1,4 +1,4 @@
-(* 	$Id: Schedule.Mod,v 1.38 2003/04/05 18:55:15 mva Exp $	 *)
+(* 	$Id: Schedule.Mod,v 1.39 2003/04/06 12:11:14 mva Exp $	 *)
 MODULE OOC:SSA:Schedule [OOC_EXTENSIONS];
 (*  Generates basic block representation and schedules instructions.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -774,7 +774,7 @@ PROCEDURE Schedule* (pb: SSA.ProcBlock): Block;
      of a block, like @oconst{Opcode.loopEnd} or @oconst{Opcode.selectReturn},
      even if they are unreachable.  *)
     VAR
-      d, i: LONGINT;
+      d: LONGINT;
       j: Jump;
 
     PROCEDURE ContainsEndOfBlock (b: Block): BOOLEAN;
