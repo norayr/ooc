@@ -1,4 +1,4 @@
-(* 	$Id: FileSystem.Mod,v 1.15 2002/11/23 17:41:34 mva Exp $	 *)
+(* 	$Id: FileSystem.Mod,v 1.16 2002/12/02 14:33:54 mva Exp $	 *)
 MODULE OOC:Repository:FileSystem;
 (*  Implementation of a repository in the local file system.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -169,7 +169,10 @@ PROCEDURE (rep: Repository) GetResource* (package, path: ARRAY OF CHAR): URI.URI
       Strings.Append ("/", p);
       Strings.Append (path, p);
     END;
-    uri := URIParser.NewURI (p, rep. relativeBaseURI, res);
+
+    (* can't use relative URI here, or the installation tarball of oo2c breaks
+       when it tries to create a relative URI for it  *)
+    uri := URIParser.NewURI (p, rep. baseURI, res);
     
     IF (res # NIL) THEN
       RETURN NIL
