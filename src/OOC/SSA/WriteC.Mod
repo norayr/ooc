@@ -1,4 +1,4 @@
-(* 	$Id: WriteC.Mod,v 1.97 2002/07/08 21:59:10 mva Exp $	 *)
+(* 	$Id: WriteC.Mod,v 1.98 2002/07/09 18:47:35 mva Exp $	 *)
 MODULE OOC:SSA:WriteC [OOC_EXTENSIONS];
 (*  Translates a set of scheduled SSA instructions to plain C.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -1438,7 +1438,7 @@ PROCEDURE (t: Translator) WriteProcBody* (proc: IR.Procedure);
       END;
       IF (t. inspectStage. MatchChars ("schedule-html", 0, -1) # NIL) THEN
         (* create a temporary web server displaying the SSA code *)
-        Inspector.Show (Config.repositories, proc, domRoot);
+        Inspector.Show (proc, domRoot);
       END;
     END;
     

@@ -1,4 +1,4 @@
-(* 	$Id: ModuleFile.Mod,v 1.13 2002/07/08 21:59:11 mva Exp $	 *)
+(* 	$Id: ModuleFile.Mod,v 1.14 2002/07/09 18:47:35 mva Exp $	 *)
 MODULE OOC:Make:Entity:ModuleFile;
 (*  Implements `Make' entities for various files associated with modules.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -239,7 +239,6 @@ PROCEDURE AncestorClosure* (descendant: Entity; entity: Entity;
       
       GetImports.GetImports (entity. module,
                              Config.pragmas,
-                             Config.repositories,
                              dummyErrList);
       (* ignore any errors when scanning the imports; for dependency scanning,
          malformed modules are of no importance *)
@@ -260,8 +259,7 @@ PROCEDURE DiscoverCompile* (command: Make.Command; module: Repository.Module);
   BEGIN
     ASSERT (command. state = Make.commandUndiscovered);
     
-    GetImports.GetImports (module, Config.pragmas,
-                           Config.repositories, dummyErrList);
+    GetImports.GetImports (module, Config.pragmas, dummyErrList);
     (* ignore any errors when scanning the imports; for dependency scanning,
        malformed modules are of no importance *)
     import := module. importList;
@@ -287,8 +285,7 @@ PROCEDURE (entity: Entity) Discover*(): Make.EntityState;
       dummyErrList: Error.List;
       import: Repository.Import;
     BEGIN
-      GetImports.GetImports (entity. module, Config.pragmas,
-                             Config.repositories, dummyErrList);
+      GetImports.GetImports (entity. module, Config.pragmas, dummyErrList);
       (* ignore any errors when scanning the imports; for dependency scanning,
          malformed modules are of no importance *)
       import := entity. module. importList;
@@ -688,7 +685,6 @@ PROCEDURE CreateClosure* (closureGroup: Make.Entity; entity: Entity);
       
       GetImports.GetImports (entity. module,
                              Config.pragmas,
-                             Config.repositories,
                              dummyErrList);
       (* ignore any errors when scanning the imports; for dependency scanning,
          malformed modules are of no importance *)

@@ -1,4 +1,4 @@
-(* 	$Id: WriteAssembler.Mod,v 1.3 2002/07/08 21:59:11 mva Exp $	 *)
+(* 	$Id: WriteAssembler.Mod,v 1.4 2002/07/09 18:47:35 mva Exp $	 *)
 MODULE OOC:IA32:WriteAssembler [OOC_EXTENSIONS];
 (*  Translates a set of scheduled SSA instructions to IA32 assembler.
     Copyright (C) 2002  Michael van Acken
@@ -277,7 +277,7 @@ PROCEDURE (t: Translator) WriteProcBody* (proc: IR.Procedure);
       END;
       IF (t. inspectStage. MatchChars ("schedule-html", 0, -1) # NIL) THEN
         (* create a temporary web server displaying the SSA code *)
-        Inspector.Show (Config.repositories, proc, domRoot);
+        Inspector.Show (proc, domRoot);
       END;
     END;
     

@@ -1,4 +1,4 @@
-(* 	$Id: Inspector.Mod,v 1.10 2002/05/31 19:02:14 mva Exp $	 *)
+(* 	$Id: Inspector.Mod,v 1.11 2002/07/09 18:47:35 mva Exp $	 *)
 MODULE OOC:SSA:Inspector;
 (*  Renders SSA code as HTML and serves it through a HTTP server.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -26,7 +26,7 @@ IMPORT
   Language, Language:Boolean, Language:String8, Language:String16,
   Language:Integer, Language:Set,
   URI, URI:Scheme:File, XML:Writer, XML:UnicodeCodec:Latin1,
-  OOC:Config:Repositories, OOC:IR, OOC:SSA, OOC:SSA:Schedule,
+  OOC:Config, OOC:Config:Repositories, OOC:IR, OOC:SSA, OOC:SSA:Schedule,
   OOC:SSA:Opcode, OOC:SSA:Result, OOC:SSA:Opnd,
   OOC:Auxiliary:HTTPServer, Net:HTTP, Net:HTTP:Server;
 
@@ -38,12 +38,10 @@ TYPE
     root: Schedule.Block;
     w: Writer.Writer;
     resultNames: Dictionary.Dictionary;
-    repositories: Repositories.Section;
   END;
 
   
-PROCEDURE NewServlet (repositories: Repositories.Section;
-                      proc: IR.Procedure; root: Schedule.Block): Servlet;
+PROCEDURE NewServlet (proc: IR.Procedure; root: Schedule.Block): Servlet;
   VAR
     s: Servlet;
   BEGIN
@@ -51,7 +49,6 @@ PROCEDURE NewServlet (repositories: Repositories.Section;
     HTTPServer.InitServlet (s);
     s. proc := proc;
     s. root := root;
-    s. repositories := repositories;
     RETURN s
   END NewServlet;
 
@@ -410,7 +407,7 @@ PROCEDURE ReturnFile (s: Servlet; resp: Server.Response;
   BEGIN
     resp. SetStatus (HTTP.scOk);
     resp. SetHeader (String.New ("Content-Type"), String.New (contentType));
-    uri := s. repositories. GetResource (package, fileName);
+    uri := Config.repositories. GetResource (package, fileName);
     IF (uri = NIL) THEN
       (* if there is no such file, simply return an empty document *)
       resp. SetHeader (String.New ("Content-Length"), String.New ("0"));
@@ -511,10 +508,9 @@ PROCEDURE (s: Servlet) DoGET* (req: Server.Request; resp: Server.Response);
     w. EndOfText
   END DoGET;
 
-PROCEDURE Show* (repositories: Repositories.Section;
-                 proc: IR.Procedure; root: Schedule.Block);
+PROCEDURE Show* (proc: IR.Procedure; root: Schedule.Block);
   BEGIN
-    HTTPServer.Run (NewServlet (repositories, proc, root))
+    HTTPServer.Run (NewServlet (proc, root))
   END Show;
 
 END OOC:SSA:Inspector.
