@@ -1,4 +1,4 @@
-(* 	$Id: Repository.Mod,v 1.30 2002/12/05 13:21:28 mva Exp $	 *)
+(* 	$Id: Repository.Mod,v 1.31 2002/12/07 17:19:37 mva Exp $	 *)
 MODULE OOC:Repository [OOC_EXTENSIONS];
 (*  Abstraction of storage of source, intermediate, and target code.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -302,9 +302,11 @@ PROCEDURE (rep: Repository) [ABSTRACT] DumpContent* (w: TextRider.Writer);
 
 PROCEDURE (m: Module) SetInterfaceData*(ifData: Sym.Module; ifQuality: SHORTINT);
   VAR
-    count: LONGINT;
+    count, i: LONGINT;
     item: Sym.Item;
     oldIfData: Sym.Module;
+    mr: Sym.ModuleRef;
+    name: Sym.Name;
   BEGIN
     oldIfData := m.ifData;
     m.ifData := ifData;
@@ -322,6 +324,9 @@ PROCEDURE (m: Module) SetInterfaceData*(ifData: Sym.Module; ifQuality: SHORTINT)
         END;
         item := item.nextNested;
       END;
+      IF (ifData.prunedImports # NIL) THEN
+        INC(count, LEN(ifData.prunedImports^));
+      END;
       
       NEW(m.ifImportList, count);
       count := 0;
@@ -336,6 +341,19 @@ PROCEDURE (m: Module) SetInterfaceData*(ifData: Sym.Module; ifQuality: SHORTINT)
         ELSE
         END;
         item := item.nextNested;
+      END;
+
+      IF (ifData.prunedImports # NIL) THEN
+        FOR i := 0 TO LEN(ifData.prunedImports^)-1 DO
+          mr := ifData.prunedImports[i];
+          NEW(name);
+          Sym.InitName(name, mr.name, 0, 0, 0);
+          m.ifImportList[count].name := name;
+          m.ifImportList[count].module := NIL;
+          m.ifImportList[count].internal := FALSE;
+          m.ifImportList[count].fingerprint := mr.fingerprint;
+          INC(count);
+        END;
       END;
     END;
   END SetInterfaceData;
