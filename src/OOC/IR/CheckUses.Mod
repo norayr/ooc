@@ -1,4 +1,4 @@
-(* 	$Id: CheckUses.Mod,v 1.10 2003/04/11 07:31:36 mva Exp $	 *)
+(* 	$Id: CheckUses.Mod,v 1.11 2003/04/13 13:46:24 mva Exp $	 *)
 MODULE OOC:IR:CheckUses;
 (*  Warn about uninitialized variables and unreachable code, 
     Copyright (C) 2003  Michael van Acken, Stewart Greenhill
@@ -27,6 +27,32 @@ IMPORT
   Sym := OOC:SymbolTable, TR := OOC:SymbolTable:TypeRules, OOC:Error,
   OOC:Scanner:Builder:BasicList, OOC:IR, OOC:IR:VisitAll;
 
+
+(* Some notes on the dataflow analysis of this module:
+
+   @itemize @bullet
+   @item
+   It tracks reads and writes to nonlocal variables and variable parameters.
+
+   @item
+   Calls to and between nested procedures are taken into account.
+
+   @item
+   For read and write operations on tracked variables, it is precise down to
+   the level of statements and expressions.  That is, it can distinguish ``read
+   before write'' and ``write before read'' situations.
+
+   @item
+   A structured variable, like a records and an array, is treated like an
+   atomic variable.  The first assignment to one of its members is assumed to
+   define the whole value, with the effect that all following reads are assumed
+   to be valid.
+
+   @item
+   The algorithm distinguishes situations where no, all, or some paths leading
+   to a read have a defined value.
+   @end itemize  *)
+  
 CONST
   undefined = 0;
   maybeUndefined = 1;
