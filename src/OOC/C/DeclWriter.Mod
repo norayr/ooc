@@ -1,4 +1,4 @@
-(* 	$Id: DeclWriter.Mod,v 1.14 2002/02/10 15:08:26 mva Exp $	 *)
+(* 	$Id: DeclWriter.Mod,v 1.15 2002/02/28 21:54:53 mva Exp $	 *)
 MODULE OOC:C:DeclWriter [OOC_EXTENSIONS];
 (*  Defines classes to handle C declarations, types, and include statements.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -32,9 +32,10 @@ IMPORT
 TYPE
   TypeQualifier* = SHORTINT;
   (**Type qualifier of a definition.  One of @oconst{tqNone}, @oconst{tqConst},
-     or @oconst{tqVolatile}.  Qualifiers are mutually exclusive, that is, only
-     one of them applies.  They can be used connection with pointers
-     (@oproc{Writer.NewPointer}) or declarations (@oproc{Writer.NewDeclaration}).  *)
+     or @oconst{tqVolatile}.  Qualifiers are mutually exclusive.  That is, only
+     one of them applies.  They can be used in connection with pointers
+     (@oproc{Writer.NewPointer}) or declarations
+     (@oproc{Writer.NewDeclaration}).  *)
 
 CONST
   tqNone* = 0;
@@ -480,7 +481,7 @@ PROCEDURE (w: Writer) WriteConst* (value: Language.Value; type: Sym.Type);
       ELSE
         w. WriteLInt(value.ToLInt(), 0);
       END;
-     END
+    END
   END WriteConst;
 
 PROCEDURE (w: Writer) WriteDeclaration* (d: Declaration);
