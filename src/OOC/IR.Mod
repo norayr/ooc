@@ -1,4 +1,4 @@
-(* 	$Id: IR.Mod,v 1.226 2003/05/03 16:14:43 mva Exp $	 *)
+(* 	$Id: IR.Mod,v 1.227 2003/05/03 19:15:12 mva Exp $	 *)
 MODULE OOC:IR [OOC_EXTENSIONS];
 (*  High-level intermediate code representation.
     Copyright (C) 2001-2003  Michael van Acken, Stewart Greenhill
@@ -3445,7 +3445,6 @@ PROCEDURE (b: Builder) NewVar* (name: Symbol; decl: Sym.VarDecl): Var;
     var: Var;
     type: Sym.Type;
     args: Sym.TypeRefArray;
-    qualType: Sym.QualType;
     i, j: LONGINT;
     params: Sym.TypeVarArray;
     recordArgs: Sym.TypeRefArray;
@@ -3483,12 +3482,11 @@ PROCEDURE (b: Builder) NewVar* (name: Symbol; decl: Sym.VarDecl): Var;
           Sym.InitTypeRef(args[i], params[i]);
         END;
       END;
-      
-      NEW(qualType);
-      Sym.InitQualType(qualType, NIL, decl.type.position, decl.type, args);
-      type := qualType;
+
+      type := TR.NewTypeClosure(decl.type.position, decl.type,
+                                decl.type.typePars.params, args);
     ELSE
-      type := decl.type;
+      type := TR.Expand(decl.type);
     END;
     InitVar (var, name, TR.Expand(type), decl);
     RETURN var
