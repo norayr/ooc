@@ -1,4 +1,4 @@
-(* 	$Id: CreateNamespace.Mod,v 1.72 2004/01/12 05:41:54 sgreenhill Exp $	 *)
+(* 	$Id: CreateNamespace.Mod,v 1.73 2004/01/14 23:50:39 mva Exp $	 *)
 MODULE OOC:SymbolTable:CreateNamespace [OOC_EXTENSIONS];
 (*  Creates namespaces for module, and resolves type names in declarations.
     Copyright (C) 2000-2004  Michael van Acken
@@ -1406,7 +1406,7 @@ RAISES IO.Error;
           
         | item: Sym.VarDecl DO
           IF item.isParameter THEN
-            type := item.type;
+            type := item.type.Deparam();
             ResolveFlagsDirect(item, type);
             IF (type IS Sym.Record) & ~type(Sym.Record).hasDescriptor OR
                (type IS Sym.Array) & ~type(Sym.Array).hasLengthInfo THEN
