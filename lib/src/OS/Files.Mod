@@ -1,4 +1,4 @@
-(* 	$Id: Files.Mod,v 1.6 2003/05/18 15:59:20 mva Exp $	 *)
+(* 	$Id: Files.Mod,v 1.7 2003/05/18 16:17:51 mva Exp $	 *)
 MODULE OS:Files [FOREIGN "C"; LINK FILE "Files.c";
   <*IF HAVE_LIB_MINGWEX THEN*> LIB "mingwex"; <*END*>
   END];
@@ -40,28 +40,28 @@ CONST
      @samp{umask}, all permission bits are set.  *)
 
 
-PROCEDURE listdir* (path: STRING): NameArray
+PROCEDURE ListDir*(path: STRING): NameArray
 RAISES IO.Error;
 (**Return a list containing the names of the entries in the directory.  The
    list is in arbitrary order.  It does not include the special entries
    @samp{.} and @samp{..}, even if they are present in the directory.  *)
   
-PROCEDURE mkdir* (path: STRING; mode: Mode)
+PROCEDURE MkDir*(path: STRING; mode: Mode)
 RAISES IO.Error;
 (**Creates directory @oparam{path} in the local file system with numeric mode
    @oparam{mode}.  On some systems, @oparam{mode} is ignored. Where it is used,
    the current @samp{umask} value is first masked out.  *)
 
-PROCEDURE makedirs* (path: STRING; mode: Mode)
+PROCEDURE MakeDirs*(path: STRING; mode: Mode)
 RAISES IO.Error;
-(**Recursive directory creation function. Like @oproc{mkdir}, but makes all
+(**Recursive directory creation function. Like @oproc{MkDir}, but makes all
    intermediate-level directories needed to contain the leaf directory. 
    This procedure does nothing if the target directory already exists.
    If the leaf directory does not exists and cannot be created, an exception
    is raised.  [Note: Python actually considers it an error if the directory
    @oparam{path} already exists.  Should we do the same?] *)
 
-PROCEDURE remove* (path: STRING)
+PROCEDURE Remove*(path: STRING)
 RAISES IO.Error;
 (**Removes the file @oparam{path}.  *)
 

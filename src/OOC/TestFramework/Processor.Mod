@@ -1,4 +1,4 @@
-(* 	$Id: Processor.Mod,v 1.24 2003/05/18 15:59:19 mva Exp $	 *)
+(* 	$Id: Processor.Mod,v 1.25 2003/05/18 16:17:48 mva Exp $	 *)
 MODULE OOC:TestFramework:Processor;
 (*  Processes test cases using an OOC compiler.
     Copyright (C) 2001-2003  Michael van Acken
@@ -121,7 +121,7 @@ PROCEDURE (proc: Processor) Setup*;
   PROCEDURE MakeDir (dir: STRING);
     BEGIN
       TRY
-        OSFiles.makedirs (dir, 7*64);
+        OSFiles.MakeDirs(dir, 7*64);
       CATCH IO.Error:
         ASSERT(FALSE);
       END;
