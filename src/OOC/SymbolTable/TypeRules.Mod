@@ -1,4 +1,4 @@
-(* 	$Id: TypeRules.Mod,v 1.62 2003/05/13 20:11:20 mva Exp $	 *)
+(* 	$Id: TypeRules.Mod,v 1.63 2003/06/02 01:28:26 sgreenhill Exp $	 *)
 MODULE OOC:SymbolTable:TypeRules;
 (*  Defines the type rules of the language.
     Copyright (C) 2000-2003  Michael van Acken
@@ -897,15 +897,11 @@ PROCEDURE AllocateType* (type: Sym.Type);
         END;
       
         (* determine maximum alignment value, as selected by ALIGN[1248] *)
-        (*IF (t. beFlags*{structAlign1..structAlign8} # {}) THEN
-          i := structAlign8;
-          WHILE ~(i IN t. beFlags) DO
-            DEC (i)
-          END;
-          maxAlign := SHORT (ASH (1, i-structAlign1))
-        ELSE*)
-          maxAlign := MAX (INTEGER);
-        (*END;*)
+        IF type.fieldAlign = 0 THEN
+          maxAlign := MAX (INTEGER)
+        ELSE
+          maxAlign := type.fieldAlign;
+        END;
 
         nested := type. nestedItems;
         WHILE (nested # NIL) DO
