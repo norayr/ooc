@@ -1,4 +1,4 @@
-(* 	$Id: CheckUses.Mod,v 1.16 2003/04/20 12:41:39 mva Exp $	 *)
+(* 	$Id: CheckUses.Mod,v 1.17 2003/05/01 17:17:19 mva Exp $	 *)
 MODULE OOC:IR:CheckUses;
 (*  Warn about uninitialized variables and unreachable code, 
     Copyright (C) 2003  Michael van Acken, Stewart Greenhill
@@ -531,6 +531,7 @@ PROCEDURE (v: Visitor) VisitCall* (call: IR.Call);
     k: Object.ObjectArrayPtr;
     callee: Sym.ProcDecl;
     varDecl: Sym.VarDecl;
+    type: Sym.Type;
   BEGIN
     oldMode := v.mode;
     call.design.Accept(v);
@@ -655,7 +656,8 @@ PROCEDURE (v: Visitor) VisitCall* (call: IR.Call);
     END;
     
     v.mode := oldMode;
-    IF call.design.type(Sym.FormalPars).noReturn THEN
+    type := call.design.type.Deparam();
+    IF type(Sym.FormalPars).noReturn THEN
       v.def.Unreachable();
     END;
   END VisitCall;
