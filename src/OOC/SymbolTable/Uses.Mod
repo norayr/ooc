@@ -1,4 +1,4 @@
-(* 	$Id: Uses.Mod,v 1.2 2003/04/16 00:54:06 mva Exp $	 *)
+(* 	$Id: Uses.Mod,v 1.3 2003/04/26 21:11:23 mva Exp $	 *)
 MODULE OOC:SymbolTable:Uses;
 (*  List uses of a given declaration.
     Copyright (C) 2003  Michael van Acken
@@ -181,23 +181,29 @@ PROCEDURE (u: Uses) Matches(decl: Sym.Declaration): BOOLEAN;
   BEGIN
     IF (decl = u.pattern) THEN
       RETURN TRUE;
-    ELSIF (u.pattern # NIL) &
-          (decl IS Sym.ProcDecl) & (u.pattern IS Sym.ProcDecl) &
-          (decl.name.str^ = u.pattern.name.str^) &
-          decl(Sym.ProcDecl).isTypeBound &
-          u.pattern(Sym.ProcDecl).isTypeBound &
-          (decl(Sym.ProcDecl).tbProcIndex =
-           u.pattern(Sym.ProcDecl).tbProcIndex) THEN
-      (* two type-bound procedures with the same name and index; if the walk
-         down from decl's base type encounters our pattern, then we have a
-         match *)
-      index := decl(Sym.ProcDecl).tbProcIndex;
-      p := decl(Sym.ProcDecl);
-      REPEAT
-        record := decl(Sym.ProcDecl).Class();
-        p := record.ns.GetSuperProcByIndex(index);
-      UNTIL (p = NIL) OR (p = u.pattern);
-      RETURN (p # NIL);
+    ELSIF (u.pattern # NIL) THEN
+      IF (decl IS Sym.Import) &
+         (decl(Sym.Import).externalSymTab = u.pattern) THEN
+        RETURN TRUE;
+      ELSIF (decl IS Sym.ProcDecl) & (u.pattern IS Sym.ProcDecl) &
+            (decl.name.str^ = u.pattern.name.str^) &
+            decl(Sym.ProcDecl).isTypeBound &
+            u.pattern(Sym.ProcDecl).isTypeBound &
+            (decl(Sym.ProcDecl).tbProcIndex =
+             u.pattern(Sym.ProcDecl).tbProcIndex) THEN
+        (* two type-bound procedures with the same name and index; if the walk
+           down from decl's base type encounters our pattern, then we have a
+           match *)
+        index := decl(Sym.ProcDecl).tbProcIndex;
+        p := decl(Sym.ProcDecl);
+        REPEAT
+          record := decl(Sym.ProcDecl).Class();
+          p := record.ns.GetSuperProcByIndex(index);
+        UNTIL (p = NIL) OR (p = u.pattern);
+        RETURN (p # NIL);
+      ELSE
+        RETURN FALSE;
+      END;
     ELSE
       RETURN FALSE;
     END;
