@@ -1,4 +1,4 @@
-(* 	$Id: TypeRules.Mod,v 1.55 2003/05/04 19:15:19 mva Exp $	 *)
+(* 	$Id: TypeRules.Mod,v 1.56 2003/05/05 21:53:39 mva Exp $	 *)
 MODULE OOC:SymbolTable:TypeRules;
 (*  Defines the type rules of the language.
     Copyright (C) 2000-2003  Michael van Acken
@@ -601,6 +601,26 @@ PROCEDURE IsRecordPointer*(type: Sym.Type): BOOLEAN;
   BEGIN
     RETURN IsPointer(type) & IsRecord(PointerBaseType(type));
   END IsRecordPointer;
+
+PROCEDURE IsArray*(type: Sym.Type): BOOLEAN;
+(**Result is @code{TRUE} if @oparam{type} is an array type, or if it is a
+   parametric type derived from an array.  *)
+  BEGIN
+    RETURN (type.Deparam() IS Sym.Array);
+  END IsArray;
+
+PROCEDURE ArrayElementType*(array: Sym.Type): Sym.Type;
+(**Return closure of the base type of @oparam{array}.  *)
+  VAR
+    ptr: Sym.Type;
+  BEGIN
+    WITH array: Sym.Array DO
+      RETURN array.elementType;
+    ELSE
+      ptr := array.Deparam();
+      RETURN array.Closure(ptr(Sym.Array).elementType);
+    END;
+  END ArrayElementType;
 
 PROCEDURE IsExtensionOf* (type, base: Sym.Type): BOOLEAN;
 (* Result is TRUE iff the type @oparam{type} is an extension of the type
