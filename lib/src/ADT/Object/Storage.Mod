@@ -1,4 +1,4 @@
-(*	$Id: Storage.Mod,v 1.16 2003/07/06 11:32:33 mva Exp $	*)
+(*	$Id: Storage.Mod,v 1.17 2003/07/06 11:38:20 mva Exp $	*)
 MODULE ADT:Object:Storage;
 (*  Implements a framework for persistent objects.
     Copyright (C) 2000, 2001, 2003  Michael van Acken
@@ -262,6 +262,7 @@ PROCEDURE (r: Reader) ReadObject* (VAR obj: Object.Object) RAISES IO.Error;
           IF (type = string8) OR (type = string16) THEN
             r.ReadStr(str);
             r.objTab[ref] := str;
+            obj := str;
           ELSE
             obj := SYSTEM.VAL(Object.Object, RT0.NewObject(type));
             r.objTab[ref] := obj;
