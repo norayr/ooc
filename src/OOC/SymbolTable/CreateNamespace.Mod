@@ -1,4 +1,4 @@
-(* 	$Id: CreateNamespace.Mod,v 1.40 2003/04/26 21:11:06 mva Exp $	 *)
+(* 	$Id: CreateNamespace.Mod,v 1.41 2003/04/27 10:27:15 mva Exp $	 *)
 MODULE OOC:SymbolTable:CreateNamespace [OOC_EXTENSIONS];
 (*  Creates namespaces for module, and resolves type names in declarations.
     Copyright (C) 2000-2003  Michael van Acken
@@ -467,6 +467,7 @@ RAISES IO.Error;
       ptr: Sym.Item;
       i, typeDeclCount: LONGINT;
       receiver: Sym.VarDecl;
+      typePars: Sym.TypePars;
       
     PROCEDURE GetTypeByName (typeName: Sym.Type; contextOfUse: Sym.Item; 
                       extendedSearch: BOOLEAN; errList: Error.List): Sym.Type;
@@ -586,14 +587,13 @@ RAISES IO.Error;
       IF (item # NIL) THEN
         WITH item: Sym.TypeDecl DO
           IF (item.type.typePars # NIL) & (item.type.typePars.ns # NIL) THEN
+            typePars := item.type.typePars;
             item.type := GetTypeByName(item.type, item.type.typePars,
                                        FALSE, errList);
+            item.type.SetTypePars(typePars);  (* transfer parameter list *)
           ELSE
             item.type := GetTypeByName(item.type, contextOfUse,
                                        FALSE, errList);
-          END;
-          IF item.isTypeParameter THEN
-            item.InsertTypeVar();
           END;
           
         | item: Sym.VarDecl DO
@@ -637,8 +637,12 @@ RAISES IO.Error;
                 GetTypeByName(item.arguments[i].srcCodeType, contextOfUse,
                               FALSE, errList);
           END;
-                                         
 
+        | item: Sym.TypeVar DO
+          item.bound := GetTypeByName(item.bound, contextOfUse,
+                                      FALSE, errList);
+          
+          
         (* scope objects: fix context of use for using 
            occurences of identifiers *)
         | item: Sym.Module DO

@@ -1,4 +1,4 @@
-(* 	$Id: Builder.Mod,v 1.41 2003/04/24 20:59:20 mva Exp $	 *)
+(* 	$Id: Builder.Mod,v 1.42 2003/04/27 10:27:15 mva Exp $	 *)
 MODULE OOC:SymbolTable:Builder [OOC_EXTENSIONS];
 (*  Defines a builder class with factory methods for symbol table entries.
     Copyright (C) 2000-2003  Michael van Acken
@@ -141,8 +141,22 @@ PROCEDURE (b: Builder) NewTypeDecl* (parent: Sym.Item; name: Sym.Name;
                                      isTypeParameter: BOOLEAN): Sym.TypeDecl;
   VAR
     t: Sym.TypeDecl;
+    
+  PROCEDURE NewTypeVar(bound: Sym.Type; parent: Sym.Item): Sym.TypeVar;
+    VAR
+      tv: Sym.TypeVar;
+    BEGIN
+      NEW(tv);
+      Sym.InitTypeVar(tv, parent, type.position, bound);
+      tv.SetNamingDecl(t);
+      RETURN tv;
+    END NewTypeVar;
+  
   BEGIN
     NEW (t);
+    IF isTypeParameter THEN
+      type := NewTypeVar(type, parent);
+    END;
     Sym.InitTypeDecl (t, parent, name, visibleFrom, exportMark,
                       docString, type, isTypeParameter);
     IF (type. namingDecl = NIL) THEN
