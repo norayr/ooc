@@ -1,4 +1,4 @@
-(*	$Id: Arrays.Mod,v 1.1 2002/07/14 19:49:40 mva Exp $	*)
+(*	$Id: Arrays.Mod,v 1.2 2002/12/13 23:50:50 mva Exp $	*)
 MODULE ADT:Arrays;
 (*  Miscellaneous operations on arrays of objects.
     Copyright (C) 2001  Michael van Acken
@@ -20,18 +20,18 @@ MODULE ADT:Arrays;
 
 
 IMPORT
-  ADT:Object, ADT:Comparator;
+  ADT:Storable, ADT:Comparator;
 
 
 
-PROCEDURE Sort* (VAR a: ARRAY OF Object.Object; pos, endpos: LONGINT;
+PROCEDURE Sort* (VAR a: ARRAY OF Storable.Object; pos, endpos: LONGINT;
                  cmp: Comparator.Comparator);
 (**Sort array interval @samp{@oparam{a}[@oparam{pos}, @oparam{endpos}[}
    according to the comparator function @oparam{cmp}.  *)
    
   PROCEDURE Quicksort (l, r: LONGINT);
     VAR
-      t, v: Object.Object;
+      t, v: Storable.Object;
       i, j, m: LONGINT;
     BEGIN
       IF (r > l) THEN

@@ -1,4 +1,4 @@
-(* 	$Id: InterfaceDescr.Mod,v 1.4 2002/11/13 21:40:57 mva Exp $	 *)
+(* 	$Id: InterfaceDescr.Mod,v 1.5 2002/12/13 23:50:45 mva Exp $	 *)
 MODULE OOC:SymbolTable:InterfaceDescr;
 (*  Writes a description of a module's interface as XML.
     Copyright (C) 2000, 2001, 2002  Michael van Acken
@@ -22,7 +22,7 @@ MODULE OOC:SymbolTable:InterfaceDescr;
 
 IMPORT
   Channel, Strings,
-  ADT:Object, ADT:String, ADT:Dictionary, ADT:ArrayList,
+  ADT:Storable, ADT:String, ADT:Dictionary, ADT:ArrayList,
   URI, XML:Writer, XML:UnicodeCodec:Latin1,
   OOC:Repository,  OOC:Config:Repositories,
   Sym := OOC:SymbolTable, OOC:SymbolTable:GetClass, 
@@ -403,7 +403,7 @@ PROCEDURE Write* (cw: Channel.Writer; baseURI: URI.HierarchicalURI;
       str: ARRAY 2*1024 OF CHAR;
       remoteURI, relativeURI: URI.URI;
       baseURI: URI.HierarchicalURI;
-      keys: Object.ObjectArrayPtr;
+      keys: Storable.ObjectArrayPtr;
     BEGIN
       thisModule := repositories. GetModule (module. name. str^);
       baseURI := thisModule. GetURI (Repository.modInterfaceHTML, FALSE);
@@ -494,10 +494,10 @@ PROCEDURE Write* (cw: Channel.Writer; baseURI: URI.HierarchicalURI;
       END
     END WriteBaseClasses;
   
-  PROCEDURE WriteKnownExtensions (type: Object.Object);
+  PROCEDURE WriteKnownExtensions (type: Storable.Object);
     VAR
       i: LONGINT;
-      obj: Object.Object;
+      obj: Storable.Object;
       list: ArrayList.ArrayList;
       item: Sym.Item;
     BEGIN

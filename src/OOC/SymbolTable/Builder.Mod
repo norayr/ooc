@@ -1,4 +1,4 @@
-(* 	$Id: Builder.Mod,v 1.23 2002/12/07 17:19:36 mva Exp $	 *)
+(* 	$Id: Builder.Mod,v 1.24 2002/12/13 23:50:45 mva Exp $	 *)
 MODULE OOC:SymbolTable:Builder [OOC_EXTENSIONS];
 (*  Defines a builder class with factory methods for symbol table entries.
     Copyright (C) 2000-2002  Michael van Acken
@@ -21,7 +21,7 @@ MODULE OOC:SymbolTable:Builder [OOC_EXTENSIONS];
 *)
 
 IMPORT
-  Out, Strings, Channel, Language, ADT:Object, ADT:Object:Storage,
+  Out, Strings, Channel, Language, ADT:Storable, ADT:Object:Storage,
   OOC:Doc, OOC:AST, Sym := OOC:SymbolTable;
 
 
@@ -546,7 +546,7 @@ PROCEDURE (b: Builder) WriteSymbolTable* (ch: Channel.Channel; symTab: Sym.Modul
 PROCEDURE (b: Builder) ReadSymbolTable* (ch: Channel.Channel;
                                          VAR res: Channel.Result): Sym.Module;
   VAR
-    obj: Object.Object;
+    obj: Storable.Object;
     reader: Storage.Reader;
     fp, i, fpi, len: LONGINT;
     mn: ARRAY magicNumberSize+1 OF CHAR;

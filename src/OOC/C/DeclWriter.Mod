@@ -1,4 +1,4 @@
-(* 	$Id: DeclWriter.Mod,v 1.39 2002/12/11 06:20:08 mva Exp $	 *)
+(* 	$Id: DeclWriter.Mod,v 1.40 2002/12/13 23:50:46 mva Exp $	 *)
 MODULE OOC:C:DeclWriter [OOC_EXTENSIONS];
 (*  Defines classes to handle C declarations, types, and include statements.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -22,7 +22,7 @@ MODULE OOC:C:DeclWriter [OOC_EXTENSIONS];
 
 IMPORT
   Channel, Err, Files, IntStr, Msg, Strings, TextRider,
-  ADT:Object, ADT:String, ADT:ArrayList,
+  ADT:Storable, ADT:String, ADT:ArrayList,
   URI, IO:Memory, 
   Language, Language:Boolean, Language:String8, Language:String16,
   Language:Integer, Language:Set, Language:Real,
@@ -209,7 +209,7 @@ TYPE
        class, its type, and the declared name.  New declaration objects are
        created with @oproc{Writer.NewDeclaration} and are serialized into an
        output file with @oproc{Writer.WriteDeclaration}.  *)
-    (Object.ObjectDesc)
+    (Storable.ObjectDesc)
     typeQualifier: TypeQualifier;
     storageClass: StorageClass;
     type: Type;
@@ -898,7 +898,7 @@ PROCEDURE InitDeclaration (d: Declaration; name: String.String;
                            typeQualifier: TypeQualifier;
                            storageClass: StorageClass; type: Type);
   BEGIN
-    Object.Init (d);
+    Storable.Init (d);
     d. name := name;
     d. typeQualifier := typeQualifier;
     d. storageClass := storageClass;
