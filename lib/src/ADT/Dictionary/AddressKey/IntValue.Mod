@@ -1,4 +1,4 @@
-(*	$Id: IntValue.Mod,v 1.5 2002/12/14 16:30:33 mva Exp $	*)
+(*	$Id: IntValue.Mod,v 1.6 2002/12/16 19:10:15 mva Exp $	*)
 MODULE ADT:Dictionary:AddressKey:IntValue;
 (*  A dictionary implementation using objects' addresses as keys.
     Copyright (C) 2000-2002  Michael van Acken
@@ -39,14 +39,14 @@ MODULE ADT:Dictionary:AddressKey:IntValue;
    @end itemize  *)
 
 IMPORT
-  S := SYSTEM, Language:=LanguageNew, ADT:Storable;
+  S := SYSTEM, Object, ADT:Storable;
 
 
 TYPE
   Hash = LONGINT;
   HSet = SET;
   Index = LONGINT;
-  Key* = Language.Object;
+  Key* = Object.Object;
   Value* = LONGINT;
   
 TYPE
@@ -92,7 +92,7 @@ TYPE
 
 TYPE
   Dummy = POINTER TO DummyDesc;
-  DummyDesc = RECORD (Language.ObjectDesc) END;
+  DummyDesc = RECORD (Object.ObjectDesc) END;
 
 VAR
   dummy: Dummy;
@@ -407,11 +407,11 @@ PROCEDURE (dict: Dictionary) Clear*;
   END Clear;
 
 
-PROCEDURE (dict: Dictionary) Keys* (): Language.ObjectArrayPtr;
+PROCEDURE (dict: Dictionary) Keys* (): Object.ObjectArrayPtr;
 (**Returns the list of keys of the dictionary @oparam{dict}.  The keys are
    listed in no particular order.  *)
   VAR
-    list: Language.ObjectArrayPtr;
+    list: Object.ObjectArrayPtr;
     i, j: LONGINT;
   BEGIN
     NEW (list, dict. used);

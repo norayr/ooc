@@ -1,4 +1,4 @@
-(* 	$Id: Allocator.Mod,v 1.28 2002/12/14 16:30:30 mva Exp $	 *)
+(* 	$Id: Allocator.Mod,v 1.29 2002/12/16 19:09:12 mva Exp $	 *)
 MODULE OOC:SSA:Allocator;
 (*  A register allocator for the C back-end.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -25,7 +25,7 @@ MODULE OOC:SSA:Allocator;
 IMPORT
   Log,
   <*IF DEBUG_ALLOCATOR THEN*>SYSTEM,Err,<*END*>
-  IntStr, Strings, Language:=LanguageNew, ADT:ArrayList, ADT:Dictionary, ADT:String,
+  IntStr, Strings, Object, ADT:ArrayList, ADT:Dictionary, ADT:String,
   OOC:SSA, OOC:SSA:Opcode, OOC:SSA:Opnd, OOC:SSA:Result,
   OOC:SSA:Schedule, OOC:SSA:IGraph, OOC:C:DeclWriter, OOC:SymbolTable:Predef;
 
@@ -786,7 +786,7 @@ PROCEDURE AssignRegisters* (pb: SSA.ProcBlock; domRoot: Schedule.Block;
     rfs: RegisterFiles;
     i: LONGINT;
     registerMap, inPlaceEval: Dictionary.Dictionary;
-    keys: Language.ObjectArrayPtr;
+    keys: Object.ObjectArrayPtr;
 
   PROCEDURE WriteNames (w: DeclWriter.Writer;
                         registerType: DeclWriter.BasicTypeId;
@@ -910,9 +910,9 @@ PROCEDURE AssignRegisters* (pb: SSA.ProcBlock; domRoot: Schedule.Block;
           VAR
             outState: State;
             allVarsMap: Dictionary.Dictionary;
-            vars: Language.ObjectArrayPtr;
+            vars: Object.ObjectArrayPtr;
             i, j: LONGINT;
-            value: Language.Object;
+            value: Object.Object;
           BEGIN
             (* if the merge has results that represent values passed from its
                "collect" instructions, then we must simply rely on the back-end
@@ -992,7 +992,7 @@ PROCEDURE AssignRegisters* (pb: SSA.ProcBlock; domRoot: Schedule.Block;
         
       PROCEDURE CheckOpnd (opnd: SSA.Opnd);
         VAR
-          obj: Language.Object;
+          obj: Object.Object;
           defVar: String.String;
           currentValue: SSA.Result;
         BEGIN

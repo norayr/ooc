@@ -1,4 +1,4 @@
-(* 	$Id: SSA.Mod,v 1.69 2002/12/16 15:05:46 mva Exp $	 *)
+(* 	$Id: SSA.Mod,v 1.70 2002/12/16 19:09:29 mva Exp $	 *)
 MODULE OOC:SSA;
 (*  Data structures for SSA code representation.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -22,7 +22,7 @@ MODULE OOC:SSA;
 
 
 IMPORT
-  SYSTEM, Log, Language:=LanguageNew, LanguageOld := Language, 
+  SYSTEM, Log, Object, LanguageOld := Language, 
   Language:Integer, Language:Boolean, ADT:Dictionary,
   Sym := OOC:SymbolTable, OOC:SymbolTable:Predef, OOC:IR,
   OOC:SSA:Opcode, ResultClass := OOC:SSA:Result, OpndClass := OOC:SSA:Opnd;
@@ -40,7 +40,7 @@ TYPE
 
 TYPE
   NodeDesc* = RECORD
-    (Language.ObjectDesc)
+    (Object.ObjectDesc)
   END;
   
 TYPE
@@ -1128,7 +1128,7 @@ PROCEDURE (pb: ProcBlock) GetConst* (value: LanguageOld.Value;
 (**Returns the @code{const} instruction for the value @oparam{value}.  Equal
    values are mapped to the same unique instruction.  *)
   VAR
-    obj: Language.Object;
+    obj: Object.Object;
     const: Const;
     bucket: LONGINT;
   BEGIN
@@ -1171,7 +1171,7 @@ PROCEDURE (pb: ProcBlock) GetDeclRef* (decl: Sym.Declaration): DeclRef;
 (**Returns the @code{declref} instruction for the declaration @oparam{decl}.
    Equal declarations are mapped to the same unique instruction.  *)
   VAR
-    obj: Language.Object;
+    obj: Object.Object;
     declRef: DeclRef;
   BEGIN
     IF pb. objMap. HasKey (decl) THEN
@@ -1190,7 +1190,7 @@ PROCEDURE (pb: ProcBlock) GetTypeRef* (type: Sym.Type): TypeRef;
 (**Returns the @code{typeref} instruction for the type @oparam{type}.
    Equal types are mapped to the same unique instruction.  *)
   VAR
-    obj: Language.Object;
+    obj: Object.Object;
     typeRef: TypeRef;
   BEGIN
     IF pb. objMap. HasKey (type) THEN
@@ -1215,7 +1215,7 @@ PROCEDURE (pb: ProcBlock) GetAddress* (decl: Sym.Declaration): Address;
 (**Returns the @code{declref} instruction for the declaration @oparam{decl}.
    Equal declarations are mapped to the same unique instruction.  *)
   VAR
-    obj: Language.Object;
+    obj: Object.Object;
     address: Address;
   BEGIN
     IF pb. adrMap. HasKey (decl) THEN

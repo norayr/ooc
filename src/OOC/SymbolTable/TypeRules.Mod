@@ -1,4 +1,4 @@
-(* 	$Id: TypeRules.Mod,v 1.31 2002/12/14 23:59:38 mva Exp $	 *)
+(* 	$Id: TypeRules.Mod,v 1.32 2002/12/16 19:08:55 mva Exp $	 *)
 MODULE OOC:SymbolTable:TypeRules;
 (*  Defines the type rules of the language.
     Copyright (C) 2000-2002  Michael van Acken
@@ -83,7 +83,7 @@ PROCEDURE IsSTRING* (type: Sym.Type): BOOLEAN;
   BEGIN
     IF (type IS Sym.Pointer) &
        (type(Sym.Pointer).baseType IS Sym.Record) THEN
-      (* the second to last base type must be LanguageNew.StringDesc *)
+      (* the second to last base type must be Object.StringDesc *)
       r := type(Sym.Pointer).baseType(Sym.Record);
       WHILE (r.baseType # NIL) & (r.baseType(Sym.Record).baseType # NIL) DO
         r := r.baseType(Sym.Record);

@@ -1,4 +1,4 @@
-(* 	$Id: Blocker.Mod,v 1.36 2002/12/14 16:30:30 mva Exp $	 *)
+(* 	$Id: Blocker.Mod,v 1.37 2002/12/16 19:09:09 mva Exp $	 *)
 MODULE OOC:SSA:Blocker;
 (*  Imposes a block structure on a flat list of SSA instructions.
     Copyright (C) 2002  Michael van Acken
@@ -24,7 +24,7 @@ MODULE OOC:SSA:Blocker;
 
 IMPORT
   <*IF DEBUG_BLOCKER THEN*>Log,OOC:SSA:Check,StdChannels,<*END*>
-  SYSTEM, Language:=LanguageNew,
+  SYSTEM, Object,
   Channel, TextRider, ADT:String, ADT:Dictionary,
   IntDictionary := ADT:Dictionary:IntValue, Language:Integer,
   OOC:SSA, OOC:SSA:Opcode, OOC:SSA:Opnd, OOC:SSA:DeadCodeElimination,
@@ -502,7 +502,7 @@ PROCEDURE WriteBlocks (c: Channel.Channel; pb: SSA.ProcBlock; root: Region;
       ptr: SSA.Result;
       value: String.String;
       instr: SSA.Instr;
-      obj: Language.Object;
+      obj: Object.Object;
     BEGIN
       IF marker. HasKey (res) THEN
         obj := marker. Get (res);
@@ -1767,7 +1767,7 @@ PROCEDURE GetDependenceData* (pb: SSA.ProcBlock): DependenceData;
 
 PROCEDURE (dd: DependenceData) Conflict* (x, y: SSA.Instr): BOOLEAN;
   VAR
-    p: Language.Object;
+    p: Object.Object;
     a, b: Region;
   BEGIN
     p := dd. proxyMap. Get (x);

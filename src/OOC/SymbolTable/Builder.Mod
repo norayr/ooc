@@ -1,4 +1,4 @@
-(* 	$Id: Builder.Mod,v 1.25 2002/12/14 23:59:38 mva Exp $	 *)
+(* 	$Id: Builder.Mod,v 1.26 2002/12/16 19:09:01 mva Exp $	 *)
 MODULE OOC:SymbolTable:Builder [OOC_EXTENSIONS];
 (*  Defines a builder class with factory methods for symbol table entries.
     Copyright (C) 2000-2002  Michael van Acken
@@ -57,8 +57,8 @@ TYPE
 
 CONST
   prefixAutoImport* = "-";
-  stringModule* = "LanguageNew";
-  stringModuleC* = "LanguageNew";
+  stringModule* = "Object";
+  stringModuleC* = "Object";
 
 CONST
   noAutoImport* = 0;

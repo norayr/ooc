@@ -1,4 +1,4 @@
-(*	$Id: String.Mod,v 1.4 2002/12/16 15:06:37 mva Exp $	*)
+(*	$Id: String.Mod,v 1.5 2002/12/16 19:10:20 mva Exp $	*)
 MODULE ADT:String [OOC_EXTENSIONS];
 (*  Immutable string data type.
     Copyright (C) 2001  Stewart Greenhill
@@ -19,7 +19,7 @@ MODULE ADT:String [OOC_EXTENSIONS];
 *)
 
 IMPORT
-  ADT:Storable, Language:=LanguageNew, S := SYSTEM;
+  ADT:Storable, Object, S := SYSTEM;
 
 TYPE
   CharArray* = ARRAY OF CHAR;
@@ -454,7 +454,7 @@ PROCEDURE (str : String) HashCode* (): LONGINT;
     RETURN x
   END HashCode;
 
-PROCEDURE (str : String) Equals* (y: Language.Object): BOOLEAN;
+PROCEDURE (str : String) Equals* (y: Object.Object): BOOLEAN;
 (**Determines if the receiver and the parameter are equal strings.  That is, it
    returns @code{TRUE} if, and only if, @oparam{y} is an instance of
    @otype{String} with the same length and content as @oparam{str}.  *)

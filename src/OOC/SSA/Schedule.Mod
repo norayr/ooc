@@ -1,4 +1,4 @@
-(* 	$Id: Schedule.Mod,v 1.36 2002/12/16 15:05:29 mva Exp $	 *)
+(* 	$Id: Schedule.Mod,v 1.37 2002/12/16 19:09:08 mva Exp $	 *)
 MODULE OOC:SSA:Schedule [OOC_EXTENSIONS];
 (*  Generates basic block representation and schedules instructions.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -21,7 +21,7 @@ MODULE OOC:SSA:Schedule [OOC_EXTENSIONS];
 *)
 
 IMPORT
-  Language:=LanguageNew,
+  Object,
   OOC:SSA, OOC:SSA:Opcode, OOC:SSA:Opnd, OOC:SSA:Blocker;
 
 TYPE
@@ -65,7 +65,7 @@ TYPE
   
 TYPE
   BlockDesc = RECORD [ABSTRACT]
-    (Language.ObjectDesc)
+    (Object.ObjectDesc)
     (**A basic block contains a sequence of instructions, with control flow
        entering at the beginning of the block, and leaving at the end of the
        block.  There are no jumps into the block, nor are there any jump or

@@ -1,4 +1,4 @@
-(* 	$Id: Repository.Mod,v 1.35 2002/12/16 15:05:50 mva Exp $	 *)
+(* 	$Id: Repository.Mod,v 1.36 2002/12/16 19:09:32 mva Exp $	 *)
 MODULE OOC:Repository [OOC_EXTENSIONS];
 (*  Abstraction of storage of source, intermediate, and target code.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -22,7 +22,7 @@ MODULE OOC:Repository [OOC_EXTENSIONS];
 
 IMPORT
   Msg, Channel, TextRider, Strings, Time,
-  Language := LanguageNew, ADT:ArrayList,
+  Object, ADT:ArrayList,
   URI, OS:Path, OOC:Logger,
   OOC:Scanner:InputBuffer, Sym := OOC:SymbolTable, OOC:SymbolTable:Builder;
 
@@ -64,7 +64,7 @@ TYPE
     fingerprint-: LONGINT;
   END;
   ModuleDesc* = RECORD [ABSTRACT]
-    (Language.ObjectDesc)
+    (Object.ObjectDesc)
     (**Note: The function @oproc{*OOC:Config:Repositories.Section.GetModule} is
        used to retrieve module instances from repositories.  It ensures that
        for a given module name only one instance of @otype{Module} is created

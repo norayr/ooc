@@ -1,4 +1,4 @@
-(* 	$Id: WWWForm.Mod,v 1.3 2002/12/14 16:30:31 mva Exp $	 *)
+(* 	$Id: WWWForm.Mod,v 1.4 2002/12/16 19:10:07 mva Exp $	 *)
 MODULE URI:Query:WWWForm;
 (*  Implements class for WWW form query components of GET/POST requests.
     Copyright (C) 2000  Michael van Acken
@@ -26,7 +26,7 @@ part, nor are invalid escape sequences detected.  I don't know if this
 query class should be applied to all HTTP URIs.  *)
 
 IMPORT
-  Language:=LanguageNew, ADT:String, ADT:Dictionary, ADT:ArrayList,
+  Object, ADT:String, ADT:Dictionary, ADT:ArrayList,
   Strings, TextRider, CC := CharClass, 
   URI, URI:Error, StringURI := URI:String, URI:CharClass;
 
@@ -88,7 +88,7 @@ PROCEDURE (query: Query) Copy* (dest: URI.Query);
 PROCEDURE (query: Query) Add* (name, value: String.String);
   VAR
     al: ArrayList.ArrayList;
-    obj: Language.Object;
+    obj: Object.Object;
   BEGIN
     query. names. Append (name);
     query. values. Append (value);
