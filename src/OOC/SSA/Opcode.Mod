@@ -1,4 +1,4 @@
-(* 	$Id: Opcode.Mod,v 1.91 2003/02/22 21:49:03 mva Exp $	 *)
+(* 	$Id: Opcode.Mod,v 1.92 2003/03/05 22:23:53 mva Exp $	 *)
 MODULE OOC:SSA:Opcode;
 (*  This modules defines opcodes for SSA instructions.
     Copyright (C) 2001-2003  Michael van Acken
@@ -760,8 +760,10 @@ CONST
      @samp{readDesign} and @samp{writeDesign} operands with a reference to
      this instruction.  Only a single instruction with this opcode exists in
      a procedure, so that CSE can still discover equivalent computations.  *)
+
+  equiv* = 84;
   
-  lastOpcode* = designStandin;
+  lastOpcode* = equiv;
   
 CONST
   scNone* = 0;
@@ -937,6 +939,7 @@ PROCEDURE GetName* (class: Class; subclass: Subclass; VAR name: ARRAY OF CHAR);
       
     | dgate: cstr := "dgate";
     | designStandin: cstr := "design-standin";
+    | equiv: cstr := "equiv";
     END;
     
     COPY (cstr, name);
