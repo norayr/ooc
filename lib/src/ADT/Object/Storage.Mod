@@ -1,4 +1,4 @@
-(*	$Id: Storage.Mod,v 1.13 2003/04/20 12:56:37 mva Exp $	*)
+(*	$Id: Storage.Mod,v 1.14 2003/05/14 21:59:24 mva Exp $	*)
 MODULE ADT:Object:Storage;
 (*  Implements a framework for persistent objects.
     Copyright (C) 2000, 2001, 2003  Michael van Acken
@@ -91,7 +91,7 @@ TYPE
 CONST
   pointerGap = 4;
 
-PROCEDURE InitReader (r: Reader; ch: IO.ByteChannel);
+PROCEDURE InitReader*(r: Reader; ch: IO.ByteChannel);
   BEGIN
     Storable.InitReader (r, ch);
     NEW (r. objTab, 128-pointerGap);
@@ -104,7 +104,7 @@ PROCEDURE InitReader (r: Reader; ch: IO.ByteChannel);
     r. typeCounter := 1;
   END InitReader;
 
-PROCEDURE InitWriter (w: Writer; ch: IO.ByteChannel);
+PROCEDURE InitWriter*(w: Writer; ch: IO.ByteChannel);
   BEGIN
     Storable.InitWriter (w, ch);
     w. objCounter := 0;
