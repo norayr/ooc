@@ -1,4 +1,4 @@
-(* 	$Id: ExtTree.Mod,v 1.11 2001/12/14 21:28:27 mva Exp $	 *)
+(* 	$Id: ExtTree.Mod,v 1.12 2001/12/15 15:27:48 mva Exp $	 *)
 MODULE OOC:AST:ExtTree [OOC_EXTENSIONS];
 (*  Creates extended abstract syntax tree from the parser output.
     Copyright (C) 2000, 2001  Michael van Acken
@@ -290,9 +290,9 @@ TYPE
   Factor* = POINTER TO FactorDesc;
   FactorDesc = RECORD
     (NodeDesc)
-    lParen-: AST.Node;
-    expr-: AST.Node;
-    rParen-: AST.Node;
+    lParen-: Terminal;
+    expr-: Node;
+    rParen-: Terminal;
   END;
 
 TYPE
@@ -1165,9 +1165,9 @@ PROCEDURE (b: Builder) Factor* (lParen, expr, rParen: AST.Node): Node;
     f: Factor;
   BEGIN
     NEW (f);
-    f. lParen := lParen;
-    f. expr := expr;
-    f. rParen := rParen;
+    f. lParen := lParen(Terminal);
+    f. expr := expr(Node);
+    f. rParen := rParen(Terminal);
     RETURN f
   END Factor;
 

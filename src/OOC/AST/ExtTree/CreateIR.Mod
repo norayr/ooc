@@ -1,4 +1,4 @@
-(* 	$Id: CreateIR.Mod,v 1.13 2001/12/14 21:28:27 mva Exp $	 *)
+(* 	$Id: CreateIR.Mod,v 1.14 2001/12/15 15:27:48 mva Exp $	 *)
 MODULE OOC:AST:ExtTree:CreateIR;
 (*  Creates an IR representation from the abstract syntax tree.
     Copyright (C) 2001  Michael van Acken
@@ -100,6 +100,9 @@ PROCEDURE CreateIR* (module: ExtTree.Module;
           RETURN b. NewIntConst10 (expr. sym)
         END
 
+      | expr: ExtTree.Factor DO
+        RETURN Expr (expr. expr)
+            
       | expr: ExtTree.ArrayIndex DO      (* part of designator *)
         RETURN Designator (expr)
         
