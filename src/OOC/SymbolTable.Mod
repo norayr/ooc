@@ -1,4 +1,4 @@
-(* 	$Id: SymbolTable.Mod,v 1.20 2002/05/25 18:58:20 mva Exp $	 *)
+(* 	$Id: SymbolTable.Mod,v 1.21 2002/06/01 19:13:09 mva Exp $	 *)
 MODULE OOC:SymbolTable [OOC_EXTENSIONS];
 (*  Defines structure and entries of the symbol table.
     Copyright (C) 2000-2002  Michael van Acken
@@ -1203,7 +1203,7 @@ PROCEDURE (import: Import) IsInternalImport*(): BOOLEAN;
 (**Return @code{TRUE} if the imported module is pseudo module like
    @samp{SYSTEM}, which does not exist outside of the compiler itself.  *)
   BEGIN
-    RETURN (import. externalSymTab. class = mcInternal);
+    RETURN (import. name. str^ = "SYSTEM");
   END IsInternalImport;
 
 
