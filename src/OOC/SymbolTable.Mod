@@ -1,4 +1,4 @@
-(* 	$Id: SymbolTable.Mod,v 1.122 2004/04/05 06:17:41 sgreenhill Exp $	 *)
+(* 	$Id: SymbolTable.Mod,v 1.123 2004/04/13 21:07:11 mva Exp $	 *)
 MODULE OOC:SymbolTable [OOC_EXTENSIONS];
 (*  Defines structure and entries of the symbol table.
     Copyright (C) 2000-2004  Michael van Acken
@@ -1442,6 +1442,13 @@ PROCEDURE (decl: Declaration) Load* (r: Storable.Reader) RAISES IO.Error;
     decl. cachedId := NIL;
     decl. usageCount := 0;
   END Load;
+
+PROCEDURE (decl: Declaration) Name*(): STRING;
+(**As long as the symbol table code does not use @code{STRING}, this function
+   can be used to get the declaration's name as a string.  *)
+  BEGIN
+    RETURN Object.NewLatin1(decl.name.str^);
+  END Name;
 
 PROCEDURE (decl: Declaration) IncrUsageCounter*;
   BEGIN
