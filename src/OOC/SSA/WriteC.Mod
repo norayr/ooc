@@ -1,4 +1,4 @@
-(* 	$Id: WriteC.Mod,v 1.125 2002/10/05 17:35:21 mva Exp $	 *)
+(* 	$Id: WriteC.Mod,v 1.126 2002/10/06 20:08:10 mva Exp $	 *)
 MODULE OOC:SSA:WriteC [OOC_EXTENSIONS];
 (*  Translates a set of scheduled SSA instructions to plain C.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -936,6 +936,23 @@ PROCEDURE WriteExpr (w: Writer; instr: SSA.Instr);
       w. Ref (opnd);
       w. WriteString (")");
     END CmpString;
+
+  PROCEDURE Concat (instr: SSA.Instr);
+    VAR
+      opnd: SSA.Opnd;
+    BEGIN
+      w.WriteString ("Language_String0__Concat2(");
+      opnd := instr.opndList;
+      WHILE (opnd # NIL) DO
+        IF (opnd # instr.opndList) THEN
+          w.WriteString (",");
+        END;
+        w.WriteString ("(void*)");
+        w.Ref(opnd);
+        opnd := opnd.nextOpnd;
+      END;
+      w.WriteString (")");
+    END Concat;
   
   PROCEDURE MoveBlock (instr: SSA.Instr);
     BEGIN
@@ -1045,6 +1062,8 @@ PROCEDURE WriteExpr (w: Writer; instr: SSA.Instr);
       CopyString (instr);
     | Opcode.cmpString:
       CmpString (instr);
+    | Opcode.concat:
+      Concat (instr);
     | Opcode.moveBlock:
       MoveBlock (instr);
       
