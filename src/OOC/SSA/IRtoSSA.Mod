@@ -1,4 +1,4 @@
-(* 	$Id: IRtoSSA.Mod,v 1.124 2003/07/07 22:06:22 mva Exp $	 *)
+(* 	$Id: IRtoSSA.Mod,v 1.125 2003/07/09 20:03:11 mva Exp $	 *)
 MODULE OOC:SSA:IRtoSSA;
 (*  Converts the IR of a procedure into its SSA representation.
     Copyright (C) 2001-2003  Michael van Acken
@@ -1436,7 +1436,7 @@ PROCEDURE StatmSeq* (pb: SSA.ProcBlock; s: SSA.Result;
 
   PROCEDURE TryStatm(try: IR.TryStatm);
     VAR
-      start, instr, e, end, typeTag, typeTest: SSA.Instr;
+      start, instr, e, end, typeTag, typeTest, pushExceptionContext: SSA.Instr;
       sDefault, sCatch, catchClause: SSA.Result;
       i: LONGINT;
     BEGIN
@@ -1449,6 +1449,7 @@ PROCEDURE StatmSeq* (pb: SSA.ProcBlock; s: SSA.Result;
       instr.AddOpnd(s, Opnd.store);
       s := StatmSeq(pb, instr.AddResult(Result.store), try.statmSeq);
       sDefault := PopExceptionContext(s, 1);
+      pushExceptionContext := instr;
       
       (* prepare CATCH block *)
       s := PopExceptionContext(start.AddResult(Result.store), 1);
@@ -1480,6 +1481,7 @@ PROCEDURE StatmSeq* (pb: SSA.ProcBlock; s: SSA.Result;
         s := instr.AddResult(Result.store);
       END;
       instr := pb.AddInstr(Opcode.clearException, Opcode.scNone);
+      instr.AddOpnd(pushExceptionContext, Opnd.arg);
       instr.AddOpnd(s, Opnd.store);
       s := instr.AddResult(Result.store);
       

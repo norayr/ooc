@@ -1,4 +1,4 @@
-(* 	$Id: Opcode.Mod,v 1.97 2003/04/27 22:25:25 mva Exp $	 *)
+(* 	$Id: Opcode.Mod,v 1.98 2003/07/09 20:03:10 mva Exp $	 *)
 MODULE OOC:SSA:Opcode;
 (*  This modules defines opcodes for SSA instructions.
     Copyright (C) 2001-2003  Michael van Acken
@@ -704,8 +704,9 @@ CONST
   (**Produces a pointer to the current exception.  Result is @code{NIL} if
      there is no active exception.  Takes @var{store} as argument.  *)
   clearException* = 76;
-  (**Clears the variable with the current exception.  Takes @var{store} as
-     argument and produces a new @var{store}.  *)
+  (**Clears the variable with the current exception.  Takes 
+     its @oconst{pushExceptionContext} instruction and @var{store} as
+     arguments and produces a new @var{store}.  *)
   pushExceptionContext* = 77;
   (**Puts the current exception handler context on the top of the stack.
      This instruction takes a single argument, the @var{store} result of its

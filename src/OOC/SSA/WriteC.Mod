@@ -1,4 +1,4 @@
-(* 	$Id: WriteC.Mod,v 1.166 2003/07/07 22:06:22 mva Exp $	 *)
+(* 	$Id: WriteC.Mod,v 1.167 2003/07/09 20:03:10 mva Exp $	 *)
 MODULE OOC:SSA:WriteC [OOC_EXTENSIONS];
 (*  Translates a set of scheduled SSA instructions to plain C.
     Copyright (C) 2001, 2002, 2003  Michael van Acken
@@ -1517,7 +1517,10 @@ PROCEDURE (w: Writer) WriteInstrList (b: Schedule.Block);
           w.WriteString(");");
         | Opcode.clearException:
           w.Newline;
-          w.WriteString("Exception__Clear();");
+          w.WriteString("Exception__ClearFixed(&_context");
+          obj := w.jmpbufMap.Get(instr.opndList.arg.instr.opndList.arg.instr);
+          w.WriteObject(obj);
+          w.WriteString(");");
         | Opcode.activateContext:
           w.Newline;
           w.WriteString("Exception__ActivateContext();");
