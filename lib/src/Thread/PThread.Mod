@@ -1,4 +1,4 @@
-(* 	$Id: PThread.Mod,v 1.1 2003/07/15 20:15:52 mva Exp $	 *)
+(* 	$Id: PThread.Mod,v 1.2 2003/07/21 19:23:29 mva Exp $	 *)
 MODULE Thread:PThread [FOREIGN "C"; LINK LIB "pthread"; FILE "PThread.c" END];
 (*  Interface for ths POSIX threads library.
     Copyright (C) 2003  Michael van Acken
@@ -102,6 +102,11 @@ PROCEDURE (c: Condition) Signal*();
 PROCEDURE (c: Condition) Broadcast*();
 
 PROCEDURE (c: Condition) Wait*(m: Mutex);
+
+PROCEDURE (c: Condition) TimedWait*(m: Mutex; absTime: LONGREAL): BOOLEAN;
+(**Return @code{TRUE} if the condition is signaled before time
+   @oparam{absTime} is reached.  @oparam{absTime} is the number of seconds
+   since Jan 01 1970 00:00 GMT.  *)
 
 PROCEDURE (c: Condition) Destroy*();
 
