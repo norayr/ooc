@@ -1,4 +1,4 @@
-(* 	$Id: LinkProgramC.Mod,v 1.20 2003/05/17 12:29:09 mva Exp $	 *)
+(* 	$Id: LinkProgramC.Mod,v 1.21 2003/05/17 16:36:35 mva Exp $	 *)
 MODULE OOC:Make:LinkProgramC;
 (*  Links object files and libraries to create an executable file.
     Copyright (C) 2001, 2002, 2003  Michael van Acken
@@ -175,6 +175,7 @@ RAISES IO.Error;
     importedLibsList: ArrayList.ArrayList;
     objectFile, outputFile: Repository.FileId;
     libraryName: STRING;
+    str8: Object.String8;
     import: Repository.Module;
     extLibs: Object.StringArrayPtr;
     chars: Object.CharsLatin1;
@@ -245,7 +246,8 @@ RAISES IO.Error;
       Strings.Append (chars^, str);
     END;
     Strings.Append (" ", str);
-    chars := CCompiler.libs.value(StringValue.Value).string.CharsLatin1();
+    str8 := CCompiler.libs.value(StringValue.Value).string.ToString8("_");
+    chars := str8.CharsLatin1();
     Strings.Append (chars^, str);
     
     Out.String (str);

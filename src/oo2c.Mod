@@ -1,4 +1,4 @@
-(* 	$Id: oo2c.Mod,v 1.60 2003/05/17 12:29:10 mva Exp $	 *)
+(* 	$Id: oo2c.Mod,v 1.61 2003/05/17 16:36:36 mva Exp $	 *)
 MODULE oo2c;
 (*  Main module for the Oberon-2 to C translator.
     Copyright (C) 2002,2003  Michael van Acken
@@ -150,17 +150,15 @@ RAISES IO.Error;
     module: Rep.Module;
     installObjects: BOOLEAN;
 
-  PROCEDURE InstallDirectory(prefix, path: Object.String8): BOOLEAN;
+  PROCEDURE InstallDirectory(prefix, path: STRING): BOOLEAN;
     VAR
       cmd: Make.ShellCommand;
-      str: STRING;
       chars: Object.CharsLatin1;
     BEGIN
       IF (prefix.length # 0) THEN
-        str := prefix+"/"+path;
-        path := str(Object.String8);
+        path := prefix+"/"+path;
       END;
-      chars := path.CharsLatin1();
+      chars := path(Object.String8).CharsLatin1();
       
       CCompiler.InstallDirectoryCmd(chars^, cmd);
       Logger.ShellCommand(cmd);

@@ -1,4 +1,4 @@
-(* 	$Id: CCompiler.Mod,v 1.27 2003/05/17 12:29:09 mva Exp $	 *)
+(* 	$Id: CCompiler.Mod,v 1.28 2003/05/17 16:36:35 mva Exp $	 *)
 MODULE OOC:Config:CCompiler;
 (*  Generates command lines for the C compiler and linker.
     Copyright (C) 2001, 2002, 2003  Michael van Acken
@@ -35,11 +35,12 @@ PROCEDURE HaveLibtool*(): BOOLEAN;
     RETURN ~libtool.value(StringValue.Value).string.Equals("no");
   END HaveLibtool;
 
-PROCEDURE Append(str: Object.String8; VAR cmd: ARRAY OF CHAR);
+PROCEDURE Append(str: STRING; VAR cmd: ARRAY OF CHAR);
   VAR
     chars: Object.CharsLatin1;
   BEGIN
-    chars := str.CharsLatin1();
+    str := str.ToString8("?");
+    chars := str(Object.String8).CharsLatin1();
     Strings.Append(chars^, cmd);
   END Append;
 

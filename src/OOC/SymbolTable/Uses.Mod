@@ -1,4 +1,4 @@
-(* 	$Id: Uses.Mod,v 1.6 2003/05/17 12:29:09 mva Exp $	 *)
+(* 	$Id: Uses.Mod,v 1.7 2003/05/17 16:36:34 mva Exp $	 *)
 MODULE OOC:SymbolTable:Uses;
 (*  List uses of a given declaration.
     Copyright (C) 2003  Michael van Acken
@@ -84,7 +84,7 @@ PROCEDURE InitUses(u: Uses; selector: Selector);
     NEW(u.storedUses, 8);
   END InitUses;
 
-PROCEDURE New*(extIdent: Object.String8; VAR syntaxError: BOOLEAN): Uses;
+PROCEDURE New*(extIdent: STRING; VAR syntaxError: BOOLEAN): Uses;
 (**If @oparam{extIdent} is the empty string, then no usage tracking of a
    particular declaration is done.  In this case, this module only implements
    warnings for using occurences of deprecated declarations.  *)
@@ -154,7 +154,7 @@ PROCEDURE New*(extIdent: Object.String8; VAR syntaxError: BOOLEAN): Uses;
       selector := NIL;
       syntaxError := FALSE;
     ELSE
-      chars := extIdent.CharsLatin1();
+      chars := extIdent(Object.String8).CharsLatin1();
       selector := ParseIdent(chars^);
       syntaxError := (selector = NIL);
     END;
