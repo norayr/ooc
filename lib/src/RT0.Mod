@@ -1,4 +1,4 @@
-(* 	$Id: RT0.Mod,v 1.12 2002/05/31 20:23:57 mva Exp $	 *)
+(* 	$Id: RT0.Mod,v 1.13 2002/06/01 13:05:55 mva Exp $	 *)
 MODULE RT0 [FOREIGN "C"; LINK FILE "RT0.c"; LIB "m" END];
 (*  Proxy module for the run-time system of C back-ends of OOC2
     Copyright (C) 2001, 2002  Michael van Acken
@@ -170,6 +170,9 @@ PROCEDURE NewBlock* (bytes: LONGINT): SYSTEM.PTR;
    bytes.  Pointers in the allocated block are ignored during garbage
    collection.  That is, the block must not contain any references to objects
    on the heap that are not kept live by other pointers.  *)
+
+PROCEDURE FreeBlock* (ptr: SYSTEM.PTR);
+(**Frees a block of memory allocated with @oproc{NewBlock}.  *)
 
 PROCEDURE InitVParStack* (bytes: LONGINT);
 (**Allocates the heap block that serves as a stack for value parameters of
