@@ -1,4 +1,4 @@
-(* 	$Id: Repositories.Mod,v 1.3 2001/08/30 09:08:10 mva Exp $	 *)
+(* 	$Id: Repositories.Mod,v 1.4 2001/09/04 20:29:47 mva Exp $	 *)
 MODULE OOC:Config:Repositories [OOC_EXTENSIONS];
 (*  Management of a hierarchy of configured repositories.
     Copyright (C) 2001  Michael van Acken
@@ -239,7 +239,8 @@ PROCEDURE (s: Section) GetModule* (moduleRef: ARRAY OF CHAR): Repository.Module;
     END AddToCache;
   
   BEGIN
-    IF Repository.ValidModuleName (moduleRef) THEN
+    IF Repository.ValidModuleName (moduleRef) OR (moduleRef[0] = "#") THEN
+      (* note: moduleRef[0]="#" selects predefined modules *)
       (* scan the cache for this module name; linear search isn't exactly fast
          for huge module sets, so maybe we should improve this later... *)
       i := 0;
