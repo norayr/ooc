@@ -1,4 +1,4 @@
-(* 	$Id: TranslateToC.Mod,v 1.26 2002/01/30 21:45:33 mva Exp $	 *)
+(* 	$Id: TranslateToC.Mod,v 1.27 2002/02/08 14:18:59 sgreenhill Exp $	 *)
 MODULE OOC:Make:Command:TranslateToC;
 (*  Translates a module file into a bunch of C code files.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -172,8 +172,65 @@ PROCEDURE WriteDeclFile (w: DeclWriter.Writer; m: Repository.Module;
 PROCEDURE WriteCodeFile (w: DeclWriter.Writer; m: Repository.Module;
                          moduleIR: IR.Module;
                          tr: TypeRules.Rules; useSSA: BOOLEAN);
-  PROCEDURE ^ Call (statm: IR.Call);
+  PROCEDURE ^ WriteExpr (w : DeclWriter.Writer; expr : IR.Expression);
     
+  PROCEDURE Call (statm: IR.Call);
+    VAR
+      i: LONGINT;
+      design: IR.Expression;
+      name: String.String;
+    BEGIN
+      design := statm. design;
+      WITH design: IR.ProcedureRef DO
+        name := Naming.NameOfDeclaration (design. decl);
+        w. WriteString (name. array^)
+      END;
+      w. WriteString ("(");
+      FOR i := 0 TO LEN (statm. arguments^)-1 DO
+        (* FIXME... this may be incorrect if the argument list includes
+           multiple occurences of expressions that should only be 
+           evaluated once *)
+        IF (i # 0) THEN
+          w. WriteString (", ")
+        END;
+        WriteExpr (w, statm. arguments[i])
+      END;
+      w. WriteString (")");
+    END Call;
+ 
+  PROCEDURE SetConstruct(expr : IR.SetConstruct);
+  VAR 
+    i, count : LONGINT;
+    element : IR.Expression;
+
+    PROCEDURE Bit(expr : IR.Expression; next : BOOLEAN);
+    BEGIN
+      w. WriteString("(1<<(");
+      WriteExpr(w, expr);
+      IF next THEN w.WriteString("+1") END;
+      w.WriteString("))");
+    END Bit;
+
+  BEGIN
+    count := 0;
+    w. WriteString ("(");
+    FOR i := 0 TO LEN(expr.elements^)-1 DO
+      IF count # 0 THEN w. WriteString(" | ") END;
+      INC(count);
+      element := expr.elements[i];
+      WITH element : IR.Range DO
+        w. WriteString("(");
+        Bit(element.to, TRUE);
+        w. WriteString("-");
+        Bit(element.from, FALSE);
+        w. WriteString(")");
+      ELSE
+        Bit(element, FALSE);
+      END
+    END;
+    w.WriteString (")");
+  END SetConstruct;
+
   PROCEDURE WriteExpr (w: DeclWriter.Writer;
                        expr: IR.Expression);
     VAR
@@ -219,36 +276,15 @@ PROCEDURE WriteCodeFile (w: DeclWriter.Writer; m: Repository.Module;
       | expr: IR.Call DO
         Call (expr)
 
+      | expr : IR.SetConstruct DO
+        SetConstruct(expr);
       ELSE
         Log.Type("++ Unknown operator class in WriteExpr", expr);
         ASSERT (FALSE)
       END
     END WriteExpr;
     
-  PROCEDURE Call (statm: IR.Call);
-    VAR
-      i: LONGINT;
-      design: IR.Expression;
-      name: String.String;
-    BEGIN
-      design := statm. design;
-      WITH design: IR.ProcedureRef DO
-        name := Naming.NameOfDeclaration (design. decl);
-        w. WriteString (name. array^)
-      END;
-      w. WriteString ("(");
-      FOR i := 0 TO LEN (statm. arguments^)-1 DO
-        (* FIXME... this may be incorrect if the argument list includes
-           multiple occurences of expressions that should only be 
-           evaluated once *)
-        IF (i # 0) THEN
-          w. WriteString (", ")
-        END;
-        WriteExpr (w, statm. arguments[i])
-      END;
-      w. WriteString (")");
-    END Call;
-  
+
   PROCEDURE WriteStatmSeq (w: DeclWriter.Writer;
                            statmSeq: IR.StatementSeq);
     VAR

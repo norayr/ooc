@@ -1,4 +1,4 @@
-(* 	$Id: DeclWriter.Mod,v 1.12 2002/01/29 23:32:33 mva Exp $	 *)
+(* 	$Id: DeclWriter.Mod,v 1.13 2002/02/08 14:18:59 sgreenhill Exp $	 *)
 MODULE OOC:C:DeclWriter [OOC_EXTENSIONS];
 (*  Defines classes to handle C declarations, types, and include statements.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -24,7 +24,7 @@ IMPORT
   Channel, Err, Files, Msg, TextRider, ADT:Object, ADT:String, ADT:ArrayList,
   URI, FileURI := URI:Scheme:File, IO:Memory, 
   Language, Language:Boolean, Language:String8,
-  Language:Integer,
+  Language:Integer, Language:Set,
   OOC:Repository, Sym := OOC:SymbolTable, OOC:SymbolTable:Predef;
   
 
@@ -456,7 +456,6 @@ PROCEDURE (w: Writer) WriteConst* (value: Language.Value; type: Sym.Type);
         END;
         w. WriteChar (delim);
       END;
-      
     | value: Integer.Value DO
       IF (value. ToLInt() = MIN (LONGINT)) THEN
         (* this assumes that MIN(LONGINT) is also the smallest value of
@@ -469,7 +468,19 @@ PROCEDURE (w: Writer) WriteConst* (value: Language.Value; type: Sym.Type);
         str := value.ToString();
         w. WriteString(str.array^);
       END;
-    END
+    | value: Set.Value DO
+      (* FIXME *)
+      IF (value. ToLInt() = MIN (LONGINT)) THEN
+        (* this assumes that MIN(LONGINT) is also the smallest value of
+           the C type "int"; to avoid overflow errors, we must rewrite
+           the value slightly *)
+        w. WriteString ("(-");
+        w. WriteLInt (MAX (LONGINT), 0);
+        w. WriteString ("-1)");
+      ELSE
+        w. WriteLInt(value.ToLInt(), 0);
+      END;
+     END
   END WriteConst;
 
 PROCEDURE (w: Writer) WriteDeclaration* (d: Declaration);
