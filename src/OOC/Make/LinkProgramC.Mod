@@ -1,4 +1,4 @@
-(* 	$Id: LinkProgramC.Mod,v 1.17 2003/02/01 12:45:40 mva Exp $	 *)
+(* 	$Id: LinkProgramC.Mod,v 1.18 2003/05/12 22:33:46 mva Exp $	 *)
 MODULE OOC:Make:LinkProgramC;
 (*  Links object files and libraries to create an executable file.
     Copyright (C) 2001, 2002, 2003  Michael van Acken
@@ -34,7 +34,8 @@ PROCEDURE GetExternalLibs (moduleList: ARRAY OF Repository.Module;
   VAR
     i, j: LONGINT;
     linkDirective: Sym.LinkDirective;
-    libDeps, visited: Dictionary.Dictionary;
+    libDeps: Dictionary.Dictionary(STRING, ArrayList.ArrayList);
+    visited: Dictionary.Dictionary;
     depArray: ArrayList.ArrayList;
     extLibs: Object.StringArrayPtr;
     option: Dictionary.Dictionary;
@@ -42,12 +43,10 @@ PROCEDURE GetExternalLibs (moduleList: ARRAY OF Repository.Module;
 
   PROCEDURE GetDepArray (libName: STRING): ArrayList.ArrayList;
     VAR
-      obj: Object.Object;
       list: ArrayList.ArrayList;
     BEGIN
       IF libDeps.HasKey(libName) THEN
-        obj := libDeps.Get(libName);
-        RETURN obj(ArrayList.ArrayList);
+        RETURN libDeps.Get(libName);
       ELSE
         list := ArrayList.New(4);
         libDeps.Set(libName, list);
@@ -112,7 +111,8 @@ PROCEDURE GetExternalLibs (moduleList: ARRAY OF Repository.Module;
     (* In the a first pass over all object files, pick up any references
        to external libraries.  Ignore any modules that have been put into
        libraries themselves.  *)
-    libDeps := Dictionary.New();
+    NEW(libDeps);
+    libDeps.INIT();
     option := Dictionary.New();
     FOR i := 0 TO LEN(moduleList)-1 DO
       IF IncludeModule(moduleList[i]) THEN

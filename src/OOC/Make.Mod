@@ -1,4 +1,4 @@
-(* 	$Id: Make.Mod,v 1.48 2003/05/12 21:33:50 mva Exp $	 *)
+(* 	$Id: Make.Mod,v 1.49 2003/05/12 22:33:46 mva Exp $	 *)
 MODULE OOC:Make;
 (*  Builds object files, libraries, binaries, and the like.
     Copyright (C) 2002, 2003  Michael van Acken
@@ -71,7 +71,7 @@ TYPE
     imports-: ModuleList;
     mInfo: Dictionary.Dictionary;
     
-    extensionDict: Dictionary.Dictionary;
+    extensionDict: Sym.ExtensionDict;
     (**Used by @oproc{Rules.UpdateInterfaceDescr}.  It maps record types
        to a list of known extensions.  *)
        
@@ -208,7 +208,7 @@ PROCEDURE (r: Rules) UsageTracking*(extIdent: ARRAY OF CHAR): BOOLEAN;
     RETURN ~syntaxError;
   END UsageTracking;
 
-PROCEDURE (r: Rules) SetExtensionDict*(dict: Dictionary.Dictionary);
+PROCEDURE (r: Rules) SetExtensionDict*(dict: Sym.ExtensionDict);
   BEGIN
     r.extensionDict := dict;
   END SetExtensionDict;

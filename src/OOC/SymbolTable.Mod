@@ -1,4 +1,4 @@
-(* 	$Id: SymbolTable.Mod,v 1.90 2003/05/11 20:25:21 mva Exp $	 *)
+(* 	$Id: SymbolTable.Mod,v 1.91 2003/05/12 22:33:46 mva Exp $	 *)
 MODULE OOC:SymbolTable [OOC_EXTENSIONS];
 (*  Defines structure and entries of the symbol table.
     Copyright (C) 2000-2003  Michael van Acken
@@ -22,7 +22,7 @@ MODULE OOC:SymbolTable [OOC_EXTENSIONS];
 
 IMPORT
   Object, Object:Boxed, Msg, Strings, ADT:Dictionary:AddressKey,
-  ADT:Storable, ADT:ArrayList, IO,
+  ADT:Dictionary, ADT:Storable, ADT:ArrayList, IO,
   URI, ParserURI := URI:Parser, URI:Scheme:File,
   OOC:Scanner:InputBuffer, SB := OOC:Scanner:Builder, OOC:Doc, OOC:AST;
 
@@ -42,6 +42,7 @@ TYPE
   (**Column number in the source file, starting at 0.
      See @omodule{*OOC:Scanner:Builder} for more information.  *)
   Exports* = AddressKey.Dictionary;
+  ExtensionDict* = Dictionary.Dictionary(Object.Object, ArrayList.ArrayList);
 
 TYPE
   Position* = POINTER TO PositionDesc;

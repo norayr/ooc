@@ -1,4 +1,4 @@
-(* 	$Id: InterfaceDescr.Mod,v 1.18 2003/05/12 07:56:46 mva Exp $	 *)
+(* 	$Id: InterfaceDescr.Mod,v 1.19 2003/05/12 22:33:45 mva Exp $	 *)
 MODULE OOC:SymbolTable:InterfaceDescr;
 (*  Writes a description of a module's interface as XML.
     Copyright (C) 2000, 2001, 2002, 2003  Michael van Acken
@@ -52,7 +52,7 @@ PROCEDURE GetSystemId (repositories: Repositories.Section): URI.URI;
 
 PROCEDURE Write* (cw: IO.ByteChannel; baseURI: URI.HierarchicalURI;
                   module: Sym.Module; repositories: Repositories.Section;
-                  extensionDict: Dictionary.Dictionary)
+                  extensionDict: Sym.ExtensionDict)
 RAISES IO.Error;
 (**Writes the exported parts of the symbol table with root @oparam{module} as
    XML to the output writer @oparam{cw}.  Includes descriptions for
@@ -577,13 +577,11 @@ RAISES IO.Error;
   PROCEDURE WriteKnownExtensions (type: Object.Object);
     VAR
       i: LONGINT;
-      obj: Object.Object;
       list: ArrayList.ArrayList;
       item: Sym.Item;
     BEGIN
       IF (extensionDict # NIL) & extensionDict. HasKey (type) THEN
-        obj := extensionDict. Get (type);
-        list := obj(ArrayList.ArrayList);
+        list := extensionDict. Get (type);
         FOR i := 0 TO list. size-1 DO
           item := list. array[i](Sym.Record). parent. nestedItems;
           WHILE ~((item IS Sym.TypeDecl) &
