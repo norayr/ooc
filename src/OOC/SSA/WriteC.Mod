@@ -1,4 +1,4 @@
-(* 	$Id: WriteC.Mod,v 1.170 2003/08/11 22:23:32 mva Exp $	 *)
+(* 	$Id: WriteC.Mod,v 1.171 2003/08/13 08:34:28 mva Exp $	 *)
 MODULE OOC:SSA:WriteC [OOC_EXTENSIONS];
 (*  Translates a set of scheduled SSA instructions to plain C.
     Copyright (C) 2001, 2002, 2003  Michael van Acken
@@ -729,13 +729,19 @@ PROCEDURE WriteExpr (w: Writer; instr: SSA.Instr);
     VAR
       name: STRING;
       opnd: SSA.Opnd;
+      type: Sym.Type;
     BEGIN
-      w. WriteString ("_type_guard(");
+      opnd := typeGuard. GetOpndClass (Opnd.type);
+      type := opnd. arg(SSA.TypeRef). type;
+      
+      IF (type IS Sym.TypeClosure) THEN  (* slower but more powerful *)
+        w. WriteString ("_type_guard_q(");
+      ELSE
+        w. WriteString ("_type_guard(");
+      END;
       RefList (typeGuard. opndList. nextOpnd, Opnd.arg);
       w. WriteString (", &");
-      opnd := typeGuard. GetOpndClass (Opnd.type);
-      name := Naming.NameOfTypeDescriptor (opnd. arg(SSA.TypeRef). type,
-                                           w.translator.qtdData);
+      name := Naming.NameOfTypeDescriptor (type, w.translator.qtdData);
       w. WriteObject (name);
       w. WriteString (", ");
       w. WriteLInt (typeGuard. pos, 0);
