@@ -1,4 +1,4 @@
-(* 	$Id: SymbolTable.Mod,v 1.107 2003/07/06 09:09:05 mva Exp $	 *)
+(* 	$Id: SymbolTable.Mod,v 1.108 2003/07/06 21:49:42 mva Exp $	 *)
 MODULE OOC:SymbolTable [OOC_EXTENSIONS];
 (*  Defines structure and entries of the symbol table.
     Copyright (C) 2000-2003  Michael van Acken
@@ -768,6 +768,7 @@ TYPE
 
 VAR
   emptyClosure: TypeClosure;
+  predefName: Name;
 
 
 (* Objects
@@ -2311,6 +2312,16 @@ PROCEDURE InitTypeName* (tname: TypeName; parent: Item; position: Position;
     tname. ident := ident
   END InitTypeName;
 
+PROCEDURE (tname: TypeName) IsPredefReference*(): BOOLEAN;
+  BEGIN
+    RETURN (tname.module # NIL) & (tname.module.str[0] = 0X);
+  END IsPredefReference;
+
+PROCEDURE (tname: TypeName) MarkAsPredefReference*();
+  BEGIN
+    tname.module := predefName;
+  END MarkAsPredefReference;
+
 PROCEDURE (tname: TypeName) Store* (w: Storable.Writer) RAISES IO.Error;
   BEGIN
     tname. Store^ (w);
@@ -3179,6 +3190,7 @@ PROCEDURE Init();
   VAR
     params: TypeVarArray;
     arguments: TypeRefArray;
+    nameString: NameString;
   BEGIN
     URI.RegisterScheme(File.NewPrototype());
     
@@ -3191,6 +3203,11 @@ PROCEDURE Init();
     NEW(arguments, 0);
     NEW(emptyClosure);
     InitTypeClosure(emptyClosure, NIL, NIL, params, arguments);
+
+    NEW(nameString, 1);
+    COPY("", nameString^);
+    NEW(predefName);
+    InitName(predefName, nameString, 0, 0, 0);
   END Init;
 
 BEGIN

@@ -1,4 +1,4 @@
-(* 	$Id: InterfaceDescr.Mod,v 1.21 2003/05/20 20:10:30 mva Exp $	 *)
+(* 	$Id: InterfaceDescr.Mod,v 1.22 2003/07/06 21:49:42 mva Exp $	 *)
 MODULE OOC:SymbolTable:InterfaceDescr;
 (*  Writes a description of a module's interface as XML.
     Copyright (C) 2000, 2001, 2002, 2003  Michael van Acken
@@ -204,11 +204,17 @@ RAISES IO.Error;
         import: Sym.Import;
         repModule: Repository.Module;
         id: Sym.NameString;
+        typeModule: Sym.Name;
       BEGIN
         WITH type: Sym.TypeName DO
           w. StartTag ("type-name", FALSE);
-          IF (type. module # NIL) THEN
-            w. AttrStringLatin1 ("module", type. module. str^)
+          IF type.IsPredefReference() THEN
+            typeModule := NIL;
+          ELSE
+            typeModule := type.module;
+          END;
+          IF (typeModule # NIL) THEN
+            w. AttrStringLatin1 ("module", typeModule. str^)
           ELSIF (resolvedType # NIL) & (resolvedType IS Sym.PredefType) THEN
             (* note: this produces a wrong reference if the original type name
                is an alias of a predefined type; it is not clear how this 
@@ -219,14 +225,14 @@ RAISES IO.Error;
           END;
           w. AttrStringLatin1 ("name", type. ident. str^);
           
-          IF (type. module # NIL) OR
+          IF (typeModule # NIL) OR
              (resolvedType = NIL) OR ~(resolvedType IS Sym.PredefType) THEN
             IF (resolvedType IS Sym.TypeVar) THEN
               id := resolvedType.namingDecl.GetId();
               COPY ("#", href);
               Strings.Append(id^, href);
             ELSE
-              IF (type. module # NIL) THEN
+              IF (typeModule # NIL) THEN
                 import := type. GetImport();
                 COPY (import. externalSymTab. name. str^, href);
                 repModule := repositories. GetModule (import. externalSymTab. name. str^);
