@@ -1,4 +1,4 @@
-(* 	$Id: RunTests.Mod,v 1.12 2002/07/04 21:31:58 mva Exp $	 *)
+(* 	$Id: RunTests.Mod,v 1.13 2002/12/01 12:27:27 mva Exp $	 *)
 MODULE RunTests;
 (*  Applies a test schedule to an OOC compiler and produces an XML report.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -22,8 +22,9 @@ MODULE RunTests;
 
 
 IMPORT
+  <*IF COMPILER_MAJOR=1 THEN*>Calendar,<*END*>
   Channel, Err, Files, Msg, Out, ProgramArgs, LongStrings, TextRider, 
-  Strings, SysClock, Calendar,
+  Strings, SysClock,
   URI,
   StdChannels, XMLError := XML:Error, XML:UnicodeCodec:Latin1,
   XML:Basic:Element, XMLWriter := XML:Writer, URI:Scheme:File,
@@ -219,8 +220,12 @@ PROCEDURE RunTests (testSetup: TestSetup.TestSetup;
     END;
         
     reportWriter. StartTag ("test-report", FALSE);
+<*IF COMPILER_MAJOR=1 THEN*>
     SysClock.GetClock (time);
     Calendar.TimeToStr (time, "%c", timeStr);
+<*ELSE*>
+    COPY("unknown", timeStr);
+<*END*>
     reportWriter. AttrStringLatin1 ("time", timeStr);
     testSetup. Write (reportWriter);
     
