@@ -1,4 +1,4 @@
-(* 	$Id: LoopRewrite.Mod,v 1.19 2003/03/11 21:50:00 mva Exp $	 *)
+(* 	$Id: LoopRewrite.Mod,v 1.20 2003/03/12 19:06:06 mva Exp $	 *)
 MODULE OOC:SSA:LoopRewrite;
 (*  Reassociation and strength reduction within loops.
     Copyright (C) 2003  Michael van Acken
@@ -567,6 +567,9 @@ PROCEDURE FindInductiveCycles(loopStart: SSA.Instr);
             opnd := opnd.nextOpnd;
           END;
 
+        | Opcode.typeConv:
+          onCycle := SearchCycle(res.instr.opndList.arg, head, ic);
+          
         | Opcode.loopStart:
           (* we reached the beginning of the loop, but did not end up with
              our current head *)
