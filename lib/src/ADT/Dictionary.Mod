@@ -1,4 +1,4 @@
-(*	$Id: Dictionary.Mod,v 1.11 2003/06/12 20:07:30 mva Exp $	*)
+(*	$Id: Dictionary.Mod,v 1.12 2003/07/04 21:55:38 mva Exp $	*)
 MODULE ADT:Dictionary;
 (*  A dictionary implementation using objects' HashCode() as keys.
     Copyright (C) 2000, 2001, 2003  Michael van Acken
@@ -398,11 +398,11 @@ PROCEDURE (dict: Dictionary(K, V)) Clear*;
   END Clear;
 
 
-PROCEDURE (dict: Dictionary(K, V)) Keys* (): Object.ObjectArrayPtr;
+PROCEDURE (dict: Dictionary(K, V)) Keys* (): Object.ObjectArrayPtr(K);
 (**Returns the list of keys of the dictionary @oparam{dict}.  The keys are
    listed in no particular order.  *)
   VAR
-    list: Object.ObjectArrayPtr;
+    list: Object.ObjectArrayPtr(K);
     i, j: LONGINT;
   BEGIN
     NEW (list, dict. used);
@@ -417,11 +417,11 @@ PROCEDURE (dict: Dictionary(K, V)) Keys* (): Object.ObjectArrayPtr;
     RETURN list
   END Keys;
 
-PROCEDURE (dict: Dictionary(K, V)) Values* (): Object.ObjectArrayPtr;
+PROCEDURE (dict: Dictionary(K, V)) Values* (): Object.ObjectArrayPtr(V);
 (**Returns the list of values of the dictionary @oparam{dict}.  The values are
    listed in no particular order.  *)
   VAR
-    list: Object.ObjectArrayPtr;
+    list: Object.ObjectArrayPtr(V);
     i, j: LONGINT;
   BEGIN
     NEW (list, dict. used);
