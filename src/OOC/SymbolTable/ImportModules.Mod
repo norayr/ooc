@@ -1,4 +1,4 @@
-(* 	$Id: ImportModules.Mod,v 1.6 2002/11/10 14:33:38 mva Exp $	 *)
+(* 	$Id: ImportModules.Mod,v 1.7 2002/12/07 21:22:29 mva Exp $	 *)
 MODULE OOC:SymbolTable:ImportModules;
 (*  Retrieve exported symbol data for imported modules.
     Copyright (C) 2000, 2001, 2002  Michael van Acken
@@ -89,7 +89,7 @@ PROCEDURE ImportModules* (systemModule: Sym.Module;
             (* when we reach this point, then the imported modules have
                been processed one way or other, and we must make sure that
                we only see exactly this processed data further on *)
-            m.SetInterfaceData(symTab, Repository.completeInterface);
+            m.SetInterfaceData(symTab, Repository.completeInterface, TRUE);
             m.SetFingerprint(symTab.fingerprint);
             import. SetExternalSymTab (symTab)
           END
