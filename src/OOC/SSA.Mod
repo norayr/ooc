@@ -1,4 +1,4 @@
-(* 	$Id: SSA.Mod,v 1.76 2003/02/23 19:12:46 mva Exp $	 *)
+(* 	$Id: SSA.Mod,v 1.77 2003/02/27 04:27:05 mva Exp $	 *)
 MODULE OOC:SSA;
 (*  Data structures for SSA code representation.
     Copyright (C) 2001-2003  Michael van Acken
@@ -477,6 +477,9 @@ PROCEDURE (res: Result) ReplaceUses* (with: Result);
     use := res. useList;
     WHILE (use # NIL) DO
       nextUse := use. nextUse;
+<*IF OOC_CHECK_ARGS THEN*>
+    IF (use.class=OpndClass.arg) THEN CheckArg(use.instr, with) END;
+<*END*>
       DeleteUse (use);
       SetUse (with, use);
       use := nextUse
@@ -563,6 +566,9 @@ PROCEDURE AddOpnd (instr: Instr; opnd: Opnd);
   VAR
     prev: Opnd;
   BEGIN
+<*IF OOC_CHECK_ARGS THEN*>
+    IF (opnd.class=OpndClass.arg) THEN CheckArg(instr, opnd.arg) END;
+<*END*>
     opnd. instr := instr;
     IF (instr. opndList = NIL) THEN
       instr. opndList := opnd
@@ -583,9 +589,6 @@ PROCEDURE (instr: Instr) AddOpnd* (arg: Result; class: OpndClass.Class);
    @samp{arg # @code{NIL}}
    @end precond  *)
   BEGIN
-<*IF OOC_CHECK_ARGS THEN*>
-    IF (class=OpndClass.arg) THEN CheckArg(instr, arg) END;
-<*END*>
     AddOpnd (instr, NewOpnd (arg, class));
   END AddOpnd;
 
