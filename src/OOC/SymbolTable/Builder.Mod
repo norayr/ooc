@@ -1,4 +1,4 @@
-(* 	$Id: Builder.Mod,v 1.18 2002/09/29 22:43:48 mva Exp $	 *)
+(* 	$Id: Builder.Mod,v 1.19 2002/11/10 14:33:38 mva Exp $	 *)
 MODULE OOC:SymbolTable:Builder [OOC_EXTENSIONS];
 (*  Defines a builder class with factory methods for symbol table entries.
     Copyright (C) 2000-2002  Michael van Acken
@@ -495,6 +495,8 @@ PROCEDURE (b: Builder) WriteSymbolTable* (ch: Channel.Channel; symTab: Sym.Modul
   VAR
     writer: Storage.Writer;
   BEGIN
+    (* Note: This method omits the fingerprint value and is therefore
+       not symmetric to ReadSymbolTable *)
     writer := Storage.ConnectWriter (ch);
     writer. WriteObject (symTab);
     res := writer. res;
@@ -503,17 +505,21 @@ PROCEDURE (b: Builder) WriteSymbolTable* (ch: Channel.Channel; symTab: Sym.Modul
     END
   END WriteSymbolTable;
 
-PROCEDURE (b: Builder) ReadSymbolTable* (ch: Channel.Channel; VAR res: Channel.Result): Sym.Module;
+PROCEDURE (b: Builder) ReadSymbolTable* (ch: Channel.Channel;
+                                         VAR res: Channel.Result): Sym.Module;
   VAR
     obj: Object.Object;
     reader: Storage.Reader;
+    fp: LONGINT;
   BEGIN
     reader := Storage.ConnectReader (ch);
+    reader. ReadBytes(fp, 0, SIZE(LONGINT));
     reader. ReadObject (obj);
     res := reader. res;
     IF (obj = NIL) THEN
       RETURN NIL
     ELSE
+      obj(Sym.Module).fingerprint := fp;
       RETURN obj(Sym.Module)
     END
   END ReadSymbolTable;
