@@ -1,4 +1,4 @@
-(* 	$Id: IRtoSSA.Mod,v 1.59 2002/05/13 03:21:58 sgreenhill Exp $	 *)
+(* 	$Id: IRtoSSA.Mod,v 1.60 2002/05/18 20:33:35 mva Exp $	 *)
 MODULE OOC:SSA:IRtoSSA;
 (*  Converts the IR of a procedure into its SSA representation.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -397,7 +397,12 @@ PROCEDURE StatmSeq* (pb: SSA.ProcBlock; s: SSA.Result;
         RETURN TypeTest (expr);
         
       | expr: IR.Negate DO
-        instr := pb. AddInstr (Opcode.negate, Opcode.scBoolean);
+        (* FIXME... use a different IR opcode for boolean not *)
+        IF (expr. type = Predef.GetType (Predef.boolean)) THEN
+          instr := pb. AddInstr (Opcode.not, Opcode.scBoolean);
+        ELSE
+          instr := pb. AddInstr (Opcode.negate, Opcode.scBoolean);
+        END;
         instr. AddOpnd (Expression (expr. operand), Opnd.arg);
         RETURN instr
 

@@ -1,4 +1,4 @@
-(* 	$Id: WriteC.Mod,v 1.69 2002/05/12 21:55:24 mva Exp $	 *)
+(* 	$Id: WriteC.Mod,v 1.70 2002/05/18 20:33:35 mva Exp $	 *)
 MODULE OOC:SSA:WriteC [OOC_EXTENSIONS];
 (*  Translates a set of scheduled SSA instructions to plain C.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -624,6 +624,7 @@ PROCEDURE (w: Writer) WriteInstrList (b: Schedule.Block;
 
   PROCEDURE CopyString (instr: SSA.Instr);
     BEGIN
+      w. Newline;
       w. WriteString ("_copy(");
       w. Ref (instr. GetOpndClass (Opnd.readAdr));
       w. WriteChar (",");
@@ -877,7 +878,7 @@ PROCEDURE (w: Writer) WriteInstrList (b: Schedule.Block;
       | Opcode.or:
         WriteDyadicOp (instr, "||");
       | Opcode.not:
-        WriteMonadicOp (instr, "!", "");
+        WriteMonadicOp (instr, "!", ";");
 
       | Opcode.setMember:
         WriteDyadicFct (instr, "_in");
@@ -1158,7 +1159,8 @@ PROCEDURE (t: Translator) WriteProcBody* (proc: IR.Procedure);
     Write ("initial", "dce-pre");
     DeadCodeElimination.Transform (pb);
     Write ("dce-post", "destore-pre");
-    Destore.Transform (pb, t. config. typeRules);
+(*    Destore.Transform (pb, t. config. typeRules);
+    Blocker.Write (StdChannels.stdout, pb);*)
     Write ("destore-post", "dce-pre");
     DeadCodeElimination.Transform (pb);
     Write ("dce-post", "final");
