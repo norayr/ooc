@@ -1,4 +1,4 @@
-/*	$Id: Socket.c,v 1.1 2002/07/16 15:57:43 mva Exp $	*/
+/*	$Id: Socket.c,v 1.2 2002/09/02 17:29:17 mva Exp $	*/
 /*  Interface to socket facilities.
     Copyright (C) 2000  Michael van Acken
 
@@ -384,7 +384,7 @@ void IO_Socket__SocketDesc_ConnectDone(IO_Socket__Socket s) {
   int error, len, rc;
   
   len = sizeof(error);
-  if ((rc = getsockopt(s->fd, SOL_SOCKET, SO_ERROR, &error, &len)) < 0) {
+  if ((rc = getsockopt(s->fd, SOL_SOCKET, SO_ERROR, (void*)&error, &len)) < 0) {
     s->res = get_error(rc);	/* Solaris pending error */
   } else {
     /* Berkeley-derived implementations return an rc of 0, with the
