@@ -1,4 +1,4 @@
-/*      $Id: __oo2c.h,v 1.21 2002/06/23 11:25:30 mva Exp $        */
+/*      $Id: __oo2c.h,v 1.22 2002/06/24 19:09:11 mva Exp $        */
 /*  Run-time system for C back-ends of OOC2
     Copyright (C) 2001, 2002  Michael van Acken
 
@@ -40,9 +40,13 @@
 
 #define _check_index(index,length,utype,pos)              \
   ({ if ((utype)index >= (OOC_ULEN)length) {              \
-       RT0__ErrorIndexOutOfRange(&_mid,pos,index,length);  \
+       RT0__ErrorIndexOutOfRange(&_mid,pos,index,length); \
      }                                                    \
      index; })
+#define _failed_case(select,pos) RT0__ErrorFailedCase(&_mid,pos,select)
+#define _failed_with(pos) RT0__ErrorFailedWith(&_mid,pos)
+
+
 
 /* ASSERT(p) and ASSERT(p,code) */
 #define _assert(p,code,pos) \

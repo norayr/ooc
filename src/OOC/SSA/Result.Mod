@@ -1,4 +1,4 @@
-(* 	$Id: Result.Mod,v 1.5 2002/06/23 18:50:16 mva Exp $	 *)
+(* 	$Id: Result.Mod,v 1.6 2002/06/24 19:09:11 mva Exp $	 *)
 MODULE OOC:SSA:Result;
 (*  Symbolic names for result classes.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -78,6 +78,7 @@ PROCEDURE GetName* (class: Class; VAR name: ARRAY OF CHAR);
     | primary: COPY ("primary", name)
     | store: COPY ("store", name)
     | selectValue: COPY ("select-value", name)
+    | exception: COPY ("exception", name)
     END;
   END GetName;
   
