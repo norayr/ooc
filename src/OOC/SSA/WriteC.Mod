@@ -1,4 +1,4 @@
-(* 	$Id: WriteC.Mod,v 1.104 2002/07/15 21:00:54 mva Exp $	 *)
+(* 	$Id: WriteC.Mod,v 1.105 2002/07/16 13:08:14 mva Exp $	 *)
 MODULE OOC:SSA:WriteC [OOC_EXTENSIONS];
 (*  Translates a set of scheduled SSA instructions to plain C.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -863,9 +863,13 @@ PROCEDURE (w: Writer) WriteInstrList (b: Schedule.Block;
       w. WriteString (");");
     END MoveBlock;
   
-  PROCEDURE Shift (instr: SSA.Instr);
+  PROCEDURE Shift (instr: SSA.Instr; rotate: BOOLEAN);
     BEGIN
-      w. WriteString ("_lsh(");
+      IF rotate THEN
+        w. WriteString ("_rot(");
+      ELSE
+        w. WriteString ("_lsh(");
+      END;
       w. WriteString (w. basicType[Allocator.SubclassToBasicType (instr. subclass)]. repr);
       w. WriteString (", ");
       w. Ref (instr. opndList);
@@ -1157,7 +1161,9 @@ PROCEDURE (w: Writer) WriteInstrList (b: Schedule.Block;
       | Opcode.entier:
         WriteMonadicOp (instr, "_entier(", ");");
       | Opcode.lsh:
-        Shift (instr);
+        Shift (instr, FALSE);
+      | Opcode.rot:
+        Shift (instr, TRUE);
       | Opcode.odd:
         WriteMonadicOp (instr, "_odd(", ");");
         

@@ -1,4 +1,4 @@
-/*      $Id: __oo2c.h,v 1.31 2002/07/15 21:00:54 mva Exp $        */
+/*      $Id: __oo2c.h,v 1.32 2002/07/16 13:08:14 mva Exp $        */
 /*  Run-time system for C back-ends of OOC2
     Copyright (C) 2001, 2002  Michael van Acken
 
@@ -119,6 +119,17 @@ extern OOC_INT32 _cmp16(const OOC_CHAR8* l, const OOC_CHAR8* r);
 #define _lshl(_x,_n,_type) ((_type) _x << _n)
 #define _lshr(_x,_n,_type) ((_type) _x >> _n)
 #define _lsh(_type,_x,_n) ((_n >= 0) ? _lshl(_x,_n,_type) : _lshr(_x,- _n,_type))
+
+/* SYSTEM.ROT(x,n) */
+#define _rot(_type,_x,_n)                                                     \
+  ({ int bits = sizeof(_type)*8;                                              \
+     _type res;                                                               \
+     if (_n % bits >= 0) {                                                    \
+       res = ((_type)_x << _n % bits) | ((_type)_x >> (bits - _n % bits));    \
+     } else {                                                                 \
+       res = ((_type)_x >> -(_n % bits)) | ((_type)_x << (bits + _n % bits)); \
+     }                                                                        \
+     res; })
 
 /* CAP(CHAR) and CAP(LONGCHAR) */
 #define _cap(_c) ((96<_c && _c<123) || (224<=_c && _c<255 && _c!=247)) ? (_c-32) : _c

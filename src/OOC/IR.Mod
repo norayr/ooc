@@ -1,4 +1,4 @@
-(* 	$Id: IR.Mod,v 1.142 2002/07/16 02:27:16 sgreenhill Exp $	 *)
+(* 	$Id: IR.Mod,v 1.143 2002/07/16 13:08:14 mva Exp $	 *)
 MODULE OOC:IR [OOC_EXTENSIONS];
 (*  High-level intermediate code representation.
     Copyright (C) 2001, 2002  Michael van Acken, Stewart Greenhill
@@ -525,7 +525,8 @@ TYPE
   Shift* = POINTER TO ShiftDesc;
   ShiftDesc = RECORD
     (OperatorDesc)
-    value-, by- :Expression;
+    value-, by-: Expression;
+    rotate-: BOOLEAN;
   END;
 
 TYPE
@@ -2253,19 +2254,22 @@ PROCEDURE (range: SetRange) IntersectsWith* (range2: SetRange): BOOLEAN;
 (* Operator Class: Shift
    ------------------------------------------------------------------------ *)
 
-PROCEDURE InitShift (shift: Shift; sym: Symbol; value, by: Expression);
+PROCEDURE InitShift (shift: Shift; sym: Symbol; value, by: Expression;
+                     rotate: BOOLEAN);
   BEGIN
     InitOperator (shift, sym, Predef.GetType (Predef.longint));
     shift. value := value;
     shift. by := by;
+    shift. rotate := rotate;
   END InitShift;
 
-PROCEDURE (b: Builder) NewShift (sym: Symbol; value, by: Expression): Expression;
+PROCEDURE (b: Builder) NewShift (sym: Symbol; value, by: Expression;
+                                 rotate: BOOLEAN): Expression;
   VAR
     shift: Shift;
   BEGIN
     NEW (shift);
-    InitShift (shift, sym, value, by);
+    InitShift (shift, sym, value, by, rotate);
     RETURN shift;
   END NewShift;
 
@@ -4438,10 +4442,13 @@ PROCEDURE (b: Builder) NewOperator* (sym: Symbol; left, right: Expression): Expr
         RETURN b. NewAdr (design. sym, arguments[0]);
 
       | Predef.lsh:
-        RETURN b. NewShift (design. sym, arguments[0], arguments[1]);
+        RETURN b. NewShift (design. sym, arguments[0], arguments[1], FALSE);
         
       | Predef.val:
         RETURN b. NewTypeCast (design. sym, arguments[0], arguments[1]);
+        
+      | Predef.rot:
+        RETURN b. NewShift (design. sym, arguments[0], arguments[1], TRUE);
       END;
     ELSE
       IF (design = b. errorExpr) THEN
