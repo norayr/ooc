@@ -1,4 +1,4 @@
-(* 	$Id: IR.Mod,v 1.276 2004/03/21 22:33:00 mva Exp $	 *)
+(* 	$Id: IR.Mod,v 1.277 2004/03/22 21:12:33 mva Exp $	 *)
 MODULE OOC:IR [OOC_EXTENSIONS];
 (*  High-level intermediate code representation.
     Copyright (C) 2001-2004  Michael van Acken, Stewart Greenhill
@@ -4968,6 +4968,7 @@ PROCEDURE (b: Builder) CheckExit (procDecl: Sym.ProcDecl;
         | statm: IterateObjectStatm DO
           CheckExpr(statm.var);
           CheckExpr(statm.iteratorFactory);
+          CheckExpr(statm.stepperCall);
           CheckStatmSeq (statm. body);
         | statm: IfStatm DO
           CheckExpr(statm.guard);
