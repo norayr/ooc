@@ -1,4 +1,4 @@
-(* 	$Id: Predef.Mod,v 1.31 2002/06/02 21:08:37 mva Exp $	 *)
+(* 	$Id: Predef.Mod,v 1.32 2002/06/09 21:26:03 mva Exp $	 *)
 MODULE OOC:SymbolTable:Predef;
 (*  Defines symbol table of pseudo module with predefined entities.
     Copyright (C) 2000, 2001, 2002  Michael van Acken
@@ -112,6 +112,7 @@ CONST
   copy* = 17;                            (* COPY *)
 
   adr* = 18;                             (* SYSTEM.ADR *)
+  val* = 19;                             (* SYSTEM.VAL *)
   
 VAR
   i: LONGINT;
@@ -271,6 +272,7 @@ PROCEDURE CreateSYSTEM* (stb: Builder.Builder): Sym.Module;
     ptype := PredefType (stb, module, ptr, "PTR", 4, 4, NIL, NIL);
 
     PredefProc (stb, module, adr, "ADR", 1, 1);
+    PredefProc (stb, module, val, "VAL", 2, 2);
     
     stb. Finalize (module);
     RETURN module

@@ -1,4 +1,4 @@
-(* 	$Id: IR.Mod,v 1.98 2002/06/06 21:18:59 mva Exp $	 *)
+(* 	$Id: IR.Mod,v 1.99 2002/06/09 21:26:03 mva Exp $	 *)
 MODULE OOC:IR [OOC_EXTENSIONS];
 (*  High-level intermediate code representation.
     Copyright (C) 2001, 2002  Michael van Acken, Stewart Greenhill
@@ -477,6 +477,18 @@ TYPE
      converted into an empty set constant.  *)
     (OperatorDesc)
     from-, to- : Expression;
+  END;
+
+TYPE
+  TypeCast* = POINTER TO TypeCastDesc;
+  TypeCastDesc = RECORD
+    (**A type cast expression interprets the binary representation of a
+       value as if it is of another type.  It resembles @otype{TypeConv}
+       in its arguments, in particular how the type information is stored.
+       Unlike @otype{TypeConv}, casting a value does not involved any
+       translation of the value.  *)
+    (OperatorDesc)
+    expr- : Expression;
   END;
 
 TYPE
@@ -1884,6 +1896,34 @@ PROCEDURE (v: Visitor) [ABSTRACT] VisitSetRange* (range: SetRange);
 PROCEDURE (range: SetRange) Accept* (v: Visitor);
   BEGIN
     v. VisitSetRange (range)
+  END Accept;
+
+(* Operator Class: TypeCast
+   ------------------------------------------------------------------------ *)
+
+PROCEDURE InitTypeCast (cast: TypeCast; sym: Symbol; type: Sym.Type;
+                     expr: Expression);
+  BEGIN
+    InitOperator (cast, sym, type);
+    cast. expr := expr;
+  END InitTypeCast;
+
+PROCEDURE (b: Builder) NewTypeCast (sym: Symbol;
+                                    typeExpr, expr : Expression): TypeCast;
+  VAR
+    cast: TypeCast;
+  BEGIN
+    NEW (cast);
+    InitTypeCast (cast, sym, typeExpr(TypeRef). decl(Sym.TypeDecl). type, expr);
+    RETURN cast
+  END NewTypeCast;
+
+PROCEDURE (v: Visitor) [ABSTRACT] VisitTypeCast* (cast: TypeCast);
+  END VisitTypeCast;
+
+PROCEDURE (cast: TypeCast) Accept* (v: Visitor);
+  BEGIN
+    v. VisitTypeCast (cast)
   END Accept;
 
 (* Operator Class: TypeConv
@@ -3432,6 +3472,8 @@ PROCEDURE (b: Builder) NewCall* (design: Expression; arguments: ExpressionList):
       | Predef.adr:
         (* FIXME... check that argument has an address *)
         RETURN b. NewAdr (design. sym, arguments[0]);
+      | Predef.val:
+        RETURN b. NewTypeCast (design. sym, arguments[0], arguments[1]);
       END;
     ELSE
       IF (design = b. errorExpr) THEN

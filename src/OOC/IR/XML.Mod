@@ -1,4 +1,4 @@
-(* 	$Id: XML.Mod,v 1.53 2002/06/02 21:09:44 mva Exp $	 *)
+(* 	$Id: XML.Mod,v 1.54 2002/06/09 21:26:03 mva Exp $	 *)
 MODULE OOC:IR:XML;
 (*  Write an IR data structure as an XML document.
     Copyright (C) 2001, 2002  Michael van Acken, Stewart Greenhill
@@ -290,6 +290,14 @@ PROCEDURE (v: Visitor) VisitSetOp* (op: IR.SetOp);
   BEGIN
     VisitDyadicOp (v, op, op.variant, op.left, op.right, "setOp");
   END VisitSetOp;
+
+PROCEDURE (v : Visitor) VisitTypeCast* (op : IR.TypeCast);
+  BEGIN
+    v. w. StartTag("type-cast", FALSE);
+    (* FIXME! Write type. How? *)
+    op. expr. Accept(v);
+    v. w. EndTag;
+  END VisitTypeCast;
 
 PROCEDURE (v : Visitor) VisitTypeConv* (op : IR.TypeConv);
   BEGIN

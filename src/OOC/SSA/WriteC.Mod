@@ -1,4 +1,4 @@
-(* 	$Id: WriteC.Mod,v 1.81 2002/06/03 23:42:47 mva Exp $	 *)
+(* 	$Id: WriteC.Mod,v 1.82 2002/06/09 21:26:03 mva Exp $	 *)
 MODULE OOC:SSA:WriteC [OOC_EXTENSIONS];
 (*  Translates a set of scheduled SSA instructions to plain C.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -615,6 +615,17 @@ PROCEDURE (w: Writer) WriteInstrList (b: Schedule.Block;
       w. WriteString (");");
     END NewObject;
   
+  PROCEDURE TypeCast (instr: SSA.Instr);
+    BEGIN
+      w. WriteString ("_type_cast(");
+      w. WriteString (w. basicType[Allocator.SubclassToBasicType (instr. subclass)]. repr);
+      w. WriteString (", ");
+      w. WriteString (w. basicType[Allocator.SubclassToBasicType (instr. opndList. arg. instr. subclass)]. repr);
+      w. WriteString (", ");
+      w. Ref (instr. opndList);
+      w. WriteString (");");
+    END TypeCast;
+
   PROCEDURE TypeTag (instr: SSA.Instr);
     VAR
       name: String.String;
@@ -986,6 +997,8 @@ PROCEDURE (w: Writer) WriteInstrList (b: Schedule.Block;
       | Opcode.tbProcAddress:
         TBProcAddress (instr);
 
+      | Opcode.typeCast:
+        TypeCast (instr);
       | Opcode.typeConv:
         w. Ref (instr. opndList);
         w. WriteChar (";");
