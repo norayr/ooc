@@ -1,4 +1,4 @@
-(* 	$Id: SymbolTable.Mod,v 1.50 2002/12/13 23:50:46 mva Exp $	 *)
+(* 	$Id: SymbolTable.Mod,v 1.51 2002/12/14 13:16:22 mva Exp $	 *)
 MODULE OOC:SymbolTable [OOC_EXTENSIONS];
 (*  Defines structure and entries of the symbol table.
     Copyright (C) 2000-2002  Michael van Acken
@@ -650,6 +650,8 @@ TYPE
     (DeclarationDesc)
     (**This class represents constant declarations.  *)
     value-: Language.Value;
+    (**The value of the constant.  For the special value @samp{NIL}, this
+       field is @code{NIL}.  *)
     type-: PredefType;
     constExpr-: AST.Node;
     (**The part of the abstract syntax tree that defines the value of the
