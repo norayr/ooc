@@ -1,4 +1,4 @@
-(* 	$Id: StdPragmas.Mod,v 1.11 2002/07/24 00:46:21 mva Exp $	 *)
+(* 	$Id: StdPragmas.Mod,v 1.12 2002/11/24 09:47:59 mva Exp $	 *)
 MODULE OOC:Config:Pragmas:StdPragmas;
 (*  Creates standard pragma variables with default values.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -25,7 +25,7 @@ IMPORT
 
 
 CONST
-  defaultWarnings = FALSE;
+  defaultWarnings = TRUE;
   defaultAssertions = TRUE;
   
   defaultIndexCheck = TRUE;
