@@ -1,4 +1,4 @@
-(* 	$Id: Opnd.Mod,v 1.15 2002/05/01 17:58:36 mva Exp $	 *)
+(* 	$Id: Opnd.Mod,v 1.16 2002/05/05 15:20:46 mva Exp $	 *)
 MODULE OOC:SSA:Opnd;
 (*  Symbolic names for operand classes.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -118,10 +118,10 @@ CONST
      live across the whole loop, instead of being clobbered somewhere between
      the loop start and end.  *)
 
-(*  tempOpnd* = 18;   ... currently unused
+  antiDependency* = 18;
   (**This class is used for operands that are inserted into the SSA instruction
-     list during the course of a particular algorithm.  They must be removed
-     once the calculation is done.  *)*)
+     list during the course of a the data dependency analysis.  See
+     @omodule{*OOC:SSA:Blocker}.  *)
   
 PROCEDURE GetName* (class: Class; VAR name: ARRAY OF CHAR);
 (**Retrieves the symbolic name of an operand class.  *)
@@ -143,7 +143,7 @@ PROCEDURE GetName* (class: Class; VAR name: ARRAY OF CHAR);
     | dimension: COPY ("dimension", name)
     (*| argPointer: COPY ("arg-pointer", name)*)
     | loopExternalDef: COPY ("loop-external-def", name);
-    (*| tempOpnd: COPY ("temp-opnd", name); ... currently unused *)
+    | antiDependency: COPY ("anti-dependency", name);
     END;
   END GetName;
   
