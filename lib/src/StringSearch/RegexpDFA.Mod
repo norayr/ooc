@@ -1,4 +1,4 @@
-(*	$Id: RegexpDFA.Mod,v 1.3 2002/12/17 19:33:40 mva Exp $	*)
+(*	$Id: RegexpDFA.Mod,v 1.4 2002/12/20 17:48:07 mva Exp $	*)
 MODULE StringSearch:RegexpDFA [OOC_EXTENSIONS];
 (*  DFA based regular expression matcher.
     Copyright (C) 2001  Michael van Acken
@@ -22,7 +22,7 @@ MODULE StringSearch:RegexpDFA [OOC_EXTENSIONS];
 
 IMPORT
   <*IF DEBUG THEN*>
-  Out, ADT:Storable, ADT:Dictionary:IntValue,
+  Out, ADT:Dictionary:IntValue,
   <*END*>
   Ascii, Object, StringSearch, StringSearch:SubstringBM,
   Regexp := StringSearch:RegexpParser;
@@ -191,7 +191,7 @@ TYPE
   GroupId = SHORTINT;
   Node = POINTER TO NodeDesc;
   NodeDesc = RECORD
-    <*IF DEBUG THEN*>(Storable.ObjectDesc)<*END*>
+    <*IF DEBUG THEN*>(Object.ObjectDesc)<*END*>
     suc, alt: Node;
     type: SHORTINT;
     ch: CHAR;
