@@ -1,4 +1,4 @@
-(* 	$Id: Opcode.Mod,v 1.103 2003/09/12 08:04:07 sgreenhill Exp $	 *)
+(* 	$Id: Opcode.Mod,v 1.104 2003/09/16 03:27:13 sgreenhill Exp $	 *)
 MODULE OOC:SSA:Opcode;
 (*  This modules defines opcodes for SSA instructions.
     Copyright (C) 2001-2003  Michael van Acken
@@ -784,8 +784,7 @@ CONST
 
      @table @oconst
      @item *OOC:SSA.Opnd.arg
-	 This is a @oconst{typeRef} denoting a record type, or a pointer
-     value.
+	 A pointer to a VTABLE record.
 
      @item *OOC:SSA.Opnd.arg
      The static procedure declaration that is used by the call in the source
