@@ -1,4 +1,4 @@
-(* 	$Id: TranslateToC.Mod,v 1.41 2002/07/13 09:47:00 mva Exp $	 *)
+(* 	$Id: TranslateToC.Mod,v 1.42 2002/07/18 14:29:04 mva Exp $	 *)
 MODULE OOC:Make:Command:TranslateToC [OOC_EXTENSIONS];
 (*  Translates a module file into a bunch of C code files.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -217,8 +217,6 @@ PROCEDURE WriteModuleName (w: DeclWriter.Writer;
 
 PROCEDURE WriteHeaderFile (w: DeclWriter.Writer; m: Repository.Module;
                            symTab: Sym.Module; exports: Dictionary.Dictionary);
-  VAR
-    import: Repository.Import;
   BEGIN
     WriteModuleName (w, "#ifndef _MODULE_", m, "_", TRUE);
     WriteModuleName (w, "#define _MODULE_", m, "_", TRUE);
