@@ -1,4 +1,4 @@
-(* 	$Id: ExtTree.Mod,v 1.38 2003/07/15 19:42:52 mva Exp $	 *)
+(* 	$Id: ExtTree.Mod,v 1.39 2003/08/24 00:03:58 mva Exp $	 *)
 MODULE OOC:AST:ExtTree [OOC_EXTENSIONS];
 (*  Creates extended abstract syntax tree from the parser output.
     Copyright (C) 2000-2003  Michael van Acken
@@ -21,7 +21,7 @@ MODULE OOC:AST:ExtTree [OOC_EXTENSIONS];
 *)
 
 IMPORT
-  Object, OOC:Scanner:BasicList, OOC:AST, OOC:Doc;
+  Object, OOC:Scanner:SymList, OOC:AST, OOC:Doc;
 
 
 
@@ -66,7 +66,7 @@ TYPE
   Terminal* = POINTER TO TerminalDesc;
   TerminalDesc = RECORD
     (NodeDesc)
-    sym-: BasicList.Symbol;
+    sym-: SymList.Symbol;
   END;
 
 TYPE
@@ -760,7 +760,7 @@ PROCEDURE (nl: NodeList) Accept* (v: Visitor);
   END Accept;
 
 
-PROCEDURE (b: Builder) Terminal* (sym: BasicList.Symbol): Node;
+PROCEDURE (b: Builder) Terminal* (sym: SymList.Symbol): Node;
   VAR
     t: Terminal;
   BEGIN

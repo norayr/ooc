@@ -1,4 +1,4 @@
-(* 	$Id: SymbolTable.Mod,v 1.110 2003/08/11 22:20:46 mva Exp $	 *)
+(* 	$Id: SymbolTable.Mod,v 1.111 2003/08/24 00:03:58 mva Exp $	 *)
 MODULE OOC:SymbolTable [OOC_EXTENSIONS];
 (*  Defines structure and entries of the symbol table.
     Copyright (C) 2000-2003  Michael van Acken
@@ -24,7 +24,7 @@ IMPORT
   Object, Object:Boxed, Exception, Strings, ADT:Dictionary:AddressKey,
   ADT:Dictionary, ADT:Storable, ADT:ArrayList, ADT:Object:Storage, IO,
   URI, ParserURI := URI:Parser, URI:Scheme:File,
-  OOC:Scanner:InputBuffer, SB := OOC:Scanner:Builder, OOC:Doc, OOC:AST;
+  OOC:Scanner:InputBuffer, SB := OOC:Scanner:SymList, OOC:Doc, OOC:AST;
 
 TYPE
   NameString* = InputBuffer.CharArray;
@@ -687,7 +687,7 @@ TYPE
        definition, then this field is not @code{NIL}.  In this case, it
        points to the name of the class, typically the name of the pointer
        type that has this record as its base type.  This field is filled
-       in by @oproc{*OOC:SymbolTable:Builder.Finalize}.
+       in by @oproc{*OOC:SymbolTable:SymList.Finalize}.
        
        A record is classified as a @samp{class} if it is the base type of a
        pointer type declaration, or if it is an extension of another record,

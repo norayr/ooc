@@ -1,4 +1,4 @@
-(* 	$Id: AST.Mod,v 1.17 2003/07/15 19:42:52 mva Exp $	 *)
+(* 	$Id: AST.Mod,v 1.18 2003/08/24 00:03:58 mva Exp $	 *)
 MODULE OOC:AST [OOC_EXTENSIONS];
 (*  Abstract builder class for parser output.
     Copyright (C) 2000-2003  Michael van Acken
@@ -21,7 +21,7 @@ MODULE OOC:AST [OOC_EXTENSIONS];
 *)
 
 IMPORT
-  Strings, OOC:Scanner:InputBuffer, OOC:Doc, OOC:Scanner:BasicList,
+  Strings, OOC:Scanner:InputBuffer, OOC:Doc, OOC:Scanner:SymList,
   <*PUSH; Warnings:=FALSE*>OOC:Scanner:Symbol<*POP (*for refs in docs*)*>;
 
 TYPE
@@ -238,7 +238,7 @@ PROCEDURE (b: Builder) SetModuleName* (name: ARRAY OF CHAR);
     COPY (name, b. expectedModuleName^);
   END SetModuleName;
 
-PROCEDURE (b: Builder) [ABSTRACT] Terminal* (sym: BasicList.Symbol): Node;
+PROCEDURE (b: Builder) [ABSTRACT] Terminal* (sym: SymList.Symbol): Node;
 (**Takes the symbol @oparam{sym} and creates a terminal node of the syntax
    tree.  In this context, @dfn{terminal} means that the node is a leaf of
    the tree.  *)
