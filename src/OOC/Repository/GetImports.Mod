@@ -1,4 +1,4 @@
-(* 	$Id: GetImports.Mod,v 1.5 2002/04/28 12:38:56 mva Exp $	 *)
+(* 	$Id: GetImports.Mod,v 1.6 2002/06/01 19:07:17 mva Exp $	 *)
 MODULE OOC:Repository:GetImports;
 (*  Determine the list of modules imported by a given module.
     Copyright (C) 2001  Michael van Acken
@@ -142,7 +142,8 @@ PROCEDURE GetImports* (m: Rep.Module;
         END;
         item := item. nextNested
       END;
-      AppendRuntimeModule
+      AppendRuntimeModule;
+      m. AddImport (NIL)  (* mark module with "import scanned" *)
     ELSE                                 (* take imports from source file *)
       
       inputBuffer := m. GetInputBuffer (res);
