@@ -1,4 +1,4 @@
-(* 	$Id: IR.Mod,v 1.97 2002/06/05 22:02:30 mva Exp $	 *)
+(* 	$Id: IR.Mod,v 1.98 2002/06/06 21:18:59 mva Exp $	 *)
 MODULE OOC:IR [OOC_EXTENSIONS];
 (*  High-level intermediate code representation.
     Copyright (C) 2001, 2002  Michael van Acken, Stewart Greenhill
@@ -2948,7 +2948,7 @@ PROCEDURE (b: Builder) NewOperator* (sym: Symbol; left, right: Expression): Expr
   VAR 
     result : Expression;
     variant : Variant;
-    leftType, rightType : Sym.Type;
+    leftType, rightType, nil : Sym.Type;
     leftIsNumeric, leftIsSet, leftIsInteger, leftIsBoolean, 
     leftIsChar, leftIsString : BOOLEAN;
     rightIsNumeric, rightIsSet, rightIsInteger, rightIsBoolean, 
@@ -3052,11 +3052,16 @@ PROCEDURE (b: Builder) NewOperator* (sym: Symbol; left, right: Expression): Expr
       & (leftIsString & rightIsString) THEN
       (* FIXME... handle char array., string *)
       result := b.NewCompare(sym, left, right);
-    ELSIF (id IN {Id.eql, Id.neq}) &
-          ((leftType IS Sym.Pointer) OR (leftType = Predef.GetType (Predef.nil))) &
-          ((rightType IS Sym.Pointer) OR (rightType = Predef.GetType (Predef.nil))) THEN
-      (* FIXME... deal with NIL, check types  *)
-      result := b.NewCompare(sym, left, right);
+    ELSIF (id IN {Id.eql, Id.neq}) THEN
+      nil := Predef.GetType (Predef.nil);
+      IF (leftType = nil) & tr. IsNilCompatible (rightType) OR
+         (rightType = nil) & tr. IsNilCompatible (leftType) THEN
+        (* left or right side (or both) are NIL *)
+        result := b.NewCompare(sym, left, right);
+      ELSE 
+        (* FIXME... check types  *)
+        result := b.NewCompare(sym, left, right);
+      END;
     ELSIF (id IN {Id.eql, Id.neq})
       & ((leftIsBoolean & rightIsBoolean) OR (leftIsSet & rightIsSet)) THEN
       (* FIXME... procedure types *)
