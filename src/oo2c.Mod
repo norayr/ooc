@@ -1,4 +1,4 @@
-(* 	$Id: oo2c.Mod,v 1.51 2003/04/15 22:59:26 mva Exp $	 *)
+(* 	$Id: oo2c.Mod,v 1.52 2003/04/16 00:56:46 mva Exp $	 *)
 MODULE oo2c;
 (*  Main module for the Oberon-2 to C translator.
     Copyright (C) 2002,2003  Michael van Acken
@@ -104,7 +104,6 @@ PROCEDURE NewConfig;
                        "<options>"+
                        "  <set name='listUses'>$1</set>"+
                        "  <set name='command'>1</set>"+  (* --make *)
-                       "  <set name='forceUpdate'>TRUE</set>"+  (* --all *)
                        "</options>");
     Config.AddCmdLine ("--error-style",
                        "<options><set name='errorStyle'>$1</set></options>");
@@ -539,6 +538,7 @@ PROCEDURE WriteHelp();
     Out.String("Usage:"); Out.Ln;
     Out.String("  oo2c [options] <module>..."); Out.Ln;
     Out.String("  oo2c (--make|-M) [options] <module>"); Out.Ln;
+    Out.String("  oo2c --uses <ext-ident> [options] <module> ..."); Out.Ln;
     Out.String("  oo2c --build-package [options] <package>"); Out.Ln;
     Out.String("  oo2c --install-package [options] <package>"); Out.Ln;
     Out.String("  oo2c --uninstall-package [options] <package>"); Out.Ln;

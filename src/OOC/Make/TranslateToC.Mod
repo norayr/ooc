@@ -1,4 +1,4 @@
-(* 	$Id: TranslateToC.Mod,v 1.21 2003/04/15 22:59:24 mva Exp $	 *)
+(* 	$Id: TranslateToC.Mod,v 1.22 2003/04/16 00:56:45 mva Exp $	 *)
 MODULE OOC:Make:TranslateToC [OOC_EXTENSIONS];
 (*  Translates a module file into a bunch of C code files.
     Copyright (C) 2001, 2002, 2003  Michael van Acken
@@ -213,7 +213,8 @@ PROCEDURE WriteCodeFile (w, wd: DeclWriter.Writer; m: Repository.Module;
   END WriteCodeFile;
 
 
-PROCEDURE Run*(m: Repository.Module; libraryName: STRING; uses: Uses.Uses;
+PROCEDURE Run*(m: Repository.Module; libraryName: STRING;
+               analysisOnly: BOOLEAN; uses: Uses.Uses;
                writeAST: BOOLEAN; writeIR: BOOLEAN;
                translator: Translator): Error.List
 RAISES IO.Error;
@@ -284,7 +285,7 @@ RAISES IO.Error;
       
       exports := Exports.GetExports (symTab, TRUE);
       
-      IF errList.NoErrors() THEN
+      IF errList.NoErrors() & ~analysisOnly THEN
         (* only attempt to produce output if program compiled without errors *)
 
         wd := NIL;  (* prevent warning for call in next line *)
