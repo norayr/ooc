@@ -1,4 +1,4 @@
-(* 	$Id: CCompiler.Mod,v 1.17 2002/11/18 01:30:28 mva Exp $	 *)
+(* 	$Id: CCompiler.Mod,v 1.18 2002/11/22 15:49:35 mva Exp $	 *)
 MODULE OOC:Config:CCompiler;
 (*  Generates command lines for the C compiler and linker.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -27,7 +27,8 @@ IMPORT
 
 VAR
   cc, cppflags, cflags, ldflags, libs-, libtool, libdir: Options.Option;
-
+  install, installProgram, installData: Options.Option;
+  
 PROCEDURE CompileFileCmd* (in, out: URI.URI; forLibrary: BOOLEAN;
                            VAR cmd: ARRAY OF CHAR);
   VAR
@@ -132,6 +133,18 @@ PROCEDURE RegisterConfig*;
                        "<options><set name='libtool'>$1</set></options>");
     Config.AddCmdLine ("--libdir",
                        "<options><set name='libdir'>$1</set></options>");
+
+    install := Config.AddOption ("install", StringValue.New ("install -c"));
+    installProgram := Config.AddOption ("installProgram",
+                                        StringValue.New ("install -c"));
+    installData := Config.AddOption ("installData",
+                                     StringValue.New ("install -c -m 644"));
+    Config.AddCmdLine ("--install",
+                       "<options><set name='install'>$1</set></options>");
+    Config.AddCmdLine ("--install-program",
+                       "<options><set name='installProgram'>$1</set></options>");
+    Config.AddCmdLine ("--install-data",
+                       "<options><set name='installData'>$1</set></options>");
   END RegisterConfig;
 
 END OOC:Config:CCompiler.
