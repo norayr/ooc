@@ -1,4 +1,4 @@
-(* 	$Id: IR.Mod,v 1.111 2002/06/22 21:49:30 mva Exp $	 *)
+(* 	$Id: IR.Mod,v 1.112 2002/06/23 18:48:49 mva Exp $	 *)
 MODULE OOC:IR [OOC_EXTENSIONS];
 (*  High-level intermediate code representation.
     Copyright (C) 2001, 2002  Michael van Acken, Stewart Greenhill
@@ -2271,7 +2271,7 @@ PROCEDURE (b : Builder) WidenToCommon(VAR left, right : Expression) : BOOLEAN;
 (**Returns true if expressions @oparam{left} and @oparam{right} can be made
    compatible.  If one operand has ``wider'' type than the other, the smaller
    operand is adjusted to have the type of the larger operand and the function
-   will return @ocode{TRUE}. 
+   will return @code{TRUE}. 
    
    A special rule applies to constants of character or string type. If there is
    a common type that is ``wider'' than each of the operands, both operands
