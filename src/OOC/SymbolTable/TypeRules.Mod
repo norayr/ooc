@@ -1,4 +1,4 @@
-(* 	$Id: TypeRules.Mod,v 1.12 2002/05/26 17:31:55 mva Exp $	 *)
+(* 	$Id: TypeRules.Mod,v 1.13 2002/05/29 23:11:41 mva Exp $	 *)
 MODULE OOC:SymbolTable:TypeRules;
 (*  Defines the type rules of the language.
     Copyright (C) 2000-2002  Michael van Acken
@@ -141,14 +141,14 @@ PROCEDURE (tr: Rules) IsOpenArrayType* (type: Sym.Type): BOOLEAN;
   END IsOpenArrayType;
 
 PROCEDURE (tr: Rules) IsArrayOfChar* (type: Sym.Type): BOOLEAN;
-(**Returns @code{TRUE}, iff the type @oparam{type} is an @code{ARRAY OF CHAR}.  *)
+(**Returns @code{TRUE}, iff the type @oparam{type} is an
+   @code{ARRAY OF CHAR} or an @code{ARRAY OF LONGCHAR}.  *)
   BEGIN
     ASSERT (~(type IS Sym.TypeName));
     RETURN
         (type IS Sym.Array) &
         type(Sym.Array). isOpenArray &
-        (type(Sym.Array). elementType IS Sym.PredefType) &
-        (type(Sym.Array). elementType(Sym.PredefType). id = Predef.char)
+        tr. IsCharType (type(Sym.Array). elementType)
   END IsArrayOfChar;
 
 
