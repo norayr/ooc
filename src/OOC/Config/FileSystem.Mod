@@ -1,4 +1,4 @@
-(* 	$Id: FileSystem.Mod,v 1.2 2003/05/19 22:56:49 mva Exp $	 *)
+(* 	$Id: FileSystem.Mod,v 1.3 2003/06/05 22:09:32 mva Exp $	 *)
 MODULE OOC:Config:FileSystem;
 (*  Implements "file-system" element of XML repository configuration.
     Copyright (C) 2001  Michael van Acken
@@ -108,7 +108,7 @@ PROCEDURE (re: RepositoryEntry) ProcessElement* (
         Strings.Append ("/", str8)
       END;
       TRY
-        uri := URIParser.NewURI(str8, FileSystemRepository.baseURI);
+        uri := URIParser.NewURILatin1(str8, FileSystemRepository.baseURI);
         RETURN FileSystemRepository.New (baseRep, uri(URI.HierarchicalURI));
       CATCH Exception.ParseError:
         Err (invalidURI, node);

@@ -1,4 +1,4 @@
-(*      $Id: EntityResolver.Mod,v 1.2 2003/05/19 22:56:53 mva Exp $   *)
+(*      $Id: EntityResolver.Mod,v 1.3 2003/06/05 22:09:35 mva Exp $   *)
 MODULE XML:EntityResolver;
 (*  Locates and opens external entities for the XML parser.
     Copyright (C) 2000, 2003  Michael van Acken
@@ -126,9 +126,9 @@ PROCEDURE (r: Resolver) GetURI* (public, system: DTD.String; baseURI: URI.URI;
     str8 := NormalizeURI (system);
     TRY
       IF (baseURI # NIL) & (baseURI IS URI.HierarchicalURI) THEN
-        uri := Parser.NewURI(str8^, baseURI(URI.HierarchicalURI));
+        uri := Parser.NewURILatin1(str8^, baseURI(URI.HierarchicalURI));
       ELSE
-        uri := Parser.NewURI(str8^, NIL);
+        uri := Parser.NewURILatin1(str8^, NIL);
       END;
       res := NIL;
     CATCH Exception.ParseError:

@@ -1,4 +1,4 @@
-(* 	$Id: CreateSymTab.Mod,v 1.42 2003/05/29 16:59:05 mva Exp $	 *)
+(* 	$Id: CreateSymTab.Mod,v 1.43 2003/06/05 22:09:32 mva Exp $	 *)
 MODULE OOC:AST:ExtTree:CreateSymTab;
 (*  Creates symbol table from abstract syntax tree of module `ExtTree'.
     Copyright (C) 2000-2003  Michael van Acken
@@ -221,7 +221,6 @@ PROCEDURE (v: Visitor) VisitModule* (module: ExtTree.Module);
     i, j: LONGINT;
     n: AST.Node;
     depList: Object.StringArrayPtr;
-    chars: Object.CharsLatin1;
   BEGIN
     moduleName := GetName (module. name. nameList. n[0]);
     Sym.InitName (moduleName, module. moduleName, moduleName. pos, 
@@ -273,9 +272,8 @@ PROCEDURE (v: Visitor) VisitModule* (module: ExtTree.Module);
         IF (n # NIL) THEN  (* skip empty section *)
           WITH n: ExtTree.LinkFileFlag DO
             str := n. fileName. GetString (TRUE);
-            chars := str(Object.String8).CharsLatin1();
             TRY
-              uri := ParserURI.NewURI (chars^, v. baseURI);
+              uri := ParserURI.NewURI(str(Object.String8), v.baseURI);
             CATCH Exception.ParseError:
               ASSERT(FALSE);
             END;

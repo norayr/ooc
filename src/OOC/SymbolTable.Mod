@@ -1,4 +1,4 @@
-(* 	$Id: SymbolTable.Mod,v 1.98 2003/06/02 01:28:25 sgreenhill Exp $	 *)
+(* 	$Id: SymbolTable.Mod,v 1.99 2003/06/05 22:09:33 mva Exp $	 *)
 MODULE OOC:SymbolTable [OOC_EXTENSIONS];
 (*  Defines structure and entries of the symbol table.
     Copyright (C) 2000-2003  Michael van Acken
@@ -1532,7 +1532,7 @@ PROCEDURE (l: LinkFile) Load* (r: Storable.Reader) RAISES IO.Error;
       (* use emptyBaseURI so that the URI parser doesn't report an error for
          the relative URI: *)
       TRY
-        u := ParserURI.NewURI(b, emptyBaseURI);
+        u := ParserURI.NewURILatin1(b, emptyBaseURI);
       CATCH Exception.ParseError:
         ASSERT (FALSE);
       END;

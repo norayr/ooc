@@ -1,4 +1,4 @@
-(* 	$Id: DeclWriter.Mod,v 1.64 2003/05/31 16:51:54 mva Exp $	 *)
+(* 	$Id: DeclWriter.Mod,v 1.65 2003/06/05 22:09:32 mva Exp $	 *)
 MODULE OOC:C:DeclWriter [OOC_EXTENSIONS];
 (*  Defines classes to handle C declarations, types, and include statements.
     Copyright (C) 2001-2003  Michael van Acken
@@ -24,7 +24,7 @@ IMPORT
   SYSTEM, IntStr, Strings, IO, IO:TextRider,
   Object, Object:Boxed, Object:BigInt, ADT:ArrayList, URI, 
   OOC:Repository, Sym := OOC:SymbolTable, OOC:SymbolTable:Predef,
-  TR := OOC:SymbolTable:TypeRules;
+  TR := OOC:SymbolTable:TypeRules, OOC:Repository:FileSystem;
   
 
 
@@ -1183,19 +1183,13 @@ PROCEDURE (w: Writer) NewIncludeModule* (module: Repository.Module): IncludeModu
 PROCEDURE (w: Writer) WriteModuleInclude*(m: Repository.Module;
                                           fileId: Repository.FileId);
   VAR
-    path: Repository.URIBuffer;
-    i: LONGINT;
+    path: STRING;
+    chars: Object.CharsLatin1;
   BEGIN
-    m.origin.GetDefaultSuffix(fileId, path);
-    Strings.Insert(m.name^, 0, path);
-    i := 0;
-    WHILE (path[i] # 0X) DO
-      IF (path[i] = ":") THEN
-        path[i] := "/";
-      END;
-      INC(i);
-    END;
-    w. WriteInclude (path)
+    path := FileSystem.ModuleToFileName(m.name^)+
+        m.origin.GetDefaultSuffix(fileId);
+    chars := path(Object.String8).CharsLatin1();
+    w. WriteInclude(chars^);
   END WriteModuleInclude;
 
 PROCEDURE (d: IncludeModule) Write (w: Writer);

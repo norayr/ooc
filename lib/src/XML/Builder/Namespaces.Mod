@@ -1,4 +1,4 @@
-(*      $Id: Namespaces.Mod,v 1.2 2003/05/19 22:56:51 mva Exp $   *)
+(*      $Id: Namespaces.Mod,v 1.3 2003/06/05 22:09:35 mva Exp $   *)
 MODULE XML:Builder:Namespaces;
 (*  Provides namespace support for XML:Parser.
     Copyright (C) 2000, 2001, 2003  Michael van Acken
@@ -193,9 +193,11 @@ PROCEDURE (b: Builder) Attribute* (namespaceDecl: DTD.NamespaceDeclaration;
       res := NIL;
       TRY
         IF (baseURI # NIL) & (baseURI IS URI.HierarchicalURI) THEN
-          uriRef := URIParser.NewReference(str8^, baseURI(URI.HierarchicalURI), fragm)
+          uriRef := URIParser.NewReferenceLatin1
+              (str8^, baseURI(URI.HierarchicalURI), fragm)
         ELSE
-          uriRef := URIParser.NewReference(str8^, NIL, fragm)
+          uriRef := URIParser.NewReferenceLatin1
+              (str8^, NIL, fragm)
         END;
       CATCH Exception.ParseError:
         res := Error.New(namespacesContext, malformedURIRef);
