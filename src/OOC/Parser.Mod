@@ -1,4 +1,4 @@
-(* 	$Id: Parser.Mod,v 1.5 2002/06/30 19:33:20 mva Exp $	 *)
+(* 	$Id: Parser.Mod,v 1.6 2002/11/11 21:44:17 mva Exp $	 *)
 MODULE OOC:Parser;
 (*  Parses an Oberon-2 module and creates an abstract syntax tree.
     Copyright (C) 1999-2002  Michael van Acken
@@ -360,7 +360,7 @@ PROCEDURE Module* (sym: BasicList.Symbol; ast: AST.Builder;
     
     PROCEDURE ModuleFlags(): AST.Node;
       VAR
-        library, external, callConv, semicolon, link, end: AST.Node;
+        external, callConv, semicolon, link, end: AST.Node;
         moduleFlags, linkSections: AST.NodeList;
         
       PROCEDURE CheckString (): AST.Node;
@@ -371,18 +371,6 @@ PROCEDURE Module* (sym: BasicList.Symbol; ast: AST.Builder;
             RETURN CheckSym (Symbol.stringDouble)
           END
         END CheckString;
-      
-      PROCEDURE Library (): AST.Node;
-        VAR
-          library, name, version, semicolon: AST.Node;
-        BEGIN
-          (*S: Library = "LIBRARY" string string ";". *)
-          library := CheckSym (Symbol.ident);
-          name := CheckString();
-          version := CheckString();
-          semicolon := CheckSym (Symbol.semicolon);
-          RETURN ast. LibraryFlag (library, name, version, semicolon)
-        END Library;
       
       PROCEDURE LinkSection (): AST.Node;
         VAR
@@ -458,11 +446,6 @@ PROCEDURE Module* (sym: BasicList.Symbol; ast: AST.Builder;
         IF Ident ("OOC_EXTENSIONS") THEN
           RETURN CheckSym (Symbol.ident)
         ELSE
-          library := NIL;
-          IF Ident ("LIBRARY") THEN
-            library := Library()
-          END;
-          
           external := NIL;
           IF Ident ("INTERFACE") OR Ident ("FOREIGN") THEN
             external := CheckSym (Symbol.ident)
@@ -502,7 +485,7 @@ PROCEDURE Module* (sym: BasicList.Symbol; ast: AST.Builder;
             end := NIL
           END;
           
-          RETURN ast. ModuleFlags (library, external, callConv, moduleFlags,
+          RETURN ast. ModuleFlags (external, callConv, moduleFlags,
                                    semicolon, link, linkSections, end)
         END
       END ModuleFlags;

@@ -1,4 +1,4 @@
-(* 	$Id: InterfaceDescr.Mod,v 1.2 2002/07/13 09:47:00 mva Exp $	 *)
+(* 	$Id: InterfaceDescr.Mod,v 1.3 2002/11/11 21:44:15 mva Exp $	 *)
 MODULE OOC:SymbolTable:InterfaceDescr;
 (*  Writes a description of a module's interface as XML.
     Copyright (C) 2000, 2001, 2002  Michael van Acken
@@ -302,6 +302,11 @@ PROCEDURE Write* (cw: Channel.Writer; baseURI: URI.HierarchicalURI;
           (*IF (str. array^ # "standard") THEN*)
             w. AttrStringLatin1 ("class", str. array^);
           (*END;*)
+          
+          IF (item.libraryName # NIL) THEN
+            w. AttrStringLatin1("library-name", item.libraryName.array^);
+          END;
+          
           str := item. CallConvToString();
           (*IF (str. array^ # "default") THEN*)
             w. AttrStringLatin1 ("call-conv", str. array^);

@@ -1,4 +1,4 @@
-(* 	$Id: CreateSymTab.Mod,v 1.18 2002/11/10 00:06:49 mva Exp $	 *)
+(* 	$Id: CreateSymTab.Mod,v 1.19 2002/11/11 21:44:16 mva Exp $	 *)
 MODULE OOC:AST:ExtTree:CreateSymTab;
 (*  Creates symbol table from abstract syntax tree of module `ExtTree'.
     Copyright (C) 2000, 2001, 2002  Michael van Acken
@@ -603,11 +603,16 @@ PROCEDURE (v: Visitor) VisitProcType* (procType: ExtTree.ProcType);
   END VisitProcType;
 
 
-PROCEDURE CreateSymTab* (module: AST.Node; stb: SymTabBuilder.Builder; baseURI, rootURI: URI.HierarchicalURI): Sym.Module;
+PROCEDURE CreateSymTab* (module: AST.Node; stb: SymTabBuilder.Builder;
+                         libraryName: String.String;
+                         baseURI, rootURI: URI.HierarchicalURI): Sym.Module;
 (**Creates a symbol table from the abstract syntax tree in @oparam{module}.
    The elements of the symbol table are created by calling appropriate 
    factory methods of @oparam{stb}.  Result is the root object of the newly
-   created symbol table.  *)
+   created symbol table.
+
+   The field @ofield{Sym.Module.libraryName} is set to @oparam{libraryName}.
+   *)
   VAR
     v: Visitor;
   BEGIN
@@ -619,6 +624,7 @@ PROCEDURE CreateSymTab* (module: AST.Node; stb: SymTabBuilder.Builder; baseURI, 
     v. baseURI := baseURI;
     v. rootURI := rootURI;
     Accept (v, module);
+    v.root.SetLibraryName(libraryName);
     stb. Finalize (v. root);
     RETURN v. root
   END CreateSymTab;

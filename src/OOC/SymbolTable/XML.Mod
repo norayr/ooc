@@ -1,4 +1,4 @@
-(* 	$Id: XML.Mod,v 1.3 2002/05/12 10:45:14 mva Exp $	 *)
+(* 	$Id: XML.Mod,v 1.4 2002/11/11 21:44:15 mva Exp $	 *)
 MODULE OOC:SymbolTable:XML;
 (*  Converts symbol table to XML document.
     Copyright (C) 2000, 2001, 2002  Michael van Acken
@@ -236,6 +236,9 @@ PROCEDURE Write* (cw: Channel.Writer; module: Sym.Module);
             str := item. ClassToString();
             IF (str. array^ # "standard") THEN
               AttribString ("", "class", str. array^)
+            END;
+            IF (item.libraryName # NIL) THEN
+              AttribString("", "library_name", item.libraryName.array^);
             END;
             str := item. CallConvToString();
             IF (str. array^ # "default") THEN

@@ -1,4 +1,4 @@
-(* 	$Id: AST.Mod,v 1.8 2002/01/18 20:44:12 mva Exp $	 *)
+(* 	$Id: AST.Mod,v 1.9 2002/11/11 21:44:17 mva Exp $	 *)
 MODULE OOC:AST [OOC_EXTENSIONS];
 (*  Abstract builder class for parser output.
     Copyright (C) 2000-2002  Michael van Acken
@@ -1131,11 +1131,8 @@ PROCEDURE (b: Builder) [ABSTRACT] ProcWithoutBody* (moduleFlags, procFlags: Node
 PROCEDURE (b: Builder) [ABSTRACT] ProcIdFlag* (procId, equal, number: Node): Node;
   END ProcIdFlag;
 
-PROCEDURE (b: Builder) [ABSTRACT] LibraryFlag* (library, name, version, semicolon: Node): Node;
-  END LibraryFlag;
-
 PROCEDURE (b: Builder) [ABSTRACT] ModuleFlags* (
-                   library, external, callConv: Node; moduleFlags: NodeList;
+                   external, callConv: Node; moduleFlags: NodeList;
                    semicolon, link:Node;
                    linkSections: NodeList; end: Node): Node;
   END ModuleFlags;
