@@ -1,4 +1,4 @@
-(* 	$Id: IR.Mod,v 1.245 2003/05/17 18:52:16 mva Exp $	 *)
+(* 	$Id: IR.Mod,v 1.246 2003/06/04 22:34:04 mva Exp $	 *)
 MODULE OOC:IR [OOC_EXTENSIONS];
 (*  High-level intermediate code representation.
     Copyright (C) 2001-2003  Michael van Acken, Stewart Greenhill
@@ -5932,7 +5932,7 @@ PROCEDURE (b: Builder) NewCall* (design: Expression;
                                   context, endOfArgsSym);
         ELSIF (type IS Sym.Pointer) THEN
           b.AssertVar(arguments[0]);
-          type := type(Sym.Pointer).baseType;
+          type := type(Sym.Pointer).baseType.Deparam();
           IF (type IS Sym.Array) THEN
             dim := 1+type(Sym.Array).GetOpenDimensions();
             IF CheckNumberOfArguments (dim, dim) THEN
