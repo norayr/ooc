@@ -1,4 +1,4 @@
-(* 	$Id: Builder.Mod,v 1.7 2002/01/13 10:48:19 mva Exp $	 *)
+(* 	$Id: Builder.Mod,v 1.8 2002/01/18 18:08:16 mva Exp $	 *)
 MODULE OOC:SymbolTable:Builder [OOC_EXTENSIONS];
 (*  Defines a builder class with factory methods for symbol table entries.
     Copyright (C) 2000-2002  Michael van Acken
@@ -197,12 +197,14 @@ PROCEDURE (b: Builder) NewRecord* (parent: Sym.Item;
 PROCEDURE (b: Builder) NewArray* (parent: Sym.Item; 
                                   position: Sym.Position;
                                   isOpenArray: BOOLEAN;
+                                  lengthExpr: Sym.TempNode;
                                   elementType: Sym.Type): Sym.Array;
   VAR
     array: Sym.Array;
   BEGIN
     NEW (array);
-    Sym.InitArray (array, parent, position, isOpenArray, elementType);
+    Sym.InitArray (array, parent, position, isOpenArray,
+                   elementType, lengthExpr);
     RETURN array
   END NewArray;
 
