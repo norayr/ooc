@@ -1,4 +1,4 @@
-(* 	$Id: IR.Mod,v 1.86 2002/05/27 22:00:18 mva Exp $	 *)
+(* 	$Id: IR.Mod,v 1.87 2002/05/28 19:05:19 mva Exp $	 *)
 MODULE OOC:IR [OOC_EXTENSIONS];
 (*  High-level intermediate code representation.
     Copyright (C) 2001, 2002  Michael van Acken, Stewart Greenhill
@@ -840,6 +840,7 @@ CONST
   notTypeExpression = 16;
   notExtensionOfLHS = 17;
   noMinMax = 18;
+  notInteger = 19;
   
 TYPE
   ErrorContext = POINTER TO ErrorContextDesc;
@@ -885,13 +886,15 @@ PROCEDURE (context: ErrorContext) GetTemplate* (msg: Error.Msg; VAR templ: Error
     | invalidIntegerConst:
       t := "Integer constant in the range `${start} <= x < ${end}' required"
     | notArray:
-      t := "First argument of LEN must be an array designator"
+      t := "Expression must be an array value"
     | notTypeExpression:
       t := "Type name expected"
     | notExtensionOfLHS:
       t := "Type must be an extension of the left operand's type"
     | noMinMax:
       t := "MIN/MAX is not applicable to this type"
+    | notInteger:
+      t := "Expression must be of integer type"
     END;
     context. BaseTemplate (msg, t, templ)
   END GetTemplate;
@@ -1369,17 +1372,26 @@ PROCEDURE InitIndex (i: Index; sym: Symbol; array, index: Expression);
     i.index := index;
   END InitIndex;
 
-PROCEDURE (b: Builder) NewIndex* (sym: Symbol; array, index: Expression): Index;
+PROCEDURE (b: Builder) NewIndex* (sym: Symbol; array, index: Expression): Expression;
   VAR
     i: Index;
   BEGIN
     IF (array. type IS Sym.Pointer) THEN
       array := b. NewDeref (sym, array);
     END;
-    
-    NEW (i);
-    InitIndex (i, sym, array, index);
-    RETURN i
+    IF ~(array. type IS Sym.Array) THEN
+      RETURN b. ErrExpr (notArray, array. sym);
+    ELSE
+      IF ~b. typeRules. IsIntegerType (index. type) THEN
+        b. ErrSym (notInteger, index. sym);
+        index := b. NewConst (index. sym, Predef.GetType (Predef.shortint),
+                              Integer.New (0));
+      END;
+      
+      NEW (i);
+      InitIndex (i, sym, array, index);
+      RETURN i
+    END;
   END NewIndex;
 
 PROCEDURE (v: Visitor) [ABSTRACT] VisitIndex* (index: Index);
