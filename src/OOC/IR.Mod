@@ -1,4 +1,4 @@
-(* 	$Id: IR.Mod,v 1.216 2003/04/21 14:44:26 mva Exp $	 *)
+(* 	$Id: IR.Mod,v 1.217 2003/04/27 17:51:43 mva Exp $	 *)
 MODULE OOC:IR [OOC_EXTENSIONS];
 (*  High-level intermediate code representation.
     Copyright (C) 2001-2003  Michael van Acken, Stewart Greenhill
@@ -3369,7 +3369,7 @@ PROCEDURE (b: Builder) NewVar* (name: Symbol; decl: Sym.VarDecl): Var;
     var: Var;
   BEGIN
     NEW (var);
-    InitVar (var, name, decl. type, decl);
+    InitVar (var, name, TR.Expand(decl.type), decl);
     RETURN var
   END NewVar;
 
