@@ -1,4 +1,4 @@
-(* 	$Id: SSA.Mod,v 1.3 2001/12/03 20:58:53 mva Exp $	 *)
+(* 	$Id: SSA.Mod,v 1.4 2001/12/09 17:48:26 mva Exp $	 *)
 MODULE OOC:SSA;
 (*  Data structures for SSA code representation.
     Copyright (C) 2001  Michael van Acken
@@ -511,7 +511,12 @@ PROCEDURE (instr: Instr) GetOpcodeName* (VAR name: ARRAY OF CHAR);
   BEGIN
     Opcode.GetName (instr. opcode, instr. subclass, name);
   END GetOpcodeName;
-  
+
+PROCEDURE (instr: Instr) GetResultType* (): Opcode.Subclass;
+  BEGIN
+    RETURN instr. subclass
+  END GetResultType;
+
   (* ---------------------------------------------------------------------- *)
 
 PROCEDURE InitConst (const: Const; value: Language.Value);
