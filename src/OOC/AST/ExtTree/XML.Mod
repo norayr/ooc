@@ -1,7 +1,7 @@
-(* 	$Id: XML.Mod,v 1.3 2001/01/15 11:16:08 mva Exp $	 *)
+(* 	$Id: XML.Mod,v 1.4 2002/05/25 17:10:45 mva Exp $	 *)
 MODULE OOC:AST:ExtTree:XML;
 (*  Writes an abstract syntax tree into an XML document.
-    Copyright (C) 2000, 2001  Michael van Acken
+    Copyright (C) 2000, 2001, 2002  Michael van Acken
 
     This file is part of OOC.
 
@@ -414,7 +414,7 @@ PROCEDURE Write* (cw: Channel.Writer; m: ExtTree.Module);
           Node (n. lib);
           Node (n. libName);
           Node (n. lParen);
-          Node (n. dependences);
+          Node (n. dependencies);
           Node (n. rParen);
           Node (n. addOption);
           Node (n. prefixOpt);
