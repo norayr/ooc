@@ -1,4 +1,4 @@
-(* 	$Id: SSA.Mod,v 1.48 2002/07/31 00:32:28 mva Exp $	 *)
+(* 	$Id: SSA.Mod,v 1.49 2002/07/31 14:24:33 mva Exp $	 *)
 MODULE OOC:SSA;
 (*  Data structures for SSA code representation.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -483,6 +483,34 @@ PROCEDURE (instr: Instr) AddOpnd* (arg: Result; class: OpndClass.Class);
   BEGIN
     AddOpnd (instr, NewOpnd (arg, class));
   END AddOpnd;
+
+PROCEDURE (instr: Instr) AddUniqueOpnd* (arg: Result; class: OpndClass.Class);
+(**Adds @oparam{arg} to the end of the operand list of instruction
+   @oparam{instr}, unless an operand with the argument @oparam{arg} already
+   exists.
+
+   @precond
+   @samp{arg # @code{NIL}}
+   @end precond  *)
+  VAR
+    prev, opnd: Opnd;
+  BEGIN
+    IF (instr. opndList = NIL) THEN
+      opnd := NewOpnd (arg, class);
+      opnd. instr := instr;
+      instr. opndList := opnd;
+    ELSE
+      prev := instr. opndList;
+      WHILE (prev. arg # arg) & (prev. nextOpnd # NIL) DO
+        prev := prev. nextOpnd
+      END;
+      IF (prev. arg # arg) THEN
+        opnd := NewOpnd (arg, class);
+        opnd. instr := instr;
+        prev. nextOpnd := opnd;
+      END;
+    END;
+  END AddUniqueOpnd;
 
 PROCEDURE (instr: Instr) AddTypedOpnd* (arg: Result; class: OpndClass.Class;
                                         type: Sym.Type; passByReference: BOOLEAN);
