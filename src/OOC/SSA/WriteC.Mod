@@ -1,4 +1,4 @@
-(* 	$Id: WriteC.Mod,v 1.66 2002/05/10 17:10:02 mva Exp $	 *)
+(* 	$Id: WriteC.Mod,v 1.67 2002/05/10 19:33:36 mva Exp $	 *)
 MODULE OOC:SSA:WriteC [OOC_EXTENSIONS];
 (*  Translates a set of scheduled SSA instructions to plain C.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -476,6 +476,16 @@ PROCEDURE (w: Writer) WriteInstrList (b: Schedule.Block;
       w. WriteChar (";");
     END WriteDyadicOp;
   
+  PROCEDURE WriteDyadicFct (instr: SSA.Instr; fct: ARRAY OF CHAR);
+    BEGIN
+      w. WriteString (fct);
+      w. WriteChar ("(");
+      w. Ref (instr. opndList);
+      w. WriteChar (",");
+      w. Ref (instr. opndList. nextOpnd);
+      w. WriteString (");");
+    END WriteDyadicFct;
+  
   PROCEDURE WriteMonadicOp (instr: SSA.Instr; op, suffix: ARRAY OF CHAR);
     BEGIN
       w. WriteString (op);
@@ -841,9 +851,13 @@ PROCEDURE (w: Writer) WriteInstrList (b: Schedule.Block;
       | Opcode.multiply:
         WriteDyadicOp (instr, "*");
       | Opcode.divide:
-        WriteDyadicOp (instr, "/");
+        IF (instr. subclass < Opcode.scUnsigned8) THEN
+          WriteDyadicFct (instr, "_div");
+        ELSE
+          WriteDyadicOp (instr, "/");
+        END;
       | Opcode.modulo:
-        WriteDyadicOp (instr, "%");
+        WriteDyadicFct (instr, "_mod");
 
       | Opcode.and:
         WriteDyadicOp (instr, "&&");
@@ -853,9 +867,7 @@ PROCEDURE (w: Writer) WriteInstrList (b: Schedule.Block;
         WriteMonadicOp (instr, "!", "");
 
       | Opcode.setMember:
-        w. WriteString ("_in(");
-        RefList (instr. opndList, Opnd.arg);
-        w. WriteString (");");
+        WriteDyadicFct (instr, "_in");
       | Opcode.cap:
         WriteMonadicOp (instr, "_cap(", ");");
         
