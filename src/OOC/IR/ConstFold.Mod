@@ -1,4 +1,4 @@
-(* 	$Id: ConstFold.Mod,v 1.28 2002/05/04 13:14:01 mva Exp $	 *)
+(* 	$Id: ConstFold.Mod,v 1.29 2002/05/05 18:23:14 mva Exp $	 *)
 MODULE OOC:IR:ConstFold;
 (*  Constant folding on IR expressions.
     Copyright (C) 2002  Stewart Greenhill, Michael van Acken
@@ -501,6 +501,14 @@ PROCEDURE (c: ConstFold) VisitForStatm* (forStatm: IR.ForStatm);
 PROCEDURE (c: ConstFold) VisitIfStatm* (ifStatm: IR.IfStatm);
   BEGIN
   END VisitIfStatm;
+
+PROCEDURE (c: ConstFold) VisitCase* (case: IR.Case);
+  BEGIN
+  END VisitCase;
+
+PROCEDURE (c: ConstFold) VisitCaseStatm* (caseStatm: IR.CaseStatm);
+  BEGIN
+  END VisitCaseStatm;
 
 PROCEDURE (c: ConstFold) VisitLoopStatm* (loopStatm: IR.LoopStatm);
   BEGIN

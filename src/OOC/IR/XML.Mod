@@ -1,4 +1,4 @@
-(* 	$Id: XML.Mod,v 1.44 2002/05/04 20:47:40 mva Exp $	 *)
+(* 	$Id: XML.Mod,v 1.45 2002/05/05 18:23:14 mva Exp $	 *)
 MODULE OOC:IR:XML;
 (*  Write an IR data structure as an XML document.
     Copyright (C) 2001, 2002  Michael van Acken, Stewart Greenhill
@@ -399,6 +399,46 @@ PROCEDURE (v: Visitor) VisitIfStatm* (ifStatm: IR.IfStatm);
     END;
     v. w. EndTag;  (* if-statm *)
   END VisitIfStatm;
+
+PROCEDURE (v: Visitor) VisitCase* (case: IR.Case);
+  VAR
+    i: LONGINT;
+  BEGIN
+    v. w. StartTag ("case", FALSE);
+    v. w. StartTag ("guard", FALSE);
+    FOR i := 0 TO LEN (case. labels^)-1 DO
+      v. w. StartTag ("label", FALSE);
+      case. labels[i]. Accept (v);
+      v. w. EndTag;  (* label *)
+    END;
+    v. w. EndTag;  (* guard *)
+    
+    v. w. StartTag ("statm-seq", FALSE);
+    VisitStatementSeq (v, case. statmSeq);
+    v. w. EndTag;  (* statm-seq *)
+    v. w. EndTag;  (* case *)
+  END VisitCase;
+
+PROCEDURE (v: Visitor) VisitCaseStatm* (caseStatm: IR.CaseStatm);
+  VAR
+    i: LONGINT;
+  BEGIN
+    v. w. StartTag ("case-statm", FALSE);
+    v. w. StartTag ("select", FALSE);
+    caseStatm. select. Accept (v);
+    v. w. EndTag;  (* select *)
+
+    FOR i := 0 TO LEN (caseStatm. caseList^)-1 DO
+      caseStatm. caseList[i]. Accept (v);
+    END;
+
+    IF (caseStatm. default # NIL) THEN
+      v. w. StartTag ("default-path", FALSE);
+      VisitStatementSeq (v, caseStatm. default);
+      v. w. EndTag;  (* default-path *)
+    END;
+    v. w. EndTag;  (* case-stamt *)
+  END VisitCaseStatm;
 
 PROCEDURE (v: Visitor) VisitLoopStatm* (loopStatm: IR.LoopStatm);
   BEGIN

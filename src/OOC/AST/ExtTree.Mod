@@ -1,4 +1,4 @@
-(* 	$Id: ExtTree.Mod,v 1.21 2002/03/20 22:16:54 mva Exp $	 *)
+(* 	$Id: ExtTree.Mod,v 1.22 2002/05/05 18:23:15 mva Exp $	 *)
 MODULE OOC:AST:ExtTree [OOC_EXTENSIONS];
 (*  Creates extended abstract syntax tree from the parser output.
     Copyright (C) 2000-2002  Michael van Acken
@@ -352,12 +352,12 @@ TYPE
   CaseStatm* = POINTER TO CaseStatmDesc;
   CaseStatmDesc = RECORD
     (NodeDesc)
-    case-: AST.Node;
-    expr-: AST.Node;
+    case-: Terminal;
+    expr-: Node;
     of-: AST.Node;
     caseList-: AST.NodeList;
     else-: AST.Node;
-    elseStatmSeq-: AST.NodeList;
+    elseStatmSeq-: NodeList;
     end-: AST.Node;
   END;
 
@@ -1278,12 +1278,16 @@ PROCEDURE (b: Builder) CaseStatm* (case, expr, of: AST.Node; caseList: AST.NodeL
     c: CaseStatm;
   BEGIN
     NEW (c);
-    c. case := case;
-    c. expr := expr;
+    c. case := case(Terminal);
+    c. expr := expr(Node);
     c. of := of;
     c. caseList := caseList;
     c. else := else;
-    c. elseStatmSeq := elseStatmSeq;
+    IF (elseStatmSeq = NIL) THEN
+      c. elseStatmSeq := NIL;
+    ELSE
+      c. elseStatmSeq := elseStatmSeq(NodeList);
+    END;
     c. end := end;
     RETURN c
   END CaseStatm;
