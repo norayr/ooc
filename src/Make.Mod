@@ -1,4 +1,4 @@
-(* 	$Id: Make.Mod,v 1.4 2001/08/26 21:39:42 mva Exp $	 *)
+(* 	$Id: Make.Mod,v 1.5 2001/10/20 21:10:10 mva Exp $	 *)
 MODULE Make [OOC_EXTENSIONS];
 (*  Framework for discovering and building interdependend resources.
     Copyright (C) 2001  Michael van Acken
@@ -474,6 +474,14 @@ PROCEDURE (entity: Entity) [ABSTRACT] Discover*(): EntityState;
    @item
    Set the final state of the entity.  In this case, the function result is
    either@oconst{entityValid} or @oconst{entityInvalid}.
+   Set the final state of the entity to @samp{success}.  In this case, the
+   function result is @oconst{entityValid}.
+ 
+   @item
+   Set the final state of the entity to @samp{failure}.  In this case, the
+   function result is @oconst{entityInvalid}.  The the failure is caused by the
+   entity itself, and not by one of its ancestors, then the function is also
+   required to produce an error message.
 
    @item
    Tell the framework to (re-)build the entity by running the command
