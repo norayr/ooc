@@ -1,4 +1,4 @@
-(* 	$Id: Repositories.Mod,v 1.14 2002/11/29 18:13:57 mva Exp $	 *)
+(* 	$Id: Repositories.Mod,v 1.15 2002/12/07 17:13:10 mva Exp $	 *)
 MODULE OOC:Config:Repositories [OOC_EXTENSIONS];
 (*  Management of a hierarchy of configured repositories.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -21,11 +21,10 @@ MODULE OOC:Config:Repositories [OOC_EXTENSIONS];
 *)
 
 IMPORT
-  Msg, Channel, TextRider, LongStrings, StdChannels,
+  Msg, Channel, TextRider, LongStrings,
   ADT:String, URI, URIParser := URI:Parser, URI:Scheme:File, 
   XML:DTD, XML:Locator, Config:Parser, CS := Config:Section,
-  Config:Section:Options,
-  OOC:Error, OOC:Repository, OOC:Repository:FileSystem;
+  OOC:Repository, OOC:Repository:FileSystem;
 
 
 TYPE

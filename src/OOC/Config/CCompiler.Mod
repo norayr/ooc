@@ -1,4 +1,4 @@
-(* 	$Id: CCompiler.Mod,v 1.23 2002/12/06 00:03:05 mva Exp $	 *)
+(* 	$Id: CCompiler.Mod,v 1.24 2002/12/07 17:13:10 mva Exp $	 *)
 MODULE OOC:Config:CCompiler;
 (*  Generates command lines for the C compiler and linker.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -155,8 +155,6 @@ PROCEDURE InstallProgramCmd*(file: URI.URI; asLibrary: BOOLEAN;
 
 PROCEDURE UninstallProgramCmd*(path: ARRAY OF CHAR; asLibrary: BOOLEAN;
                                VAR cmd: ARRAY OF CHAR);
-  VAR
-    str: ARRAY 1024 OF CHAR;
   BEGIN
     IF HaveLibtool() THEN
       COPY (libtool.value(StringValue.Value).string^, cmd);

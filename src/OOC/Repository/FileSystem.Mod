@@ -1,4 +1,4 @@
-(* 	$Id: FileSystem.Mod,v 1.16 2002/12/02 14:33:54 mva Exp $	 *)
+(* 	$Id: FileSystem.Mod,v 1.17 2002/12/07 17:13:57 mva Exp $	 *)
 MODULE OOC:Repository:FileSystem;
 (*  Implementation of a repository in the local file system.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -227,7 +227,7 @@ PROCEDURE (rep: Repository) GetLocalPath*(m: Rep.Module; fileId: Rep.FileId;
 PROCEDURE (m: Module) GetURI* (fileId: Rep.FileId;
                                allowRelative: BOOLEAN): URI.HierarchicalURI;
   VAR
-    subdir, suffix, path, str: Rep.URIBuffer;
+    path: Rep.URIBuffer;
     uri: URI.URI;
     huri: URI.HierarchicalURI;
     res: Msg.Msg;
