@@ -1,6 +1,6 @@
-(* 	$Id: CompileModule.Mod,v 1.4 2001/10/21 17:26:23 mva Exp $	 *)
+(* 	$Id: CompileModule.Mod,v 1.5 2001/11/12 23:43:27 mva Exp $	 *)
 MODULE OOC:Make:Command:CompileModule;
-(*  Compiles a module file.
+(*  Parses a module file, no further translation.  A misnomer...
     Copyright (C) 2001  Michael van Acken
 
     This file is part of OOC.

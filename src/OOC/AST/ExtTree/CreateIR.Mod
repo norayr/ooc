@@ -1,4 +1,4 @@
-(* 	$Id: CreateIR.Mod,v 1.7 2001/10/23 20:35:27 mva Exp $	 *)
+(* 	$Id: CreateIR.Mod,v 1.8 2001/11/12 23:43:27 mva Exp $	 *)
 MODULE OOC:AST:ExtTree:CreateIR;
 (*  Creates an IR representation from the abstract syntax tree.
     Copyright (C) 2001  Michael van Acken
@@ -210,7 +210,7 @@ PROCEDURE CreateIR* (module: ExtTree.Module;
     END Module;
   
   BEGIN
-    XML.Write (StdChannels.stdout.NewWriter(), module);
+(*    XML.Write (StdChannels.stdout.NewWriter(), module);*)
     
     currentSourceContext := symTab;
     currentNamespace := symTab. ns;
