@@ -1,4 +1,4 @@
-(* 	$Id: WriteC.Mod,v 1.117 2002/08/03 21:13:33 mva Exp $	 *)
+(* 	$Id: WriteC.Mod,v 1.118 2002/08/07 03:53:24 mva Exp $	 *)
 MODULE OOC:SSA:WriteC [OOC_EXTENSIONS];
 (*  Translates a set of scheduled SSA instructions to plain C.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -1440,6 +1440,7 @@ PROCEDURE (w: Writer) WriteBlocks (domRoot: Schedule.Block;
           w. Indent (-1);
           nested := nested. nextDom; INC (i);
         END;
+        ASSERT (nested. nextDom = NIL);
         w. Newline;
         w. WriteString ("}");
         registeredGoto := NIL;
@@ -1498,8 +1499,8 @@ PROCEDURE (t: Translator) WriteProcBody* (proc: IR.Procedure);
     PROCEDURE Chain (VAR jump: Schedule.Jump);
       BEGIN
         WHILE w. EmptyBlock (jump. dest) & (jump. dest # jump. src) DO
-          Schedule.SetJump (jump, jump. src,
-                            jump. dest(Schedule.JumpBlock). jump. dest);
+          Schedule.ChangeJumpTarget (jump, 
+                                     jump.dest(Schedule.JumpBlock).jump.dest);
         END;
       END Chain;
     
