@@ -1,4 +1,4 @@
-(* 	$Id: TranslateToC.Mod,v 1.36 2002/05/20 12:25:18 mva Exp $	 *)
+(* 	$Id: TranslateToC.Mod,v 1.37 2002/06/03 23:40:55 mva Exp $	 *)
 MODULE OOC:Make:Command:TranslateToC [OOC_EXTENSIONS];
 (*  Translates a module file into a bunch of C code files.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -86,7 +86,7 @@ PROCEDURE (t: Translator) WriteProcedure (procIndex: LONGINT);
     t. currentProc := procIndex;
     
     w := t. w;
-    d := ConvertDecl.GetProc (w, t. procList[procIndex]. decl);
+    d := ConvertDecl.GetProc (w, t. procList[procIndex]. decl, FALSE);
     w. Newline;
     w. WriteDeclaration (d);
     w. WriteString (" {");
@@ -112,12 +112,13 @@ PROCEDURE (t: Translator) WriteNestedProcedures*;
     IF (t. currentProc >= 0) THEN (* not writing the module pseudo procedure *)
       currentDecl := t. procList[t. currentProc]. decl;
       i := t. currentProc+1;
-      WHILE (i # LEN (t. procList^)) &
-            (t. procList[i]. decl. parent = currentDecl) DO
-        t. w. Indent (1);
-        t. w. Newline;
-        t. WriteProcedure (i);
-        t. w. Indent (-1);
+      WHILE (i # LEN (t. procList^)) DO
+        IF (t. procList[i]. decl. parent = currentDecl) THEN
+          t. w. Indent (1);
+          t. w. Newline;
+          t. WriteProcedure (i);
+          t. w. Indent (-1);
+        END;
         INC (i);
       END;
     END;
