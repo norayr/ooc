@@ -1,4 +1,4 @@
-(* 	$Id: IRtoSSA.Mod,v 1.96 2002/08/03 06:46:35 mva Exp $	 *)
+(* 	$Id: IRtoSSA.Mod,v 1.97 2002/08/11 13:56:12 mva Exp $	 *)
 MODULE OOC:SSA:IRtoSSA;
 (*  Converts the IR of a procedure into its SSA representation.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -615,7 +615,11 @@ PROCEDURE StatmSeq* (pb: SSA.ProcBlock; s: SSA.Result;
     
     BEGIN
       WITH expr: IR.Const DO
-        RETURN pb. GetConst (expr. value, expr. type)
+        IF (expr. value = NIL) THEN
+          RETURN pb. GetConst (SSA.nil, expr. type)
+        ELSE
+          RETURN pb. GetConst (expr. value, expr. type)
+        END;
             
       | expr: IR.ProcedureRef DO
         RETURN pb. GetAddress (expr. decl)

@@ -1,4 +1,4 @@
-(* 	$Id: Algebraic.Mod,v 1.1 2002/08/03 21:13:33 mva Exp $	 *)
+(* 	$Id: Algebraic.Mod,v 1.2 2002/08/11 13:56:13 mva Exp $	 *)
 MODULE OOC:SSA:Algebraic;
 (*  Algebraic transformations on SSA expressions.
     Copyright (C) 2002  Michael van Acken
@@ -71,7 +71,7 @@ PROCEDURE Transform* (pb: SSA.ProcBlock);
       BEGIN
         arg := opnd. arg;
         WITH arg: SSA.Const DO
-          RETURN (arg. value # NIL) & const. Equals (arg. value);
+          RETURN const. Equals (arg. value);
         ELSE
           RETURN FALSE;
         END;
@@ -96,6 +96,8 @@ PROCEDURE Transform* (pb: SSA.ProcBlock);
           Replace (instr, instr. opndList. nextOpnd);
         ELSIF Equals (instr. opndList. nextOpnd, intOne) THEN (* x*1 = x *)
           Replace (instr, instr. opndList);
+          (*IF Equals (instr. opndList, intZero) THEN (* 0*x = 0 *)*)
+          (*ELSIF Equals (instr. opndList. nextOpnd, intOne) THEN (* x*0 = 0 *)*)
         END;
         
       ELSE  (* ignore any other instructions *)
