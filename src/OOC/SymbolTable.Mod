@@ -1,4 +1,4 @@
-(* 	$Id: SymbolTable.Mod,v 1.25 2002/07/13 09:43:46 mva Exp $	 *)
+(* 	$Id: SymbolTable.Mod,v 1.26 2002/07/13 10:08:38 mva Exp $	 *)
 MODULE OOC:SymbolTable [OOC_EXTENSIONS];
 (*  Defines structure and entries of the symbol table.
     Copyright (C) 2000-2002  Michael van Acken
@@ -828,7 +828,11 @@ PROCEDURE (decl: Declaration) Store* (w: Object.Writer);
     w. WriteObject (decl. name);
     (*w. WriteNum (decl. visibleFrom);*)
     w. WriteNum (decl. exportMark);
-    w. WriteObject (decl. docString)
+    IF (decl. exportMark # nameNotExported) THEN
+      w. WriteObject (decl. docString);
+    ELSE
+      w. WriteObject (NIL);
+    END;
   END Store;
 
 PROCEDURE (decl: Declaration) Load* (r: Object.Reader);
