@@ -1,4 +1,4 @@
-(* 	$Id: IR.Mod,v 1.80 2002/05/22 22:07:24 mva Exp $	 *)
+(* 	$Id: IR.Mod,v 1.81 2002/05/25 13:37:30 mva Exp $	 *)
 MODULE OOC:IR [OOC_EXTENSIONS];
 (*  High-level intermediate code representation.
     Copyright (C) 2001, 2002  Michael van Acken, Stewart Greenhill
@@ -381,6 +381,13 @@ TYPE
 TYPE
   Not* = POINTER TO NotDesc;
   NotDesc = RECORD
+    (OperatorDesc)
+    operand- : Expression;
+  END;
+
+TYPE
+  Odd* = POINTER TO OddDesc;
+  OddDesc = RECORD
     (OperatorDesc)
     operand- : Expression;
   END;
@@ -1515,6 +1522,32 @@ PROCEDURE (v: Visitor) [ABSTRACT] VisitNot* (neg: Not);
 PROCEDURE (neg: Not) Accept* (v: Visitor);
   BEGIN
     v. VisitNot (neg)
+  END Accept;
+
+(* Operator Class: Odd
+   ------------------------------------------------------------------------ *)
+
+PROCEDURE InitOdd (odd: Odd; sym: Symbol; expr: Expression);
+  BEGIN
+    InitOperator (odd, sym, Predef.GetType (Predef.boolean));
+    odd. operand := expr;
+  END InitOdd;
+
+PROCEDURE (b: Builder) NewOdd (sym: Symbol; expr: Expression): Expression;
+  VAR
+    odd: Odd;
+  BEGIN
+    NEW (odd);
+    InitOdd (odd, sym, expr);
+    RETURN odd;
+  END NewOdd;
+
+PROCEDURE (v: Visitor) [ABSTRACT] VisitOdd* (odd: Odd);
+  END VisitOdd;
+
+PROCEDURE (odd: Odd) Accept* (v: Visitor);
+  BEGIN
+    v. VisitOdd (odd)
   END Accept;
 
 (* Operator Class: SelectField
@@ -3121,6 +3154,10 @@ PROCEDURE (b: Builder) NewCall* (design: Expression; arguments: ExpressionList):
         
       | Predef.chr:
         RETURN NewTypeConv (Predef.GetType (Predef.char), arguments[0]);
+        
+      | Predef.odd:
+        (* FIXME... argument must be integer *)
+        RETURN b. NewOdd (design. sym, arguments[0]);
         
       | Predef.ord:
         CASE arguments[0]. type(Sym.PredefType). id OF

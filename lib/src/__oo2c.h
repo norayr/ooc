@@ -1,4 +1,4 @@
-/*      $Id: __oo2c.h,v 1.10 2002/05/20 21:58:06 mva Exp $        */
+/*      $Id: __oo2c.h,v 1.11 2002/05/25 13:37:30 mva Exp $        */
 /*  Run-time system for C back-ends of OOC2
     Copyright (C) 2001, 2002  Michael van Acken
 
@@ -56,6 +56,9 @@ extern void NORETURN _assertion_failed(OOC_INT32 code, OOC_CHARPOS pos) NORETURN
 /* CAP(CHAR) and CAP(LONGCHAR) */
 #define _cap(_c) ((96<_c && _c<123) || (224<=_c && _c<255 && _c!=247)) ? (_c-32) : _c
 #define _capl(_c) _cap(_c)
+
+/* ODD(integer) */
+#define _odd(_i) ((_i) & 1)
 
 /* DIV(integer, integer) -- note: macro uses gcc style expression statement */
 /* def: sign(_x MOD _y)==sign(_y) */
