@@ -1,4 +1,4 @@
-(* 	$Id: IR.Mod,v 1.281 2004/06/28 19:17:36 mva Exp $	 *)
+(* 	$Id: IR.Mod,v 1.282 2004/06/29 09:04:29 mva Exp $	 *)
 MODULE OOC:IR [OOC_EXTENSIONS];
 (*  High-level intermediate code representation.
     Copyright (C) 2001-2004  Michael van Acken, Stewart Greenhill
@@ -3275,9 +3275,11 @@ PROCEDURE (b: Builder) Widen (VAR expr: Expression; type: Sym.Type): BOOLEAN;
       RETURN b. Widen(expr, TR.MatchingStringConst(type(Sym.Array). elementType));
 
     ELSIF (expr IS Const) &
-          TR.IsObject(type) &
+          (TR.IsSTRING(type) OR TR.IsObjectType(type)) &
           (TR.BaseCharType(expr. type) # NIL) THEN
-      (* Case 8: char const and string const < Object.Object *)
+      (* Case 8: char const and string const < Object.Object
+         Note: Only special case Object.Object and extensions of Object.String,
+               but _not_ all extensions of Object.Object *)
       expr := b. NewTypeConv (b.stringType, expr);
       RETURN TRUE;
   
