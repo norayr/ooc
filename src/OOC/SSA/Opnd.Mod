@@ -1,4 +1,4 @@
-(* 	$Id: Opnd.Mod,v 1.18 2002/05/28 19:49:05 mva Exp $	 *)
+(* 	$Id: Opnd.Mod,v 1.19 2002/07/30 06:18:11 mva Exp $	 *)
 MODULE OOC:SSA:Opnd;
 (*  Symbolic names for operand classes.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -85,7 +85,7 @@ CONST
   storeExit* = 11;
   (**Operand of @oconst{*OOC:SSA:Opcode.selectReturn} taking the final value of
      @var{store} within the procedure at the place of a @code{RETURN}, or
-     @oconst{*OOC:SSA:Opcode.selectExit} taking the final value of @var{store}
+     @oconst{*OOC:SSA:Opcode.loopEnd} taking the final value of @var{store}
      within a loop at the place of an @code{EXIT}.  *)
 
   type* = 12;

@@ -1,4 +1,4 @@
-(* 	$Id: WriteC.Mod,v 1.112 2002/07/25 00:19:02 mva Exp $	 *)
+(* 	$Id: WriteC.Mod,v 1.113 2002/07/30 06:18:11 mva Exp $	 *)
 MODULE OOC:SSA:WriteC [OOC_EXTENSIONS];
 (*  Translates a set of scheduled SSA instructions to plain C.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -488,8 +488,7 @@ PROCEDURE (w: Writer) Noop (instr: SSA.Instr): BOOLEAN;
       Opcode.labels,
       Opcode.loopStart,
       Opcode.loopEnd,
-      Opcode.exit,
-      Opcode.selectExit:
+      Opcode.exit:
       RETURN TRUE;
       
     | Opcode.collect:
@@ -1112,9 +1111,6 @@ PROCEDURE (w: Writer) WriteInstrList (b: Schedule.Block;
       | Opcode.exit:
         (* nothing, the immediately following jump does all the work *)
 
-      | Opcode.selectExit:
-        (* nothing *)
-        
       | Opcode.get:
         CastFromPtr (instr);
         IF SimpleVarAccess (instr, Opnd.readAdr) THEN
