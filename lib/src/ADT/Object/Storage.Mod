@@ -1,4 +1,4 @@
-(*	$Id: Storage.Mod,v 1.7 2002/12/16 19:10:14 mva Exp $	*)
+(*	$Id: Storage.Mod,v 1.8 2002/12/17 19:33:44 mva Exp $	*)
 MODULE ADT:Object:Storage;
 (*  Implements a framework for persistent objects.
     Copyright (C) 2000, 2001  Michael van Acken
@@ -303,7 +303,7 @@ PROCEDURE (r: Reader) Disconnect*;
 
 
 
-PROCEDURE (w: Writer) WriteObject* (obj: Object.Object);
+PROCEDURE (w: Writer) WriteObject* (obj: Storable.Object);
   VAR
     tref: LONGINT;
     type: RT0.Struct;

@@ -1,4 +1,4 @@
-(*      $Id: Storable.Mod,v 1.4 2002/12/16 19:10:21 mva Exp $       *)
+(*      $Id: Storable.Mod,v 1.5 2002/12/17 19:33:48 mva Exp $       *)
 MODULE ADT:Storable [OOC_EXTENSIONS];
 (*  Base definitions for a persistent object implementation.
     Copyright (C) 1999-2002  Michael van Acken
@@ -132,15 +132,6 @@ PROCEDURE Init* (obj: Object);
    @oproc{Init}, which calls its direct baseclass' @oproc{Init} in turn.  *)
   END Init;
 
-PROCEDURE (obj: Object) ToString * () : String;
-(**FIXME... get rid of this method.  Returns a string representation of the
-   object. This is mainly for debugging purposes. The returned string should
-   describe the type and essential attributes of the object. This procedure
-   returns NIL because we have no implementation of string available here.  *)
-BEGIN
-  RETURN NIL;
-END ToString;
-
 PROCEDURE (obj: Object) Destroy* ;
 (**Returns @oparam{obj} to an undefined state.  No operations on @oparam{obj}
    are allowed until @oparam{obj} is initialized again.  This procedure is only
@@ -209,7 +200,7 @@ PROCEDURE InitReader* (r: Reader; ch: Channel.Channel);
     BinaryRider.InitReader (r, ch, BinaryRider.littleEndian)
   END InitReader;
 
-PROCEDURE (w: Writer) [ABSTRACT] WriteObject* (obj: Obj.Object);
+PROCEDURE (w: Writer) [ABSTRACT] WriteObject* (obj: Object);
 (**Writes object to the channel underlying the writer @oparam{w}.  The
    externalization framework is provided by the concrete instance of writer
    @oparam{w}.  The object itself is required to provide the necessary

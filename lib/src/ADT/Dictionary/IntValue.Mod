@@ -1,4 +1,4 @@
-(*	$Id: IntValue.Mod,v 1.4 2002/12/16 19:10:17 mva Exp $	*)
+(*	$Id: IntValue.Mod,v 1.5 2002/12/17 19:33:46 mva Exp $	*)
 MODULE ADT:Dictionary:IntValue;
 (*  A dictionary implementation using objects' addresses as keys.
     Copyright (C) 2000, 2001  Michael van Acken
@@ -438,12 +438,18 @@ PROCEDURE (dict: Dictionary) Keys* (): Object.ObjectArrayPtr;
 PROCEDURE (dict: Dictionary) Store* (w: Storable.Writer);
   VAR
     i: LONGINT;
+    obj: Object.Object;
   BEGIN
     w. WriteNum (dict. used);
     IF (dict. used # 0) THEN
       FOR i := 0 TO dict. size-1 DO
         IF IsSet (dict. table[i]. key) THEN
-          w. WriteObject (dict. table[i]. key);
+          obj := dict. table[i]. key;
+          IF (obj = NIL) THEN
+            w. WriteObject (NIL);
+          ELSE
+            w. WriteObject (obj(Storable.Object));
+          END;
           w. WriteNum (dict. table[i]. value)
         END
       END

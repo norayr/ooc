@@ -1,4 +1,4 @@
-(*      $Id: Writer.Mod,v 1.1 2002/07/17 17:36:33 mva Exp $   *)
+(*      $Id: Writer.Mod,v 1.2 2002/12/17 19:33:39 mva Exp $   *)
 MODULE XML:Writer [OOC_EXTENSIONS];
 (*  Support for generating XML documents.
     Copyright (C) 2000-2002  Michael van Acken
@@ -35,7 +35,7 @@ MODULE XML:Writer [OOC_EXTENSIONS];
    @end itemize  *)
 
 IMPORT
-  Ascii, Channel, Strings, LongStrings, IntStr, RealStr, URI,
+  Ascii, Channel, Strings, LongStrings, IntStr, RealStr, Object, URI,
   Codec := XML:UnicodeCodec, XML:UnicodeBuffer;
 
 
@@ -384,6 +384,15 @@ PROCEDURE (w: Writer) AttrStringLatin1* (name[NO_COPY]: ARRAY OF Char;
     
     w. Write8 ("'")
   END AttrStringLatin1;
+
+PROCEDURE (w: Writer) AttrStr* (name[NO_COPY]: ARRAY OF Char;
+                                value: Object.String8);
+  VAR
+    chars: Object.CharsLatin1;
+  BEGIN  (* FIXME... handle wide chars; and rename method! *)
+    chars := value.CharsLatin1();
+    w.AttrStringLatin1(name, chars^);
+  END AttrStr;
 
 PROCEDURE (w: Writer) AttrInt* (name[NO_COPY]: ARRAY OF Char; value: LONGINT);
   VAR

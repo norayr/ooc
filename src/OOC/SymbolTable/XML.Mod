@@ -1,4 +1,4 @@
-(* 	$Id: XML.Mod,v 1.4 2002/11/11 21:44:15 mva Exp $	 *)
+(* 	$Id: XML.Mod,v 1.5 2002/12/17 19:33:31 mva Exp $	 *)
 MODULE OOC:SymbolTable:XML;
 (*  Converts symbol table to XML document.
     Copyright (C) 2000, 2001, 2002  Michael van Acken
@@ -21,7 +21,7 @@ MODULE OOC:SymbolTable:XML;
 *)
 
 IMPORT
-  Channel, Strings, ADT:String, XML:Writer, XML:UnicodeCodec:Latin1,
+  Channel, Strings, Object, XML:Writer, XML:UnicodeCodec:Latin1,
   Sym := OOC:SymbolTable, OOC:SymbolTable:GetClass,
   DocXML := OOC:Doc:Output:XML;
 
@@ -105,7 +105,8 @@ PROCEDURE Write* (cw: Channel.Writer; module: Sym.Module);
   PROCEDURE WriteItem (item: Sym.Item);
     VAR
       element: ARRAY 32 OF CHAR;
-      str: String.String;
+      str: Object.String8;
+      chars: Object.CharsLatin1;
       
     PROCEDURE StartTag (str: ARRAY OF CHAR; id: LONGINT);
       BEGIN
@@ -234,15 +235,18 @@ PROCEDURE Write* (cw: Channel.Writer; module: Sym.Module);
           
           WITH item: Sym.Module DO
             str := item. ClassToString();
-            IF (str. array^ # "standard") THEN
-              AttribString ("", "class", str. array^)
+            IF ~str.Equals(Object.NewLatin1("standard")) THEN
+              chars := str.CharsLatin1();
+              AttribString ("", "class", chars^)
             END;
             IF (item.libraryName # NIL) THEN
-              AttribString("", "library_name", item.libraryName.array^);
+              chars := item.libraryName.CharsLatin1();
+              AttribString("", "library_name", chars^);
             END;
             str := item. CallConvToString();
-            IF (str. array^ # "default") THEN
-              AttribString ("", "call_conv", str. array^)
+            IF ~str.Equals(Object.NewLatin1("default")) THEN
+              chars := str.CharsLatin1();
+              AttribString ("", "call_conv", chars^)
             END
             
           | item: Sym.Import DO

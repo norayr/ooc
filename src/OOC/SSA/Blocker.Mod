@@ -1,4 +1,4 @@
-(* 	$Id: Blocker.Mod,v 1.38 2002/12/17 01:23:13 mva Exp $	 *)
+(* 	$Id: Blocker.Mod,v 1.39 2002/12/17 19:33:32 mva Exp $	 *)
 MODULE OOC:SSA:Blocker;
 (*  Imposes a block structure on a flat list of SSA instructions.
     Copyright (C) 2002  Michael van Acken
@@ -24,7 +24,7 @@ MODULE OOC:SSA:Blocker;
 
 IMPORT
   <*IF DEBUG_BLOCKER THEN*>Log,OOC:SSA:Check,StdChannels,<*END*>
-  SYSTEM, Object, Object:BigInt, ADT:String, ADT:Dictionary,
+  SYSTEM, Object, Object:BigInt, ADT:Dictionary,
   IntDictionary := ADT:Dictionary:IntValue,
   Channel, TextRider,
   OOC:SSA, OOC:SSA:Opcode, OOC:SSA:Opnd, OOC:SSA:DeadCodeElimination,
@@ -500,14 +500,14 @@ PROCEDURE WriteBlocks (c: Channel.Channel; pb: SSA.ProcBlock; root: Region;
     VAR
       id, count: LONGINT;
       ptr: SSA.Result;
-      value: String.String;
+      value: Object.String;
       instr: SSA.Instr;
       obj: Object.Object;
     BEGIN
       IF marker. HasKey (res) THEN
         obj := marker. Get (res);
         w. WriteChar ("[");
-        w. WriteString (obj(String.String). array^);
+        w. WriteStr (obj(Object.String));
         w. WriteChar ("]");
       END;
       
@@ -518,7 +518,7 @@ PROCEDURE WriteBlocks (c: Channel.Channel; pb: SSA.ProcBlock; root: Region;
             w. WriteString ("NIL");
           ELSE
             value := instr. value. ToString();
-            w. WriteString (value. array^);
+            w. WriteStr (value);
           END;
         | instr: SSA.DeclRef DO
           w. WriteString (instr. decl. name. str^);
