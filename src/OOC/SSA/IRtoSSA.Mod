@@ -1,4 +1,4 @@
-(* 	$Id: IRtoSSA.Mod,v 1.121 2003/05/09 21:18:03 mva Exp $	 *)
+(* 	$Id: IRtoSSA.Mod,v 1.122 2003/05/09 22:48:45 mva Exp $	 *)
 MODULE OOC:SSA:IRtoSSA;
 (*  Converts the IR of a procedure into its SSA representation.
     Copyright (C) 2001-2003  Michael van Acken
@@ -267,6 +267,7 @@ PROCEDURE StatmSeq* (pb: SSA.ProcBlock; s: SSA.Result;
       type: Sym.Type;
     BEGIN
       type := design.type.Deparam();
+      type := type.Bound();  (* for a type variable, continue with bound *)
       IF checkDerefOfNil & (type IS Sym.Pointer) THEN
         check := AddException (pb, derefSym,
                                Opcode.checkPointer, value. subclass);
