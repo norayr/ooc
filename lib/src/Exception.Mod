@@ -1,4 +1,4 @@
-(* 	$Id: Exception.Mod,v 1.7 2003/05/16 20:34:17 mva Exp $	 *)
+(* 	$Id: Exception.Mod,v 1.8 2003/06/02 20:43:36 mva Exp $	 *)
 MODULE Exception [FOREIGN "C"; LINK FILE "Exception.c" END];
 (*  Implements the run-time part of the exceptions mechanism.
     Copyright (C) 2002,2003  Michael van Acken
@@ -188,5 +188,10 @@ PROCEDURE (e: Exception) WriteBacktrace*;
    @samp{oobacktrace} may also be able to add function names to the output.  *)
 
 PROCEDURE (e: ParseError) INIT*(msg: STRING; offset: LONGINT);
+  
+PROCEDURE FatalError*[NO_RETURN]();
+(**Write data of current exception to @var{stderr} and abort program.  It is
+   an error to call this procedure outside a @code{CATCH} block of a @code{TRY}
+   statement.  *)
   
 END Exception.
