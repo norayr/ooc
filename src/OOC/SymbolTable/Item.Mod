@@ -1,4 +1,4 @@
-(* 	$Id: Item.Mod,v 1.3 2001/08/30 08:43:34 mva Exp $	 *)
+(* 	$Id: Item.Mod,v 1.4 2001/09/04 20:30:28 mva Exp $	 *)
 MODULE OOC:SymbolTable:Item [OOC_EXTENSIONS];
 (*  Defines structure and entries of the symbol table.
     Copyright (C) 2000, 2001  Michael van Acken
@@ -264,8 +264,8 @@ TYPE
        @oproc{*OOC:SymbolTable:CreateNamespace.CreateNamespace} has been run.  *)
 
     class-: ModuleClass;
-    (**Identifies the class of the module.  It is one of @oconst{mtStandard},
-       @oconst{mtForeign}, or @oconst{mtInterface}.  *)
+    (**Identifies the class of the module.  It is one of @oconst{mcStandard},
+       @oconst{mcForeign}, or @oconst{mcInterface}.  *)
     callConv-: CallConv;
     (**The default calling convention to be used for all procedures in the
        module.  If this is @oconst{callConvDefault}, then the final choice
