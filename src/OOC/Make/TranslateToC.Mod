@@ -1,4 +1,4 @@
-(* 	$Id: TranslateToC.Mod,v 1.16 2003/02/05 21:31:55 mva Exp $	 *)
+(* 	$Id: TranslateToC.Mod,v 1.17 2003/04/02 22:15:49 mva Exp $	 *)
 MODULE OOC:Make:TranslateToC [OOC_EXTENSIONS];
 (*  Translates a module file into a bunch of C code files.
     Copyright (C) 2001, 2002, 2003  Michael van Acken
@@ -25,7 +25,7 @@ IMPORT
   OOC:Config, OOC:Config:Pragmas, OOC:Auxiliary:ParseModule,
   OOC:Auxiliary:WriteSymbolFile, OOC:Error, OOC:Repository, OOC:AST,
   OOC:AST:ExtTree, OOC:AST:ExtTree:CreateIR, ASTtoXML := OOC:AST:ExtTree:XML, 
-  OOC:IR, IRtoXML := OOC:IR:XML, OOC:IR:ConstFold,
+  OOC:IR, IRtoXML := OOC:IR:XML, OOC:IR:ConstFold, OOC:IR:CheckUses,
   Sym := OOC:SymbolTable, OOC:SymbolTable:Exports, 
   OOC:C:DeclWriter, OOC:C:ConvertDecl, OOC:C:RuntimeData;
 
@@ -274,6 +274,10 @@ RAISES IO.Error;
                                    IR.NewBuilder (symTab, pragmaHistory,
                                                   errList, 
                                                   ConstFold.NewConstFold()));
+      IF errList.NoErrors() THEN
+        CheckUses.CheckUses(module, errList);
+      END;
+      
       IF writeIR THEN
         IRtoXML.Write (StdChannels.stdout, module);
       END;
