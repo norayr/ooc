@@ -1,4 +1,4 @@
-(* 	$Id: TranslateToC.Mod,v 1.24 2002/01/29 23:32:33 mva Exp $	 *)
+(* 	$Id: TranslateToC.Mod,v 1.25 2002/01/30 07:06:03 sgreenhill Exp $	 *)
 MODULE OOC:Make:Command:TranslateToC;
 (*  Translates a module file into a bunch of C code files.
     Copyright (C) 2001, 2002  Michael van Acken
@@ -213,7 +213,7 @@ PROCEDURE WriteCodeFile (w: DeclWriter.Writer; m: Repository.Module;
 	END;
         WriteExpr(w, expr. right);
         
-      | expr: IR.TypeConv DO
+      | expr: Operator.TypeConv DO
         WriteExpr(w, expr.expr);  (* FIXME! generate type casts if required *)
         
       | expr: IR.Call DO
