@@ -1,7 +1,7 @@
-(* 	$Id: CreateNamespace.Mod,v 1.74 2004/01/20 06:59:57 sgreenhill Exp $	 *)
+(* 	$Id: CreateNamespace.Mod,v 1.75 2005/07/03 14:37:24 mva Exp $	 *)
 MODULE OOC:SymbolTable:CreateNamespace [OOC_EXTENSIONS];
 (*  Creates namespaces for module, and resolves type names in declarations.
-    Copyright (C) 2000-2004  Michael van Acken
+    Copyright (C) 2000-2005  Michael van Acken
 
     This file is part of OOC.
 
@@ -701,8 +701,13 @@ RAISES IO.Error;
               IF (ptr.type = NIL) THEN
                 (* unfinished alias declaration: fixup type reference; if this
                    is read from the symbol file, the `ptr.type' is alread set  *)
-                ptr.type := class.typePars.params[count];
-                ptr.srcCodeType := ptr.type;
+                IF (count < LEN(class.typePars.params^)) THEN
+                  ptr.type := class.typePars.params[count];
+                  ptr.srcCodeType := ptr.type;
+                ELSE  (* too many params: need to fill in something here *)
+                  ptr.type := receiver.type;
+                  ptr.srcCodeType := receiver.srcCodeType;
+                END;
               END;
               INC(count);
             ELSE
