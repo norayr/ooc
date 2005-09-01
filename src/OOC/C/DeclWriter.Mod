@@ -1,4 +1,4 @@
-(* 	$Id: DeclWriter.Mod,v 1.71 2005/08/31 11:57:24 mva Exp $	 *)
+(* 	$Id: DeclWriter.Mod,v 1.72 2005/09/01 11:12:05 mva Exp $	 *)
 MODULE OOC:C:DeclWriter [OOC_EXTENSIONS];
 (*  Defines classes to handle C declarations, types, and include statements.
     Copyright (C) 2001-2005  Michael van Acken
@@ -890,6 +890,11 @@ PROCEDURE InitArray (a: Array; base: Type; size: LONGINT);
     a. size := size;
   END InitArray;
 
+PROCEDURE ArrayAsPointer(a: Array): BOOLEAN;
+  BEGIN
+    RETURN (a.size < 0) & (a.base IS Array) & (a.base(Array).size < 0);
+  END ArrayAsPointer;
+
 PROCEDURE (w: Writer) NewArray* (base: Type; size: LONGINT): Array;
   VAR
     a: Array;
@@ -901,21 +906,30 @@ PROCEDURE (w: Writer) NewArray* (base: Type; size: LONGINT): Array;
 
 PROCEDURE (a: Array) Priority (): SHORTINT;
   BEGIN
-    RETURN priArray
+    IF ArrayAsPointer(a) THEN
+      RETURN priPointer
+    ELSE
+      RETURN priArray
+    END;
   END Priority;
 
 PROCEDURE (a: Array) WriteLeft (w: Writer);
   BEGIN
-    WriteLeft (w, a. base, priArray)
+    WriteLeft (w, a. base, priArray);
+    IF ArrayAsPointer(a) THEN
+      w. WriteChar ("*");
+    END;
   END WriteLeft;
 
 PROCEDURE (a: Array) WriteRight (w: Writer);
   BEGIN
-    w. WriteChar ("[");
-    IF (a. size >= 0) THEN
-      w. WriteLInt (a. size, 0);
+    IF ~ArrayAsPointer(a) THEN
+      w. WriteChar ("[");
+      IF (a.size >= 0) THEN
+        w. WriteLInt (a. size, 0);
+      END;
+      w. WriteChar ("]");
     END;
-    w. WriteChar ("]");
     WriteRight (w, a. base, priArray);
   END WriteRight;
 
