@@ -1,4 +1,4 @@
-(* 	$Id: CreateIR.Mod,v 1.6 2005/07/03 13:36:49 mva Exp $	 *)
+(* 	$Id: CreateIR.Mod,v 1.7 2005/10/07 08:35:42 mva Exp $	 *)
 MODULE OOC:AST:CreateIR;
 (*  Creates an IR representation from the abstract syntax tree.
     Copyright (C) 2001-2005  Michael van Acken
@@ -577,11 +577,18 @@ PROCEDURE CreateIR* (module: AST.Module;
       oldNamespace: Sym.Namespace;
       oldSourceContext: Sym.Item;
       endOfBody: SymList.Symbol;
+      receiver: IR.Expression;
     BEGIN
       oldNamespace := currentNamespace;
       oldSourceContext := currentSourceContext;
       currentNamespace := procDecl. ns;
       currentSourceContext := procDecl;
+
+      IF (procDecl.formalPars.receiver # NIL) THEN
+        receiver := b.NewVar(procCode.proc.sym,
+                             procDecl.formalPars.receiver);
+        b.SetCurrentReceiver(receiver);
+      END;
       
       IF (procCode. body = NIL) OR (procCode. body. statmSeq = NIL) THEN
         NEW (statmSeq, 0)
@@ -594,6 +601,7 @@ PROCEDURE CreateIR* (module: AST.Module;
         endOfBody := procCode. body. end. sym;
       END;
       
+      b.SetCurrentReceiver(NIL);
       currentNamespace := oldNamespace;
       currentSourceContext := oldSourceContext;
       RETURN b. NewProcedure (procCode. proc. sym, procDecl, statmSeq,

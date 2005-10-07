@@ -1,4 +1,4 @@
-(* 	$Id: CreateNamespace.Mod,v 1.75 2005/07/03 14:37:24 mva Exp $	 *)
+(* 	$Id: CreateNamespace.Mod,v 1.76 2005/10/07 08:35:41 mva Exp $	 *)
 MODULE OOC:SymbolTable:CreateNamespace [OOC_EXTENSIONS];
 (*  Creates namespaces for module, and resolves type names in declarations.
     Copyright (C) 2000-2005  Michael van Acken
@@ -704,6 +704,7 @@ RAISES IO.Error;
                 IF (count < LEN(class.typePars.params^)) THEN
                   ptr.type := class.typePars.params[count];
                   ptr.srcCodeType := ptr.type;
+                  ptr.type(Sym.TypeVar).SetParameterIndex(count);
                 ELSE  (* too many params: need to fill in something here *)
                   ptr.type := receiver.type;
                   ptr.srcCodeType := receiver.srcCodeType;
