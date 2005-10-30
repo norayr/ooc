@@ -1,14 +1,15 @@
-(* 	$Id: RT0.Mod,v 1.54 2005/10/08 15:52:25 mva Exp $	 *)
+(* 	$Id: RT0.Mod,v 1.55 2005/10/30 08:05:26 mva Exp $	 *)
 MODULE RT0 [
   FOREIGN "C";
   LINK
     FILE "RT0.c";
     <*IF HAVE_LIB_DL THEN*>LIB "dl";<*END*>
+    <*IF HAVE_LIB_PTHREAD THEN*>LIB "pthread";<*END*>
     <*IF HAVE_LIB_GC THEN*>
       <*IF HAVE_LIB_DL THEN*>
-        LIB "gc" ("dl");
+        LIB "gc" ("dl" <*IF HAVE_LIB_PTHREAD THEN*>, "pthread"<*END*>);
       <*ELSE*>
-        LIB "gc";
+        LIB "gc" <*IF HAVE_LIB_PTHREAD THEN*>("pthread")<*END*>;
       <*END*>
     <*END*>
     <*IF HAVE_LIB_M THEN*>LIB "m";<*END*>
